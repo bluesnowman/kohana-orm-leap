@@ -69,7 +69,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	protected $table = NULL;
 
 	/**
-	 * This function attempts to call an otherwise inaccessible function on the model's
+	 * This method attempts to call an otherwise inaccessible function on the model's
 	 * builder extension.
 	 *
 	 * @access public
@@ -119,7 +119,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function returns the raw SQL statement.
+	 * This method returns the raw SQL statement.
 	 *
 	 * @access public
 	 * @override
@@ -130,7 +130,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function sets the wildcard to be used.
+	 * This method sets the wildcard to be used.
 	 *
 	 * @access public
 	 * @param string $wildcard                          the wildcard to be used
@@ -142,7 +142,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function explicits sets the specified column to be selected.
+	 * This method explicits sets the specified column to be selected.
 	 *
 	 * @access public
 	 * @param string $column                            the column to be selected
@@ -155,7 +155,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function combines another SQL statement using the specified operator.
+	 * This method combines another SQL statement using the specified operator.
 	 *
 	 * @access public
 	 * @param string $operator                          the operator to be used to append
@@ -169,7 +169,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function sets whether to constrain the SQL statement to only distinct records.
+	 * This method sets whether to constrain the SQL statement to only distinct records.
 	 *
 	 * @access public
 	 * @param boolean $distinct                         whether to constrain the SQL statement to only
@@ -182,7 +182,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function adds a "group by" clause.
+	 * This method adds a "group by" clause.
 	 *
 	 * @access public
 	 * @param string $column                            the column to be grouped
@@ -194,7 +194,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function adds a "having" constraint.
+	 * This method adds a "having" constraint.
 	 *
 	 * @access public
 	 * @param string $column                            the column to be constrained
@@ -209,7 +209,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function either opens or closes a "having" group.
+	 * This method either opens or closes a "having" group.
 	 *
 	 * @access public
 	 * @param string $parenthesis                       the parenthesis to be used
@@ -222,7 +222,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function joins a table.
+	 * This method joins a table.
 	 *
 	 * @access public
 	 * @param string $type                              the type of join
@@ -236,7 +236,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function sets a "limit" constraint on the statement.
+	 * This method sets a "limit" constraint on the statement.
 	 *
 	 * @access public
 	 * @param integer $limit                            the "limit" constraint
@@ -248,7 +248,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function sets an "offset" constraint on the statement.
+	 * This method sets an "offset" constraint on the statement.
 	 *
 	 * @access public
 	 * @param integer $offset                           the "offset" constraint
@@ -260,7 +260,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function sets an "on" constraint for the last join specified.
+	 * This method sets an "on" constraint for the last join specified.
 	 *
 	 * @access public
 	 * @param string $column0                           the column to be constrained on
@@ -275,7 +275,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function sets how a column will be sorted.
+	 * This method sets how a column will be sorted.
 	 *
 	 * @access public
 	 * @param string $column                            the column to be sorted
@@ -291,7 +291,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function sets both the "offset" constraint and the "limit" constraint on
+	 * This method sets both the "offset" constraint and the "limit" constraint on
 	 * the statement.
 	 *
 	 * @access public
@@ -305,7 +305,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function performs a query using the built SQL statement.
+	 * This method performs a query using the built SQL statement.
 	 *
 	 * @access public
 	 * @param integer $limit                            the "limit" constraint
@@ -321,7 +321,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function resets the current builder.
+	 * This method resets the current builder.
 	 *
 	 * @access public
 	 * @return DB\ORM\Select\Proxy                      a reference to the current instance
@@ -332,7 +332,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function returns the SQL statement.
+	 * This method returns the SQL statement.
 	 *
 	 * @access public
 	 * @override
@@ -345,7 +345,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function sets a "using" constraint for the last join specified.
+	 * This method sets a "using" constraint for the last join specified.
 	 *
 	 * @access public
 	 * @param string $column                            the column to be constrained
@@ -357,7 +357,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function adds a "where" constraint.
+	 * This method adds a "where" constraint.
 	 *
 	 * @access public
 	 * @param string $column                            the column to be constrained
@@ -372,7 +372,7 @@ abstract class Base\DB\ORM\Select\Proxy  extends Core\Object implements DB\SQL\S
 	}
 
 	/**
-	 * This function either opens or closes a "where" group.
+	 * This method either opens or closes a "where" group.
 	 *
 	 * @access public
 	 * @param string $parenthesis                       the parenthesis to be used

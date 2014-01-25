@@ -59,7 +59,7 @@ abstract class Base\DB\SQL\Expression extends Core\Object {
 	}
 
 	/**
-	 * This function returns the raw SQL expression.
+	 * This method returns the raw SQL expression.
 	 *
 	 * @access public
 	 * @override
@@ -70,7 +70,7 @@ abstract class Base\DB\SQL\Expression extends Core\Object {
 	}
 
 	/**
-	 * This function binds a value to a parameter.
+	 * This method binds a value to a parameter.
 	 *
 	 * @access public
 	 * @param string $key                           the parameter key
@@ -83,7 +83,7 @@ abstract class Base\DB\SQL\Expression extends Core\Object {
 	}
 
 	/**
-	 * This function sets the value of a parameter.
+	 * This method sets the value of a parameter.
 	 *
 	 * @access public
 	 * @param string $key                           the parameter key
@@ -96,7 +96,7 @@ abstract class Base\DB\SQL\Expression extends Core\Object {
 	}
 
 	/**
-	 * This function adds multiple parameter values.
+	 * This method adds multiple parameter values.
 	 *
 	 * @access public
 	 * @param array $params                         an associated array of parameter
@@ -109,7 +109,7 @@ abstract class Base\DB\SQL\Expression extends Core\Object {
 	}
 
 	/**
-	 * This function returns the compiled SQL expression as a string.
+	 * This method returns the compiled SQL expression as a string.
 	 *
 	 * @access public
 	 * @param mixed $object                         an instance of the pre-compiler or

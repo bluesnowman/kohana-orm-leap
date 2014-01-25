@@ -33,7 +33,7 @@ namespace Leap\Base\DB\DB2\Connection {
 	abstract class PDO extends DB\SQL\Connection\PDO {
 
 		/**
-		 * This function opens a connection using the data source provided.
+		 * This method opens a connection using the data source provided.
 		 *
 		 * @access public
 		 * @override

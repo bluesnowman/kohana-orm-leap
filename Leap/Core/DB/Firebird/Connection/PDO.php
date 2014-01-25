@@ -31,7 +31,7 @@
 abstract class Base\DB\Firebird\Connection\PDO extends DB\SQL\Connection\PDO {
 
 	/**
-	 * This function opens a connection using the data source provided.
+	 * This method opens a connection using the data source provided.
 	 *
 	 * @access public
 	 * @override

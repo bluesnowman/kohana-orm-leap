@@ -32,7 +32,7 @@
 abstract class Base\DB\MsSQL\DataReader\Improved extends DB\SQL\DataReader\Standard {
 
 	/**
-	 * This function initializes the class.
+	 * This method initializes the class.
 	 *
 	 * @access public
 	 * @override
@@ -58,7 +58,7 @@ abstract class Base\DB\MsSQL\DataReader\Improved extends DB\SQL\DataReader\Stand
 	}
 
 	/**
-	 * This function frees the command reference.
+	 * This method frees the command reference.
 	 *
 	 * @access public
 	 * @override
@@ -74,7 +74,7 @@ abstract class Base\DB\MsSQL\DataReader\Improved extends DB\SQL\DataReader\Stand
 	}
 
 	/**
-	 * This function advances the reader to the next record.
+	 * This method advances the reader to the next record.
 	 *
 	 * @access public
 	 * @override

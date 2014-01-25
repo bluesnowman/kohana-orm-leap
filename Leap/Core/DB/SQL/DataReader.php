@@ -45,7 +45,7 @@ abstract class Base\DB\SQL\DataReader extends Core\Object {
 	protected $record;
 
 	/**
-	 * This function initializes the class.
+	 * This method initializes the class.
 	 *
 	 * @access public
 	 * @abstract
@@ -66,7 +66,7 @@ abstract class Base\DB\SQL\DataReader extends Core\Object {
 	}
 
 	/**
-	 * This function frees the command reference.
+	 * This method frees the command reference.
 	 *
 	 * @access public
 	 * @abstract
@@ -74,7 +74,7 @@ abstract class Base\DB\SQL\DataReader extends Core\Object {
 	public abstract function free();
 
 	/**
-	 * This function advances the reader to the next record.
+	 * This method advances the reader to the next record.
 	 *
 	 * @access public
 	 * @abstract
@@ -83,7 +83,7 @@ abstract class Base\DB\SQL\DataReader extends Core\Object {
 	public abstract function read();
 
 	/**
-	 * This function returns the last record fetched.
+	 * This method returns the last record fetched.
 	 *
 	 * @access public
 	 * @param string $type                      the data type to be used
@@ -126,7 +126,7 @@ abstract class Base\DB\SQL\DataReader extends Core\Object {
 	protected static $objects = array();
 
 	/**
-	 * This function returns an instance of the appropriate SQL data reader.
+	 * This method returns an instance of the appropriate SQL data reader.
 	 *
 	 * @access public
 	 * @static

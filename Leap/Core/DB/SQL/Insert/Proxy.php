@@ -58,7 +58,7 @@ abstract class Base\DB\SQL\Insert\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function returns the raw SQL statement.
+	 * This method returns the raw SQL statement.
 	 *
 	 * @access public
 	 * @override
@@ -69,7 +69,7 @@ abstract class Base\DB\SQL\Insert\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function sets the associated value with the specified column.
+	 * This method sets the associated value with the specified column.
 	 *
 	 * @access public
 	 * @param string $column                 	        the column to be set
@@ -83,7 +83,7 @@ abstract class Base\DB\SQL\Insert\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function executes the SQL statement via the DAO class.
+	 * This method executes the SQL statement via the DAO class.
 	 *
 	 * @access public
 	 * @param boolean $auto_increment		  	        whether to query for the last insert id
@@ -98,7 +98,7 @@ abstract class Base\DB\SQL\Insert\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function sets which table will be modified.
+	 * This method sets which table will be modified.
 	 *
 	 * @access public
 	 * @param string $table                             the database table to be modified
@@ -110,7 +110,7 @@ abstract class Base\DB\SQL\Insert\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function resets the current builder.
+	 * This method resets the current builder.
 	 *
 	 * @access public
 	 * @return DB\SQL\Insert\Proxy                      a reference to the current instance
@@ -121,7 +121,7 @@ abstract class Base\DB\SQL\Insert\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function sets a row of columns/values pairs.
+	 * This method sets a row of columns/values pairs.
 	 *
 	 * @access public
 	 * @param array $values						        the columns/values pairs to be set
@@ -134,7 +134,7 @@ abstract class Base\DB\SQL\Insert\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function returns the SQL statement.
+	 * This method returns the SQL statement.
 	 *
 	 * @access public
 	 * @override

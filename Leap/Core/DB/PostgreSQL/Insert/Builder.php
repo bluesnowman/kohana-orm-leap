@@ -31,7 +31,7 @@
 abstract class Base\DB\PostgreSQL\Insert\Builder extends DB\SQL\Insert\Builder {
 
 	/**
-	 * This function returns the SQL statement.
+	 * This method returns the SQL statement.
 	 *
 	 * @access public
 	 * @override

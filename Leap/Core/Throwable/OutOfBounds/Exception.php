@@ -31,7 +31,7 @@ namespace Leap\Base\Core\Throwable\OutOfBounds {
 	abstract class Exception extends \OutOfBoundsException {
 
 		/**
-		* This function instantiates the exception with the specified message,
+		* This method instantiates the exception with the specified message,
 		* variables, and code.
 		*
 		* @access public
@@ -49,7 +49,7 @@ namespace Leap\Base\Core\Throwable\OutOfBounds {
 		}
 
 		/**
-		 * This function returns a string for this object.
+		 * This method returns a string for this object.
 		 *
 		 * @access public
 		 * @override

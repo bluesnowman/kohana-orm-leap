@@ -29,7 +29,7 @@
 abstract class Base\DB\SQL\Connection\Standard extends DB\Connection\Driver {
 
 	/**
-	 * This function is for determining whether a connection is established.
+	 * This method is for determining whether a connection is established.
 	 *
 	 * @access public
 	 * @override

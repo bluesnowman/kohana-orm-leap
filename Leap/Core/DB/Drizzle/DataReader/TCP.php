@@ -32,7 +32,7 @@ namespace Leap\Base\DB\Drizzle\DataReader {
 	abstract class TCP extends DB\SQL\DataReader\Standard {
 
 		/**
-		 * This function initializes the class.
+		 * This method initializes the class.
 		 *
 		 * @access public
 		 * @override
@@ -51,7 +51,7 @@ namespace Leap\Base\DB\Drizzle\DataReader {
 		}
 
 		/**
-		 * This function frees the command reference.
+		 * This method frees the command reference.
 		 *
 		 * @access public
 		 * @override
@@ -65,7 +65,7 @@ namespace Leap\Base\DB\Drizzle\DataReader {
 		}
 
 		/**
-		 * This function advances the reader to the next record.
+		 * This method advances the reader to the next record.
 		 *
 		 * @access public
 		 * @override

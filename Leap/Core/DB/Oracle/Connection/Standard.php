@@ -53,7 +53,7 @@ abstract class Base\DB\Oracle\Connection\Standard extends DB\SQL\Connection\Stan
 	}
 
 	/**
-	 * This function begins a transaction.
+	 * This method begins a transaction.
 	 *
 	 * @access public
 	 * @override
@@ -75,7 +75,7 @@ abstract class Base\DB\Oracle\Connection\Standard extends DB\SQL\Connection\Stan
 	}
 
 	/**
-	 * This function closes an open connection.
+	 * This method closes an open connection.
 	 *
 	 * @access public
 	 * @override
@@ -94,7 +94,7 @@ abstract class Base\DB\Oracle\Connection\Standard extends DB\SQL\Connection\Stan
 	}
 
 	/**
-	 * This function commits a transaction.
+	 * This method commits a transaction.
 	 *
 	 * @access public
 	 * @override
@@ -120,7 +120,7 @@ abstract class Base\DB\Oracle\Connection\Standard extends DB\SQL\Connection\Stan
 	}
 
 	/**
-	 * This function processes an SQL statement that will NOT return data.
+	 * This method processes an SQL statement that will NOT return data.
 	 *
 	 * @access public
 	 * @override
@@ -152,7 +152,7 @@ abstract class Base\DB\Oracle\Connection\Standard extends DB\SQL\Connection\Stan
 	}
 
 	/**
-	 * This function returns the last insert id.
+	 * This method returns the last insert id.
 	 *
 	 * @access public
 	 * @override
@@ -197,7 +197,7 @@ abstract class Base\DB\Oracle\Connection\Standard extends DB\SQL\Connection\Stan
 	}
 
 	/**
-	 * This function opens a connection using the data source provided.
+	 * This method opens a connection using the data source provided.
 	 *
 	 * @access public
 	 * @override
@@ -251,7 +251,7 @@ abstract class Base\DB\Oracle\Connection\Standard extends DB\SQL\Connection\Stan
 	}
 
 	/**
-	 * This function processes an SQL statement that will return data.
+	 * This method processes an SQL statement that will return data.
 	 *
 	 * @access public
 	 * @override
@@ -276,7 +276,7 @@ abstract class Base\DB\Oracle\Connection\Standard extends DB\SQL\Connection\Stan
 	}
 
 	/**
-	 * This function creates a data reader for query the specified SQL statement.
+	 * This method creates a data reader for query the specified SQL statement.
 	 *
 	 * @access public
 	 * @param string $sql						    the SQL statement
@@ -293,7 +293,7 @@ abstract class Base\DB\Oracle\Connection\Standard extends DB\SQL\Connection\Stan
 	}
 
 	/**
-	 * This function rollbacks a transaction.
+	 * This method rollbacks a transaction.
 	 *
 	 * @access public
 	 * @override

@@ -85,7 +85,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function returns the data as a hexadecimal.
+		 * This method returns the data as a hexadecimal.
 		 *
 		 * @access public
 		 * @override
@@ -96,7 +96,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function returns the data as a binary string.
+		 * This method returns the data as a binary string.
 		 *
 		 * @access public
 		 * @param string $format                        the string formatting to be used
@@ -111,7 +111,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function returns the data as a hexadecimal.
+		 * This method returns the data as a hexadecimal.
 		 *
 		 * @access public
 		 * @param string $format                        the string formatting to be used
@@ -125,7 +125,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function returns the data as a string.
+		 * This method returns the data as a string.
 		 *
 		 * @access public
 		 * @param string $format                        the string formatting to be used
@@ -141,7 +141,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function return the length of the data as a byte string.
+		 * This method return the length of the data as a byte string.
 		 *
 		 * @access public
 		 * @override
@@ -158,7 +158,7 @@ namespace Leap\Base\Core\Data {
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		/**
-		 * This function converts a hexadecimal to a string.
+		 * This method converts a hexadecimal to a string.
 		 *
 		 * @access protected
 		 * @static
@@ -173,7 +173,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function converts string to a hexadecimal.
+		 * This method converts string to a hexadecimal.
 		 *
 		 * @access protected
 		 * @static

@@ -86,7 +86,7 @@ namespace Leap\Base\Model\User {
 		}
 
 		/**
-		 * This function returns a new token.
+		 * This method returns a new token.
 		 *
 		 * @access public
 		 * @return string                               a new token
@@ -100,7 +100,7 @@ namespace Leap\Base\Model\User {
 		}
 
 		/**
-		 * This function returns the data source name.
+		 * This method returns the data source name.
 		 *
 		 * @access public
 		 * @override
@@ -114,7 +114,7 @@ namespace Leap\Base\Model\User {
 		}
 
 		/**
-		 * This function returns the primary key for the database table.
+		 * This method returns the primary key for the database table.
 		 *
 		 * @access public
 		 * @override
@@ -126,7 +126,7 @@ namespace Leap\Base\Model\User {
 		}
 
 		/**
-		 * This function saves the record matching using the primary key.
+		 * This method saves the record matching using the primary key.
 		 *
 		 * @access public
 		 * @override
@@ -140,7 +140,7 @@ namespace Leap\Base\Model\User {
 		}
 
 		/**
-		 * This function returns the database table's name.
+		 * This method returns the database table's name.
 		 *
 		 * @access public
 		 * @override

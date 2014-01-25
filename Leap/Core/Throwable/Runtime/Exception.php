@@ -17,17 +17,121 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\Core\Throwable\Runtime {
+namespace Leap\Core\Throwable\Runtime {
+
+	use Leap\Core;
+	use Leap\Core\Throwable;
 
 	/**
-	 * This class acts as the base class for all throwable runtime exceptions.
+	 * This class represents a Runtime Exception.
 	 *
-	 * @package Leap
-	 * @category Throwable
-	 * @version 2013-05-06
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Throwable
+	 * @version 2014-01-25
 	 */
-	abstract class Exception extends \Kohana\Exception {}
+	class Exception extends \Exception implements Core\IObject {
+
+		/**
+		 * This variable stores the code associated with the exception.
+		 *
+		 * @access protected
+		 * @var int
+		 */
+		protected $code;
+
+		/**
+		 * This constructor creates a new runtime exception.
+		 *
+		 *     throw new Throwable\Runtime\Exception('Unable to find :uri', array(':uri' => $uri));
+		 *
+		 * @access public
+		 * @param string $message               the error message
+		 * @param array $variables              translation variables
+		 * @param integer $code                 the exception code
+		 */
+		public function __construct($message, array $variables = null, $code = 0) {
+			parent::__construct(
+				empty($variables) ? (string) $message : strtr( (string) $message, $variables),
+				(int) $code
+			);
+			$this->code = (int) $code; // Known bug: http://bugs.php.net/39615
+		}
+
+		/**
+		 * This method returns a copy this object.
+		 *
+		 * @access public
+		 */
+		public function __clone() {
+			throw new Throwable\UnimplementedMethod\Exception('Method ":method" has not been implemented in class ":class."', array(':class' => get_called_class(), ':method' => __FUNCTION__));
+		}
+
+		/**
+		 * This method dumps information about the object.
+		 *
+		 * @access public
+		 */
+		public function __debug() {
+			var_dump($this);
+		}
+
+		/**
+		 * This method returns whether the specified object is equal to the called object.
+		 *
+		 * @access public
+		 * @param IObject $object                       the object to be evaluated
+		 * @return boolean                              whether the specified object is equal
+		 *                                              to the called object
+		 */
+		public function __equals($object) {
+			return (($object !== NULL) && ($object instanceof Throwable\Runtime\Exception) && ($object->__hashCode() == $this->__hashCode()));
+		}
+
+		/**
+		 * This method returns the name of the runtime class of this object.
+		 *
+		 * @access public
+		 * @return string                               the name of the runtime class
+		 */
+		public function __getClass() {
+			return get_called_class();
+		}
+
+		/**
+		 * This method returns the current object's hash code.
+		 *
+		 * @return string                               the current object's hash code
+		 */
+		public function __hashCode() {
+			return spl_object_hash($this);
+		}
+
+		/**
+		 * This method returns the exception as a string.
+		 *
+		 * @access public
+		 * @return string                               a string representing the exception
+		 */
+		public function __toString() {
+			return static::text($this);
+		}
+
+		/**
+		 * This method returns the exception as a string.
+		 *
+		 * @access public
+		 * @static
+		 * @param \Exception $exception                 the exception to be processed
+		 * @return string                               a string representing the exception
+		 */
+		public static function text(\Exception $exception) {
+			if ($exception !== null) {
+				return sprintf('%s [ %s ]: %s ~ %s [ %d ]', get_class($exception), $exception->getCode(), strip_tags($exception->getMessage()), $exception->getFile(), $exception->getLine());
+			}
+			return '';
+		}
+
+	}
 
 }

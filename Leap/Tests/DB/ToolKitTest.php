@@ -29,7 +29,7 @@
 class DB\ToolKitTest extends Unittest_Testcase {
 
 	/**
-	 * This function provides the test data for test_regex().
+	 * This method provides the test data for test_regex().
 	 *
 	 * @access public
 	 */
@@ -55,7 +55,7 @@ class DB\ToolKitTest extends Unittest_Testcase {
 	}
 
 	/**
-	 * This function provides the test data for test_slug().
+	 * This method provides the test data for test_slug().
 	 *
 	 * @access public
 	 */
@@ -70,7 +70,7 @@ class DB\ToolKitTest extends Unittest_Testcase {
 	}
 
 	/**
-	 * This function tests DB\ToolKit::regex().
+	 * This method tests DB\ToolKit::regex().
 	 *
 	 * @access public
 	 * @param mixed $test_data                          the test data
@@ -83,7 +83,7 @@ class DB\ToolKitTest extends Unittest_Testcase {
 	}
 
 	/**
-	 * This function tests DB\ToolKit::slug().
+	 * This method tests DB\ToolKit::slug().
 	 *
 	 * @access public
 	 * @param mixed $test_data                          the test data

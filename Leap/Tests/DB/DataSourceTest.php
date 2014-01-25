@@ -29,7 +29,7 @@
 class DB\DataSourceTest extends Unittest_Testcase {
 
 	/**
-	 * This function provides the test data for test_constructor().
+	 * This method provides the test data for test_constructor().
 	 *
 	 * @access public
 	 */
@@ -62,7 +62,7 @@ class DB\DataSourceTest extends Unittest_Testcase {
 	}
 
 	/**
-	 * This function tests DB\DataSource::__construct().
+	 * This method tests DB\DataSource::__construct().
 	 *
 	 * @access public
 	 * @param mixed $test_data                          the test data

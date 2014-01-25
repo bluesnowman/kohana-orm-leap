@@ -59,7 +59,7 @@ abstract class Base\DB\ORM\Relation\BelongsTo extends DB\ORM\Relation {
 	}
 
 	/**
-	 * This function loads the corresponding model.
+	 * This method loads the corresponding model.
 	 *
 	 * @access protected
 	 * @override

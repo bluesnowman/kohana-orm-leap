@@ -89,7 +89,7 @@ abstract class Base\DB\ORM\Field extends Core\Object {
 	}
 
 	/**
-	 * This function returns the value associated with the specified property.
+	 * This method returns the value associated with the specified property.
 	 *
 	 * @access public
 	 * @override
@@ -113,7 +113,7 @@ abstract class Base\DB\ORM\Field extends Core\Object {
 	}
 
 	/**
-	 * This function sets the value for the specified key.
+	 * This method sets the value for the specified key.
 	 *
 	 * @access public
 	 * @override
@@ -154,7 +154,7 @@ abstract class Base\DB\ORM\Field extends Core\Object {
 	}
 
 	/**
-	 * This function generates an HTML form control using the field's metadata.
+	 * This method generates an HTML form control using the field's metadata.
 	 *
 	 * @access public
 	 * @param string $name                          the name of the field
@@ -203,7 +203,7 @@ abstract class Base\DB\ORM\Field extends Core\Object {
 	}
 
 	/**
-	 * This function generates an HTML form control using the field's metadata.
+	 * This method generates an HTML form control using the field's metadata.
 	 *
 	 * @access public
 	 * @param string $name                          the name of the field/alias
@@ -218,7 +218,7 @@ abstract class Base\DB\ORM\Field extends Core\Object {
 	}
 
 	/**
-	 * This function resets the field's value.
+	 * This method resets the field's value.
 	 *
 	 * @access public
 	 */
@@ -228,7 +228,7 @@ abstract class Base\DB\ORM\Field extends Core\Object {
 	}
 
 	/**
-	 * This function validates the specified value against any constraints.
+	 * This method validates the specified value against any constraints.
 	 *
 	 * @access protected
 	 * @param mixed $value                          the value to be validated

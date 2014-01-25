@@ -43,7 +43,7 @@ abstract class Base\DB\ORM\Field\Adaptor\XML extends DB\ORM\Field\Adaptor {
 	}
 
 	/**
-	 * This function returns the value associated with the specified property.
+	 * This method returns the value associated with the specified property.
 	 *
 	 * @access public
 	 * @override
@@ -69,7 +69,7 @@ abstract class Base\DB\ORM\Field\Adaptor\XML extends DB\ORM\Field\Adaptor {
 	}
 
 	/**
-	 * This function sets the value for the specified key.
+	 * This method sets the value for the specified key.
 	 *
 	 * @access public
 	 * @override

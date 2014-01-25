@@ -67,7 +67,7 @@ namespace Leap\Base\Model {
 		}
 
 		/**
-		 * This function returns the data source name.
+		 * This method returns the data source name.
 		 *
 		 * @access public
 		 * @override
@@ -81,7 +81,7 @@ namespace Leap\Base\Model {
 		}
 
 		/**
-		 * This function returns the primary key for the database table.
+		 * This method returns the primary key for the database table.
 		 *
 		 * @access public
 		 * @override
@@ -93,7 +93,7 @@ namespace Leap\Base\Model {
 		}
 
 		/**
-		 * This function returns the database table's name.
+		 * This method returns the database table's name.
 		 *
 		 * @access public
 		 * @override

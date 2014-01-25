@@ -45,7 +45,7 @@ namespace Leap\Base\DB\Drizzle\Connection {
 		}
 
 		/**
-		 * This function begins a transaction.
+		 * This method begins a transaction.
 		 *
 		 * @access public
 		 * @override
@@ -60,7 +60,7 @@ namespace Leap\Base\DB\Drizzle\Connection {
 		}
 
 		/**
-		 * This function closes an open connection.
+		 * This method closes an open connection.
 		 *
 		 * @access public
 		 * @override
@@ -77,7 +77,7 @@ namespace Leap\Base\DB\Drizzle\Connection {
 		}
 
 		/**
-		 * This function commits a transaction.
+		 * This method commits a transaction.
 		 *
 		 * @access public
 		 * @override
@@ -92,7 +92,7 @@ namespace Leap\Base\DB\Drizzle\Connection {
 		}
 
 		/**
-		 * This function processes an SQL statement that will NOT return data.
+		 * This method processes an SQL statement that will NOT return data.
 		 *
 		 * @access public
 		 * @override
@@ -113,7 +113,7 @@ namespace Leap\Base\DB\Drizzle\Connection {
 		}
 
 		/**
-		 * This function returns the last insert id.
+		 * This method returns the last insert id.
 		 *
 		 * @access public
 		 * @override
@@ -145,7 +145,7 @@ namespace Leap\Base\DB\Drizzle\Connection {
 		}
 
 		/**
-		 * This function opens a connection using the data source provided.
+		 * This method opens a connection using the data source provided.
 		 *
 		 * @access public
 		 * @override
@@ -171,7 +171,7 @@ namespace Leap\Base\DB\Drizzle\Connection {
 		}
 
 		/**
-		 * This function escapes a string to be used in an SQL statement.
+		 * This method escapes a string to be used in an SQL statement.
 		 *
 		 * @access public
 		 * @override
@@ -196,7 +196,7 @@ namespace Leap\Base\DB\Drizzle\Connection {
 		}
 
 		/**
-		 * This function rollbacks a transaction.
+		 * This method rollbacks a transaction.
 		 *
 		 * @access public
 		 * @override

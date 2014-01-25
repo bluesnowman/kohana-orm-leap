@@ -69,7 +69,7 @@ abstract class Base\DB\SQL\Builder extends Core\Object implements DB\SQL\Stateme
 	protected $precompiler;
 
 	/**
-	 * This function returns the raw SQL statement.
+	 * This method returns the raw SQL statement.
 	 *
 	 * @access public
 	 * @override
@@ -82,7 +82,7 @@ abstract class Base\DB\SQL\Builder extends Core\Object implements DB\SQL\Stateme
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * This function returns a new instance of the calling class.
+	 * This method returns a new instance of the calling class.
 	 *
 	 * @access public
 	 * @static

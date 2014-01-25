@@ -72,7 +72,7 @@ abstract class Base\DB\ORM\Field\Adaptor extends Core\Object {
 	}
 
 	/**
-	 * This function returns the value associated with the specified property.
+	 * This method returns the value associated with the specified property.
 	 *
 	 * @access public
 	 * @abstract
@@ -84,7 +84,7 @@ abstract class Base\DB\ORM\Field\Adaptor extends Core\Object {
 	public abstract function __get($key);
 
 	/**
-	 * This function sets the value for the specified key.
+	 * This method sets the value for the specified key.
 	 *
 	 * @access public
 	 * @abstract

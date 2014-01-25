@@ -55,7 +55,7 @@ namespace Leap\Base\DB {
 		protected $settings;
 
 		/**
-		 * This function loads the configurations.
+		 * This method loads the configurations.
 		 *
 		 * @access public
 		 * @param mixed $config                         the data source configurations
@@ -89,7 +89,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns the value associated with the specified property.
+		 * This method returns the value associated with the specified property.
 		 *
 		 * @access public
 		 * @override
@@ -119,7 +119,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function determines whether a specific property has been set.
+		 * This method determines whether a specific property has been set.
 		 *
 		 * @access public
 		 * @override
@@ -135,7 +135,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function handles the initialization of the data source's settings.
+		 * This method handles the initialization of the data source's settings.
 		 *
 		 * @access protected
 		 * @param array $settings                       the settings to be used
@@ -212,7 +212,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function determines whether the connection is persistent.
+		 * This method determines whether the connection is persistent.
 		 *
 		 * @access public
 		 * @return boolean                              whether the connection is persistent
@@ -233,7 +233,7 @@ namespace Leap\Base\DB {
 		protected static $instances = array();
 
 		/**
-		 * This function returns configurations settings for the specified path.
+		 * This method returns configurations settings for the specified path.
 		 *
 		 * @access public
 		 * @static
@@ -246,7 +246,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns a singleton instance of this class.
+		 * This method returns a singleton instance of this class.
 		 *
 		 * @access public
 		 * @static

@@ -30,7 +30,7 @@
 abstract class Base\DB\SQL\DataReader\PDO extends DB\SQL\DataReader {
 
 	/**
-	 * This function initializes the class.
+	 * This method initializes the class.
 	 *
 	 * @access public
 	 * @override
@@ -50,7 +50,7 @@ abstract class Base\DB\SQL\DataReader\PDO extends DB\SQL\DataReader {
 	}
 
 	/**
-	 * This function frees the command reference.
+	 * This method frees the command reference.
 	 *
 	 * @access public
 	 * @override
@@ -63,7 +63,7 @@ abstract class Base\DB\SQL\DataReader\PDO extends DB\SQL\DataReader {
 	}
 
 	/**
-	 * This function advances the reader to the next record.
+	 * This method advances the reader to the next record.
 	 *
 	 * @access public
 	 * @override

@@ -45,7 +45,7 @@ abstract class Base\DB\Firebird\Precompiler extends DB\SQL\Precompiler {
 	const _OPENING_QUOTE_CHARACTER_ = '"';
 
 	/**
-	 * This function prepares the specified expression as an alias.
+	 * This method prepares the specified expression as an alias.
 	 *
 	 * @access public
 	 * @override
@@ -61,7 +61,7 @@ abstract class Base\DB\Firebird\Precompiler extends DB\SQL\Precompiler {
 	}
 
 	/**
-	 * This function prepares the specified expression as an identifier column.
+	 * This method prepares the specified expression as an identifier column.
 	 *
 	 * @access public
 	 * @override
@@ -97,7 +97,7 @@ abstract class Base\DB\Firebird\Precompiler extends DB\SQL\Precompiler {
 	}
 
 	/**
-	 * This function prepares the specified expression as a join type.
+	 * This method prepares the specified expression as a join type.
 	 *
 	 * @access public
 	 * @override
@@ -133,7 +133,7 @@ abstract class Base\DB\Firebird\Precompiler extends DB\SQL\Precompiler {
 	}
 
 	/**
-	 * This function prepares the specified expression as a operator.
+	 * This method prepares the specified expression as a operator.
 	 *
 	 * @access public
 	 * @override
@@ -182,7 +182,7 @@ abstract class Base\DB\Firebird\Precompiler extends DB\SQL\Precompiler {
 	}
 
 	/**
-	 * This function prepare the specified expression as a ordering token.
+	 * This method prepare the specified expression as a ordering token.
 	 *
 	 * @access public
 	 * @override
@@ -219,7 +219,7 @@ abstract class Base\DB\Firebird\Precompiler extends DB\SQL\Precompiler {
 	}
 
 	/**
-	 * This function prepares the specified expression as a value.
+	 * This method prepares the specified expression as a value.
 	 *
 	 * @access public
 	 * @override
@@ -282,7 +282,7 @@ abstract class Base\DB\Firebird\Precompiler extends DB\SQL\Precompiler {
 	}
 
 	/**
-	 * This function prepares the specified expression as a wildcard.
+	 * This method prepares the specified expression as a wildcard.
 	 *
 	 * @access public
 	 * @override
@@ -320,7 +320,7 @@ abstract class Base\DB\Firebird\Precompiler extends DB\SQL\Precompiler {
 	protected static $xml = NULL;
 
 	/**
-	 * This function checks whether the specified token is a reserved keyword.
+	 * This method checks whether the specified token is a reserved keyword.
 	 *
 	 * @access public
 	 * @static

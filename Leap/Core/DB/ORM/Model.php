@@ -96,7 +96,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function returns the value associated with the specified property.
+	 * This method returns the value associated with the specified property.
 	 *
 	 * @access public
 	 * @override
@@ -124,7 +124,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function returns whether a property is set.
+	 * This method returns whether a property is set.
 	 *
 	 * @access public
 	 * @override
@@ -136,7 +136,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function sets the value for the specified key.
+	 * This method sets the value for the specified key.
 	 *
 	 * @access public
 	 * @override
@@ -162,7 +162,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function will return an array of column/value mappings.
+	 * This method will return an array of column/value mappings.
 	 *
 	 * @access public
 	 * @return array                                an array of column/value mappings
@@ -185,7 +185,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function will return the associated HTML form control for the specified
+	 * This method will return the associated HTML form control for the specified
 	 * field.
 	 *
 	 * @access public
@@ -213,7 +213,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function deletes the record matching the primary key from the database.
+	 * This method deletes the record matching the primary key from the database.
 	 *
 	 * @access public
 	 * @param boolean $reset                        whether to reset each column's value back
@@ -243,7 +243,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function assists with freeing, releasing, and resetting unmanaged
+	 * This method assists with freeing, releasing, and resetting unmanaged
 	 * resources.
 	 *
 	 * @access public
@@ -267,7 +267,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function generates a hash code that will be used to indicate whether the
+	 * This method generates a hash code that will be used to indicate whether the
 	 * record is saved in the database.
 	 *
 	 * @access protected
@@ -300,7 +300,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function checks whether this model defines the specified name as
+	 * This method checks whether this model defines the specified name as
 	 * an adaptor.
 	 *
 	 * @access public
@@ -313,7 +313,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function checks whether this model defines the specified name as
+	 * This method checks whether this model defines the specified name as
 	 * an alias.
 	 *
 	 * @access public
@@ -326,7 +326,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function checks whether this model defines the specified name as
+	 * This method checks whether this model defines the specified name as
 	 * a field.
 	 *
 	 * @access public
@@ -339,7 +339,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function returns whether the record contains any data.
+	 * This method returns whether the record contains any data.
 	 *
 	 * @access public
 	 * @return boolean                              whether the record contains any data
@@ -349,7 +349,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function checks whether this model defines the specified name as
+	 * This method checks whether this model defines the specified name as
 	 * a relation.
 	 *
 	 * @access public
@@ -362,7 +362,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function checks whether the record exists in the database table.
+	 * This method checks whether the record exists in the database table.
 	 *
 	 * @access public
 	 * @return boolean                              whether the record exists in the database
@@ -379,7 +379,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function will return the associated HTML form label for the specified
+	 * This method will return the associated HTML form label for the specified
 	 * field.
 	 *
 	 * @access public
@@ -396,7 +396,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function either loads the record matching the primary key from the database
+	 * This method either loads the record matching the primary key from the database
 	 * or sets an array of values to their associated fields.
 	 *
 	 * @access public
@@ -435,7 +435,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function creates a new relation to be used by model's instance.
+	 * This method creates a new relation to be used by model's instance.
 	 *
 	 * @param string $name                          the relation's name
 	 * @param enum $type                            the type of relation to be created (e.g.
@@ -456,7 +456,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function resets each column's value back to its original value.
+	 * This method resets each column's value back to its original value.
 	 *
 	 * @access public
 	 */
@@ -472,7 +472,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function saves the record matching using the primary key.
+	 * This method saves the record matching using the primary key.
 	 *
 	 * @access public
 	 * @param boolean $reload                       whether the model should be reloaded
@@ -667,7 +667,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function unrelates the specified relation.
+	 * This method unrelates the specified relation.
 	 *
 	 * @param string $name                          the relation's name
 	 */
@@ -691,7 +691,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * This function returns the builder's class name.
+	 * This method returns the builder's class name.
 	 *
 	 * @access public
 	 * @static
@@ -707,7 +707,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function returns a list of column names.
+	 * This method returns a list of column names.
 	 *
 	 * @access public
 	 * @static
@@ -724,7 +724,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function returns the data source name.
+	 * This method returns the data source name.
 	 *
 	 * @access public
 	 * @static
@@ -737,7 +737,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function returns an instance of the specified model.
+	 * This method returns an instance of the specified model.
 	 *
 	 * @access public
 	 * @static
@@ -750,7 +750,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function returns whether the primary key auto increments.
+	 * This method returns whether the primary key auto increments.
 	 *
 	 * @access public
 	 * @static
@@ -761,7 +761,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function returns whether the active record can be saved in the database.
+	 * This method returns whether the active record can be saved in the database.
 	 *
 	 * @access public
 	 * @static
@@ -773,7 +773,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function returns the model's class name.
+	 * This method returns the model's class name.
 	 *
 	 * @access public
 	 * @static
@@ -789,7 +789,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function returns the primary key for the database table.
+	 * This method returns the primary key for the database table.
 	 *
 	 * @access public
 	 * @static
@@ -800,7 +800,7 @@ abstract class Base\DB\ORM\Model extends Core\Object implements System\GC\IDispo
 	}
 
 	/**
-	 * This function returns the database table's name.
+	 * This method returns the database table's name.
 	 *
 	 * @access public
 	 * @static

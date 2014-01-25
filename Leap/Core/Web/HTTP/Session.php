@@ -113,7 +113,7 @@ namespace Leap\Base\Web\HTTP {
 		}
 
 		/**
-		 * This function destroys the current session.
+		 * This method destroys the current session.
 		 *
 		 * @access protected
 		 * @override
@@ -144,7 +144,7 @@ namespace Leap\Base\Web\HTTP {
 		}
 
 		/**
-		 * This function handles garbage collection.
+		 * This method handles garbage collection.
 		 *
 		 * @access protected
 		 */
@@ -160,7 +160,7 @@ namespace Leap\Base\Web\HTTP {
 		}
 
 		/**
-		 * This function returns the current session id.
+		 * This method returns the current session id.
 		 *
 		 * @access public
 		 * @override
@@ -171,7 +171,7 @@ namespace Leap\Base\Web\HTTP {
 		}
 
 		/**
-		 * This function returns the raw session data string.
+		 * This method returns the raw session data string.
 		 *
 		 * @access protected
 		 * @override
@@ -209,7 +209,7 @@ namespace Leap\Base\Web\HTTP {
 		}
 
 		/**
-		 * This function generates a new session.
+		 * This method generates a new session.
 		 *
 		 * @access protected
 		 * @override
@@ -230,7 +230,7 @@ namespace Leap\Base\Web\HTTP {
 		}
 
 		/**
-		 * This function restarts the current session.
+		 * This method restarts the current session.
 		 *
 		 * @access protected
 		 * @override
@@ -243,7 +243,7 @@ namespace Leap\Base\Web\HTTP {
 		}
 
 		/**
-		 * This function saves the current session to the database.
+		 * This method saves the current session to the database.
 		 *
 		 * @access protected
 		 * @override

@@ -35,7 +35,7 @@ namespace Leap\Base\System {
 	abstract class GC extends Core\Object {
 
 		/**
-		 * This function forces garbage collector to start immediately.
+		 * This method forces garbage collector to start immediately.
 		 *
 		 * @access public
 		 * @static
@@ -56,7 +56,7 @@ namespace Leap\Base\System {
 		}
 
 		/**
-		 * This function returns the reference count for the specified object.
+		 * This method returns the reference count for the specified object.
 		 *
 		 * @access public
 		 * @static

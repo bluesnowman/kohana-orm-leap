@@ -29,7 +29,7 @@
 abstract class Base\DB\MsSQL\Insert\Builder extends DB\SQL\Insert\Builder {
 
 	/**
-	 * This function returns the SQL statement.
+	 * This method returns the SQL statement.
 	 *
 	 * @access public
 	 * @override

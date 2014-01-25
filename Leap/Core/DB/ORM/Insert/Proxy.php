@@ -82,7 +82,7 @@ abstract class Base\DB\ORM\Insert\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function attempts to call an otherwise inaccessible function on the model's
+	 * This method attempts to call an otherwise inaccessible function on the model's
 	 * builder extension.
 	 *
 	 * @access public
@@ -107,7 +107,7 @@ abstract class Base\DB\ORM\Insert\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function sets the associated value with the specified column.
+	 * This method sets the associated value with the specified column.
 	 *
 	 * @access public
 	 * @param string $column                            the column to be set
@@ -120,7 +120,7 @@ abstract class Base\DB\ORM\Insert\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function returns the SQL statement.
+	 * This method returns the SQL statement.
 	 *
 	 * @access public
 	 * @override
@@ -133,7 +133,7 @@ abstract class Base\DB\ORM\Insert\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function returns the raw SQL statement.
+	 * This method returns the raw SQL statement.
 	 *
 	 * @access public
 	 * @override
@@ -144,7 +144,7 @@ abstract class Base\DB\ORM\Insert\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function executes the SQL statement.
+	 * This method executes the SQL statement.
 	 *
 	 * @access public
 	 * @return integer                                  the last insert id
@@ -159,7 +159,7 @@ abstract class Base\DB\ORM\Insert\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function resets the current builder.
+	 * This method resets the current builder.
 	 *
 	 * @access public
 	 * @return DB\ORM\Insert\Proxy                      a reference to the current instance

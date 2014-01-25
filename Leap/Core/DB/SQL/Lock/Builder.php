@@ -65,7 +65,7 @@ abstract class Base\DB\SQL\Lock\Builder extends Core\Object {
 	}
 
 	/**
-	 * This function acquires the required locks.
+	 * This method acquires the required locks.
 	 *
 	 * @access public
 	 * @abstract
@@ -74,7 +74,7 @@ abstract class Base\DB\SQL\Lock\Builder extends Core\Object {
 	public abstract function acquire();
 
 	/**
-	 * This function adds a lock definition.
+	 * This method adds a lock definition.
 	 *
 	 * @access public
 	 * @abstract
@@ -85,7 +85,7 @@ abstract class Base\DB\SQL\Lock\Builder extends Core\Object {
 	public abstract function add($table, Array $hints = NULL);
 
 	/**
-	 * This function releases all acquired locks.
+	 * This method releases all acquired locks.
 	 *
 	 * @access public
 	 * @abstract
@@ -96,7 +96,7 @@ abstract class Base\DB\SQL\Lock\Builder extends Core\Object {
 	public abstract function release($method = '');
 
 	/**
-	 * This function resets the current builder.
+	 * This method resets the current builder.
 	 *
 	 * @access public
 	 * @return DB\SQL\Lock\Builder                      a reference to the current instance
@@ -109,7 +109,7 @@ abstract class Base\DB\SQL\Lock\Builder extends Core\Object {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * This function returns an instance of the appropriate SQL lock builder.
+	 * This method returns an instance of the appropriate SQL lock builder.
 	 *
 	 * @access public
 	 * @static

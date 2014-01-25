@@ -88,7 +88,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function returns the value associated with the specified property.
+	 * This method returns the value associated with the specified property.
 	 *
 	 * @access public
 	 * @override
@@ -127,7 +127,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function add a new node as a child to the current node.
+	 * This method add a new node as a child to the current node.
 	 *
 	 * @access public
 	 * @param string $name                              the name to given to the node
@@ -231,7 +231,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function returns a result set of ancestor nodes for the current node.
+	 * This method returns a result set of ancestor nodes for the current node.
 	 *
 	 * @access public
 	 * @param string $ordering                          the ordering token that signals whether the
@@ -270,7 +270,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function returns the children of the current node.
+	 * This method returns the children of the current node.
 	 *
 	 * @access public
 	 * @param string $ordering                          the ordering token that signals whether the
@@ -284,7 +284,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function removes a node and its descendants.
+	 * This method removes a node and its descendants.
 	 *
 	 * @access public
 	 * @override
@@ -347,7 +347,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function returns the descendants of the current node.
+	 * This method returns the descendants of the current node.
 	 *
 	 * @access public
 	 * @param string $ordering                          the ordering token that signals whether the
@@ -378,7 +378,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function determines whether the current node has children.
+	 * This method determines whether the current node has children.
 	 *
 	 * @access public
 	 * @return boolean                                  whether the current node has children
@@ -388,7 +388,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function determines whether the current node is an ancestor of the
+	 * This method determines whether the current node is an ancestor of the
 	 * supplied node.
 	 *
 	 * @access public
@@ -401,7 +401,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function determines whether the current node is the child of the supplied
+	 * This method determines whether the current node is the child of the supplied
 	 * node.
 	 *
 	 * @access public
@@ -414,7 +414,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function determines whether the current node is a descendant of the
+	 * This method determines whether the current node is a descendant of the
 	 * supplied node.
 	 *
 	 * @access public
@@ -427,7 +427,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function determines whether the current node is a leaf.
+	 * This method determines whether the current node is a leaf.
 	 *
 	 * @access public
 	 * @return boolean                                  whether the current node is a leaf
@@ -437,7 +437,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function determines whether the current node is the parent of the supplied
+	 * This method determines whether the current node is the parent of the supplied
 	 * node.
 	 *
 	 * @access public
@@ -450,7 +450,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function determines whether the current node is the root.
+	 * This method determines whether the current node is the root.
 	 *
 	 * @access public
 	 * @return boolean                                  whether the current node is the root
@@ -460,7 +460,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function determines whether the current node is a sibling of the supplied
+	 * This method determines whether the current node is a sibling of the supplied
 	 * node.
 	 *
 	 * @access public
@@ -473,7 +473,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function returns all leaves under the current node.
+	 * This method returns all leaves under the current node.
 	 *
 	 * @access public
 	 * @param string $ordering                          the ordering token that signals whether the
@@ -487,7 +487,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function returns the level (i.e. depth) at which the current node resides.
+	 * This method returns the level (i.e. depth) at which the current node resides.
 	 *
 	 * @access public
 	 * @return integer                                  the level at which the current
@@ -509,7 +509,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function returns a model describing the parent node.
+	 * This method returns a model describing the parent node.
 	 *
 	 * @access public
 	 * @return DB\ORM\MPTT                              a model describing the parent node
@@ -522,7 +522,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function returns the path to the current node.
+	 * This method returns the path to the current node.
 	 *
 	 * @access public
 	 * @return array                                    the path to the current node
@@ -542,7 +542,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function returns a model describing the root node.
+	 * This method returns a model describing the root node.
 	 *
 	 * @access public
 	 * @return DB\ORM\MPTT                              a model describing the root node
@@ -559,7 +559,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function saves the record matching using the primary key.
+	 * This method saves the record matching using the primary key.
 	 *
 	 * @access public
 	 * @override
@@ -612,7 +612,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function returns the siblings of the current node.
+	 * This method returns the siblings of the current node.
 	 *
 	 * @access public
 	 * @param string $ordering                          the ordering token that signals whether the
@@ -641,7 +641,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function returns the size of the current node, which is the number of descendants
+	 * This method returns the size of the current node, which is the number of descendants
 	 * it has including itself.
 	 *
 	 * @access public
@@ -654,7 +654,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function returns a tree of nodes, where the root node of the tree is the current
+	 * This method returns a tree of nodes, where the root node of the tree is the current
 	 * node.
 	 *
 	 * @access public
@@ -672,7 +672,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * This function creates a new root node in the specified scope.
+	 * This method creates a new root node in the specified scope.
 	 *
 	 * @access public
 	 * @static
@@ -729,7 +729,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function returns a result set containing all nodes in the specified tree's scope.
+	 * This method returns a result set containing all nodes in the specified tree's scope.
 	 *
 	 * @access public
 	 * @static
@@ -755,7 +755,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 
 
 	/**
-	 * This function returns the primary key for the database table.
+	 * This method returns the primary key for the database table.
 	 *
 	 * @access public
 	 * @static
@@ -766,7 +766,7 @@ abstract class Base\DB\ORM\MPTT extends DB\ORM\Model {
 	}
 
 	/**
-	 * This function returns the database table's name.
+	 * This method returns the database table's name.
 	 *
 	 * @access public
 	 * @static

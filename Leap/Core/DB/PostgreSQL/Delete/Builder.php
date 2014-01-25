@@ -34,7 +34,7 @@
 abstract class Base\DB\PostgreSQL\Delete\Builder extends DB\SQL\Delete\Builder {
 
 	/**
-	 * This function returns the SQL statement.
+	 * This method returns the SQL statement.
 	 *
 	 * @access public
 	 * @override

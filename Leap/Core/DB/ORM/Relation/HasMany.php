@@ -74,7 +74,7 @@ abstract class Base\DB\ORM\Relation\HasMany extends DB\ORM\Relation {
 	}
 
 	/**
-	 * This function loads the corresponding model(s).
+	 * This method loads the corresponding model(s).
 	 *
 	 * @access protected
 	 * @override

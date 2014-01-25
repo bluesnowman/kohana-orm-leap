@@ -83,7 +83,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function gets the value of the specified field.
+		 * This method gets the value of the specified field.
 		 *
 		 * @access public
 		 * @override
@@ -100,7 +100,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function returns whether a property is set.
+		 * This method returns whether a property is set.
 		 *
 		 * @access public
 		 * @override
@@ -112,7 +112,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function sets the value for the specified field.
+		 * This method sets the value for the specified field.
 		 *
 		 * @access public
 		 * @override
@@ -129,7 +129,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function renders the bit-field as a binary string when the object is treated
+		 * This method renders the bit-field as a binary string when the object is treated
 		 * like a string, e.g. with PHP's echo and print commands.
 		 *
 		 * @access public
@@ -141,7 +141,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function returns the value as a binary string.
+		 * This method returns the value as a binary string.
 		 *
 		 * @access public
 		 * @param string $format                        the string formatting to be used
@@ -160,7 +160,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function returns the bit-field as a hexadecimal.
+		 * This method returns the bit-field as a hexadecimal.
 		 *
 		 * @access public
 		 * @param string $format                        the string formatting to be used
@@ -175,7 +175,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function returns the bit-field as an integer.
+		 * This method returns the bit-field as an integer.
 		 *
 		 * @access public
 		 * @return integer                              the value as an integer
@@ -185,7 +185,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function returns the value as a binary string.
+		 * This method returns the value as a binary string.
 		 *
 		 * @access public
 		 * @param string $format                        the string formatting to be used
@@ -196,7 +196,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function returns the size/boundary of the bit-field, which will be either
+		 * This method returns the size/boundary of the bit-field, which will be either
 		 * 32 or 64 bits.
 		 *
 		 * @access public
@@ -208,7 +208,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function returns whether the specified pattern matches the bit-field's
+		 * This method returns whether the specified pattern matches the bit-field's
 		 * pattern.
 		 *
 		 * @access public
@@ -220,7 +220,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function maps the specified value using the bit-field pattern.
+		 * This method maps the specified value using the bit-field pattern.
 		 *
 		 * @access public
 		 * @param mixed $value                          the value to be mapped
@@ -245,7 +245,7 @@ namespace Leap\Base\Core\Data {
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		/**
-		 * This function converts a binary string into an integer value.
+		 * This method converts a binary string into an integer value.
 		 *
 		 * @access protected
 		 * @static
@@ -257,7 +257,7 @@ namespace Leap\Base\Core\Data {
 		}
 
 		/**
-		 * This function converts the specified value to a binary string.
+		 * This method converts the specified value to a binary string.
 		 *
 		 * @access protected
 		 * @static

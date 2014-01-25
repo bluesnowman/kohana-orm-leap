@@ -63,7 +63,7 @@ namespace Leap\Base\DB {
 		protected $type;
 
 		/**
-		 * This function initializes the class by wrapping the result set so that all database
+		 * This method initializes the class by wrapping the result set so that all database
 		 * result sets are accessible alike.
 		 *
 		 * @access public
@@ -91,7 +91,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns an array of records of the desired object type.
+		 * This method returns an array of records of the desired object type.
 		 *
 		 * @access public
 		 * @return array                                    an array of records
@@ -101,7 +101,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function will create an instance of the CSV class using the data contained
+		 * This method will create an instance of the CSV class using the data contained
 		 * in the result set.
 		 *
 		 * @access public
@@ -147,7 +147,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns the total number of records contained in result set.
+		 * This method returns the total number of records contained in result set.
 		 *
 		 * @access public
 		 * @override
@@ -158,7 +158,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns the current record.
+		 * This method returns the current record.
 		 *
 		 * @access public
 		 * @override
@@ -169,7 +169,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns a record either at the current position or
+		 * This method returns a record either at the current position or
 		 * the specified position.
 		 *
 		 * @access public
@@ -191,7 +191,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function frees all data stored in the result set.
+		 * This method frees all data stored in the result set.
 		 *
 		 * @access public
 		 */
@@ -202,7 +202,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns the value for the named column from the current record.
+		 * This method returns the value for the named column from the current record.
 		 *
 		 *     // Gets the value of "id" from the current record
 		 *     $id = $results->get('id');
@@ -233,7 +233,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns whether any records were loaded.
+		 * This method returns whether any records were loaded.
 		 *
 		 * @access public
 		 * @return boolean                                  whether any records were loaded
@@ -243,7 +243,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns the position to the current record.
+		 * This method returns the position to the current record.
 		 *
 		 * @access public
 		 * @override
@@ -254,7 +254,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function moves forward the position to the next record, lazy loading only
+		 * This method moves forward the position to the next record, lazy loading only
 		 * when necessary.
 		 *
 		 * @access public
@@ -265,7 +265,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function determines whether an offset exists.
+		 * This method determines whether an offset exists.
 		 *
 		 * @access public
 		 * @override
@@ -277,7 +277,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This functions gets value at the specified offset.
+		 * This method gets value at the specified offset.
 		 *
 		 * @access public
 		 * @override
@@ -289,7 +289,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This functions sets the specified value at the specified offset.
+		 * This method sets the specified value at the specified offset.
 		 *
 		 * @access public
 		 * @override
@@ -302,7 +302,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This functions allows for the specified offset to be unset.
+		 * This method allows for the specified offset to be unset.
 		 *
 		 * @access public
 		 * @override
@@ -314,7 +314,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns the current iterator position.
+		 * This method returns the current iterator position.
 		 *
 		 * @access public
 		 * @override
@@ -325,7 +325,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function rewinds the iterator back to starting position.
+		 * This method rewinds the iterator back to starting position.
 		 *
 		 * @access public
 		 * @override
@@ -335,7 +335,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function sets the position pointer to the seeked position.
+		 * This method sets the position pointer to the seeked position.
 		 *
 		 * @access public
 		 * @override
@@ -351,7 +351,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function checks if the current iterator position is valid.
+		 * This method checks if the current iterator position is valid.
 		 *
 		 * @access public
 		 * @override

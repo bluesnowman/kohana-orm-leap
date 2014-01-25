@@ -119,7 +119,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function attempts to log the user in based on the "authautologin" cookie.
+		 * This method attempts to log the user in based on the "authautologin" cookie.
 		 *
 		 * @access public
 		 * @return mixed                            either a user object or false
@@ -155,7 +155,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function checks whether the specified password matches the user's defined
+		 * This method checks whether the specified password matches the user's defined
 		 * password.
 		 *
 		 * @access public
@@ -173,7 +173,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function completes the login by incrementing the logins and setting
+		 * This method completes the login by incrementing the logins and setting
 		 * session data: user_id, username, roles.
 		 *
 		 * @access protected
@@ -186,7 +186,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function forces a user to be logged in without a password.
+		 * This method forces a user to be logged in without a password.
 		 *
 		 * @access public
 		 * @param mixed $user                       the user's name or object
@@ -211,7 +211,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function return an array of errors encountered during the authentication
+		 * This method return an array of errors encountered during the authentication
 		 * process.
 		 *
 		 * @access public
@@ -223,7 +223,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function gets the current user's object.
+		 * This method gets the current user's object.
 		 *
 		 * @access public
 		 * @param mixed $default                    the default value should no user
@@ -243,7 +243,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function gets a user matching the login configuration information.
+		 * This method gets a user matching the login configuration information.
 		 *
 		 * @access protected
 		 * @param string $user                      the user's name
@@ -266,7 +266,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function determines whether the session is active.
+		 * This method determines whether the session is active.
 		 *
 		 * @access public
 		 * @param mixed $roles                      either an ORM role object or an
@@ -343,7 +343,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function attempts to log a user in.
+		 * This method attempts to log a user in.
 		 *
 		 * @access protected
 		 * @param mixed $user                       the user's name or object
@@ -394,7 +394,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function logs the current user out.
+		 * This method logs the current user out.
 		 *
 		 * @access public
 		 * @param boolean $destroy                  whether the session is to be to completely
@@ -431,7 +431,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function gets the user's password.
+		 * This method gets the user's password.
 		 *
 		 * @access public
 		 * @param mixed $user                       the user's name or object

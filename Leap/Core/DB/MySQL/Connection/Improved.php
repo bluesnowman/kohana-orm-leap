@@ -43,7 +43,7 @@ abstract class Base\DB\MySQL\Connection\Improved extends DB\SQL\Connection\Stand
 	}
 
 	/**
-	 * This function begins a transaction.
+	 * This method begins a transaction.
 	 *
 	 * @access public
 	 * @override
@@ -64,7 +64,7 @@ abstract class Base\DB\MySQL\Connection\Improved extends DB\SQL\Connection\Stand
 	}
 
 	/**
-	 * This function closes an open connection.
+	 * This method closes an open connection.
 	 *
 	 * @access public
 	 * @override
@@ -81,7 +81,7 @@ abstract class Base\DB\MySQL\Connection\Improved extends DB\SQL\Connection\Stand
 	}
 
 	/**
-	 * This function commits a transaction.
+	 * This method commits a transaction.
 	 *
 	 * @access public
 	 * @override
@@ -103,7 +103,7 @@ abstract class Base\DB\MySQL\Connection\Improved extends DB\SQL\Connection\Stand
 	}
 
 	/**
-	 * This function processes an SQL statement that will NOT return data.
+	 * This method processes an SQL statement that will NOT return data.
 	 *
 	 * @access public
 	 * @override
@@ -124,7 +124,7 @@ abstract class Base\DB\MySQL\Connection\Improved extends DB\SQL\Connection\Stand
 	}
 
 	/**
-	 * This function returns the last insert id.
+	 * This method returns the last insert id.
 	 *
 	 * @access public
 	 * @override
@@ -156,7 +156,7 @@ abstract class Base\DB\MySQL\Connection\Improved extends DB\SQL\Connection\Stand
 	}
 
 	/**
-	 * This function is for determining whether a connection is established.
+	 * This method is for determining whether a connection is established.
 	 *
 	 * @access public
 	 * @override
@@ -167,7 +167,7 @@ abstract class Base\DB\MySQL\Connection\Improved extends DB\SQL\Connection\Stand
 	}
 
 	/**
-	 * This function opens a connection using the data source provided.
+	 * This method opens a connection using the data source provided.
 	 *
 	 * @access public
 	 * @override
@@ -194,7 +194,7 @@ abstract class Base\DB\MySQL\Connection\Improved extends DB\SQL\Connection\Stand
 	}
 
 	/**
-	 * This function escapes a string to be used in an SQL statement.
+	 * This method escapes a string to be used in an SQL statement.
 	 *
 	 * @access public
 	 * @override
@@ -219,7 +219,7 @@ abstract class Base\DB\MySQL\Connection\Improved extends DB\SQL\Connection\Stand
 	}
 
 	/**
-	 * This function rollbacks a transaction.
+	 * This method rollbacks a transaction.
 	 *
 	 * @access public
 	 * @override

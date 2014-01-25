@@ -31,7 +31,7 @@
 abstract class Base\DB\MariaDB\Delete\Builder extends DB\SQL\Delete\Builder {
 
 	/**
-	 * This function returns the SQL statement.
+	 * This method returns the SQL statement.
 	 *
 	 * @access public
 	 * @override

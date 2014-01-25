@@ -31,7 +31,7 @@
 abstract class Base\DB\PostgreSQL\Connection\PDO extends DB\SQL\Connection\PDO {
 
 	/**
-	 * This function returns the last insert id.
+	 * This method returns the last insert id.
 	 *
 	 * @access public
 	 * @override
@@ -65,7 +65,7 @@ abstract class Base\DB\PostgreSQL\Connection\PDO extends DB\SQL\Connection\PDO {
 	}
 
 	/**
-	 * This function opens a connection using the data source provided.
+	 * This method opens a connection using the data source provided.
 	 *
 	 * @access public
 	 * @override

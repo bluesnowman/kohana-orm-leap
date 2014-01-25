@@ -27,7 +27,7 @@
 interface Base\DB\SQL\Statement {
 
 	/**
-	 * This function returns the SQL statement.
+	 * This method returns the SQL statement.
 	 *
 	 * @access public
 	 * @param boolean $terminated           whether to add a semi-colon to the end

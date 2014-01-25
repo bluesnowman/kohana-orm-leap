@@ -102,7 +102,7 @@ abstract class Base\DB\ORM\Field\Time extends DB\ORM\Field {
 	}
 
 	/**
-	 * This function sets the value for the specified key.
+	 * This method sets the value for the specified key.
 	 *
 	 * @access public
 	 * @override

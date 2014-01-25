@@ -29,7 +29,7 @@
 abstract class Base\DB\SQLite\Schema extends DB\Schema {
 
 	/**
-	 * This function returns a result set of fields for the specified table.
+	 * This method returns a result set of fields for the specified table.
 	 *
 	 * +---------------+---------------+------------------------------------------------------------+
 	 * | field         | data type     | description                                                |
@@ -123,7 +123,7 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 	}
 
 	/**
-	 * This function returns a result set of indexes for the specified table.
+	 * This method returns a result set of indexes for the specified table.
 	 *
 	 * +---------------+---------------+------------------------------------------------------------+
 	 * | field         | data type     | description                                                |
@@ -191,7 +191,7 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 	}
 
 	/**
-	 * This function returns a result set of database tables.
+	 * This method returns a result set of database tables.
 	 *
 	 * +---------------+---------------+------------------------------------------------------------+
 	 * | field         | data type     | description                                                |
@@ -229,7 +229,7 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 	}
 
 	/**
-	 * This function returns a result set of triggers for the specified table.
+	 * This method returns a result set of triggers for the specified table.
 	 *
 	 * +---------------+---------------+------------------------------------------------------------+
 	 * | field         | data type     | description                                                |
@@ -323,7 +323,7 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 	}
 
 	/**
-	 * This function returns a result set of database views.
+	 * This method returns a result set of database views.
 	 *
 	 * +---------------+---------------+------------------------------------------------------------+
 	 * | field         | data type     | description                                                |

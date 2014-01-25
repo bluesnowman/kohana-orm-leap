@@ -32,7 +32,7 @@ namespace Leap\Base\DB {
 	abstract class ToolKit extends Core\Object {
 
 		/**
-		 * This function converts a like clause to a regular expression.
+		 * This method converts a like clause to a regular expression.
 		 *
 		 * @access public
 		 * @static
@@ -82,7 +82,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function converts a sting to a slug that can be used in a URL.
+		 * This method converts a sting to a slug that can be used in a URL.
 		 *
 		 * @access public
 		 * @static

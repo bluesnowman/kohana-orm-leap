@@ -478,7 +478,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	}
 
 	/**
-	 * This function returns an array of the found tuples.
+	 * This method returns an array of the found tuples.
 	 *
 	 * @access public
 	 * @return array                                    an array of tuples
@@ -488,7 +488,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	}
 
 	/**
-	 * This function returns the total number of tuples found.
+	 * This method returns the total number of tuples found.
 	 *
 	 * @access public
 	 * @override
@@ -499,7 +499,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	}
 
 	/**
-	 * This function returns the current tuple.
+	 * This method returns the current tuple.
 	 *
 	 * @access public
 	 * @override
@@ -510,7 +510,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	}
 
 	/**
-	 * This function returns a tuple either at the current position or
+	 * This method returns a tuple either at the current position or
 	 * the specified position.
 	 *
 	 * @access public
@@ -532,7 +532,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	}
 
 	/**
-	 * This function returns the index to the current tuple.
+	 * This method returns the index to the current tuple.
 	 *
 	 * @access public
 	 * @override
@@ -543,7 +543,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	}
 
 	/**
-	 * This function moves forward the index to the next tuple.
+	 * This method moves forward the index to the next tuple.
 	 *
 	 * @access public
 	 * @override
@@ -553,7 +553,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	}
 
 	/**
-	 * This function determines whether an offset exists.
+	 * This method determines whether an offset exists.
 	 *
 	 * @access public
 	 * @override
@@ -565,7 +565,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	}
 
 	/**
-	 * This functions gets value at the specified offset.
+	 * This method gets value at the specified offset.
 	 *
 	 * @access public
 	 * @override
@@ -577,7 +577,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	}
 
 	/**
-	 * This functions sets the specified value at the specified offset.
+	 * This method sets the specified value at the specified offset.
 	 *
 	 * @access public
 	 * @override
@@ -590,7 +590,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	}
 
 	/**
-	 * This functions allows for the specified offset to be unset.
+	 * This method allows for the specified offset to be unset.
 	 *
 	 * @access public
 	 * @override
@@ -602,7 +602,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	}
 
 	/**
-	 * This function returns the current iterator position.
+	 * This method returns the current iterator position.
 	 *
 	 * @access public
 	 * @override
@@ -613,7 +613,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	}
 
 	/**
-	 * This function rewinds the iterator back to starting position.
+	 * This method rewinds the iterator back to starting position.
 	 *
 	 * @access public
 	 * @override
@@ -623,7 +623,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	}
 
 	/**
-	 * This function sets the position pointer to the seeked position.
+	 * This method sets the position pointer to the seeked position.
 	 *
 	 * @access public
 	 * @override
@@ -639,7 +639,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	}
 
 	/**
-	 * This function checks if the current iterator position is valid.
+	 * This method checks if the current iterator position is valid.
 	 *
 	 * @access public
 	 * @override
@@ -652,7 +652,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * This function returns the character at the specified position.
+	 * This method returns the character at the specified position.
 	 *
 	 * @access protected
 	 * @static
@@ -666,7 +666,7 @@ abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess
 	}
 
 	/**
-	 * This function checks whether the specified token is a reserved keyword.
+	 * This method checks whether the specified token is a reserved keyword.
 	 *
 	 * @access public
 	 * @static

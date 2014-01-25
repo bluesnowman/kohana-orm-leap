@@ -45,7 +45,7 @@ abstract class Base\DB\PostgreSQL\Connection\Standard extends DB\SQL\Connection\
 	}
 
 	/**
-	 * This function begins a transaction.
+	 * This method begins a transaction.
 	 *
 	 * @access public
 	 * @override
@@ -59,7 +59,7 @@ abstract class Base\DB\PostgreSQL\Connection\Standard extends DB\SQL\Connection\
 	}
 
 	/**
-	 * This function closes an open connection.
+	 * This method closes an open connection.
 	 *
 	 * @access public
 	 * @override
@@ -78,7 +78,7 @@ abstract class Base\DB\PostgreSQL\Connection\Standard extends DB\SQL\Connection\
 	}
 
 	/**
-	 * This function commits a transaction.
+	 * This method commits a transaction.
 	 *
 	 * @access public
 	 * @override
@@ -90,7 +90,7 @@ abstract class Base\DB\PostgreSQL\Connection\Standard extends DB\SQL\Connection\
 	}
 
 	/**
-	 * This function allows for the ability to process a query that will not return
+	 * This method allows for the ability to process a query that will not return
 	 * data using the passed string.
 	 *
 	 * @access public
@@ -114,7 +114,7 @@ abstract class Base\DB\PostgreSQL\Connection\Standard extends DB\SQL\Connection\
 	}
 
 	/**
-	 * This function returns the last insert id.
+	 * This method returns the last insert id.
 	 *
 	 * @access public
 	 * @override
@@ -169,7 +169,7 @@ abstract class Base\DB\PostgreSQL\Connection\Standard extends DB\SQL\Connection\
 	}
 
 	/**
-	 * This function opens a connection using the data source provided.
+	 * This method opens a connection using the data source provided.
 	 *
 	 * @access public
 	 * @override
@@ -204,7 +204,7 @@ abstract class Base\DB\PostgreSQL\Connection\Standard extends DB\SQL\Connection\
 	}
 
 	/**
-	 * This function escapes a string to be used in an SQL statement.
+	 * This method escapes a string to be used in an SQL statement.
 	 *
 	 * @access public
 	 * @override
@@ -231,7 +231,7 @@ abstract class Base\DB\PostgreSQL\Connection\Standard extends DB\SQL\Connection\
 	}
 
 	/**
-	 * This function rollbacks a transaction.
+	 * This method rollbacks a transaction.
 	 *
 	 * @access public
 	 * @override

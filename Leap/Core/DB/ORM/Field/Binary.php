@@ -88,7 +88,7 @@ abstract class Base\DB\ORM\Field\Binary extends DB\ORM\Field {
 	}
 
 	/**
-	 * This function validates the specified value against any constraints.
+	 * This method validates the specified value against any constraints.
 	 *
 	 * @access protected
 	 * @override

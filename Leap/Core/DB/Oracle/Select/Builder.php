@@ -31,7 +31,7 @@
 abstract class Base\DB\Oracle\Select\Builder extends DB\SQL\Select\Builder {
 
 	/**
-	 * This function combines another SQL statement using the specified operator.
+	 * This method combines another SQL statement using the specified operator.
 	 *
 	 * @access public
 	 * @override
@@ -55,7 +55,7 @@ abstract class Base\DB\Oracle\Select\Builder extends DB\SQL\Select\Builder {
 	}
 
 	/**
-	 * This function returns the SQL statement.
+	 * This method returns the SQL statement.
 	 *
 	 * @access public
 	 * @override

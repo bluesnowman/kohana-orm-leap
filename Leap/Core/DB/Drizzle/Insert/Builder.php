@@ -33,7 +33,7 @@ namespace Leap\Base\DB\Drizzle\Insert {
 	abstract class Builder extends DB\SQL\Insert\Builder {
 
 		/**
-		 * This function returns the SQL statement.
+		 * This method returns the SQL statement.
 		 *
 		 * @access public
 		 * @override

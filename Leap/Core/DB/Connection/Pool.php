@@ -61,7 +61,7 @@ namespace Leap\Base\DB\Connection {
 		protected $settings = array();
 
 		/**
-		 * This function prevents the class from being cloned.
+		 * This method prevents the class from being cloned.
 		 *
 		 * @access protected
 		 * @override
@@ -78,7 +78,7 @@ namespace Leap\Base\DB\Connection {
 		}
 
 		/**
-		 * This function returns the value associated with the specified property.
+		 * This method returns the value associated with the specified property.
 		 *
 		 * @access public
 		 * @override
@@ -98,7 +98,7 @@ namespace Leap\Base\DB\Connection {
 		}
 
 		/**
-		 * This function sets the value for the specified key.
+		 * This method sets the value for the specified key.
 		 *
 		 * @access public
 		 * @override
@@ -119,7 +119,7 @@ namespace Leap\Base\DB\Connection {
 		}
 
 		/**
-		 * This function adds an existing connection to the connection pool.
+		 * This method adds an existing connection to the connection pool.
 		 *
 		 * @access public
 		 * @param DB\Connection\Driver $connection      the connection to be added
@@ -144,7 +144,7 @@ namespace Leap\Base\DB\Connection {
 		}
 
 		/**
-		 * This function returns the number of connections in the connection pool.
+		 * This method returns the number of connections in the connection pool.
 		 *
 		 * @access public
 		 * @override
@@ -156,7 +156,7 @@ namespace Leap\Base\DB\Connection {
 		}
 
 		/**
-		 * This function returns the appropriate connection from the pool. When there are
+		 * This method returns the appropriate connection from the pool. When there are
 		 * multiple connections created from the same data source, the last opened connection
 		 * will be returned when $new is set to "FALSE."
 		 *
@@ -205,7 +205,7 @@ namespace Leap\Base\DB\Connection {
 		}
 
 		/**
-		 * This function releases the specified connection within the connection pool.  The
+		 * This method releases the specified connection within the connection pool.  The
 		 * connection will then be allowed to close via its destructor when completely unset.
 		 *
 		 * @access public
@@ -234,7 +234,7 @@ namespace Leap\Base\DB\Connection {
 		protected static $instance = NULL;
 
 		/**
-		 * This function is automatically called at the time of shutdown to release all
+		 * This method is automatically called at the time of shutdown to release all
 		 * connections within the connection pool.
 		 *
 		 * @access public
@@ -247,7 +247,7 @@ namespace Leap\Base\DB\Connection {
 		}
 
 		/**
-		 * This function returns a singleton instance of this class.
+		 * This method returns a singleton instance of this class.
 		 *
 		 * @access public
 		 * @static

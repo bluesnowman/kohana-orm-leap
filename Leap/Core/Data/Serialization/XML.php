@@ -32,7 +32,7 @@ namespace Leap\Base\Core\Data\Serialization {
 	abstract class XML extends \SimpleXMLElement {
 
 		/**
-		 * This function converts an associated array to an XML string.
+		 * This method converts an associated array to an XML string.
 		 *
 		 * @access protected
 		 * @static
@@ -79,7 +79,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function converts an associated array to either a \SimpleXMLElement or an XML formatted
+		 * This method converts an associated array to either a \SimpleXMLElement or an XML formatted
 		 * string depending on the second parameter.
 		 *
 		 * @access public
@@ -99,7 +99,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function searches for the file that first matches the specified file
+		 * This method searches for the file that first matches the specified file
 		 * name and returns its path.
 		 *
 		 * @access protected
@@ -141,7 +141,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function returns an instance of the class with the contents of the specified
+		 * This method returns an instance of the class with the contents of the specified
 		 * XML file.
 		 *
 		 * @access public

@@ -33,7 +33,7 @@ namespace Leap\Base\DB\Drizzle\Update {
 	abstract class Builder extends DB\SQL\Update\Builder {
 
 		/**
-		 * This function returns the SQL statement.
+		 * This method returns the SQL statement.
 		 *
 		 * @access public
 		 * @override

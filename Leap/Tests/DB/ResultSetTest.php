@@ -29,7 +29,7 @@
 class DB\ResultSetTest extends Unittest_Testcase {
 
 	/**
-	 * This function provides the test data for test_constructor().
+	 * This method provides the test data for test_constructor().
 	 *
 	 * @access public
 	 */
@@ -41,7 +41,7 @@ class DB\ResultSetTest extends Unittest_Testcase {
 	}
 
 	/**
-	 * This function tests DB\ResultSet::__construct().
+	 * This method tests DB\ResultSet::__construct().
 	 *
 	 * @access public
 	 * @param mixed $test_data                          the test data

@@ -31,7 +31,7 @@
 abstract class Base\DB\Oracle\Connection\PDO extends DB\SQL\Connection\PDO {
 
 	/**
-	 * This function processes an SQL statement that will NOT return data.
+	 * This method processes an SQL statement that will NOT return data.
 	 *
 	 * @access public
 	 * @override
@@ -44,7 +44,7 @@ abstract class Base\DB\Oracle\Connection\PDO extends DB\SQL\Connection\PDO {
 	}
 
 	/**
-	 * This function opens a connection using the data source provided.
+	 * This method opens a connection using the data source provided.
 	 *
 	 * @access public
 	 * @override
@@ -87,7 +87,7 @@ abstract class Base\DB\Oracle\Connection\PDO extends DB\SQL\Connection\PDO {
 	}
 
 	/**
-	 * This function processes an SQL statement that will return data.
+	 * This method processes an SQL statement that will return data.
 	 *
 	 * @access public
 	 * @override
@@ -101,7 +101,7 @@ abstract class Base\DB\Oracle\Connection\PDO extends DB\SQL\Connection\PDO {
 	}
 
 	/**
-	 * This function creates a data reader for query the specified SQL statement.
+	 * This method creates a data reader for query the specified SQL statement.
 	 *
 	 * @access public
 	 * @override
@@ -114,7 +114,7 @@ abstract class Base\DB\Oracle\Connection\PDO extends DB\SQL\Connection\PDO {
 	}
 
 	/**
-	 * This function trims the semicolon off an SQL statement.
+	 * This method trims the semicolon off an SQL statement.
 	 *
 	 * @access protected
 	 * @param string $sql						    the SQL statement

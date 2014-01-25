@@ -36,7 +36,7 @@
 abstract class Base\DB\MsSQL\Lock\Builder extends DB\SQL\Lock\Builder {
 
 	/**
-	 * This function acquires the required locks.
+	 * This method acquires the required locks.
 	 *
 	 * @access public
 	 * @override
@@ -51,7 +51,7 @@ abstract class Base\DB\MsSQL\Lock\Builder extends DB\SQL\Lock\Builder {
 	}
 
 	/**
-	 * This function adds a lock definition.
+	 * This method adds a lock definition.
 	 *
 	 * @access public
 	 * @override
@@ -81,7 +81,7 @@ abstract class Base\DB\MsSQL\Lock\Builder extends DB\SQL\Lock\Builder {
 	}
 
 	/**
-	 * This function releases all acquired locks.
+	 * This method releases all acquired locks.
 	 *
 	 * @access public
 	 * @override

@@ -129,7 +129,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function gets the value of the specified property.
+		 * This method gets the value of the specified property.
 		 *
 		 * @access public
 		 * @override
@@ -161,7 +161,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function sets the value for the specified key.
+		 * This method sets the value for the specified key.
 		 *
 		 * @access public
 		 * @override
@@ -198,7 +198,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function is an alias for Core\Data\Serialization\CSV::render() and will renders the data as a string when
+		 * This method is an alias for Core\Data\Serialization\CSV::render() and will renders the data as a string when
 		 * the object is treated like a string, e.g. with PHP's echo and print commands.
 		 *
 		 * @access public
@@ -210,7 +210,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function adds a row to the data array.
+		 * This method adds a row to the data array.
 		 *
 		 * @access public
 		 * @param array $row                                the row to be appended
@@ -222,7 +222,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function returns the contents as an array.
+		 * This method returns the contents as an array.
 		 *
 		 * @access public
 		 * @return array                                    an array of the contents
@@ -232,7 +232,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		 }
 
 		/**
-		 * This function removes all rows from the data array.
+		 * This method removes all rows from the data array.
 		 *
 		 * @access public
 		 */
@@ -242,7 +242,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function returns a count of the number of rows in the data set.
+		 * This method returns a count of the number of rows in the data set.
 		 *
 		 * @access public
 		 * @override
@@ -253,7 +253,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function returns the current record.
+		 * This method returns the current record.
 		 *
 		 * @access public
 		 * @override
@@ -264,7 +264,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function implodes a row using the proper syntax.
+		 * This method implodes a row using the proper syntax.
 		 *
 		 * @access protected
 		 * @static
@@ -285,7 +285,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function checks whether the data array is empty.
+		 * This method checks whether the data array is empty.
 		 *
 		 * @access public
 		 * @return boolean                                  whether the data array is empty
@@ -295,7 +295,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function returns the position to the current record.
+		 * This method returns the position to the current record.
 		 *
 		 * @access public
 		 * @override
@@ -306,7 +306,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function moves forward the position to the next record, lazy loading only
+		 * This method moves forward the position to the next record, lazy loading only
 		 * when necessary.
 		 *
 		 * @access public
@@ -317,7 +317,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function determines whether an offset exists.
+		 * This method determines whether an offset exists.
 		 *
 		 * @access public
 		 * @override
@@ -329,7 +329,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This functions gets value at the specified offset.
+		 * This method gets value at the specified offset.
 		 *
 		 * @access public
 		 * @override
@@ -341,7 +341,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This functions sets the specified value at the specified offset.
+		 * This method sets the specified value at the specified offset.
 		 *
 		 * @access public
 		 * @override
@@ -362,7 +362,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This functions allows for the specified offset to be unset.
+		 * This method allows for the specified offset to be unset.
 		 *
 		 * @access public
 		 * @override
@@ -374,7 +374,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function outputs the CVS file.
+		 * This method outputs the CVS file.
 		 *
 		 * @access public
 		 * @param boolean $as_file                          whether to output the data as a file
@@ -401,7 +401,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function returns the current iterator position.
+		 * This method returns the current iterator position.
 		 *
 		 * @access public
 		 * @override
@@ -412,7 +412,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function renders the data as a string.
+		 * This method renders the data as a string.
 		 *
 		 * @access public
 		 * @return string                                   the string of imploded data
@@ -440,7 +440,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function rewinds the iterator back to starting position.
+		 * This method rewinds the iterator back to starting position.
 		 *
 		 * @access public
 		 * @override
@@ -450,7 +450,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function saves the CSV file to disk.
+		 * This method saves the CSV file to disk.
 		 *
 		 * @access public
 		 * @param string $file_name                         the URI for where the CSV file will be stored
@@ -468,7 +468,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function sets the position pointer to the seeked position.
+		 * This method sets the position pointer to the seeked position.
 		 *
 		 * @access public
 		 * @override
@@ -484,7 +484,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function checks if the current iterator position is valid.
+		 * This method checks if the current iterator position is valid.
 		 *
 		 * @access public
 		 * @override
@@ -497,7 +497,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		/**
-		 * This function will create an instance of the CSV class.
+		 * This method will create an instance of the CSV class.
 		 *
 		 * @access public
 		 * @static
@@ -509,7 +509,7 @@ namespace Leap\Base\Core\Data\Serialization {
 		}
 
 		/**
-		 * This function will load a CSV file.
+		 * This method will load a CSV file.
 		 *
 		 * @access public
 		 * @static

@@ -32,7 +32,7 @@ namespace Leap\Base\System\GC {
 	interface IDisposable {
 
 		/**
-		 * This function assists with freeing, releasing, and resetting unmanaged
+		 * This method assists with freeing, releasing, and resetting unmanaged
 		 * resources.
 		 *
 		 * @access public

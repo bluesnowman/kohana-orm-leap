@@ -57,7 +57,7 @@ abstract class Base\DB\SQL\Delete\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function returns the raw SQL statement.
+	 * This method returns the raw SQL statement.
 	 *
 	 * @access public
 	 * @override
@@ -68,7 +68,7 @@ abstract class Base\DB\SQL\Delete\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function executes the built SQL statement.
+	 * This method executes the built SQL statement.
 	 *
 	 * @access public
 	 */
@@ -78,7 +78,7 @@ abstract class Base\DB\SQL\Delete\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function sets which table will be modified.
+	 * This method sets which table will be modified.
 	 *
 	 * @access public
 	 * @param string $table                             the database table to be modified
@@ -90,7 +90,7 @@ abstract class Base\DB\SQL\Delete\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function sets a "limit" constraint on the statement.
+	 * This method sets a "limit" constraint on the statement.
 	 *
 	 * @access public
 	 * @param integer $limit                            the "limit" constraint
@@ -102,7 +102,7 @@ abstract class Base\DB\SQL\Delete\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function sets an "offset" constraint on the statement.
+	 * This method sets an "offset" constraint on the statement.
 	 *
 	 * @access public
 	 * @param integer $offset                           the "offset" constraint
@@ -114,7 +114,7 @@ abstract class Base\DB\SQL\Delete\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function sets how a column will be sorted.
+	 * This method sets how a column will be sorted.
 	 *
 	 * @access public
 	 * @param string $column                            the column to be sorted
@@ -130,7 +130,7 @@ abstract class Base\DB\SQL\Delete\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function resets the current builder.
+	 * This method resets the current builder.
 	 *
 	 * @access public
 	 * @return DB\SQL\Delete\Proxy                      a reference to the current instance
@@ -141,7 +141,7 @@ abstract class Base\DB\SQL\Delete\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function returns the SQL statement.
+	 * This method returns the SQL statement.
 	 *
 	 * @access public
 	 * @override
@@ -154,7 +154,7 @@ abstract class Base\DB\SQL\Delete\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function adds a "where" constraint.
+	 * This method adds a "where" constraint.
 	 *
 	 * @access public
 	 * @param string $column                            the column to be constrained
@@ -169,7 +169,7 @@ abstract class Base\DB\SQL\Delete\Proxy extends Core\Object implements DB\SQL\St
 	}
 
 	/**
-	 * This function either opens or closes a "where" group.
+	 * This method either opens or closes a "where" group.
 	 *
 	 * @access public
 	 * @param string $parenthesis                       the parenthesis to be used

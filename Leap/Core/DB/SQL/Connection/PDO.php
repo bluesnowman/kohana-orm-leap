@@ -44,7 +44,7 @@ abstract class Base\DB\SQL\Connection\PDO extends DB\Connection\Driver {
 	}
 
 	/**
-	 * This function begins a transaction.
+	 * This method begins a transaction.
 	 *
 	 * @access public
 	 * @override
@@ -63,7 +63,7 @@ abstract class Base\DB\SQL\Connection\PDO extends DB\Connection\Driver {
 		}
 	}
 	/**
-	 * This function allows for the ability to close the connection that was opened.
+	 * This method allows for the ability to close the connection that was opened.
 	 *
 	 * @access public
 	 * @override
@@ -78,7 +78,7 @@ abstract class Base\DB\SQL\Connection\PDO extends DB\Connection\Driver {
 	}
 
 	/**
-	 * This function commits a transaction.
+	 * This method commits a transaction.
 	 *
 	 * @access public
 	 * @override
@@ -98,7 +98,7 @@ abstract class Base\DB\SQL\Connection\PDO extends DB\Connection\Driver {
 	}
 
 	/**
-	 * This function processes an SQL statement that will NOT return data.
+	 * This method processes an SQL statement that will NOT return data.
 	 *
 	 * @access public
 	 * @override
@@ -118,7 +118,7 @@ abstract class Base\DB\SQL\Connection\PDO extends DB\Connection\Driver {
 	}
 
 	/**
-	 * This function returns the last insert id.
+	 * This method returns the last insert id.
 	 *
 	 * @access public
 	 * @override
@@ -152,7 +152,7 @@ abstract class Base\DB\SQL\Connection\PDO extends DB\Connection\Driver {
 	}
 
 	/**
-	 * This function is for determining whether a connection is established.
+	 * This method is for determining whether a connection is established.
 	 *
 	 * @access public
 	 * @override
@@ -163,7 +163,7 @@ abstract class Base\DB\SQL\Connection\PDO extends DB\Connection\Driver {
 	}
 
 	/**
-	 * This function escapes a string to be used in an SQL statement.
+	 * This method escapes a string to be used in an SQL statement.
 	 *
 	 * @access public
 	 * @override
@@ -192,7 +192,7 @@ abstract class Base\DB\SQL\Connection\PDO extends DB\Connection\Driver {
 	}
 
 	/**
-	 * This function rollbacks a transaction.
+	 * This method rollbacks a transaction.
 	 *
 	 * @access public
 	 * @override

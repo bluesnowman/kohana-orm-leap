@@ -31,7 +31,7 @@ namespace Leap\Base\DB {
 	abstract class ORM extends Core\Object {
 
 		/**
-		 * This function returns an instance of the DB\ORM\Delete\Proxy.
+		 * This method returns an instance of the DB\ORM\Delete\Proxy.
 		 *
 		 * @access public
 		 * @static
@@ -44,7 +44,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function will wrap a string so that it can be processed by a query
+		 * This method will wrap a string so that it can be processed by a query
 		 * builder.
 		 *
 		 * @access public
@@ -60,7 +60,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns an instance of the DB\ORM\Insert\Proxy.
+		 * This method returns an instance of the DB\ORM\Insert\Proxy.
 		 *
 		 * @access public
 		 * @static
@@ -73,7 +73,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns an instance of the specified model.
+		 * This method returns an instance of the specified model.
 		 *
 		 * @access public
 		 * @static
@@ -100,7 +100,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns an instance of the appropriate pre-compiler for the
+		 * This method returns an instance of the appropriate pre-compiler for the
 		 * specified model.
 		 *
 		 * @access public
@@ -117,7 +117,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns an instance of the DB\ORM\Select\Proxy.
+		 * This method returns an instance of the DB\ORM\Select\Proxy.
 		 *
 		 * @access public
 		 * @static
@@ -131,7 +131,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns an instance of the DB\ORM\Update\Proxy.
+		 * This method returns an instance of the DB\ORM\Update\Proxy.
 		 *
 		 * @access public
 		 * @static

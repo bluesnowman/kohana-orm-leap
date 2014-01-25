@@ -41,7 +41,7 @@ abstract class Base\DB\Firebird\Update\Builder extends DB\SQL\Update\Builder {
 	}
 
 	/**
-	 * This function returns the SQL statement.
+	 * This method returns the SQL statement.
 	 *
 	 * @access public
 	 * @override

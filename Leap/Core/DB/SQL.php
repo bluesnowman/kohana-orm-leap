@@ -31,7 +31,7 @@ namespace Leap\Base\DB {
 	abstract class SQL extends Core\Object {
 
 		/**
-		 * This function returns an instance of the DB\SQL\Delete\Proxy.
+		 * This method returns an instance of the DB\SQL\Delete\Proxy.
 		 *
 		 * @access public
 		 * @static
@@ -44,7 +44,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function will wrap a string so that it can be processed by a query
+		 * This method will wrap a string so that it can be processed by a query
 		 * builder.
 		 *
 		 * @access public
@@ -60,7 +60,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns an instance of the DB\SQL\Insert\Proxy.
+		 * This method returns an instance of the DB\SQL\Insert\Proxy.
 		 *
 		 * @access public
 		 * @static
@@ -73,7 +73,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns an instance of the appropriate pre-compiler for the
+		 * This method returns an instance of the appropriate pre-compiler for the
 		 * specified data source/config.
 		 *
 		 * @access public
@@ -89,7 +89,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns an instance of the DB\SQL\Select\Proxy.
+		 * This method returns an instance of the DB\SQL\Select\Proxy.
 		 *
 		 * @access public
 		 * @static
@@ -103,7 +103,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns an instance of the DB\SQL\Update\Proxy.
+		 * This method returns an instance of the DB\SQL\Update\Proxy.
 		 *
 		 * @access public
 		 * @static

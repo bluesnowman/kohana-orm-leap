@@ -39,7 +39,7 @@ abstract class Base\DB\SQL\Precompiler extends Core\Object {
 	protected $data_source;
 
 	/**
-	 * This function initializes the class with the specified data source.
+	 * This method initializes the class with the specified data source.
 	 *
 	 * @access public
 	 * @param mixed $data_source                    the data source to be used
@@ -49,7 +49,7 @@ abstract class Base\DB\SQL\Precompiler extends Core\Object {
 	}
 
 	/**
-	 * This function prepares the specified expression as an alias.
+	 * This method prepares the specified expression as an alias.
 	 *
 	 * @access public
 	 * @abstract
@@ -60,7 +60,7 @@ abstract class Base\DB\SQL\Precompiler extends Core\Object {
 	public abstract function prepare_alias($expr);
 
 	/**
-	 * This function prepares the specified expression as a boolean.
+	 * This method prepares the specified expression as a boolean.
 	 *
 	 * @access public
 	 * @param mixed $expr                           the expression to be prepared
@@ -71,7 +71,7 @@ abstract class Base\DB\SQL\Precompiler extends Core\Object {
 	}
 
 	/**
-	 * This function prepares the specified expression as a connector.
+	 * This method prepares the specified expression as a connector.
 	 *
 	 * @access public
 	 * @param string $expr                          the expression to be prepared
@@ -92,7 +92,7 @@ abstract class Base\DB\SQL\Precompiler extends Core\Object {
 	}
 
 	/**
-	 * This function prepares the specified expression as an identifier column.
+	 * This method prepares the specified expression as an identifier column.
 	 *
 	 * @access public
 	 * @abstract
@@ -103,7 +103,7 @@ abstract class Base\DB\SQL\Precompiler extends Core\Object {
 	public abstract function prepare_identifier($expr);
 
 	/**
-	 * This function prepares the specified expression as a join type.
+	 * This method prepares the specified expression as a join type.
 	 *
 	 * @access public
 	 * @abstract
@@ -114,7 +114,7 @@ abstract class Base\DB\SQL\Precompiler extends Core\Object {
 	public abstract function prepare_join($expr);
 
 	/**
-	 * This function prepares the specified expression as a natural number.
+	 * This method prepares the specified expression as a natural number.
 	 *
 	 * @access public
 	 * @param mixed $expr                           the expression to be prepared
@@ -125,7 +125,7 @@ abstract class Base\DB\SQL\Precompiler extends Core\Object {
 	}
 
 	/**
-	 * This function prepares the specified expression as a operator.
+	 * This method prepares the specified expression as a operator.
 	 *
 	 * @access public
 	 * @abstract
@@ -137,7 +137,7 @@ abstract class Base\DB\SQL\Precompiler extends Core\Object {
 	public abstract function prepare_operator($expr, $group);
 
 	/**
-	 * This function prepare the specified expression as a ordering token.
+	 * This method prepare the specified expression as a ordering token.
 	 *
 	 * @access public
 	 * @abstract
@@ -151,7 +151,7 @@ abstract class Base\DB\SQL\Precompiler extends Core\Object {
 	public abstract function prepare_ordering($column, $ordering, $nulls);
 
 	/**
-	 * This function prepares the specified expression as a parenthesis.
+	 * This method prepares the specified expression as a parenthesis.
 	 *
 	 * @access public
 	 * @param string $expr                          the expression to be prepared
@@ -171,7 +171,7 @@ abstract class Base\DB\SQL\Precompiler extends Core\Object {
 	}
 
 	/**
-	 * This function prepares the specified expression as a value.
+	 * This method prepares the specified expression as a value.
 	 *
 	 * @access public
 	 * @abstract
@@ -182,7 +182,7 @@ abstract class Base\DB\SQL\Precompiler extends Core\Object {
 	public abstract function prepare_value($expr, $escape = NULL);
 
 	/**
-	 * This function prepares the specified expression as a wildcard.
+	 * This method prepares the specified expression as a wildcard.
 	 *
 	 * @access public
 	 * @abstract

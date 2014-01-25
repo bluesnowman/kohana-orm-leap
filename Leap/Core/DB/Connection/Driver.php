@@ -71,7 +71,7 @@ namespace Leap\Base\DB\Connection {
 		protected $sql;
 
 		/**
-		 * This function initializes the class with the specified data source.
+		 * This method initializes the class with the specified data source.
 		 *
 		 * @access public
 		 * @param DB\DataSource $data_source            the data source to be used
@@ -93,7 +93,7 @@ namespace Leap\Base\DB\Connection {
 		public abstract function __destruct();
 
 		/**
-		 * This function returns the value associated with the specified property.
+		 * This method returns the value associated with the specified property.
 		 *
 		 * @access public
 		 * @override
@@ -116,7 +116,7 @@ namespace Leap\Base\DB\Connection {
 		}
 
 		/**
-		 * This function begins a transaction.
+		 * This method begins a transaction.
 		 *
 		 * @access public
 		 * @abstract
@@ -126,7 +126,7 @@ namespace Leap\Base\DB\Connection {
 		public abstract function begin_transaction();
 
 		/**
-		 * This function manages query caching.
+		 * This method manages query caching.
 		 *
 		 * @access protected
 		 * @param string $sql                           the SQL statement being queried
@@ -154,7 +154,7 @@ namespace Leap\Base\DB\Connection {
 		}
 
 		/**
-		 * This function closes an open connection.
+		 * This method closes an open connection.
 		 *
 		 * @access public
 		 * @abstract
@@ -163,7 +163,7 @@ namespace Leap\Base\DB\Connection {
 		public abstract function close();
 
 		/**
-		 * This function commits a transaction.
+		 * This method commits a transaction.
 		 *
 		 * @access public
 		 * @abstract
@@ -173,7 +173,7 @@ namespace Leap\Base\DB\Connection {
 		public abstract function commit();
 
 		/**
-		 * This function processes an SQL statement that will NOT return data.
+		 * This method processes an SQL statement that will NOT return data.
 		 *
 		 * @access public
 		 * @abstract
@@ -184,7 +184,7 @@ namespace Leap\Base\DB\Connection {
 		public abstract function execute($sql);
 
 		/**
-		 * This function returns the last insert id.
+		 * This method returns the last insert id.
 		 *
 		 * @access public
 		 * @abstract
@@ -196,7 +196,7 @@ namespace Leap\Base\DB\Connection {
 		public abstract function get_last_insert_id($table = NULL, $column = 'id');
 
 		/**
-		 * This function returns the connection's resource.
+		 * This method returns the connection's resource.
 		 *
 		 * @access public
 		 * @return mixed                                the resource being used
@@ -211,7 +211,7 @@ namespace Leap\Base\DB\Connection {
 		}
 
 		/**
-		 * This function is for determining whether a connection is established.
+		 * This method is for determining whether a connection is established.
 		 *
 		 * @access public
 		 * @abstract
@@ -220,7 +220,7 @@ namespace Leap\Base\DB\Connection {
 		public abstract function is_connected();
 
 		/**
-		 * This function opens a connection using the data source provided.
+		 * This method opens a connection using the data source provided.
 		 *
 		 * @access public
 		 * @throws Throwable\Database\Exception         indicates that there is problem with
@@ -229,7 +229,7 @@ namespace Leap\Base\DB\Connection {
 		public abstract function open();
 
 		/**
-		 * This function processes an SQL statement that will return data.
+		 * This method processes an SQL statement that will return data.
 		 *
 		 * @access public
 		 * @param string $sql                           the SQL statement
@@ -253,7 +253,7 @@ namespace Leap\Base\DB\Connection {
 		}
 
 		/**
-		 * This function escapes a string to be used in an SQL statement.
+		 * This method escapes a string to be used in an SQL statement.
 		 *
 		 * @access public
 		 * @param string $string                        the string to be escaped
@@ -292,7 +292,7 @@ namespace Leap\Base\DB\Connection {
 		}
 
 		/**
-		 * This function creates a data reader for query the specified SQL statement.
+		 * This method creates a data reader for query the specified SQL statement.
 		 *
 		 * @access public
 		 * @param string $sql                           the SQL statement
@@ -309,7 +309,7 @@ namespace Leap\Base\DB\Connection {
 		}
 
 		/**
-		 * This function rollbacks a transaction.
+		 * This method rollbacks a transaction.
 		 *
 		 * @access public
 		 * @abstract
@@ -321,7 +321,7 @@ namespace Leap\Base\DB\Connection {
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		/**
-		 * This function returns a connection to the appropriate database based
+		 * This method returns a connection to the appropriate database based
 		 * on the specified configurations.
 		 *
 		 * @access public

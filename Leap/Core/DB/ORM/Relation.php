@@ -78,7 +78,7 @@ abstract class Base\DB\ORM\Relation extends Core\Object {
 	}
 
 	/**
-	 * This function returns the value associated with the specified property.
+	 * This method returns the value associated with the specified property.
 	 *
 	 * @access public
 	 * @override
@@ -103,7 +103,7 @@ abstract class Base\DB\ORM\Relation extends Core\Object {
 	}
 
 	/**
-	 * This function loads the corresponding model(s).
+	 * This method loads the corresponding model(s).
 	 *
 	 * @access protected
 	 * @abstract
@@ -112,7 +112,7 @@ abstract class Base\DB\ORM\Relation extends Core\Object {
 	protected abstract function load();
 
 	/**
-	 * This function resets the relation's cache to NULL.
+	 * This method resets the relation's cache to NULL.
 	 *
 	 * @access public
 	 */

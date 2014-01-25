@@ -31,7 +31,7 @@
 abstract class Base\DB\Firebird\Select\Builder extends DB\SQL\Select\Builder {
 
 	/**
-	 * This function returns the SQL statement.
+	 * This method returns the SQL statement.
 	 *
 	 * @access public
 	 * @override

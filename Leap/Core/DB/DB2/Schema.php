@@ -31,7 +31,7 @@ namespace Leap\Base\DB\DB2 {
 	abstract class Schema extends DB\Schema {
 
 		/**
-		 * This function returns an associated array which describes the properties
+		 * This method returns an associated array which describes the properties
 		 * for the specified SQL data type.
 		 *
 		 * @access public
@@ -94,7 +94,7 @@ namespace Leap\Base\DB\DB2 {
 		}
 
 		/**
-		 * This function returns a result set of fields for the specified table.
+		 * This method returns a result set of fields for the specified table.
 		 *
 		 * +---------------+---------------+------------------------------------------------------------+
 		 * | field         | data type     | description                                                |
@@ -193,7 +193,7 @@ namespace Leap\Base\DB\DB2 {
 		}
 
 		/**
-		 * This function returns a result set of indexes for the specified table.
+		 * This method returns a result set of indexes for the specified table.
 		 *
 		 * +---------------+---------------+------------------------------------------------------------+
 		 * | field         | data type     | description                                                |
@@ -250,7 +250,7 @@ namespace Leap\Base\DB\DB2 {
 		}
 
 		/**
-		 * This function returns a result set of database tables.
+		 * This method returns a result set of database tables.
 		 *
 		 * +---------------+---------------+------------------------------------------------------------+
 		 * | field         | data type     | description                                                |
@@ -289,7 +289,7 @@ namespace Leap\Base\DB\DB2 {
 		}
 
 		/**
-		 * This function returns a result set of triggers for the specified table.
+		 * This method returns a result set of triggers for the specified table.
 		 *
 		 * +---------------+---------------+------------------------------------------------------------+
 		 * | field         | data type     | description                                                |
@@ -342,7 +342,7 @@ namespace Leap\Base\DB\DB2 {
 		}
 
 		/**
-		 * This function returns a result set of database views.
+		 * This method returns a result set of database views.
 		 *
 		 * +---------------+---------------+------------------------------------------------------------+
 		 * | field         | data type     | description                                                |

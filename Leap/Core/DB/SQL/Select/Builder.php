@@ -46,7 +46,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function sets the wildcard to be used.
+	 * This method sets the wildcard to be used.
 	 *
 	 * @access public
 	 * @param string $wildcard                      the wildcard to be used
@@ -59,7 +59,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function sets the specified column to be selected.
+	 * This method sets the specified column to be selected.
 	 *
 	 * @access public
 	 * @param string $column                        the column to be selected
@@ -77,7 +77,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function combines another SQL statement using the specified operator.
+	 * This method combines another SQL statement using the specified operator.
 	 *
 	 * @access public
 	 * @param string $operator                      the operator to be used to append
@@ -101,7 +101,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function will a column to be counted.
+	 * This method will a column to be counted.
 	 *
 	 * @access public
 	 * @param string $column                        the column to be counted
@@ -116,7 +116,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function sets whether to constrain the SQL statement to only distinct records.
+	 * This method sets whether to constrain the SQL statement to only distinct records.
 	 *
 	 * @access public
 	 * @param boolean $distinct                     whether to constrain the SQL statement to only
@@ -129,7 +129,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function sets the table that will be accessed.
+	 * This method sets the table that will be accessed.
 	 *
 	 * @access public
 	 * @param string $table                         the table to be accessed
@@ -147,7 +147,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function adds a "group by" clause.
+	 * This method adds a "group by" clause.
 	 *
 	 * @access public
 	 * @param string $column                        the column(s) to be grouped
@@ -163,7 +163,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function adds a "having" constraint.
+	 * This method adds a "having" constraint.
 	 *
 	 * @access public
 	 * @param string $column                        the column to be constrained
@@ -214,7 +214,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function either opens or closes a "having" group.
+	 * This method either opens or closes a "having" group.
 	 *
 	 * @access public
 	 * @param string $parenthesis                   the parenthesis to be used
@@ -233,7 +233,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function joins a table.
+	 * This method joins a table.
 	 *
 	 * @access public
 	 * @param string $type                          the type of join
@@ -256,7 +256,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function sets a "limit" constraint on the statement.
+	 * This method sets a "limit" constraint on the statement.
 	 *
 	 * @access public
 	 * @param integer $limit                        the "limit" constraint
@@ -268,7 +268,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function sets an "offset" constraint on the statement.
+	 * This method sets an "offset" constraint on the statement.
 	 *
 	 * @access public
 	 * @param integer $offset                       the "offset" constraint
@@ -280,7 +280,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function sets an "on" constraint for the last join specified.
+	 * This method sets an "on" constraint for the last join specified.
 	 *
 	 * @access public
 	 * @param string $column0                       the column to be constrained on
@@ -308,7 +308,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function sets how a column will be sorted.
+	 * This method sets how a column will be sorted.
 	 *
 	 * @access public
 	 * @param string $column                        the column to be sorted
@@ -324,7 +324,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function sets both the "offset" constraint and the "limit" constraint on
+	 * This method sets both the "offset" constraint and the "limit" constraint on
 	 * the statement.
 	 *
 	 * @access public
@@ -339,7 +339,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function resets the current builder.
+	 * This method resets the current builder.
 	 *
 	 * @access public
 	 * @return DB\SQL\Select\Builder                a reference to the current instance
@@ -363,7 +363,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function sets a "using" constraint for the last join specified.
+	 * This method sets a "using" constraint for the last join specified.
 	 *
 	 * @access public
 	 * @param string $column                        the column to be constrained
@@ -387,7 +387,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function adds a "where" constraint.
+	 * This method adds a "where" constraint.
 	 *
 	 * @access public
 	 * @param string $column                        the column to be constrained
@@ -435,7 +435,7 @@ abstract class Base\DB\SQL\Select\Builder extends DB\SQL\Builder {
 	}
 
 	/**
-	 * This function either opens or closes a "where" group.
+	 * This method either opens or closes a "where" group.
 	 *
 	 * @access public
 	 * @param string $parenthesis                   the parenthesis to be used

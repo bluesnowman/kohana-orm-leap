@@ -17,32 +17,64 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\Core {
+namespace Leap\Core {
+
+	use Leap\Core;
+	use Leap\Core\Throwable;
 
 	/**
-	 * This class acts as the base class for any object.
-	 *
-	 * @package Leap
-	 * @category Core
-	 * @version 2013-05-12
+	 * This class acts as the base class for a object.
 	 *
 	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core
+	 * @version 2014-01-25
 	 */
-	abstract class Object {
+	abstract class Object implements Core\IObject {
 
 		/**
-		 * This function returns whether the specified object is equal to the called object.
+		 * This method returns a copy this object.
 		 *
 		 * @access public
+		 */
+		public function __clone() {
+			throw new Throwable\UnimplementedMethod\Exception('Method ":method" has not been implemented in class ":class."', array(':class' => get_called_class(), ':method' => __FUNCTION__));
+		}
+
+		/**
+		 * This method dumps information about the object.
+		 *
+		 * @access public
+		 */
+		public function __debug() {
+			var_dump($this);
+		}
+
+		/**
+		 * This method returns whether the specified object is equal to the called object.
+		 *
+		 * @access public
+		 * @param IObject $object                       the object to be evaluated
 		 * @return boolean                              whether the specified object is equal
 		 *                                              to the called object
 		 */
 		public function __equals($object) {
-			return (($object !== NULL) && ($object instanceof Core\Object) && ($object->__hashCode() == $this->__haseCode()));
+			return (($object !== NULL) && ($object instanceof Core\IObject) && ($object->__hashCode() == $this->__hashCode()));
 		}
 
 		/**
-		 * This function returns the hash code for the object.
+		 * This method returns the name of the runtime class of this object.
+		 *
+		 * @access public
+		 * @return string                               the name of the runtime class
+		 */
+		public function __getClass() {
+			return get_called_class();
+		}
+
+		/**
+		 * This method returns the hash code for the object.
 		 *
 		 * @access public
 		 * @return string                               the hash code for the object
@@ -52,7 +84,7 @@ namespace Leap\Base\Core {
 		}
 
 		/**
-		 * This function returns a string that represents the object.
+		 * This method returns a string that represents the object.
 		 *
 		 * @access public
 		 * @return string                               a string that represents the object

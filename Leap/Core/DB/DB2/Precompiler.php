@@ -47,7 +47,7 @@ namespace Leap\Base\DB\DB2 {
 		const _OPENING_QUOTE_CHARACTER_ = '"';
 
 		/**
-		 * This function prepares the specified expression as an alias.
+		 * This method prepares the specified expression as an alias.
 		 *
 		 * @access public
 		 * @override
@@ -66,7 +66,7 @@ namespace Leap\Base\DB\DB2 {
 		}
 
 		/**
-		 * This function prepares the specified expression as an identifier column.
+		 * This method prepares the specified expression as an identifier column.
 		 *
 		 * @access public
 		 * @override
@@ -103,7 +103,7 @@ namespace Leap\Base\DB\DB2 {
 		}
 
 		/**
-		 * This function prepares the specified expression as a join type.
+		 * This method prepares the specified expression as a join type.
 		 *
 		 * @access public
 		 * @override
@@ -135,7 +135,7 @@ namespace Leap\Base\DB\DB2 {
 		}
 
 		/**
-		 * This function prepares the specified expression as a operator.
+		 * This method prepares the specified expression as a operator.
 		 *
 		 * @access public
 		 * @override
@@ -190,7 +190,7 @@ namespace Leap\Base\DB\DB2 {
 		}
 
 		/**
-		 * This function prepare the specified expression as a ordering token.
+		 * This method prepare the specified expression as a ordering token.
 		 *
 		 * @access public
 		 * @override
@@ -228,7 +228,7 @@ namespace Leap\Base\DB\DB2 {
 		}
 
 		/**
-		 * This function prepares the specified expression as a value.
+		 * This method prepares the specified expression as a value.
 		 *
 		 * @access public
 		 * @override
@@ -291,7 +291,7 @@ namespace Leap\Base\DB\DB2 {
 		}
 
 		/**
-		 * This function prepares the specified expression as a wildcard.
+		 * This method prepares the specified expression as a wildcard.
 		 *
 		 * @access public
 		 * @override
@@ -329,7 +329,7 @@ namespace Leap\Base\DB\DB2 {
 		protected static $xml = NULL;
 
 		/**
-		 * This function checks whether the specified token is a reserved keyword.
+		 * This method checks whether the specified token is a reserved keyword.
 		 *
 		 * @access public
 		 * @static

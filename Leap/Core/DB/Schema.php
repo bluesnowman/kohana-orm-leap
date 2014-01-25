@@ -60,7 +60,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns an associated array of default properties for the specified
+		 * This method returns an associated array of default properties for the specified
 		 * SQL data type.
 		 *
 		 * @access public
@@ -146,7 +146,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns a result set of fields for the specified table.
+		 * This method returns a result set of fields for the specified table.
 		 *
 		 * +---------------+---------------+------------------------------------------------------------+
 		 * | field         | data type     | description                                                |
@@ -173,7 +173,7 @@ namespace Leap\Base\DB {
 		public abstract function fields($table, $like = '');
 
 		/**
-		 * This function returns a result set of indexes for the specified table.
+		 * This method returns a result set of indexes for the specified table.
 		 *
 		 * +---------------+---------------+------------------------------------------------------------+
 		 * | field         | data type     | description                                                |
@@ -198,7 +198,7 @@ namespace Leap\Base\DB {
 		public abstract function indexes($table, $like = '');
 
 		/**
-		 * This function extracts a field's data type information.  For example:
+		 * This method extracts a field's data type information.  For example:
 		 *
 		 *     'INTEGER' becomes array('INTEGER', 0, 0)
 		 *     'CHAR(6)' becomes array('CHAR', 6, 0)
@@ -232,7 +232,7 @@ namespace Leap\Base\DB {
 		}
 
 		/**
-		 * This function returns a result set of database tables.
+		 * This method returns a result set of database tables.
 		 *
 		 * +---------------+---------------+------------------------------------------------------------+
 		 * | field         | data type     | description                                                |
@@ -250,7 +250,7 @@ namespace Leap\Base\DB {
 		public abstract function tables($like = '');
 
 		/**
-		 * This function returns a result set of triggers for the specified table.
+		 * This method returns a result set of triggers for the specified table.
 		 *
 		 * +---------------+---------------+------------------------------------------------------------+
 		 * | field         | data type     | description                                                |
@@ -276,7 +276,7 @@ namespace Leap\Base\DB {
 		public abstract function triggers($table, $like = '');
 
 		/**
-		 * This function returns a result set of database views.
+		 * This method returns a result set of database views.
 		 *
 		 * +---------------+---------------+------------------------------------------------------------+
 		 * | field         | data type     | description                                                |
