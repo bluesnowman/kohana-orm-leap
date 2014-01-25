@@ -1,24 +1,24 @@
-# LEAP for Kohana PHP Framework
+# Leap for Kohana PHP Framework
 
-LEAP is an database management library for the [Kohana PHP Framework](http://kohanaframework.org) and is designed to work with DB2,
-Drizzle, Firebird, MariaDB, MS SQL, MySQL, Oracle, PostgreSQL, and SQLite.  LEAP acts as a common interface between the different
-database dialects and connections.  It provides a powerful query builder and ORM.  LEAP's ORM is based on the active record design
+Leap is an database management library for the [Kohana PHP Framework](http://kohanaframework.org) and is designed to work with DB2,
+Drizzle, Firebird, MariaDB, MS SQL, MySQL, Oracle, PostgreSQL, and SQLite.  Leap acts as a common interface between the different
+database dialects and connections.  It provides a powerful query builder and ORM.  Leap's ORM is based on the active record design
 pattern, which utilizes PHP objects to model database tables.
 
 Make sure to "Star" this project if you like it.
 
 ## Motivation
 
-LEAP is meant to be a simple, clean project.  The primary goal of LEAP is to create an ORM for the Kohana PHP Framework that works
+Leap is meant to be a simple, clean project.  The primary goal of Leap is to create an ORM for the Kohana PHP Framework that works
 with all major databases and is meant to be a true Kohana module so that it could be just dropped into Kohana's modules folder and
 work.  Even though other ORMs like [Doctrine](http://www.doctrine-project.org/projects/orm) are adaptable to Kohana, doing so
-requires a lot of work.  Another goal for the development of LEAP is to create an ORM for Kohana that can harness the power of
+requires a lot of work.  Another goal for the development of Leap is to create an ORM for Kohana that can harness the power of
 composite keys, which many other ORMs (e.g. [Kohana's official ORM](https://github.com/kohana/orm), [Jelly](https://github.com/creatoro/jelly),
 and [Sprig](https://github.com/sittercity/sprig/)) cannot handle.
 
 ## Features
 
-LEAP provides a number of features, such as:
+Leap provides a number of features, such as:
 
 * Plugins for DB2, Drizzle, Firebird, MariaDB, MS SQL, MySQL, Oracle, PostgreSQL, and SQLite.
 * Designed to work in conjunction with other database tools for Kohana.
@@ -39,7 +39,7 @@ LEAP provides a number of features, such as:
 
 ## Getting Started
 
-To start using LEAP, follow these steps:
+To start using Leap, follow these steps:
 
 1. Just download the module (see below regarding as to which branch) from github.
 2. Unzip the download to the modules folder in Kohana.
@@ -48,7 +48,7 @@ To start using LEAP, follow these steps:
 5. Add "leap" as a module to application/bootstrap.php.
 6. Begin creating your models in the application/classes/model/leap/ folder.
 
-For more information, see the tutorial on [installing LEAP](http://orm.spadefootcode.com/tutorials/installing-leap/).
+For more information, see the tutorial on [installing Leap](http://orm.spadefootcode.com/tutorials/installing-leap/).
 
 ### About Branches
 
@@ -64,19 +64,19 @@ For more information, see the tutorial on [installing LEAP](http://orm.spadefoot
 
 ## Required Files
 
-The LEAP ORM module is meant to be completely independent of other Kohana modules.  However, it is recommended that Kohana's database module be
-installed as well so that you can utilize the \Database\Expression class.  As for the files within LEAP, you can remove any database plugins that
-you are not using.  This is possible because each database plugin in LEAP is considered independent of the others.
+The Leap ORM module is meant to be completely independent of other Kohana modules.  However, it is recommended that Kohana's database module be
+installed as well so that you can utilize the \Database\Expression class.  As for the files within Leap, you can remove any database plugins that
+you are not using.  This is possible because each database plugin in Leap is considered independent of the others.
 
 ## Documentation
 
-This project is accompanied by [a companion Web site](http://orm.spadefootcode.com), which documents the [API for the LEAP ORM](http://orm.spadefootcode.com/api/annotated.html)
+This project is accompanied by [a companion Web site](http://orm.spadefootcode.com), which documents the [API for the Leap ORM](http://orm.spadefootcode.com/api/annotated.html)
 and has a number of [examples and tutorials](http://orm.spadefootcode.com/tutorials/index/). You can also find other tutorials and examples
 online (please let us know if you find one that we should highlight here).
 
 ## Further Assistance
 
-Although LEAP is simple to use with the Kohana PHP Framework, you can get further assistance by asking questions on either [Kohana's Forum](http://forum.kohanaframework.org/)
+Although Leap is simple to use with the Kohana PHP Framework, you can get further assistance by asking questions on either [Kohana's Forum](http://forum.kohanaframework.org/)
 or [Stack Overflow](http://stackoverlow.com). You can also send an email to spadefoot.oss@gmail.com.
 
 ## Reporting Bugs & Making Recommendations
@@ -99,16 +99,16 @@ via email please send an email to spadefoot.oss@gmail.com.
 
 ## Future Development
 
-This project is constantly being improved and extended. If you would like to contribute to LEAP, please fork this project and then send
+This project is constantly being improved and extended. If you would like to contribute to Leap, please fork this project and then send
 us your additions/modifications using a [pull request](http://help.github.com/send-pull-requests/).
 
 ## License
 
 ### Apache v2.0
 
-Copyright © 2011–2013 Spadefoot Team.
+Copyright © 2011–2014 Spadefoot Team.
 
-Unless otherwise noted, LEAP is licensed under the Apache License, Version 2.0 (the "License"); you may not use these files except in
+Unless otherwise noted, Leap is licensed under the Apache License, Version 2.0 (the "License"); you may not use these files except in
 compliance with the License. You may obtain a copy of the License at:
 
 [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)

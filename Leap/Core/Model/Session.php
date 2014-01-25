@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Copyright © 2011–2013 Spadefoot Team.
+ * Copyright © 2011–2014 Spadefoot Team.
  * Copyright © 2012 CubedEye.
  *
- * Unless otherwise noted, LEAP is licensed under the Apache License,
+ * Unless otherwise noted, Leap is licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License
  * at:

@@ -3,7 +3,7 @@
 /**
  * The MIT License
  *
- * Copyright © 2011–2013 Spadefoot Team.
+ * Copyright © 2011–2014 Spadefoot Team.
  * Copyright © 2010-2012 Kiall Mac Innes, Mathew Davies, Mike Parkin, and Paul Banks.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software

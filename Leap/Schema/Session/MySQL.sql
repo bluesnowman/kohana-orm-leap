@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011–2013 Spadefoot Team.
+ * Copyright © 2011–2014 Spadefoot Team.
  * Copyright © 2012 CubedEye.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

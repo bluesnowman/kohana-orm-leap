@@ -1,7 +1,7 @@
 /*
  * The BSD License
  *
- * Copyright © 2011–2013 Spadefoot Team.
+ * Copyright © 2011–2014 Spadefoot Team.
  * Copyright © 2007–2012 Kohana Team.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted
