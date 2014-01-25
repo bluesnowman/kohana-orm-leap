@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\Core\Data\Serialization {
+namespace Leap\Core\Data\Serialization {
 
 	/**
 	 * This class creates and parses CSV documents.

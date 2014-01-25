@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\DB {
+namespace Leap\DB {
 
 	/**
 	 * This class is a driver that handles authentication.

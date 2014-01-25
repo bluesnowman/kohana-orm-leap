@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\Core\Throwable\InvalidArgument {
+namespace Leap\Core\Throwable\InvalidArgument {
 
 	/**
 	 * This class indicates that an argument does not match with the expected value.

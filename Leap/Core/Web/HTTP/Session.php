@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\Web\HTTP {
+namespace Leap\Web\HTTP {
 
 	use \Leap\DB;
 

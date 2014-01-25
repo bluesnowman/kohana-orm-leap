@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\DB {
+namespace Leap\DB {
 
 	/**
 	 * This class provides a way to access the scheme for a database.

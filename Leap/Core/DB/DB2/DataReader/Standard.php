@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\DB\DB2\DataReader {
+namespace Leap\DB\DB2\DataReader {
 
 	/**
 	 * This class is used to read data from a DB2 database using the standard

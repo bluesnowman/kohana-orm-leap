@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\Core\Data {
+namespace Leap\Core\Data {
 
 	/**
 	 * This class represents a data buffer.

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\DB\DB2\Delete {
+namespace Leap\DB\DB2\Delete {
 
 	/**
 	 * This class builds a DB2 delete statement.

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\DB\Drizzle\Select {
+namespace Leap\DB\Drizzle\Select {
 
 	/**
 	 * This class builds a Drizzle select statement.

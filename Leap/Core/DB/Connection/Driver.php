@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\DB\Connection {
+namespace Leap\DB\Connection {
 
 	/**
 	 * This class sets forth the functions for a database connection.

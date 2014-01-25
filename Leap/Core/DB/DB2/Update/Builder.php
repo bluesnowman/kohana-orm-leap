@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\DB\DB2\Update {
+namespace Leap\DB\DB2\Update {
 
 	/**
 	 * This class builds a DB2 update statement.

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\Core\Throwable\UnimplementedMethod {
+namespace Leap\Core\Throwable\UnimplementedMethod {
 
 	/**
 	 * This class indicates that a collection contains no elements.

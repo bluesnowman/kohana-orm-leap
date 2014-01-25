@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\Core\Throwable\Validation {
+namespace Leap\Core\Throwable\Validation {
 
 	/**
 	 * This class indicates that bad data was discovered.

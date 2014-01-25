@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\System\GC {
+namespace Leap\System\GC {
 
 	/**
 	 * This interface provides the contract for a class representing a disposable object.

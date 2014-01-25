@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\DB\Drizzle\Connection {
+namespace Leap\DB\Drizzle\Connection {
 
 	/**
 	 * This class handles a TCP Drizzle connection.

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\DB\DB2\Connection {
+namespace Leap\DB\DB2\Connection {
 
 	/**
 	 * This class handles a standard DB2 connection.

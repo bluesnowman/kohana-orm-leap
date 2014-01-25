@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\System {
+namespace Leap\System {
 
 	use \Leap\Core;
 

@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\Model\User {
+namespace Leap\Model\User {
 
 	use \Leap\DB;
 

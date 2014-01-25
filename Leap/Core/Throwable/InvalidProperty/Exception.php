@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\Core\Throwable\InvalidProperty {
+namespace Leap\Core\Throwable\InvalidProperty {
 
 	/**
 	 * This class indicates that no property with the specified key was found.

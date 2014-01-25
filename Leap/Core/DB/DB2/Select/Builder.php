@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\DB\DB2\Select {
+namespace Leap\DB\DB2\Select {
 
 	/**
 	 * This class builds a DB2 select statement.

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\Core\Throwable\Database {
+namespace Leap\Core\Throwable\Database {
 
 	/**
 	 * This class indicates there is a problem associated with the database.

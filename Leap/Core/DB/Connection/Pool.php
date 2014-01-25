@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\DB\Connection {
+namespace Leap\DB\Connection {
 
 	/**
 	 * This class manages the caching of database connections.

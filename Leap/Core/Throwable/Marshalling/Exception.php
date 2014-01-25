@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\Core\Throwable\Marshalling {
+namespace Leap\Core\Throwable\Marshalling {
 
 	/**
 	 * This class indicates that data could not be marshalled.

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\Core\Throwable\SQL {
+namespace Leap\Core\Throwable\SQL {
 
 	/**
 	 * This class indicates there is an SQL problem.

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\DB\Drizzle {
+namespace Leap\DB\Drizzle {
 
 	/**
 	 * This class provides a set of functions for preparing Drizzle expressions.

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\Core\Throwable\FileNotFound {
+namespace Leap\Core\Throwable\FileNotFound {
 
 	/**
 	 * This class indicates that a file could not be found.

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\DB {
+namespace Leap\DB {
 
 	/**
 	 * This class represents a result set.

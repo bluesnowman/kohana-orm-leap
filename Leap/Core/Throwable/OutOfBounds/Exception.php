@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\Core\Throwable\OutOfBounds {
+namespace Leap\Core\Throwable\OutOfBounds {
 
 	/**
 	 * This class indicates that a value is not a valid key.

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Base\DB\DB2 {
+namespace Leap\DB\DB2 {
 
 	/**
 	 * This class provides a set of functions for preparing DB2 expressions.
