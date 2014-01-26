@@ -18,20 +18,19 @@
  * limitations under the License.
  */
 
-namespace Leap\Model\User {
+namespace Leap\Core\Model\User {
 
-	use \Leap\DB;
+	use \Leap\Core\DB;
 
 	/**
 	 * This class represents a record in the "user_tokens" table.
 	 *
-	 * @package Leap
-	 * @category Model
-	 * @version 2013-01-28
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\Model\User
+	 * @version 2014-01-25
 	 */
-	abstract class Token extends DB\ORM\Model {
+	class Token extends DB\ORM\Model {
 
 		/**
 		 * This constructor instantiates this class.

@@ -18,20 +18,19 @@
  * limitations under the License.
  */
 
-namespace Leap\Model {
+namespace Leap\Core\Model {
 
-	use \Leap\DB;
+	use \Leap\Core\DB;
 
 	/**
 	 * This class represents a record in the "users" table.
 	 *
-	 * @package Leap
-	 * @category Model
-	 * @version 2013-01-28
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\Model
+	 * @version 2014-01-25
 	 */
-	abstract class User extends DB\ORM\Model {
+	class User extends DB\ORM\Model {
 
 		/**
 		 * This constructor instantiates this class.
