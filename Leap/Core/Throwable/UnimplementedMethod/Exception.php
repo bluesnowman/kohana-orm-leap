@@ -19,15 +19,16 @@
 
 namespace Leap\Core\Throwable\UnimplementedMethod {
 
+	use Leap\Core\Throwable;
+
 	/**
-	 * This class indicates that a collection contains no elements.
+	 * This class indicates that a method is not implemented.
 	 *
-	 * @package Leap
-	 * @category Throwable
-	 * @version 2013-05-06
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\Throwable
+	 * @version 2014-01-25
 	 */
-	abstract class Exception extends Throwable\Runtime\Exception {}
+	class Exception extends Throwable\Runtime\Exception {}
 
 }

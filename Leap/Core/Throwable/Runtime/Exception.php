@@ -27,7 +27,7 @@ namespace Leap\Core\Throwable\Runtime {
 	 *
 	 * @access public
 	 * @class
-	 * @package Throwable
+	 * @package Leap\Core\Throwable
 	 * @version 2014-01-25
 	 */
 	class Exception extends \Exception implements Core\IObject {
@@ -62,6 +62,8 @@ namespace Leap\Core\Throwable\Runtime {
 		 * This method returns a copy this object.
 		 *
 		 * @access public
+		 * @throws Throwable\UnimplementedMethod\Exception  indicates the method has not be
+		 *                                                  implemented
 		 */
 		public function __clone() {
 			throw new Throwable\UnimplementedMethod\Exception('Method ":method" has not been implemented in class ":class."', array(':class' => get_called_class(), ':method' => __FUNCTION__));
@@ -80,7 +82,7 @@ namespace Leap\Core\Throwable\Runtime {
 		 * This method returns whether the specified object is equal to the called object.
 		 *
 		 * @access public
-		 * @param IObject $object                       the object to be evaluated
+		 * @param Core\IObject $object                       the object to be evaluated
 		 * @return boolean                              whether the specified object is equal
 		 *                                              to the called object
 		 */

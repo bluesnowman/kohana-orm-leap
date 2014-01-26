@@ -19,44 +19,104 @@
 
 namespace Leap\Core\Throwable\InvalidArgument {
 
+	use Leap\Core;
+	use Leap\Core\Throwable;
+
 	/**
 	 * This class indicates that an argument does not match with the expected value.
 	 *
-	 * @package Leap
-	 * @category Throwable
-	 * @version 2012-12-05
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\Throwable
+	 * @version 2014-01-25
 	 */
-	abstract class Exception extends \InvalidArgumentException {
+	class Exception extends \InvalidArgumentException implements Core\IObject {
 
 		/**
-		 * This method instantiates the exception with the specified message,
-		 * variables, and code.
+		 * This variable stores the code associated with the exception.
+		 *
+		 * @access protected
+		 * @var int
+		 */
+		protected $code;
+
+		/**
+		 * This constructor creates a new invalid argument exception.
+		 *
+		 *     throw new Throwable\Runtime\Exception('Unable to find :uri', array(':uri' => $uri));
 		 *
 		 * @access public
-		 * @param string $message                        the message
-		 * @param array $variables                       the variables
-		 * @param integer $code                          the code
-		 * @return Throwable\InvalidArgument\Exception   the exception
+		 * @param string $message               the error message
+		 * @param array $variables              translation variables
+		 * @param integer $code                 the exception code
 		 */
-		public function __construct($message, Array $variables = NULL, $code = 0) {
-			// Set the message
-			$message = __($message, $variables);
-
-			// Pass the message to the parent
-			parent::__construct($message, $code);
+		public function __construct($message, array $variables = null, $code = 0) {
+			parent::__construct(
+				empty($variables) ? (string) $message : strtr( (string) $message, $variables),
+				(int) $code
+			);
+			$this->code = (int) $code; // Known bug: http://bugs.php.net/39615
 		}
 
 		/**
-		 * This method returns a string for this object.
+		 * This method returns a copy this object.
 		 *
 		 * @access public
-		 * @override
-		 * @return string                                the string for this object
+		 * @throws Throwable\UnimplementedMethod\Exception  indicates the method has not be
+		 *                                                  implemented
+		 */
+		public function __clone() {
+			throw new Throwable\UnimplementedMethod\Exception('Method ":method" has not been implemented in class ":class."', array(':class' => get_called_class(), ':method' => __FUNCTION__));
+		}
+
+		/**
+		 * This method dumps information about the object.
+		 *
+		 * @access public
+		 */
+		public function __debug() {
+			var_dump($this);
+		}
+
+		/**
+		 * This method returns whether the specified object is equal to the called object.
+		 *
+		 * @access public
+		 * @param Core\IObject $object                  the object to be evaluated
+		 * @return boolean                              whether the specified object is equal
+		 *                                              to the called object
+		 */
+		public function __equals($object) {
+			return (($object !== NULL) && ($object instanceof Throwable\InvalidArgument\Exception) && ($object->__hashCode() == $this->__hashCode()));
+		}
+
+		/**
+		 * This method returns the name of the runtime class of this object.
+		 *
+		 * @access public
+		 * @return string                               the name of the runtime class
+		 */
+		public function __getClass() {
+			return get_called_class();
+		}
+
+		/**
+		 * This method returns the current object's hash code.
+		 *
+		 * @return string                               the current object's hash code
+		 */
+		public function __hashCode() {
+			return spl_object_hash($this);
+		}
+
+		/**
+		 * This method returns the exception as a string.
+		 *
+		 * @access public
+		 * @return string                               a string representing the exception
 		 */
 		public function __toString() {
-			return \Kohana\Exception::text($this);
+			return Throwable\Runtime\Exception::text($this);
 		}
 
 	}

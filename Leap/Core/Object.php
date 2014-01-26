@@ -37,6 +37,8 @@ namespace Leap\Core {
 		 * This method returns a copy this object.
 		 *
 		 * @access public
+		 * @throws Throwable\UnimplementedMethod\Exception  indicates the method has not be
+		 *                                                  implemented
 		 */
 		public function __clone() {
 			throw new Throwable\UnimplementedMethod\Exception('Method ":method" has not been implemented in class ":class."', array(':class' => get_called_class(), ':method' => __FUNCTION__));

@@ -19,15 +19,17 @@
 
 namespace Leap\Core\Throwable\Database {
 
+	use Leap\Core\Throwable;
+
 	/**
 	 * This class indicates there is a problem associated with the database.
 	 *
-	 * @package Leap
-	 * @category Throwable
-	 * @version 2013-05-12
+	 * @access public
+	 * @class
+	 * @package Leap\Core\Throwable
+	 * @version 2014-01-25
 	 *
-	 * @abstract
 	 */
-	abstract class Exception extends Throwable\Runtime\Exception {}
+	class Exception extends Throwable\Runtime\Exception {}
 
 }
