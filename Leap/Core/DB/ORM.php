@@ -17,18 +17,20 @@
  * limitations under the License.
  */
 
-namespace Leap\DB {
+namespace Leap\Core\DB {
+
+	use Leap\Core;
+	use Leap\Core\DB;
 
 	/**
 	 * This class provides a shortcut way to get the appropriate ORM builder class.
 	 *
-	 * @package Leap
-	 * @category ORM
-	 * @version 2013-01-28
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\DB
+	 * @version 2014-01-25
 	 */
-	abstract class ORM extends Core\Object {
+	class ORM extends Core\Object {
 
 		/**
 		 * This method returns an instance of the DB\ORM\Delete\Proxy.
@@ -111,7 +113,7 @@ namespace Leap\DB {
 		public static function precompiler($model) {
 			$model = DB\ORM\Model::model_name($model);
 			$data_source = $model::data_source(DB\DataSource::MASTER_INSTANCE);
-			$precompiler = '\\Leap\\DB\\' . $data_source->dialect . '\\Precompiler';
+			$precompiler = '\\Leap\\Core\\DB\\' . $data_source->dialect . '\\Precompiler';
 			$object = new $precompiler($data_source);
 			return $object;
 		}

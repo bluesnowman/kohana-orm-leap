@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\DB\Connection {
+namespace Leap\Core\DB\Connection {
 
 	/**
 	 * This class manages the caching of database connections.
@@ -255,7 +255,7 @@ namespace Leap\DB\Connection {
 		 */
 		public static function instance() {
 			if (static::$instance === NULL) {
-				register_shutdown_function(array('\\Leap\\DB\\Connection\\Pool', 'autorelease'));
+				register_shutdown_function(array('\\Leap\\Core\\DB\\Connection\\Pool', 'autorelease'));
 				static::$instance = new DB\Connection\Pool();
 			}
 			return static::$instance;

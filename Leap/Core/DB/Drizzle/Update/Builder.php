@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\DB\Drizzle\Update {
+namespace Leap\Core\DB\Drizzle\Update {
 
 	/**
 	 * This class builds a Drizzle update statement.

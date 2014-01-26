@@ -39,7 +39,7 @@ namespace Leap\Core\Web\HTTP {
 		 * @access protected
 		 * @var array
 		 */
-		protected $_columns = array(
+		protected $columns = array(
 			'session_id'  => 'id',
 			'last_active' => 'last_active',
 			'contents'    => 'contents',
@@ -51,7 +51,7 @@ namespace Leap\Core\Web\HTTP {
 		 * @access protected
 		 * @var integer
 		 */
-		protected $_gc = 500;
+		protected $gc = 500;
 
 		/**
 		 * This variable stores the current session id.
@@ -59,7 +59,7 @@ namespace Leap\Core\Web\HTTP {
 		 * @access protected
 		 * @var string
 		 */
-		protected $_session_id;
+		protected $session_id;
 
 		/**
 		 * This variable stores the name of the session model.
@@ -67,7 +67,7 @@ namespace Leap\Core\Web\HTTP {
 		 * @access protected
 		 * @var string
 		 */
-		protected $_table = 'Model\\Session';
+		protected $table = 'Model\\Session';
 
 		/**
 		 * This variable stores the old session id.
@@ -75,7 +75,7 @@ namespace Leap\Core\Web\HTTP {
 		 * @access protected
 		 * @var string
 		 */
-		protected $_update_id;
+		protected $update_id;
 
 		/**
 		 * This constructor initializes the class using the specified config
@@ -89,25 +89,25 @@ namespace Leap\Core\Web\HTTP {
 		public function __construct(Array $config = NULL, $id = NULL) {
 			// Set the table name
 			if (isset($config['table'])) {
-				$this->_table = (string) $config['table'];
+				$this->table = (string) $config['table'];
 			}
 
 			// Set the gc chance
 			if (isset($config['gc'])) {
-				$this->_gc = (int) $config['gc'];
+				$this->gc = (int) $config['gc'];
 			}
 
 			// Overload column names
 			if (isset($config['columns'])) {
-				$this->_columns = $config['columns'];
+				$this->columns = $config['columns'];
 			}
 
 			parent::__construct($config, $id);
 
 			// Run garbage collection
 			// This will average out to run once every X requests
-			if (mt_rand(0, $this->_gc) === $this->_gc) {
-				$this->_gc();
+			if (mt_rand(0, $this->gc) === $this->gc) {
+				$this->gc();
 			}
 		}
 
@@ -121,13 +121,13 @@ namespace Leap\Core\Web\HTTP {
 		 */
 		protected function _destroy() {
 			// Session has not been created yet
-			if ($this->_update_id === NULL) {
+			if ($this->update_id === NULL) {
 				return TRUE;
 			}
 
 			// Delete the current session
-			DB\ORM::delete($this->_table)
-				->where($this->_columns['session_id'], DB\SQL\Operator::_EQUAL_TO_, $this->_update_id)
+			DB\ORM::delete($this->table)
+				->where($this->columns['session_id'], DB\SQL\Operator::_EQUAL_TO_, $this->update_id)
 				->execute();
 
 			try {
@@ -147,14 +147,14 @@ namespace Leap\Core\Web\HTTP {
 		 *
 		 * @access protected
 		 */
-		protected function _gc() {
+		protected function gc() {
 			$expires = ($this->_lifetime)
 				? $this->_lifetime	// Expire sessions when their lifetime is up
 				: \Date::MONTH; 		// Expire sessions after one month
 
 			// Delete all sessions that have expired
-			DB\ORM::delete($this->_table)
-				->where($this->_columns['last_active'], DB\SQL\Operator::_LESS_THAN_, time() - $expires)
+			DB\ORM::delete($this->table)
+				->where($this->columns['last_active'], DB\SQL\Operator::_LESS_THAN_, time() - $expires)
 				->execute();
 		}
 
@@ -166,7 +166,7 @@ namespace Leap\Core\Web\HTTP {
 		 * @return string                           the current session id
 		 */
 		public function id() {
-			return $this->_session_id;
+			return $this->session_id;
 		}
 
 		/**
@@ -181,8 +181,8 @@ namespace Leap\Core\Web\HTTP {
 			if ($id OR ($id = \Cookie::get($this->_name))) {
 
 				try {
-					$contents = DB\ORM::select($this->_table, array($this->_columns['contents']))
-						->where($this->_columns['session_id'], DB\SQL\Operator::_EQUAL_TO_, $id)
+					$contents = DB\ORM::select($this->table, array($this->columns['contents']))
+						->where($this->columns['session_id'], DB\SQL\Operator::_EQUAL_TO_, $id)
 						->limit(1)
 						->query()
 						->fetch(0)
@@ -194,7 +194,7 @@ namespace Leap\Core\Web\HTTP {
 
 				if ($contents !== FALSE) {
 					// Set the current session id
-					$this->_session_id = $this->_update_id = $id;
+					$this->session_id = $this->update_id = $id;
 
 					// Return the contents
 					return $contents;
@@ -218,14 +218,14 @@ namespace Leap\Core\Web\HTTP {
 			do {
 				// Create a new session id
 				$id = str_replace('.', '-', uniqid(NULL, TRUE));
-				$count = DB\ORM::select($this->_table, array($this->_columns['session_id']))
-					->where($this->_columns['session_id'], DB\SQL\Operator::_EQUAL_TO_, $id)
+				$count = DB\ORM::select($this->table, array($this->columns['session_id']))
+					->where($this->columns['session_id'], DB\SQL\Operator::_EQUAL_TO_, $id)
 					->query()
 					->count();
 			}
 			while ($count > 0);
 
-			return $this->_session_id = $id;
+			return $this->session_id = $id;
 		}
 
 		/**
@@ -250,23 +250,23 @@ namespace Leap\Core\Web\HTTP {
 		 *                                          successfully saved
 		 */
 		protected function _write() {
-			if ($this->_update_id === NULL) {
+			if ($this->update_id === NULL) {
 				// Insert a new row
-				$query = DB\ORM::insert($this->_table)
-					->column($this->_columns['last_active'], $this->_data['last_active'])
-					->column($this->_columns['contents'], $this->__toString())
-					->column($this->_columns['session_id'], $this->_session_id); 
+				$query = DB\ORM::insert($this->table)
+					->column($this->columns['last_active'], $this->_data['last_active'])
+					->column($this->columns['contents'], $this->__toString())
+					->column($this->columns['session_id'], $this->session_id);
 			}
 			else {
 				// Update the row
-				$query = DB\ORM::update($this->_table)
-					->set($this->_columns['last_active'], $this->_data['last_active'])
-					->set($this->_columns['contents'], $this->__toString())
-					->where($this->_columns['session_id'], DB\SQL\Operator::_EQUAL_TO_, $this->_update_id);
+				$query = DB\ORM::update($this->table)
+					->set($this->columns['last_active'], $this->_data['last_active'])
+					->set($this->columns['contents'], $this->__toString())
+					->where($this->columns['session_id'], DB\SQL\Operator::_EQUAL_TO_, $this->update_id);
 
-				if ($this->_update_id !== $this->_session_id) {
+				if ($this->update_id !== $this->session_id) {
 					// Also update the session id
-					$query->set($this->_columns['session_id'], $this->_session_id);
+					$query->set($this->columns['session_id'], $this->session_id);
 				}
 			}
 
@@ -274,10 +274,10 @@ namespace Leap\Core\Web\HTTP {
 			$query->execute();
 
 			// The update and the session id are now the same
-			$this->_update_id = $this->_session_id;
+			$this->update_id = $this->session_id;
 
 			// Update the cookie with the new session id
-			\Cookie::set($this->_name, $this->_session_id, $this->_lifetime);
+			\Cookie::set($this->_name, $this->session_id, $this->_lifetime);
 
 			return TRUE;
 		}

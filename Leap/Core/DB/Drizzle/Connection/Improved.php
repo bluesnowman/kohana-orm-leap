@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\DB\Drizzle\Connection {
+namespace Leap\Core\DB\Drizzle\Connection {
 
 	/**
 	 * This class handles an improved Drizzle connection.

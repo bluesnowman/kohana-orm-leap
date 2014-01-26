@@ -17,19 +17,20 @@
  * limitations under the License.
  */
 
-namespace Leap\DB {
+namespace Leap\Core\DB {
+
+	use Leap\Core;
 
 	/**
 	 * This class provides a set of helper functions that are often used when
 	 * data is stored in a database.
 	 *
-	 * @package Leap
-	 * @category ToolKit
-	 * @version 2013-01-27
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\DB
+	 * @version 2014-01-25
 	 */
-	abstract class ToolKit extends Core\Object {
+	class ToolKit extends Core\Object {
 
 		/**
 		 * This method converts a like clause to a regular expression.

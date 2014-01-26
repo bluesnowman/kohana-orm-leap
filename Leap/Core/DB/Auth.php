@@ -18,18 +18,21 @@
  * limitations under the License.
  */
 
-namespace Leap\DB {
+namespace Leap\Core\DB {
+
+	use Leap\Core\DB;
+	use Leap\Core\Model;
+	use Leap\Core\Throwable;
 
 	/**
 	 * This class is a driver that handles authentication.
 	 *
-	 * @package Leap
-	 * @category Model
-	 * @version 2013-05-06
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\DB
+	 * @version 2014-01-25
 	 */
-	abstract class Auth extends \Auth {
+	class Auth extends \Auth {
 
 		/**
 		 * This variable stores a list column aliases and their respective database
@@ -319,6 +322,7 @@ namespace Leap\DB {
 							break;
 						}
 					}
+					return $status;
 				}
 				else { // Single Role
 					if ( ! is_object($roles)) {
@@ -335,9 +339,10 @@ namespace Leap\DB {
 								$status = TRUE;
 							}
 						}
+
+						return $status;
 					}
 				}
-				return $status;
 			}
 			return FALSE;
 		}

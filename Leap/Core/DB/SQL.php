@@ -17,18 +17,20 @@
  * limitations under the License.
  */
 
-namespace Leap\DB {
+namespace Leap\Core\DB {
+
+	use Leap\Core;
+	use Leap\Core\DB;
 
 	/**
 	 * This class provides a shortcut way to get the appropriate SQL builder class.
 	 *
-	 * @package Leap
-	 * @category SQL
-	 * @version 2013-02-03
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\DB
+	 * @version 2014-01-25
 	 */
-	abstract class SQL extends Core\Object {
+	class SQL extends Core\Object {
 
 		/**
 		 * This method returns an instance of the DB\SQL\Delete\Proxy.
@@ -83,7 +85,7 @@ namespace Leap\DB {
 		 */
 		public static function precompiler($config = 'default') {
 			$data_source = DB\DataSource::instance($config);
-			$precompiler = '\\Leap\\DB\\' . $data_source->dialect . '\\Precompiler';
+			$precompiler = '\\Leap\\Core\\DB\\' . $data_source->dialect . '\\Precompiler';
 			$object = new $precompiler($data_source);
 			return $object;
 		}

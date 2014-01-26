@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\DB\DB2\Lock {
+namespace Leap\Core\DB\DB2\Lock {
 
 	/**
 	 * This class builds a DB2 lock statement.

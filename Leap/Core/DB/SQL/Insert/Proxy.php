@@ -53,7 +53,7 @@ abstract class Base\DB\SQL\Insert\Proxy extends Core\Object implements DB\SQL\St
 	 */
 	public function __construct($config) {
 		$this->data_source = DB\DataSource::instance($config);
-		$builder = '\\Leap\\DB\\' . $this->data_source->dialect . '\\Insert\\Builder';
+		$builder = '\\Leap\\Core\\DB\\' . $this->data_source->dialect . '\\Insert\\Builder';
 		$this->builder = new $builder($this->data_source);
 	}
 

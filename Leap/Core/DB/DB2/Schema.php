@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\DB\DB2 {
+namespace Leap\Core\DB\DB2 {
 
 	/**
 	 * This class provides a way to access the scheme for a DB2 database.

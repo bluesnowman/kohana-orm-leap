@@ -36,7 +36,7 @@ abstract class Base\DB\SQL\Update\Builder extends DB\SQL\Builder {
 	 */
 	public function __construct(DB\DataSource $data_source) {
 		$this->dialect = $data_source->dialect;
-		$precompiler = '\\Leap\\DB\\' . $this->dialect . '\\Precompiler';
+		$precompiler = '\\Leap\\Core\\DB\\' . $this->dialect . '\\Precompiler';
 		$this->precompiler = new $precompiler($data_source);
 		$this->reset();
 	}

@@ -17,18 +17,21 @@
  * limitations under the License.
  */
 
-namespace Leap\DB {
+namespace Leap\Core\DB {
+
+	use Leap\Core;
+	use Leap\Core\DB;
+	use Leap\Core\Throwable;
 
 	/**
 	 * This class represents a result set.
 	 *
-	 * @package Leap
-	 * @category Connection
-	 * @version 2013-01-27
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\DB
+	 * @version 2014-01-25
 	 */
-	abstract class ResultSet extends Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator {
+	class ResultSet extends Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator {
 
 		/**
 		 * This variable stores the current position in the records array.

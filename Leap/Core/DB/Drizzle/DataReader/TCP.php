@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\DB\Drizzle\DataReader {
+namespace Leap\Core\DB\Drizzle\DataReader {
 
 	/**
 	 * This class is used to read data from a Drizzle database using the TCP

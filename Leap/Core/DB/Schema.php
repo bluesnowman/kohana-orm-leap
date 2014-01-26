@@ -17,16 +17,19 @@
  * limitations under the License.
  */
 
-namespace Leap\DB {
+namespace Leap\Core\DB {
+
+	use Leap\Core;
+	use Leap\Core\DB;
 
 	/**
 	 * This class provides a way to access the scheme for a database.
 	 *
-	 * @package Leap
-	 * @category Schema
-	 * @version 2013-02-03
-	 *
 	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\DB
+	 * @version 2014-01-25
 	 */
 	abstract class Schema extends Core\Object {
 
@@ -55,7 +58,7 @@ namespace Leap\DB {
 		 */
 		public function __construct($config) {
 			$this->data_source = DB\DataSource::instance($config);
-			$precompiler = '\\Leap\\DB\\' . $this->data_source->dialect . '\\Precompiler';
+			$precompiler = '\\Leap\\Core\\DB\\' . $this->data_source->dialect . '\\Precompiler';
 			$this->precompiler = new $precompiler();
 		}
 

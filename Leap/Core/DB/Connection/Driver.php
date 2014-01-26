@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\DB\Connection {
+namespace Leap\Core\DB\Connection {
 
 	/**
 	 * This class sets forth the functions for a database connection.
@@ -143,7 +143,7 @@ namespace Leap\DB\Connection {
 					return $results;
 				}
 				else if ($this->data_source->cache->lifetime !== NULL) {
-					$this->cache_key = 'Leap\\DB\\Connection\\Driver::query("' . $this->data_source->id . '", "' . $type . '", "' . $sql . '")';
+					$this->cache_key = 'Leap\\Core\\DB\\Connection\\Driver::query("' . $this->data_source->id . '", "' . $type . '", "' . $sql . '")';
 					$results = \Kohana::cache($this->cache_key, NULL, $this->data_source->cache->lifetime);
 					if (($results !== NULL) AND ! $this->data_source->cache->force) {
 						return $results;
@@ -331,7 +331,7 @@ namespace Leap\DB\Connection {
 		 */
 		public static function factory($config = 'default') {
 			$data_source = DB\DataSource::instance($config);
-			$driver = '\\Leap\\DB\\' . $data_source->dialect . '\\Connection\\' . $data_source->driver;
+			$driver = '\\Leap\\Core\\DB\\' . $data_source->dialect . '\\Connection\\' . $data_source->driver;
 			$connection = new $driver($data_source);
 			return $connection;
 		}

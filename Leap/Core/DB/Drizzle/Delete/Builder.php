@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\DB\Drizzle\Delete {
+namespace Leap\Core\DB\Drizzle\Delete {
 
 	/**
 	 * This class builds a Drizzle delete statement.

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\DB\DB2\Insert {
+namespace Leap\Core\DB\DB2\Insert {
 
 	/**
 	 * This class builds a DB2 insert statement.

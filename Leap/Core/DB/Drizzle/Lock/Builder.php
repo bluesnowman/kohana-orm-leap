@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\DB\Drizzle\Lock {
+namespace Leap\Core\DB\Drizzle\Lock {
 
 	/**
 	 * This class builds a Drizzle lock statement.

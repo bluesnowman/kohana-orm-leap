@@ -137,7 +137,7 @@ abstract class Base\DB\SQL\DataReader extends Core\Object {
 	 *                                                 SQL data reader
 	 */
 	public static function factory(DB\Connection\Driver $connection, $sql, $mode = NULL) {
-		$class = '\\Leap\\DB\\' . $connection->data_source->dialect . '\\DataReader\\' . $connection->data_source->driver;
+		$class = '\\Leap\\Core\\DB\\' . $connection->data_source->dialect . '\\DataReader\\' . $connection->data_source->driver;
 		$reader = new $class($connection, $sql, $mode);
 		return $reader;
 	}

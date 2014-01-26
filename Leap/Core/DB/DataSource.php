@@ -17,18 +17,21 @@
  * limitations under the License.
  */
 
-namespace Leap\DB {
+namespace Leap\Core\DB {
+
+	use Leap\Core;
+	use Leap\Core\DB;
+	use Leap\Core\Throwable;
 
 	/**
 	 * This class wraps the connection's configurations.
 	 *
-	 * @package Leap
-	 * @category Connection
-	 * @version 2013-02-03
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\DB
+	 * @version 2014-01-25
 	 */
-	abstract class DataSource extends Core\Object {
+	class DataSource extends Core\Object {
 
 		/**
 		 * This constant represents a master instance of a database.

@@ -118,7 +118,7 @@ abstract class Base\DB\SQL\Lock\Builder extends Core\Object {
 	 *                                                 SQL lock builder
 	 */
 	public static function factory(DB\Connection\Driver $connection) {
-		$class = '\\Leap\\DB\\' . $connection->data_source->dialect . '\\Lock\\Builder';
+		$class = '\\Leap\\Core\\DB\\' . $connection->data_source->dialect . '\\Lock\\Builder';
 		$builder = new $class($connection);
 		return $builder;
 	}
