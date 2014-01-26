@@ -19,17 +19,18 @@
 
 namespace Leap\Core\Data\Serialization {
 
+	use Leap\Core\Throwable;
+
 	/**
 	 * This class adds additional functionality to the underlying \SimpleXMLElement
 	 * class.
 	 *
-	 * @package Leap
-	 * @category XML
-	 * @version 2013-01-28
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\Data\Serialization
+	 * @version 2014-01-25
 	 */
-	abstract class XML extends \SimpleXMLElement {
+	class XML extends \SimpleXMLElement {
 
 		/**
 		 * This method converts an associated array to an XML string.
@@ -94,50 +95,8 @@ namespace Leap\Core\Data\Serialization {
 			if ($as_string) {
 				return $contents;
 			}
-			$XML = new Core\Data\Serialization\XML($contents);
+			$XML = new static($contents);
 			return $XML;
-		}
-
-		/**
-		 * This method searches for the file that first matches the specified file
-		 * name and returns its path.
-		 *
-		 * @access protected
-		 * @static
-		 * @param string $file                          the file name
-		 * @return string                               the file path
-		 * @throws Throwable\FileNotFound\Exception     indicates that the file does not exist
-		 */
-		protected static function find_file($file) {
-			if (file_exists($file)) {
-				return $file;
-			}
-
-			if (defined('APPPATH')) {
-				$uri = APPPATH . $file;
-				if (file_exists($uri)) {
-					return $uri;
-				}
-			}
-
-			if (class_exists('\\Kohana')) {
-				$modules = \Kohana::modules();
-				foreach($modules as $module) {
-					$uri = $module . $file;
-					if (file_exists($uri)) {
-						return $uri;
-					}
-				}
-			}
-
-			if (defined('SYSPATH')) {
-				$uri = SYSPATH . $file;
-				if (file_exists($uri)) {
-					return $uri;
-				}
-			}
-
-			throw new Throwable\FileNotFound\Exception("Message: Unable to locate file. Reason: File ':file' does not exist.", array(':file', $file));
 		}
 
 		/**
@@ -146,21 +105,23 @@ namespace Leap\Core\Data\Serialization {
 		 *
 		 * @access public
 		 * @static
-		 * @param string $file                          the file name
-		 * @return Core\Data\Serialization\XML                        an instance of this class
+		 * @param string $uri                           the URI to the XML file
+		 * @return \SimpleXMLElement                    an instance of this class
 		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
 		 * @throws Throwable\FileNotFound\Exception     indicates that the file does not exist
 		 */
-		public static function load($file) {
-			if ( ! is_string($file)) {
+		public static function load($uri) {
+			if ( ! is_string($uri)) {
 				throw new Throwable\InvalidArgument\Exception('Message: Wrong data type specified. Reason: Argument must be a string.', array(':type', gettype($file)));
 			}
 
-			$uri = static::find_file($file);
+			if ( ! file_exists($uri)) {
+				throw new Throwable\FileNotFound\Exception("Message: Unable to locate file. Reason: File ':file' does not exist.", array(':file', $file));
+			}
 
 			$contents = file_get_contents($uri);
 
-			$XML = new Core\Data\Serialization\XML($contents);
+			$XML = new static($contents);
 			return $XML;
 		}
 

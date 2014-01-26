@@ -19,16 +19,18 @@
 
 namespace Leap\Core\Data\Serialization {
 
+	use Leap\Core;
+	use Leap\Core\Throwable;
+
 	/**
 	 * This class creates and parses CSV documents.
 	 *
-	 * @package Leap
-	 * @category CSV
-	 * @version 2013-05-17
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\Data\Serialization
+	 * @version 2014-01-25
 	 */
-	abstract class CSV extends Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator {
+	class CSV extends Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator {
 
 		/**
 		 * This variable stores the data to be included in the CSV file.
@@ -215,7 +217,7 @@ namespace Leap\Core\Data\Serialization {
 		 * @access public
 		 * @param array $row                                the row to be appended
 		 */
-		public function add_row(Array $row) {
+		public function add_row(array $row) {
 			if ( ! empty($row)) {
 				$this->data[] = $row;
 			}
@@ -505,7 +507,7 @@ namespace Leap\Core\Data\Serialization {
 		 * @return Core\Data\Serialization\CSV                                      an instance of the CSV class
 		 */
 		public static function factory(Array $config = array()) {
-			return new Core\Data\Serialization\CSV($config);
+			return new static($config);
 		}
 
 		/**
@@ -520,7 +522,7 @@ namespace Leap\Core\Data\Serialization {
 		 * @see http://www.php.net/manual/en/function.fgetcsv.php
 		 */
 		public static function load($config = array()) {
-			$csv = new Core\Data\Serialization\CSV($config);
+			$csv = new static($config);
 			if (file_exists($csv->file_name)) {
 			   if (($fp = fopen($csv->file_name, 'r')) !== FALSE) {
 					$eol = ($csv->eol == "\r\n") ? array(13, 10) : array(ord($csv->eol)); // 13 => cr, 10 => lf
@@ -543,7 +545,6 @@ namespace Leap\Core\Data\Serialization {
 					$regex = '/' . $delimiter . '/';
 					foreach ($rows as $row) {
 						$row = trim($row, $enclosure);
-						//$columns = explode($delimiter, $row);
 						$columns = preg_split($regex, $row);
 						$csv->add_row($columns);
 					}

@@ -19,18 +19,18 @@
 
 namespace Leap\Core\Data {
 
-	use \Leap\Core;
+	use Leap\Core;
+	use Leap\Core\Throwable;
 
 	/**
 	 * This class represents a bit-field value.
 	 *
-	 * @package Leap
-	 * @category Data Type
-	 * @version 2013-05-17
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\Data
+	 * @version 2014-01-25
 	 */
-	abstract class BitField extends Core\Object implements \Countable {
+	class BitField extends Core\Object implements \Countable {
 
 		/**
 		 * This variable stores the maximum size/boundary of the bit-field.
