@@ -18,20 +18,19 @@
  * limitations under the License.
  */
 
-namespace Leap\Web\HTTP {
+namespace Leap\Core\Web\HTTP {
 
-	use \Leap\DB;
+	use \Leap\Core\DB;
 
 	/**
 	 * This class represents a session.
 	 *
-	 * @package Leap
-	 * @category Session
-	 * @version 2013-01-22
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\Web\HTTP
+	 * @version 2014-01-25
 	 */
-	abstract class Session extends \Session {
+	class Session extends \Session {
 
 		/**
 		 * This variable stores a list column aliases and their respective database

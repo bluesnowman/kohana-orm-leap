@@ -1,4 +1,4 @@
-# Leap for Kohana PHP Framework
+# Leap for PHP
 
 Leap is an database management library for the [Kohana PHP Framework](http://kohanaframework.org) and is designed to work with DB2,
 Drizzle, Firebird, MariaDB, MS SQL, MySQL, Oracle, PostgreSQL, and SQLite.  Leap acts as a common interface between the different
