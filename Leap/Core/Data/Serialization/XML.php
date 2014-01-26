@@ -19,6 +19,7 @@
 
 namespace Leap\Core\Data\Serialization {
 
+	use Leap\Core;
 	use Leap\Core\Throwable;
 
 	/**
@@ -30,7 +31,18 @@ namespace Leap\Core\Data\Serialization {
 	 * @package Leap\Core\Data\Serialization
 	 * @version 2014-01-25
 	 */
-	class XML extends \SimpleXMLElement {
+	class XML extends \SimpleXMLElement implements Core\IObject {
+
+		/**
+		 * This method returns a copy this object.
+		 *
+		 * @access public
+		 * @throws Throwable\UnimplementedMethod\Exception  indicates the method has not be
+		 *                                                  implemented
+		 */
+		public function __clone() {
+			throw new Throwable\UnimplementedMethod\Exception('Method ":method" has not been implemented in class ":class."', array(':class' => get_called_class(), ':method' => __FUNCTION__));
+		}
 
 		/**
 		 * This method converts an associated array to an XML string.
@@ -80,6 +92,15 @@ namespace Leap\Core\Data\Serialization {
 		}
 
 		/**
+		 * This method dumps information about the object.
+		 *
+		 * @access public
+		 */
+		public function __debug() {
+			var_dump($this);
+		}
+
+		/**
 		 * This method converts an associated array to either a \SimpleXMLElement or an XML formatted
 		 * string depending on the second parameter.
 		 *
@@ -97,6 +118,38 @@ namespace Leap\Core\Data\Serialization {
 			}
 			$XML = new static($contents);
 			return $XML;
+		}
+
+		/**
+		 * This method returns whether the specified object is equal to the called object.
+		 *
+		 * @access public
+		 * @param Core\IObject $object                  the object to be evaluated
+		 * @return boolean                              whether the specified object is equal
+		 *                                              to the called object
+		 */
+		public function __equals($object) {
+			return (($object !== NULL) && ($object instanceof Core\IObject) && ($object->__hashCode() == $this->__hashCode()));
+		}
+
+		/**
+		 * This method returns the name of the runtime class of this object.
+		 *
+		 * @access public
+		 * @return string                               the name of the runtime class
+		 */
+		public function __getClass() {
+			return get_called_class();
+		}
+
+		/**
+		 * This method returns the hash code for the object.
+		 *
+		 * @access public
+		 * @return string                               the hash code for the object
+		 */
+		public function __hashCode() {
+			return spl_object_hash($this);
 		}
 
 		/**
@@ -123,6 +176,16 @@ namespace Leap\Core\Data\Serialization {
 
 			$XML = new static($contents);
 			return $XML;
+		}
+
+		/**
+		 * This method returns a string that represents the object.
+		 *
+		 * @access public
+		 * @return string                               a string that represents the object
+		 */
+		public function __toString() {
+			return (string) serialize($this);
 		}
 
 	}
