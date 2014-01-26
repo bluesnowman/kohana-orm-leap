@@ -19,22 +19,25 @@
 
 namespace Leap\Core\DB\Connection {
 
+	use Leap\Core;
+	use Leap\Core\DB;
+	use Leap\Core\Throwable;
+
 	/**
 	 * This class manages the caching of database connections.
 	 *
-	 * @package Leap
-	 * @category Connection
-	 * @version 2013-03-19
+	 * @access public
+	 * @class
+	 * @package Leap\Core\DB\Connection
+	 * @version 2014-01-25
 	 *
 	 * @see http://stackoverflow.com/questions/1353822/how-to-implement-database-connection-pool-in-php
 	 * @see http://www.webdevelopersjournal.com/columns/connection_pool.html
 	 * @see http://sourcemaking.com/design_patterns/object_pool
 	 * @see http://www.snaq.net/java/DBPool/
 	 * @see http://www.koders.com/java/fid4840DD8CBE361AA355537C8C9332D92F226F19C1.aspx?s=Q
-	 *
-	 * @abstract
 	 */
-	abstract class Pool extends Core\Object implements \Countable {
+	class Pool extends Core\Object implements \Countable {
 
 		/**
 		 * This variable stores the lookup table.
@@ -59,14 +62,6 @@ namespace Leap\Core\DB\Connection {
 		 * @var array
 		 */
 		protected $settings = array();
-
-		/**
-		 * This method prevents the class from being cloned.
-		 *
-		 * @access protected
-		 * @override
-		 */
-		protected function __clone() {}
 
 		/**
 		 * This constructor creates an instance of this class.
@@ -255,8 +250,8 @@ namespace Leap\Core\DB\Connection {
 		 */
 		public static function instance() {
 			if (static::$instance === NULL) {
-				register_shutdown_function(array('\\Leap\\Core\\DB\\Connection\\Pool', 'autorelease'));
-				static::$instance = new DB\Connection\Pool();
+				static::$instance = new static();
+				register_shutdown_function(array(static::$instance->__getClass(), 'autorelease'));
 			}
 			return static::$instance;
 		}

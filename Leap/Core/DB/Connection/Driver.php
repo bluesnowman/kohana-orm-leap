@@ -19,14 +19,18 @@
 
 namespace Leap\Core\DB\Connection {
 
+	use Leap\Core;
+	use Leap\Core\DB;
+	use Leap\Core\Throwable;
+
 	/**
 	 * This class sets forth the functions for a database connection.
 	 *
-	 * @package Leap
-	 * @category Connection
-	 * @version 2013-02-03
-	 *
 	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\DB\Connection
+	 * @version 2014-01-25
 	 */
 	abstract class Driver extends Core\Object {
 
