@@ -17,14 +17,15 @@
  * limitations under the License.
  */
 
-namespace Leap\System\GC {
+namespace Leap\Core\System\GC {
 
 	/**
 	 * This interface provides the contract for a class representing a disposable object.
 	 *
-	 * @package Leap
-	 * @category GC
-	 * @version 2013-02-05
+	 * @access public
+	 * @interface
+	 * @package Leap\Core\System\GC
+	 * @version 2014-01-25
 	 *
 	 * @see http://msdn.microsoft.com/en-us/library/system.idisposable.aspx
 	 * @see http://www.codeproject.com/Articles/15360/Implementing-IDisposable-and-the-Dispose-Pattern-P

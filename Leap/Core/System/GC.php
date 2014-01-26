@@ -17,22 +17,21 @@
  * limitations under the License.
  */
 
-namespace Leap\System {
+namespace Leap\Core\System {
 
 	use \Leap\Core;
 
 	/**
 	 * This class manages garbage collection.
 	 *
-	 * @package Leap
-	 * @category GC
-	 * @version 2013-02-10
+	 * @access public
+	 * @class
+	 * @package Leap\Core\System
+	 * @version 2014-01-25
 	 *
 	 * @see http://msdn.microsoft.com/en-us/library/system.gc.aspx
-	 *
-	 * @abstract
 	 */
-	abstract class GC extends Core\Object {
+	class GC extends Core\Object {
 
 		/**
 		 * This method forces garbage collector to start immediately.
