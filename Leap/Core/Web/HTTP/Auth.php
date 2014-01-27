@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Core\DB {
+namespace Leap\Core\Web\HTTP {
 
 	use Leap\Core\DB;
 	use Leap\Core\Model;
@@ -30,7 +30,7 @@ namespace Leap\Core\DB {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-01-25
+	 * @version 2014-01-26
 	 */
 	class Auth extends \Auth {
 

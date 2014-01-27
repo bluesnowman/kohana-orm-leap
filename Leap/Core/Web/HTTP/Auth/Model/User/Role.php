@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Core\Model\User {
+namespace Leap\Core\Web\HTTP\Auth\Model\User {
 
 	use \Leap\Core\DB;
 

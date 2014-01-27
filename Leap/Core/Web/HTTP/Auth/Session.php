@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Core\Web\HTTP {
+namespace Leap\Core\Web\HTTP\Auth {
 
 	use \Leap\Core\DB;
 
@@ -67,7 +67,7 @@ namespace Leap\Core\Web\HTTP {
 		 * @access protected
 		 * @var string
 		 */
-		protected $table = 'Model\\Session';
+		protected $table = '\\Leap\\Core\\Web\\HTTP\\Auth\\Model\\Session';
 
 		/**
 		 * This variable stores the old session id.

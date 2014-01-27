@@ -18,7 +18,7 @@
  * Table structure for the "mptt" table
  */
 
-CREATE TABLE `mptt` (
+CREATE TABLE "mptt" (
 	"id" NUMBER(11) NOT NULL,
 	"scope" NUMBER(11) NOT NULL,
 	"name" VARCHAR(70) NOT NULL DEFAULT '',
