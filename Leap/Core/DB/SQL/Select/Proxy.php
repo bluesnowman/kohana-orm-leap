@@ -17,346 +17,353 @@
  * limitations under the License.
  */
 
-/**
- * This class builds an SQL select statement.
- *
- * @package Leap
- * @category SQL
- * @version 2013-02-03
- *
- * @abstract
- */
-abstract class Base\DB\SQL\Select\Proxy extends Core\Object implements DB\SQL\Statement {
+namespace Leap\Core\DB\SQL\Select {
+
+	use Leap\Core;
+	use Leap\Core\DB;
+	use Leap\Core\Throwable;
 
 	/**
-	 * This variable stores an instance of the SQL builder class.
-	 *
-	 * @access protected
-	 * @var DB\SQL\Select\Builder
-	 */
-	protected $builder;
-
-	/**
-	 * This variable stores a reference to the data source.
-	 *
-	 * @access protected
-	 * @var DB\DataSource
-	 */
-	protected $data_source;
-
-	/**
-	 * This constructor instantiates this class using the specified data source.
+	 * This class builds an SQL select statement.
 	 *
 	 * @access public
-	 * @param mixed $config                         the data source configurations
-	 * @param array $columns                        the columns to be selected
+	 * @class
+	 * @package Leap\Core\DB\SQL\Select
+	 * @version 2014-01-26
 	 */
-	public function __construct($config, Array $columns = array()) {
-		$this->data_source = DB\DataSource::instance($config);
-		$builder = '\\Leap\\Core\\DB\\' . $this->data_source->dialect . '\\Select\\Builder';
-		$this->builder = new $builder($this->data_source, $columns);
-	}
+	class Proxy extends Core\Object implements DB\SQL\Statement {
 
-	/**
-	 * This method returns the raw SQL statement.
-	 *
-	 * @access public
-	 * @override
-	 * @return string                               the raw SQL statement
-	 */
-	public function __toString() {
-		return $this->builder->statement(TRUE);
-	}
+		/**
+		 * This variable stores an instance of the SQL builder class.
+		 *
+		 * @access protected
+		 * @var DB\SQL\Select\Builder
+		 */
+		protected $builder;
 
-	/**
-	 * This method sets the wildcard to be used.
-	 *
-	 * @access public
-	 * @param string $wildcard                      the wildcard to be used
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function all($wildcard = '*') {
-		$this->builder->all($wildcard);
-		return $this;
-	}
+		/**
+		 * This variable stores a reference to the data source.
+		 *
+		 * @access protected
+		 * @var DB\DataSource
+		 */
+		protected $data_source;
 
-	/**
-	 * This method explicits sets the specified column to be selected.
-	 *
-	 * @access public
-	 * @param string $column                        the column to be selected
-	 * @param string $alias                         the alias to be used for the specified column
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function column($column, $alias = NULL) {
-		$this->builder->column($column, $alias);
-		return $this;
-	}
+		/**
+		 * This constructor instantiates this class using the specified data source.
+		 *
+		 * @access public
+		 * @param mixed $config                         the data source configurations
+		 * @param array $columns                        the columns to be selected
+		 */
+		public function __construct($config, Array $columns = array()) {
+			$this->data_source = DB\DataSource::instance($config);
+			$builder = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Select\\Builder';
+			$this->builder = new $builder($this->data_source, $columns);
+		}
 
-	/**
-	 * This method combines another SQL statement using the specified operator.
-	 *
-	 * @access public
-	 * @param string $operator                      the operator to be used to append
-	 *                                              the specified SQL statement
-	 * @param string $statement                     the SQL statement to be appended
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function combine($operator, $statement) {
-		$this->builder->combine($operator, $statement);
-		return $this;
-	}
+		/**
+		 * This method returns the raw SQL statement.
+		 *
+		 * @access public
+		 * @override
+		 * @return string                               the raw SQL statement
+		 */
+		public function __toString() {
+			return $this->builder->statement(TRUE);
+		}
 
-	/**
-	 * This method will a column to be counted.
-	 *
-	 * @access public
-	 * @param string $column                        the column to be counted
-	 * @param string $alias                         the alias to be used for the specified column
-	 * @return DB\SQL\Select\Builder                a reference to the current instance
-	 */
-	public function count($column = '*', $alias = 'count') {
-		$this->builder->count($column, $alias);
-		return $this;
-	}
+		/**
+		 * This method sets the wildcard to be used.
+		 *
+		 * @access public
+		 * @param string $wildcard                      the wildcard to be used
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function all($wildcard = '*') {
+			$this->builder->all($wildcard);
+			return $this;
+		}
 
-	/**
-	 * This method sets whether to constrain the SQL statement to only distinct records.
-	 *
-	 * @access public
-	 * @param boolean $distinct                     whether to constrain the SQL statement to only
-	 *                                              distinct records
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function distinct($distinct = TRUE) {
-		$this->builder->distinct($distinct);
-		return $this;
-	}
+		/**
+		 * This method explicits sets the specified column to be selected.
+		 *
+		 * @access public
+		 * @param string $column                        the column to be selected
+		 * @param string $alias                         the alias to be used for the specified column
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function column($column, $alias = NULL) {
+			$this->builder->column($column, $alias);
+			return $this;
+		}
 
-	/**
-	 * This method sets the table that will be accessed.
-	 *
-	 * @access public
-	 * @param string $table                         the table to be accessed
-	 * @param string $alias                         the alias to be used for the specified table
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function from($table, $alias = NULL) {
-		$this->builder->from($table, $alias);
-		return $this;
-	}
+		/**
+		 * This method combines another SQL statement using the specified operator.
+		 *
+		 * @access public
+		 * @param string $operator                      the operator to be used to append
+		 *                                              the specified SQL statement
+		 * @param string $statement                     the SQL statement to be appended
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function combine($operator, $statement) {
+			$this->builder->combine($operator, $statement);
+			return $this;
+		}
 
-	/**
-	 * This method adds a "group by" clause.
-	 *
-	 * @access public
-	 * @param string $column                        the column to be grouped
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function group_by($column) {
-		$this->builder->group_by($column);
-		return $this;
-	}
+		/**
+		 * This method will a column to be counted.
+		 *
+		 * @access public
+		 * @param string $column                        the column to be counted
+		 * @param string $alias                         the alias to be used for the specified column
+		 * @return DB\SQL\Select\Builder                a reference to the current instance
+		 */
+		public function count($column = '*', $alias = 'count') {
+			$this->builder->count($column, $alias);
+			return $this;
+		}
 
-	/**
-	 * This method adds a "having" constraint.
-	 *
-	 * @access public
-	 * @param string $column                        the column to be constrained
-	 * @param string $operator                      the operator to be used
-	 * @param string $value                         the value the column is constrained with
-	 * @param string $connector                     the connector to be used
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function having($column, $operator, $value, $connector = 'AND') {
-		$this->builder->having($column, $operator, $value, $connector);
-		return $this;
-	}
+		/**
+		 * This method sets whether to constrain the SQL statement to only distinct records.
+		 *
+		 * @access public
+		 * @param boolean $distinct                     whether to constrain the SQL statement to only
+		 *                                              distinct records
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function distinct($distinct = TRUE) {
+			$this->builder->distinct($distinct);
+			return $this;
+		}
 
-	/**
-	 * This method either opens or closes a "having" group.
-	 *
-	 * @access public
-	 * @param string $parenthesis                   the parenthesis to be used
-	 * @param string $connector                     the connector to be used
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function having_block($parenthesis, $connector = 'AND') {
-		$this->builder->having_block($parenthesis, $connector);
-		return $this;
-	}
+		/**
+		 * This method sets the table that will be accessed.
+		 *
+		 * @access public
+		 * @param string $table                         the table to be accessed
+		 * @param string $alias                         the alias to be used for the specified table
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function from($table, $alias = NULL) {
+			$this->builder->from($table, $alias);
+			return $this;
+		}
 
-	/**
-	 * This method joins a table.
-	 *
-	 * @access public
-	 * @param string $type                          the type of join
-	 * @param string $table                         the table to be joined
-	 * @param string $alias                         the alias to be used for the specified table
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function join($type, $table, $alias = NULL) {
-		$this->builder->join($type, $table, $alias);
-		return $this;
-	}
+		/**
+		 * This method adds a "group by" clause.
+		 *
+		 * @access public
+		 * @param string $column                        the column to be grouped
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function group_by($column) {
+			$this->builder->group_by($column);
+			return $this;
+		}
 
-	/**
-	 * This method sets a "limit" constraint on the statement.
-	 *
-	 * @access public
-	 * @param integer $limit                        the "limit" constraint
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function limit($limit) {
-		$this->builder->limit($limit);
-		return $this;
-	}
+		/**
+		 * This method adds a "having" constraint.
+		 *
+		 * @access public
+		 * @param string $column                        the column to be constrained
+		 * @param string $operator                      the operator to be used
+		 * @param string $value                         the value the column is constrained with
+		 * @param string $connector                     the connector to be used
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function having($column, $operator, $value, $connector = 'AND') {
+			$this->builder->having($column, $operator, $value, $connector);
+			return $this;
+		}
 
-	/**
-	 * This method sets an "offset" constraint on the statement.
-	 *
-	 * @access public
-	 * @param integer $offset                       the "offset" constraint
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function offset($offset) {
-		$this->builder->offset($offset);
-		return $this;
-	}
+		/**
+		 * This method either opens or closes a "having" group.
+		 *
+		 * @access public
+		 * @param string $parenthesis                   the parenthesis to be used
+		 * @param string $connector                     the connector to be used
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function having_block($parenthesis, $connector = 'AND') {
+			$this->builder->having_block($parenthesis, $connector);
+			return $this;
+		}
 
-	/**
-	 * This method sets an "on" constraint for the last join specified.
-	 *
-	 * @access public
-	 * @param string $column0                       the column to be constrained on
-	 * @param string $operator                      the operator to be used
-	 * @param string $column1                       the constraint column
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 * @throws Throwable\SQL\Exception              indicates an invalid SQL build instruction
-	 */
-	public function on($column0, $operator, $column1) {
-		$this->builder->on($column0, $operator, $column1);
-		return $this;
-	}
+		/**
+		 * This method joins a table.
+		 *
+		 * @access public
+		 * @param string $type                          the type of join
+		 * @param string $table                         the table to be joined
+		 * @param string $alias                         the alias to be used for the specified table
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function join($type, $table, $alias = NULL) {
+			$this->builder->join($type, $table, $alias);
+			return $this;
+		}
 
-	/**
-	 * This method sets how a column will be sorted.
-	 *
-	 * @access public
-	 * @param string $column                        the column to be sorted
-	 * @param string $ordering                      the ordering token that signals whether the
-	 *                                              column will sorted either in ascending or
-	 *                                              descending order
-	 * @param string $nulls                         the weight to be given to null values
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function order_by($column, $ordering = 'ASC', $nulls = 'DEFAULT') {
-		$this->builder->order_by($column, $ordering, $nulls);
-		return $this;
-	}
+		/**
+		 * This method sets a "limit" constraint on the statement.
+		 *
+		 * @access public
+		 * @param integer $limit                        the "limit" constraint
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function limit($limit) {
+			$this->builder->limit($limit);
+			return $this;
+		}
 
-	/**
-	 * This method sets both the "offset" constraint and the "limit" constraint on
-	 * the statement.
-	 *
-	 * @access public
-	 * @param integer $offset                       the "offset" constraint
-	 * @param integer $limit                        the "limit" constraint
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function page($offset, $limit) {
-		$this->builder->page($offset, $limit);
-		return $this;
-	}
+		/**
+		 * This method sets an "offset" constraint on the statement.
+		 *
+		 * @access public
+		 * @param integer $offset                       the "offset" constraint
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function offset($offset) {
+			$this->builder->offset($offset);
+			return $this;
+		}
 
-	/**
-	 * This method performs a query using the built SQL statement.
-	 *
-	 * @access public
-	 * @param string $type               	        the return type to be used
-	 * @return DB\ResultSet                         the result set
-	 */
-	public function query($type = 'array') {
-		$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
-		$result_set = $connection->query($this->statement(TRUE), $type);
-		return $result_set;
-	}
+		/**
+		 * This method sets an "on" constraint for the last join specified.
+		 *
+		 * @access public
+		 * @param string $column0                       the column to be constrained on
+		 * @param string $operator                      the operator to be used
+		 * @param string $column1                       the constraint column
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @throws Throwable\SQL\Exception              indicates an invalid SQL build instruction
+		 */
+		public function on($column0, $operator, $column1) {
+			$this->builder->on($column0, $operator, $column1);
+			return $this;
+		}
 
-	/**
-	 * This method returns a data reader that is initialized with the SQL
-	 * statement.
-	 *
-	 * @access public
-	 * @return DB\SQL\DataReader                    the data reader
-	 */
-	public function reader() {
-		$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
-		$reader = $connection->reader($this->statement(TRUE));
-		return $reader;
-	}
+		/**
+		 * This method sets how a column will be sorted.
+		 *
+		 * @access public
+		 * @param string $column                        the column to be sorted
+		 * @param string $ordering                      the ordering token that signals whether the
+		 *                                              column will sorted either in ascending or
+		 *                                              descending order
+		 * @param string $nulls                         the weight to be given to null values
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function order_by($column, $ordering = 'ASC', $nulls = 'DEFAULT') {
+			$this->builder->order_by($column, $ordering, $nulls);
+			return $this;
+		}
 
-	/**
-	 * This method resets the current builder.
-	 *
-	 * @access public
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function reset() {
-		$this->builder->reset();
-		return $this;
-	}
+		/**
+		 * This method sets both the "offset" constraint and the "limit" constraint on
+		 * the statement.
+		 *
+		 * @access public
+		 * @param integer $offset                       the "offset" constraint
+		 * @param integer $limit                        the "limit" constraint
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function page($offset, $limit) {
+			$this->builder->page($offset, $limit);
+			return $this;
+		}
 
-	/**
-	 * This method returns the SQL statement.
-	 *
-	 * @access public
-	 * @override
-	 * @param boolean $terminated                   whether to add a semi-colon to the end
-	 *                                              of the statement
-	 * @return string                               the SQL statement
-	 */
-	public function statement($terminated = TRUE) {
-		return $this->builder->statement($terminated);
-	}
+		/**
+		 * This method performs a query using the built SQL statement.
+		 *
+		 * @access public
+		 * @param string $type               	        the return type to be used
+		 * @return DB\ResultSet                         the result set
+		 */
+		public function query($type = 'array') {
+			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
+			$result_set = $connection->query($this->statement(TRUE), $type);
+			return $result_set;
+		}
 
-	/**
-	 * This method sets a "using" constraint for the last join specified.
-	 *
-	 * @access public
-	 * @param string $column                        the column to be constrained
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function using($column) {
-		$this->builder->using($column);
-		return $this;
-	}
+		/**
+		 * This method returns a data reader that is initialized with the SQL
+		 * statement.
+		 *
+		 * @access public
+		 * @return DB\SQL\DataReader                    the data reader
+		 */
+		public function reader() {
+			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
+			$reader = $connection->reader($this->statement(TRUE));
+			return $reader;
+		}
 
-	/**
-	 * This method adds a "where" constraint.
-	 *
-	 * @access public
-	 * @param string $column                        the column to be constrained
-	 * @param string $operator                      the operator to be used
-	 * @param string $value                         the value the column is constrained with
-	 * @param string $connector                     the connector to be used
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function where($column, $operator, $value, $connector = 'AND') {
-		$this->builder->where($column, $operator, $value, $connector);
-		return $this;
-	}
+		/**
+		 * This method resets the current builder.
+		 *
+		 * @access public
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function reset() {
+			$this->builder->reset();
+			return $this;
+		}
 
-	/**
-	 * This method either opens or closes a "where" group.
-	 *
-	 * @access public
-	 * @param string $parenthesis                   the parenthesis to be used
-	 * @param string $connector                     the connector to be used
-	 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-	 */
-	public function where_block($parenthesis, $connector = 'AND') {
-		$this->builder->where_block($parenthesis, $connector);
-		return $this;
+		/**
+		 * This method returns the SQL statement.
+		 *
+		 * @access public
+		 * @override
+		 * @param boolean $terminated                   whether to add a semi-colon to the end
+		 *                                              of the statement
+		 * @return string                               the SQL statement
+		 */
+		public function statement($terminated = TRUE) {
+			return $this->builder->statement($terminated);
+		}
+
+		/**
+		 * This method sets a "using" constraint for the last join specified.
+		 *
+		 * @access public
+		 * @param string $column                        the column to be constrained
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function using($column) {
+			$this->builder->using($column);
+			return $this;
+		}
+
+		/**
+		 * This method adds a "where" constraint.
+		 *
+		 * @access public
+		 * @param string $column                        the column to be constrained
+		 * @param string $operator                      the operator to be used
+		 * @param string $value                         the value the column is constrained with
+		 * @param string $connector                     the connector to be used
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function where($column, $operator, $value, $connector = 'AND') {
+			$this->builder->where($column, $operator, $value, $connector);
+			return $this;
+		}
+
+		/**
+		 * This method either opens or closes a "where" group.
+		 *
+		 * @access public
+		 * @param string $parenthesis                   the parenthesis to be used
+		 * @param string $connector                     the connector to be used
+		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 */
+		public function where_block($parenthesis, $connector = 'AND') {
+			$this->builder->where_block($parenthesis, $connector);
+			return $this;
+		}
+
 	}
 
 }

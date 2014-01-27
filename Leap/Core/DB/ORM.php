@@ -113,7 +113,7 @@ namespace Leap\Core\DB {
 		public static function precompiler($model) {
 			$model = DB\ORM\Model::model_name($model);
 			$data_source = $model::data_source(DB\DataSource::MASTER_INSTANCE);
-			$precompiler = '\\Leap\\Core\\DB\\' . $data_source->dialect . '\\Precompiler';
+			$precompiler = '\\Leap\\Plugins\\DB\\' . $data_source->dialect . '\\Precompiler';
 			$object = new $precompiler($data_source);
 			return $object;
 		}

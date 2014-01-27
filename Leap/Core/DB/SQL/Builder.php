@@ -17,81 +17,88 @@
  * limitations under the License.
  */
 
-/**
- * This class provides the base functionality for an SQL statement.
- *
- * @package Leap
- * @category SQL
- * @version 2013-01-27
- *
- * @abstract
- */
-abstract class Base\DB\SQL\Builder extends Core\Object implements DB\SQL\Statement {
+namespace Leap\Core\DB\SQL {
+
+	use Leap\Core;
+	use Leap\Core\DB;
 
 	/**
-	 * This constant represents a closing parenthesis.
+	 * This class provides the base functionality for an SQL statement.
 	 *
+	 * @abstract
 	 * @access public
-	 * @const string
+	 * @class
+	 * @package Leap\Core\DB\SQL
+	 * @version 2014-01-26
 	 */
-	const _CLOSING_PARENTHESIS_ = ')';
+	abstract class Builder extends Core\Object implements DB\SQL\Statement {
 
-	/**
-	 * This constant represents an opening parenthesis.
-	 *
-	 * @access public
-	 * @const string
-	 */
-	const _OPENING_PARENTHESIS_ = '(';
+		/**
+		 * This constant represents a closing parenthesis.
+		 *
+		 * @access public
+		 * @const string
+		 */
+		const _CLOSING_PARENTHESIS_ = ')';
 
-	/**
-	 * This variable stores the build data for the SQL statement.
-	 *
-	 * @access protected
-	 * @var array
-	 */
-	protected $data;
+		/**
+		 * This constant represents an opening parenthesis.
+		 *
+		 * @access public
+		 * @const string
+		 */
+		const _OPENING_PARENTHESIS_ = '(';
 
-	/**
-	 * This variable stores the name of the SQL dialect being used.
-	 *
-	 * @access protected
-	 * @var string
-	 */
-	protected $dialect;
+		/**
+		 * This variable stores the build data for the SQL statement.
+		 *
+		 * @access protected
+		 * @var array
+		 */
+		protected $data;
 
-	/**
-	 * This variable stores a reference to the pre-compiler.
-	 *
-	 * @access protected
-	 * @var DB\SQL\Precompiler
-	 */
-	protected $precompiler;
+		/**
+		 * This variable stores the name of the SQL dialect being used.
+		 *
+		 * @access protected
+		 * @var string
+		 */
+		protected $dialect;
 
-	/**
-	 * This method returns the raw SQL statement.
-	 *
-	 * @access public
-	 * @override
-	 * @return string                           the raw SQL statement
-	 */
-	public function __toString() {
-		return $this->statement(TRUE);
-	}
+		/**
+		 * This variable stores a reference to the pre-compiler.
+		 *
+		 * @access protected
+		 * @var DB\SQL\Precompiler
+		 */
+		protected $precompiler;
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		/**
+		 * This method returns the raw SQL statement.
+		 *
+		 * @access public
+		 * @override
+		 * @return string                           the raw SQL statement
+		 */
+		public function __toString() {
+			return $this->statement(TRUE);
+		}
 
-	/**
-	 * This method returns a new instance of the calling class.
-	 *
-	 * @access public
-	 * @static
-	 * @param DB\DataSource $data_source        the data source to be used
-	 * @return DB\SQL\Builder                   a new instance of the calling class
-	 */
-	public static function factory(DB\DataSource $data_source) {
-		$class = get_called_class();
-		return new $class($data_source);
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		/**
+		 * This method returns a new instance of the calling class.
+		 *
+		 * @access public
+		 * @static
+		 * @param DB\DataSource $data_source        the data source to be used
+		 * @return DB\SQL\Builder                   a new instance of the calling class
+		 */
+		public static function factory(DB\DataSource $data_source) {
+			$class = get_called_class();
+			return new $class($data_source);
+		}
+
 	}
 
 }

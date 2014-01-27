@@ -17,26 +17,32 @@
  * limitations under the License.
  */
 
-/**
- * This class handles a standard connection.
- *
- * @package Leap
- * @category SQL
- * @version 2012-12-11
- *
- * @abstract
- */
-abstract class Base\DB\SQL\Connection\Standard extends DB\Connection\Driver {
+namespace Leap\Core\DB\SQL\Connection {
+
+	use Leap\Core\DB;
 
 	/**
-	 * This method is for determining whether a connection is established.
+	 * This class handles a standard connection.
 	 *
+	 * @abstract
 	 * @access public
-	 * @override
-	 * @return boolean                              whether a connection is established
+	 * @class
+	 * @package Leap\Core\DB\SQL\Connection
+	 * @version 2014-01-26
 	 */
-	public function is_connected() {
-		return is_resource($this->resource);
+	abstract class Standard extends DB\Connection\Driver {
+
+		/**
+		 * This method is for determining whether a connection is established.
+		 *
+		 * @access public
+		 * @override
+		 * @return boolean                              whether a connection is established
+		 */
+		public function is_connected() {
+			return is_resource($this->resource);
+		}
+
 	}
 
 }

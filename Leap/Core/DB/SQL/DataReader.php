@@ -17,129 +17,137 @@
  * limitations under the License.
  */
 
-/**
- * This class is used to read data from an SQL database.
- *
- * @package Leap
- * @category SQL
- * @version 2013-03-19
- *
- * @abstract
- */
-abstract class Base\DB\SQL\DataReader extends Core\Object {
+namespace Leap\Core\DB\SQL {
+
+	use Leap\Core;
+	use Leap\Core\DB;
+	use Leap\Core\Throwable;
 
 	/**
-	 * This variable stores the command reference being utilized.
+	 * This class is used to read data from an SQL database.
 	 *
-	 * @access protected
-	 * @var resource
-	 */
-	protected $command;
-
-	/**
-	 * This variable stores the last record fetched.
-	 *
-	 * @access protected
-	 * @var array
-	 */
-	protected $record;
-
-	/**
-	 * This method initializes the class.
-	 *
-	 * @access public
 	 * @abstract
-	 * @param DB\Connection\Driver $connection  the connection to be used
-	 * @param string $sql                       the SQL statement to be queried
-	 * @param integer $mode                     the execution mode to be used
-	 * @throws Throwable\SQL\Exception          indicates that the query failed
-	 */
-	public abstract function __construct(DB\Connection\Driver $connection, $sql, $mode = NULL);
-
-	/**
-	 * This destructor ensures that the command reference has been freed.
-	 *
 	 * @access public
+	 * @class
+	 * @package Leap\Core\DB\SQL
+	 * @version 2014-01-26
 	 */
-	public function __destruct() {
-		$this->free();
-	}
+	abstract class DataReader extends Core\Object {
 
-	/**
-	 * This method frees the command reference.
-	 *
-	 * @access public
-	 * @abstract
-	 */
-	public abstract function free();
+		/**
+		 * This variable stores the command reference being utilized.
+		 *
+		 * @access protected
+		 * @var resource
+		 */
+		protected $command;
 
-	/**
-	 * This method advances the reader to the next record.
-	 *
-	 * @access public
-	 * @abstract
-	 * @return boolean                          whether another record was fetched
-	 */
-	public abstract function read();
+		/**
+		 * This variable stores the last record fetched.
+		 *
+		 * @access protected
+		 * @var array
+		 */
+		protected $record;
 
-	/**
-	 * This method returns the last record fetched.
-	 *
-	 * @access public
-	 * @param string $type                      the data type to be used
-	 * @return array                            the last record fetched
-	 *
-	 * @see http://www.richardcastera.com/blog/php-convert-array-to-object-with-stdclass
-	 * @see http://codeigniter.com/forums/viewthread/103493/
-	 */
-	public function row($type = 'array') {
-		switch ($type) {
-			case 'array':
-				return $this->record;
-			case 'object':
-				return (object) $this->record;
-			default:
-				if ( ! isset(static::$objects[$type])) {
-					$object = new $type();
-					static::$objects[$type] = serialize($object);
-				}
-				else {
-					$object = unserialize( (string) static::$objects[$type]);
-				}
-				foreach ($this->record as $key => $value) {
-					$object->{$key} = $value;
-				}
-				return $object;
+		/**
+		 * This method initializes the class.
+		 *
+		 * @access public
+		 * @abstract
+		 * @param DB\Connection\Driver $connection  the connection to be used
+		 * @param string $sql                       the SQL statement to be queried
+		 * @param integer $mode                     the execution mode to be used
+		 * @throws Throwable\SQL\Exception          indicates that the query failed
+		 */
+		public abstract function __construct(DB\Connection\Driver $connection, $sql, $mode = NULL);
+
+		/**
+		 * This destructor ensures that the command reference has been freed.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			$this->free();
 		}
-	}
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		/**
+		 * This method frees the command reference.
+		 *
+		 * @access public
+		 * @abstract
+		 */
+		public abstract function free();
 
-	/**
-	 * This variable stores an array of serialized class objects, which is
-	 * used when type casting a result set.
-	 *
-	 * @access protected
-	 * @static
-	 * @var array
-	 */
-	protected static $objects = array();
+		/**
+		 * This method advances the reader to the next record.
+		 *
+		 * @access public
+		 * @abstract
+		 * @return boolean                          whether another record was fetched
+		 */
+		public abstract function read();
 
-	/**
-	 * This method returns an instance of the appropriate SQL data reader.
-	 *
-	 * @access public
-	 * @static
-	 * @param DB\Connection\Driver $connection         the connection to be used
-	 * @param string $sql                              the SQL statement to be queried
-	 * @param integer $mode                            the execution mode to be used
-	 * @return DB\SQL\DataReader                       an instance of the appropriate
-	 *                                                 SQL data reader
-	 */
-	public static function factory(DB\Connection\Driver $connection, $sql, $mode = NULL) {
-		$class = '\\Leap\\Core\\DB\\' . $connection->data_source->dialect . '\\DataReader\\' . $connection->data_source->driver;
-		$reader = new $class($connection, $sql, $mode);
-		return $reader;
+		/**
+		 * This method returns the last record fetched.
+		 *
+		 * @access public
+		 * @param string $type                      the data type to be used
+		 * @return array                            the last record fetched
+		 *
+		 * @see http://www.richardcastera.com/blog/php-convert-array-to-object-with-stdclass
+		 * @see http://codeigniter.com/forums/viewthread/103493/
+		 */
+		public function row($type = 'array') {
+			switch ($type) {
+				case 'array':
+					return $this->record;
+				case 'object':
+					return (object) $this->record;
+				default:
+					if ( ! isset(static::$objects[$type])) {
+						$object = new $type();
+						static::$objects[$type] = serialize($object);
+					}
+					else {
+						$object = unserialize( (string) static::$objects[$type]);
+					}
+					foreach ($this->record as $key => $value) {
+						$object->{$key} = $value;
+					}
+					return $object;
+			}
+		}
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		/**
+		 * This variable stores an array of serialized class objects, which is
+		 * used when type casting a result set.
+		 *
+		 * @access protected
+		 * @static
+		 * @var array
+		 */
+		protected static $objects = array();
+
+		/**
+		 * This method returns an instance of the appropriate SQL data reader.
+		 *
+		 * @access public
+		 * @static
+		 * @param DB\Connection\Driver $connection         the connection to be used
+		 * @param string $sql                              the SQL statement to be queried
+		 * @param integer $mode                            the execution mode to be used
+		 * @return DB\SQL\DataReader                       an instance of the appropriate
+		 *                                                 SQL data reader
+		 */
+		public static function factory(DB\Connection\Driver $connection, $sql, $mode = NULL) {
+			$class = '\\Leap\\Plugins\\DB\\' . $connection->data_source->dialect . '\\DataReader\\' . $connection->data_source->driver;
+			$reader = new $class($connection, $sql, $mode);
+			return $reader;
+		}
+
 	}
 
 }

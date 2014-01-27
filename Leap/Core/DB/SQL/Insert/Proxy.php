@@ -17,133 +17,139 @@
  * limitations under the License.
  */
 
-/**
- * This class builds an SQL insert statement.
- *
- * @package Leap
- * @category SQL
- * @version 2013-02-03
- *
- * @abstract
- */
-abstract class Base\DB\SQL\Insert\Proxy extends Core\Object implements DB\SQL\Statement {
+namespace Leap\Core\DB\SQL\Insert {
+
+	use Leap\Core;
+	use Leap\Core\DB;
 
 	/**
-	 * This variable stores an instance of the SQL statement builder of the preferred SQL
-	 * language dialect.
-	 *
-	 * @access protected
-	 * @var DB\SQL\Builder
-	 */
-	protected $builder;
-
-	/**
-	 * This variable stores a reference to the data source.
-	 *
-	 * @access protected
-	 * @var DB\DataSource
-	 */
-	protected $data_source;
-
-	/**
-	 * This constructor instantiates this class using the specified data source.
+	 * This class builds an SQL insert statement.
 	 *
 	 * @access public
-	 * @param mixed $config                             the data source configurations
+	 * @class
+	 * @package Leap\Core\DB\SQL\Insert
+	 * @version 2014-01-26
 	 */
-	public function __construct($config) {
-		$this->data_source = DB\DataSource::instance($config);
-		$builder = '\\Leap\\Core\\DB\\' . $this->data_source->dialect . '\\Insert\\Builder';
-		$this->builder = new $builder($this->data_source);
-	}
+	class Proxy extends Core\Object implements DB\SQL\Statement {
 
-	/**
-	 * This method returns the raw SQL statement.
-	 *
-	 * @access public
-	 * @override
-	 * @return string                                   the raw SQL statement
-	 */
-	public function __toString() {
-		return $this->builder->statement(TRUE);
-	}
+		/**
+		 * This variable stores an instance of the SQL statement builder of the preferred SQL
+		 * language dialect.
+		 *
+		 * @access protected
+		 * @var DB\SQL\Builder
+		 */
+		protected $builder;
 
-	/**
-	 * This method sets the associated value with the specified column.
-	 *
-	 * @access public
-	 * @param string $column                 	        the column to be set
-	 * @param string $value                  	        the value to be set
-	 * @param integer $row						        the index of the row
-	 * @return DB\SQL\Insert\Proxy           	        a reference to the current instance
-	 */
-	public function column($column, $value, $row = 0) {
-		$this->builder->column($column, $value, $row);
-		return $this;
-	}
+		/**
+		 * This variable stores a reference to the data source.
+		 *
+		 * @access protected
+		 * @var DB\DataSource
+		 */
+		protected $data_source;
 
-	/**
-	 * This method executes the SQL statement via the DAO class.
-	 *
-	 * @access public
-	 * @param boolean $auto_increment		  	        whether to query for the last insert id
-	 * @return integer                      	        the last insert id
-	 */
-	public function execute() {
-		$auto_increment = ((func_num_args() > 0) AND (func_get_arg(0) === TRUE));
-		$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
-		$connection->execute($this->statement(TRUE));
-		$primary_key = ($auto_increment) ? $connection->get_last_insert_id() : 0;
-		return $primary_key;
-	}
+		/**
+		 * This constructor instantiates this class using the specified data source.
+		 *
+		 * @access public
+		 * @param mixed $config                             the data source configurations
+		 */
+		public function __construct($config) {
+			$this->data_source = DB\DataSource::instance($config);
+			$builder = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Insert\\Builder';
+			$this->builder = new $builder($this->data_source);
+		}
 
-	/**
-	 * This method sets which table will be modified.
-	 *
-	 * @access public
-	 * @param string $table                             the database table to be modified
-	 * @return DB\SQL\Insert\Proxy           	        a reference to the current instance
-	 */
-	public function into($table) {
-		$this->builder->into($table);
-		return $this;
-	}
+		/**
+		 * This method returns the raw SQL statement.
+		 *
+		 * @access public
+		 * @override
+		 * @return string                                   the raw SQL statement
+		 */
+		public function __toString() {
+			return $this->builder->statement(TRUE);
+		}
 
-	/**
-	 * This method resets the current builder.
-	 *
-	 * @access public
-	 * @return DB\SQL\Insert\Proxy                      a reference to the current instance
-	 */
-	public function reset() {
-		$this->builder->reset();
-		return $this;
-	}
+		/**
+		 * This method sets the associated value with the specified column.
+		 *
+		 * @access public
+		 * @param string $column                 	        the column to be set
+		 * @param string $value                  	        the value to be set
+		 * @param integer $row						        the index of the row
+		 * @return DB\SQL\Insert\Proxy           	        a reference to the current instance
+		 */
+		public function column($column, $value, $row = 0) {
+			$this->builder->column($column, $value, $row);
+			return $this;
+		}
 
-	/**
-	 * This method sets a row of columns/values pairs.
-	 *
-	 * @access public
-	 * @param array $values						        the columns/values pairs to be set
-	 * @param integer $row						        the index of the row
-	 * @return DB\SQL\Insert\Proxy  			        a reference to the current instance
-	 */
-	public function row(Array $values, $row = 0) {
-		$this->builder->row($values, $row);
-		return $this;
-	}
+		/**
+		 * This method executes the SQL statement via the DAO class.
+		 *
+		 * @access public
+		 * @param boolean $auto_increment		  	        whether to query for the last insert id
+		 * @return integer                      	        the last insert id
+		 */
+		public function execute() {
+			$auto_increment = ((func_num_args() > 0) AND (func_get_arg(0) === TRUE));
+			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
+			$connection->execute($this->statement(TRUE));
+			$primary_key = ($auto_increment) ? $connection->get_last_insert_id() : 0;
+			return $primary_key;
+		}
 
-	/**
-	 * This method returns the SQL statement.
-	 *
-	 * @access public
-	 * @override
-	 * @param boolean $terminated           	        whether to add a semi-colon to the end
-	 *                                      	        of the statement
-	 * @return string                       	        the SQL statement
-	 */
-	public function statement($terminated = TRUE) {
-		return $this->builder->statement($terminated);
+		/**
+		 * This method sets which table will be modified.
+		 *
+		 * @access public
+		 * @param string $table                             the database table to be modified
+		 * @return DB\SQL\Insert\Proxy           	        a reference to the current instance
+		 */
+		public function into($table) {
+			$this->builder->into($table);
+			return $this;
+		}
+
+		/**
+		 * This method resets the current builder.
+		 *
+		 * @access public
+		 * @return DB\SQL\Insert\Proxy                      a reference to the current instance
+		 */
+		public function reset() {
+			$this->builder->reset();
+			return $this;
+		}
+
+		/**
+		 * This method sets a row of columns/values pairs.
+		 *
+		 * @access public
+		 * @param array $values						        the columns/values pairs to be set
+		 * @param integer $row						        the index of the row
+		 * @return DB\SQL\Insert\Proxy  			        a reference to the current instance
+		 */
+		public function row(Array $values, $row = 0) {
+			$this->builder->row($values, $row);
+			return $this;
+		}
+
+		/**
+		 * This method returns the SQL statement.
+		 *
+		 * @access public
+		 * @override
+		 * @param boolean $terminated           	        whether to add a semi-colon to the end
+		 *                                      	        of the statement
+		 * @return string                       	        the SQL statement
+		 */
+		public function statement($terminated = TRUE) {
+			return $this->builder->statement($terminated);
+		}
+
 	}
 
 }

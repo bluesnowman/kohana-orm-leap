@@ -17,14 +17,20 @@
  * limitations under the License.
  */
 
-/**
- * This class is used to read data from a SQL database using a standard
- * driver.
- *
- * @package Leap
- * @category SQL
- * @version 2012-12-04
- *
- * @abstract
- */
-abstract class Base\DB\SQL\DataReader\Standard extends DB\SQL\DataReader {}
+namespace Leap\Core\DB\SQL\DataReader {
+
+	use Leap\Core\DB;
+
+	/**
+	 * This class is used to read data from a SQL database using a standard
+	 * driver.
+	 *
+	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\DB\SQL\DataReader
+	 * @version 2014-01-26
+	 */
+	abstract class Standard extends DB\SQL\DataReader {}
+
+}

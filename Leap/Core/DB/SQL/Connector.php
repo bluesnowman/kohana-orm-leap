@@ -17,19 +17,25 @@
  * limitations under the License.
  */
 
-/**
- * This class contains a set of predefined connectors.
- *
- * @package Leap
- * @category SQL
- * @version 2012-11-14
- *
- * @abstract
- */
-abstract class Base\DB\SQL\Connector extends Core\Object {
+namespace Leap\Core\DB\SQL {
 
-	const _AND_ = 'AND';
+	use Leap\Core;
 
-	const _OR_ = 'OR';
+	/**
+	 * This class contains a set of predefined connectors.
+	 *
+	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\DB\SQL
+	 * @version 2014-01-26
+	 */
+	abstract class Connector extends Core\Object {
+
+		const _AND_ = 'AND';
+
+		const _OR_ = 'OR';
+
+	}
 
 }

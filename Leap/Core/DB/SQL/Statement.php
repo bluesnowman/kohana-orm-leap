@@ -17,23 +17,28 @@
  * limitations under the License.
  */
 
-/**
- * This interface provides the contract for a class representing an SQL statement.
- *
- * @package Leap
- * @category SQL
- * @version 2012-05-22
- */
-interface Base\DB\SQL\Statement {
+namespace Leap\Core\DB\SQL {
 
 	/**
-	 * This method returns the SQL statement.
+	 * This interface provides the contract for a class representing an SQL statement.
 	 *
 	 * @access public
-	 * @param boolean $terminated           whether to add a semi-colon to the end
-	 *                                      of the statement
-	 * @return string                       the SQL statement
+	 * @interface
+	 * @package Leap\Core\DB\SQL
+	 * @version 2014-01-26
 	 */
-	public function statement($terminated = TRUE);
+	interface Statement {
+
+		/**
+		 * This method returns the SQL statement.
+		 *
+		 * @access public
+		 * @param boolean $terminated           whether to add a semi-colon to the end
+		 *                                      of the statement
+		 * @return string                       the SQL statement
+		 */
+		public function statement($terminated = TRUE);
+
+	}
 
 }

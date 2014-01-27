@@ -17,668 +17,674 @@
  * limitations under the License.
  */
 
-/**
- * This class allows an application to tokenize an SQL statement.
- *
- * @package Leap
- * @category SQL
- * @version 2013-01-27
- *
- * @see http://www.sqlite.org/c3ref/complete.html
- * @see http://www.opensource.apple.com/source/SQLite/SQLite-74/public_source/src/complete.c
- *
- * @abstract
- */
-abstract class Base\DB\SQL\Tokenizer extends Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator {
+namespace Leap\Core\DB\SQL {
+
+	use Leap\Core;
+	use Leap\Core\Throwable;
 
 	/**
-	 * This constant represents an error token.
+	 * This class allows an application to tokenize an SQL statement.
 	 *
 	 * @access public
-	 * @const string
-	 */
-	const ERROR_TOKEN = 'ERROR';
-
-	/**
-	 * This constant represents a hexadecimal token.
+	 * @class
+	 * @package Leap\Core\DB\SQL
+	 * @version 2014-01-26
 	 *
-	 * @access public
-	 * @const string
+	 * @see http://www.sqlite.org/c3ref/complete.html
+	 * @see http://www.opensource.apple.com/source/SQLite/SQLite-74/public_source/src/complete.c
 	 */
-	const HEXADECIMAL_TOKEN = 'HEXADECIMAL';
+	abstract class Tokenizer extends Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator {
 
-	/**
-	 * This constant represents an identifier token.
-	 *
-	 * @access public
-	 * @const string
-	 */
-	const IDENTIFIER_TOKEN = 'IDENTIFIER';
+		/**
+		 * This constant represents an error token.
+		 *
+		 * @access public
+		 * @const string
+		 */
+		const ERROR_TOKEN = 'ERROR';
 
-	/**
-	 * This constant represents an integer token.
-	 *
-	 * @access public
-	 * @const string
-	 */
-	const INTEGER_TOKEN = 'NUMBER:INTEGER';
+		/**
+		 * This constant represents a hexadecimal token.
+		 *
+		 * @access public
+		 * @const string
+		 */
+		const HEXADECIMAL_TOKEN = 'HEXADECIMAL';
 
-	/**
-	 * This constant represents a keyword token.
-	 *
-	 * @access public
-	 * @const string
-	 */
-	const KEYWORD_TOKEN = 'KEYWORD';
+		/**
+		 * This constant represents an identifier token.
+		 *
+		 * @access public
+		 * @const string
+		 */
+		const IDENTIFIER_TOKEN = 'IDENTIFIER';
 
-	/**
-	 * This constant represents a literal token.
-	 *
-	 * @access public
-	 * @const string
-	 */
-	const LITERAL_TOKEN = 'LITERAL';
+		/**
+		 * This constant represents an integer token.
+		 *
+		 * @access public
+		 * @const string
+		 */
+		const INTEGER_TOKEN = 'NUMBER:INTEGER';
 
-	/**
-	 * This constant represents an operator token.
-	 *
-	 * @access public
-	 * @const string
-	 */
-	const OPERATOR_TOKEN = 'OPERATOR';
+		/**
+		 * This constant represents a keyword token.
+		 *
+		 * @access public
+		 * @const string
+		 */
+		const KEYWORD_TOKEN = 'KEYWORD';
 
-	/**
-	 * This constant represents a parameter token.
-	 *
-	 * @access public
-	 * @const string
-	 */
-	const PARAMETER_TOKEN = 'PARAMETER';
+		/**
+		 * This constant represents a literal token.
+		 *
+		 * @access public
+		 * @const string
+		 */
+		const LITERAL_TOKEN = 'LITERAL';
 
-	/**
-	 * This constant represents a real number token.
-	 *
-	 * @access public
-	 * @const string
-	 */
-	const REAL_TOKEN = 'NUMBER:REAL';
+		/**
+		 * This constant represents an operator token.
+		 *
+		 * @access public
+		 * @const string
+		 */
+		const OPERATOR_TOKEN = 'OPERATOR';
 
-	/**
-	 * This constant represents a terminal character token.
-	 *
-	 * @access public
-	 * @const string
-	 */
-	const TERMINAL_TOKEN = 'TERMINAL';
+		/**
+		 * This constant represents a parameter token.
+		 *
+		 * @access public
+		 * @const string
+		 */
+		const PARAMETER_TOKEN = 'PARAMETER';
 
-	/**
-	 * This constant represents a whitespace token.
-	 *
-	 * @access public
-	 * @const string
-	 */
-	const WHITESPACE_TOKEN = 'WHITESPACE';
+		/**
+		 * This constant represents a real number token.
+		 *
+		 * @access public
+		 * @const string
+		 */
+		const REAL_TOKEN = 'NUMBER:REAL';
 
-	/**
-	 * This variable stores the head position of lexical analyzer.
-	 *
-	 * @access protected
-	 * @var integer
-	 */
-	protected $position = 0;
+		/**
+		 * This constant represents a terminal character token.
+		 *
+		 * @access public
+		 * @const string
+		 */
+		const TERMINAL_TOKEN = 'TERMINAL';
 
-	/**
-	 * This variable stores the number of tuples.
-	 *
-	 * @access protected
-	 * @var integer
-	 */
-	protected $size = 0;
+		/**
+		 * This constant represents a whitespace token.
+		 *
+		 * @access public
+		 * @const string
+		 */
+		const WHITESPACE_TOKEN = 'WHITESPACE';
 
-	/**
-	 * This variable stores the SQL statement being tokenized.
-	 *
-	 * @access protected
-	 * @var string
-	 */
-	protected $statement = '';
+		/**
+		 * This variable stores the head position of lexical analyzer.
+		 *
+		 * @access protected
+		 * @var integer
+		 */
+		protected $position = 0;
 
-	/**
-	 * This variable stores the tuples discovered by the lexical analyzer.
-	 *
-	 * @access protected
-	 * @var array
-	 */
-	protected $tuples = array();
+		/**
+		 * This variable stores the number of tuples.
+		 *
+		 * @access protected
+		 * @var integer
+		 */
+		protected $size = 0;
 
-	/**
-	 * This construct initializes the class.
-	 *
-	 * @access public
-	 * @param string $statement                         the SQL statement to be tokenized
-	 * @param string $dialect                           the SQL dialect
-	 */
-	public function __construct($statement, $dialect) {
-		$position = 0;
-		$strlen = strlen($statement);
-		$length = $strlen - 1;
+		/**
+		 * This variable stores the SQL statement being tokenized.
+		 *
+		 * @access protected
+		 * @var string
+		 */
+		protected $statement = '';
 
-		$whitespace = array(' ', "\t");
-		$eol = array("\n", "\r", ''); // TODO add PHP's equivalent to "\f"
-		$quote = array('`', '"');
+		/**
+		 * This variable stores the tuples discovered by the lexical analyzer.
+		 *
+		 * @access protected
+		 * @var array
+		 */
+		protected $tuples = array();
 
-		while ($position <= $length) {
-			$char = static::char_at($statement, $position, $strlen);
-			if ($char == '|') { // "operator" token
-				$lookahead = $position + 1;
-				$next = static::char_at($statement, $lookahead, $strlen);
-				if ($next == '|') {
-					$lookahead++;
-					$size = $lookahead - $position;
-					$token = substr($statement, $position, $size);
-					$this->tuples[] = array(
-						'type' => static::OPERATOR_TOKEN,
-						'token' => $token,
-					);
-					$this->size++;
-					// echo Debug::vars($token);
-				}
-				else {
-					$this->tuples[] = array(
-						'type' => static::OPERATOR_TOKEN,
-						'token' => $char,
-					);
-					$this->size++;
-					// echo Debug::vars($char);
-				}
-				$position = $lookahead;
-			}
-			else if (($char == '!') OR ($char == '=')) { // "operator" token
-				$lookahead = $position + 1;
-				$next = static::char_at($statement, $lookahead, $strlen);
-				if ($next == '=') {
-					$lookahead++;
-					$size = $lookahead - $position;
-					$token = substr($statement, $position, $size);
-					$this->tuples[] = array(
-						'type' => static::OPERATOR_TOKEN,
-						'token' => $token,
-					);
-					$this->size++;
-					// echo Debug::vars($token);
-				}
-				else {
-					$this->tuples[] = array(
-						'type' => static::OPERATOR_TOKEN,
-						'token' => $char,
-					);
-					$this->size++;
-					// echo Debug::vars($char);
-				}
-				$position = $lookahead;
-			}
-			else if (($char == '<') OR ($char == '>')) { // "operator" token
-				$lookahead = $position + 1;
-				$next = static::char_at($statement, $lookahead, $strlen);
-				if (($next == '=') OR ($next == $char) OR (($next == '>') AND ($char == '<'))) {
-					$lookahead++;
-					$size = $lookahead - $position;
-					$token = substr($statement, $position, $size);
-					$this->tuples[] = array(
-						'type' => static::OPERATOR_TOKEN,
-						'token' => $token,
-					);
-					$this->size++;
-					// echo Debug::vars($token);
-				}
-				else {
-					$this->tuples[] = array(
-						'type' => static::OPERATOR_TOKEN,
-						'token' => $char,
-					);
-					$this->size++;
-					// echo Debug::vars($char);
-				}
-				$position = $lookahead;
-			}
-			else if (in_array($char, $whitespace) OR in_array($char, $eol)) { // "whitespace" token
-				$start = $position;
-				$next = '';
-				do {
-					$position++;
-					$next = static::char_at($statement, $position, $strlen);
-				} while(($next != '') AND (in_array($next, $whitespace) OR in_array($next, $eol)));
-				$size = $position - $start;
-				$token = substr($statement, $start, $size);
-				$this->tuples[] = array(
-					'type' => static::WHITESPACE_TOKEN,
-					'token' => $token,
-				);
-				$this->size++;
-				// echo Debug::vars($token);
-			}
-			else if ($char == '#') { // "whitespace" token (i.e. MySQL-style comment)
-				$start = $position;
-				do {
-					$position++;
-				} while( ! in_array(static::char_at($statement, $position, $strlen), $eol));
-				$position++;
-				$size = $position - $start;
-				$token = substr($statement, $start, $size);
-				$this->tuples[] = array(
-					'type' => static::WHITESPACE_TOKEN,
-					'token' => $token,
-				);
-				$this->size++;
-				// echo Debug::vars($token);
-			}
-			else if ($char == '-') { // "whitespace" token (i.e. SQL-style comment) or "operator" token
-				$lookahead = $position + 1;
-				if (($lookahead > $length) OR (static::char_at($statement, $lookahead, $strlen) != '-')) {
-					$this->tuples[] = array(
-						'type' => static::OPERATOR_TOKEN,
-						'token' => $char,
-					);
-					$this->size++;
-					// echo Debug::vars($char);
-				}
-				else {
-					while ( ! in_array(static::char_at($statement, $lookahead, $strlen), $eol)) {
+		/**
+		 * This construct initializes the class.
+		 *
+		 * @access public
+		 * @param string $statement                         the SQL statement to be tokenized
+		 * @param string $dialect                           the SQL dialect
+		 */
+		public function __construct($statement, $dialect) {
+			$position = 0;
+			$strlen = strlen($statement);
+			$length = $strlen - 1;
+
+			$whitespace = array(' ', "\t");
+			$eol = array("\n", "\r", ''); // TODO add PHP's equivalent to "\f"
+			$quote = array('`', '"');
+
+			while ($position <= $length) {
+				$char = static::char_at($statement, $position, $strlen);
+				if ($char == '|') { // "operator" token
+					$lookahead = $position + 1;
+					$next = static::char_at($statement, $lookahead, $strlen);
+					if ($next == '|') {
 						$lookahead++;
-					}
-					$lookahead++;
-					$size = min($lookahead, $strlen) - $position;
-					$token = substr($statement, $position, $size);
-					$this->tuples[] = array(
-						'type' => static::WHITESPACE_TOKEN,
-						'token' => $token,
-					);
-					$this->size++;
-					// echo Debug::vars($token);
-				}
-				$position = $lookahead;
-			}
-			else if ($char == '/') { // "whitespace" token (i.e. C-style comment) or "operator" token
-				$lookahead = $position + 1;
-				$next = static::char_at($statement, $lookahead, $strlen);
-				if ($next != '*') {
-					$this->tuples[] = array(
-						'type' => static::OPERATOR_TOKEN,
-						'token' => $char,
-					);
-					$this->size++;
-					// echo Debug::vars($char);
-				}
-				else {
-					$lookahead += 2;
-					while ( ! ((static::char_at($statement, $lookahead - 1, $strlen) == '*') AND (static::char_at($statement, $lookahead, $strlen) == '/'))) {
-						$lookahead++;
-					}
-					$lookahead++;
-					$size = min($lookahead, $length + 1) - $position;
-					$token = substr($statement, $position, $size);
-					$this->tuples[] = array(
-						'type' => static::WHITESPACE_TOKEN,
-						'token' => $token,
-					);
-					$this->size++;
-					// echo Debug::vars($token);
-				}
-				$position = $lookahead;
-			}
-			else if ($char == '[') { // "identifier" token (Microsoft-style)
-				$start = $position;
-				do {
-					$position++;
-				} while(($position < $length) AND (static::char_at($statement, $position, $strlen) != ']'));
-				$position++;
-				$size = $position - $start;
-				$token = substr($statement, $start, $size);
-				$this->tuples[] = array(
-					'type' => static::IDENTIFIER_TOKEN,
-					'token' => $token,
-				);
-				$this->size++;
-				// echo Debug::vars($token);
-			}
-			else if (in_array($char, $quote)) { // "identifier" token (SQL-style)
-				$start = $position;
-				do {
-					$position++;
-				} while(($position < $length) AND (static::char_at($statement, $position, $strlen) != $char));
-				$position++;
-				$size = $position - $start;
-				$token = substr($statement, $start, $size);
-				$this->tuples[] = array(
-					'type' => static::IDENTIFIER_TOKEN,
-					'token' => $token,
-				);
-				$this->size++;
-				// echo Debug::vars($token);
-			}
-			else if ($char == '\'') { // "literal" token
-				$lookahead = $position + 1;
-				while ($lookahead <= $length) {
-					if (static::char_at($statement, $lookahead, $strlen) == '\'') {
-						if (($lookahead == $length) OR (static::char_at($statement, $lookahead + 1, $strlen) != '\'')) {
-							$lookahead++;
-							break;
-						}
-						$lookahead++;
-					}
-					$lookahead++;
-				}
-				$size = $lookahead - $position;
-				$token = substr($statement, $position, $size);
-				$this->tuples[] = array(
-					'type' => static::LITERAL_TOKEN,
-					'token' => $token,
-				);
-				$this->size++;
-				// echo Debug::vars($token);
-				$position = $lookahead;
-			}
-			else if (($char >= '0') AND ($char <= '9')) { // "integer" token, "real" token, or "hexadecimal" token
-				$type = '';
-				$start = $position;
-				$next = '';
-				if ($char == '0') {
-					$position++;
-					$next = static::char_at($statement, $position, $strlen);
-					if (($next == 'x') OR ($next == 'X')) {
-						do {
-							$position++;
-							$next = static::char_at($statement, $position, $strlen);
-						} while (($next >= '0') AND ($next <= '9'));
-						$type = static::HEXADECIMAL_TOKEN;
-					}
-					else if ($next == '.') {
-						do {
-							$position++;
-							$next = static::char_at($statement, $position, $strlen);
-						} while (($next >= '0') AND ($next <= '9'));
-						$type = static::REAL_TOKEN;
+						$size = $lookahead - $position;
+						$token = substr($statement, $position, $size);
+						$this->tuples[] = array(
+							'type' => static::OPERATOR_TOKEN,
+							'token' => $token,
+						);
+						$this->size++;
+						// echo Debug::vars($token);
 					}
 					else {
-						$type = static::INTEGER_TOKEN;
+						$this->tuples[] = array(
+							'type' => static::OPERATOR_TOKEN,
+							'token' => $char,
+						);
+						$this->size++;
+						// echo Debug::vars($char);
 					}
+					$position = $lookahead;
 				}
-				else {
+				else if (($char == '!') OR ($char == '=')) { // "operator" token
+					$lookahead = $position + 1;
+					$next = static::char_at($statement, $lookahead, $strlen);
+					if ($next == '=') {
+						$lookahead++;
+						$size = $lookahead - $position;
+						$token = substr($statement, $position, $size);
+						$this->tuples[] = array(
+							'type' => static::OPERATOR_TOKEN,
+							'token' => $token,
+						);
+						$this->size++;
+						// echo Debug::vars($token);
+					}
+					else {
+						$this->tuples[] = array(
+							'type' => static::OPERATOR_TOKEN,
+							'token' => $char,
+						);
+						$this->size++;
+						// echo Debug::vars($char);
+					}
+					$position = $lookahead;
+				}
+				else if (($char == '<') OR ($char == '>')) { // "operator" token
+					$lookahead = $position + 1;
+					$next = static::char_at($statement, $lookahead, $strlen);
+					if (($next == '=') OR ($next == $char) OR (($next == '>') AND ($char == '<'))) {
+						$lookahead++;
+						$size = $lookahead - $position;
+						$token = substr($statement, $position, $size);
+						$this->tuples[] = array(
+							'type' => static::OPERATOR_TOKEN,
+							'token' => $token,
+						);
+						$this->size++;
+						// echo Debug::vars($token);
+					}
+					else {
+						$this->tuples[] = array(
+							'type' => static::OPERATOR_TOKEN,
+							'token' => $char,
+						);
+						$this->size++;
+						// echo Debug::vars($char);
+					}
+					$position = $lookahead;
+				}
+				else if (in_array($char, $whitespace) OR in_array($char, $eol)) { // "whitespace" token
+					$start = $position;
+					$next = '';
 					do {
 						$position++;
 						$next = static::char_at($statement, $position, $strlen);
-					} while (($next >= '0') AND ($next <= '9'));
-					if ($next == '.') {
+					} while(($next != '') AND (in_array($next, $whitespace) OR in_array($next, $eol)));
+					$size = $position - $start;
+					$token = substr($statement, $start, $size);
+					$this->tuples[] = array(
+						'type' => static::WHITESPACE_TOKEN,
+						'token' => $token,
+					);
+					$this->size++;
+					// echo Debug::vars($token);
+				}
+				else if ($char == '#') { // "whitespace" token (i.e. MySQL-style comment)
+					$start = $position;
+					do {
+						$position++;
+					} while( ! in_array(static::char_at($statement, $position, $strlen), $eol));
+					$position++;
+					$size = $position - $start;
+					$token = substr($statement, $start, $size);
+					$this->tuples[] = array(
+						'type' => static::WHITESPACE_TOKEN,
+						'token' => $token,
+					);
+					$this->size++;
+					// echo Debug::vars($token);
+				}
+				else if ($char == '-') { // "whitespace" token (i.e. SQL-style comment) or "operator" token
+					$lookahead = $position + 1;
+					if (($lookahead > $length) OR (static::char_at($statement, $lookahead, $strlen) != '-')) {
+						$this->tuples[] = array(
+							'type' => static::OPERATOR_TOKEN,
+							'token' => $char,
+						);
+						$this->size++;
+						// echo Debug::vars($char);
+					}
+					else {
+						while ( ! in_array(static::char_at($statement, $lookahead, $strlen), $eol)) {
+							$lookahead++;
+						}
+						$lookahead++;
+						$size = min($lookahead, $strlen) - $position;
+						$token = substr($statement, $position, $size);
+						$this->tuples[] = array(
+							'type' => static::WHITESPACE_TOKEN,
+							'token' => $token,
+						);
+						$this->size++;
+						// echo Debug::vars($token);
+					}
+					$position = $lookahead;
+				}
+				else if ($char == '/') { // "whitespace" token (i.e. C-style comment) or "operator" token
+					$lookahead = $position + 1;
+					$next = static::char_at($statement, $lookahead, $strlen);
+					if ($next != '*') {
+						$this->tuples[] = array(
+							'type' => static::OPERATOR_TOKEN,
+							'token' => $char,
+						);
+						$this->size++;
+						// echo Debug::vars($char);
+					}
+					else {
+						$lookahead += 2;
+						while ( ! ((static::char_at($statement, $lookahead - 1, $strlen) == '*') AND (static::char_at($statement, $lookahead, $strlen) == '/'))) {
+							$lookahead++;
+						}
+						$lookahead++;
+						$size = min($lookahead, $length + 1) - $position;
+						$token = substr($statement, $position, $size);
+						$this->tuples[] = array(
+							'type' => static::WHITESPACE_TOKEN,
+							'token' => $token,
+						);
+						$this->size++;
+						// echo Debug::vars($token);
+					}
+					$position = $lookahead;
+				}
+				else if ($char == '[') { // "identifier" token (Microsoft-style)
+					$start = $position;
+					do {
+						$position++;
+					} while(($position < $length) AND (static::char_at($statement, $position, $strlen) != ']'));
+					$position++;
+					$size = $position - $start;
+					$token = substr($statement, $start, $size);
+					$this->tuples[] = array(
+						'type' => static::IDENTIFIER_TOKEN,
+						'token' => $token,
+					);
+					$this->size++;
+					// echo Debug::vars($token);
+				}
+				else if (in_array($char, $quote)) { // "identifier" token (SQL-style)
+					$start = $position;
+					do {
+						$position++;
+					} while(($position < $length) AND (static::char_at($statement, $position, $strlen) != $char));
+					$position++;
+					$size = $position - $start;
+					$token = substr($statement, $start, $size);
+					$this->tuples[] = array(
+						'type' => static::IDENTIFIER_TOKEN,
+						'token' => $token,
+					);
+					$this->size++;
+					// echo Debug::vars($token);
+				}
+				else if ($char == '\'') { // "literal" token
+					$lookahead = $position + 1;
+					while ($lookahead <= $length) {
+						if (static::char_at($statement, $lookahead, $strlen) == '\'') {
+							if (($lookahead == $length) OR (static::char_at($statement, $lookahead + 1, $strlen) != '\'')) {
+								$lookahead++;
+								break;
+							}
+							$lookahead++;
+						}
+						$lookahead++;
+					}
+					$size = $lookahead - $position;
+					$token = substr($statement, $position, $size);
+					$this->tuples[] = array(
+						'type' => static::LITERAL_TOKEN,
+						'token' => $token,
+					);
+					$this->size++;
+					// echo Debug::vars($token);
+					$position = $lookahead;
+				}
+				else if (($char >= '0') AND ($char <= '9')) { // "integer" token, "real" token, or "hexadecimal" token
+					$type = '';
+					$start = $position;
+					$next = '';
+					if ($char == '0') {
+						$position++;
+						$next = static::char_at($statement, $position, $strlen);
+						if (($next == 'x') OR ($next == 'X')) {
+							do {
+								$position++;
+								$next = static::char_at($statement, $position, $strlen);
+							} while (($next >= '0') AND ($next <= '9'));
+							$type = static::HEXADECIMAL_TOKEN;
+						}
+						else if ($next == '.') {
+							do {
+								$position++;
+								$next = static::char_at($statement, $position, $strlen);
+							} while (($next >= '0') AND ($next <= '9'));
+							$type = static::REAL_TOKEN;
+						}
+						else {
+							$type = static::INTEGER_TOKEN;
+						}
+					}
+					else {
 						do {
 							$position++;
 							$next = static::char_at($statement, $position, $strlen);
 						} while (($next >= '0') AND ($next <= '9'));
-						$type = static::REAL_TOKEN;
+						if ($next == '.') {
+							do {
+								$position++;
+								$next = static::char_at($statement, $position, $strlen);
+							} while (($next >= '0') AND ($next <= '9'));
+							$type = static::REAL_TOKEN;
+						}
+						else {
+							$type = static::INTEGER_TOKEN;
+						}
 					}
-					else {
-						$type = static::INTEGER_TOKEN;
-					}
+					$size = $position - $start;
+					$token = substr($statement, $start, $size);
+					$this->tuples[] = array(
+						'type' => $type,
+						'token' => $token,
+					);
+					$this->size++;
+					// echo Debug::vars($token);
 				}
-				$size = $position - $start;
-				$token = substr($statement, $start, $size);
-				$this->tuples[] = array(
-					'type' => $type,
-					'token' => $token,
-				);
-				$this->size++;
-				// echo Debug::vars($token);
-			}
-			else if ((($char >= 'a') AND ($char <= 'z')) OR (($char >= 'A') AND ($char <= 'Z')) OR ($char == '_')) { // "keyword" token or "identifier" token
-				$start = $position;
-				$next = '';
-				do {
+				else if ((($char >= 'a') AND ($char <= 'z')) OR (($char >= 'A') AND ($char <= 'Z')) OR ($char == '_')) { // "keyword" token or "identifier" token
+					$start = $position;
+					$next = '';
+					do {
+						$position++;
+						$next = static::char_at($statement, $position, $strlen);
+					} while(($position <= $length) AND ((($next >= 'a') AND ($next <= 'z')) OR (($next >= 'A') AND ($next <= 'Z')) OR ($next == '_') OR (($next >= '0') AND ($next <= '9'))));
+					$size = $position - $start;
+					$token = substr($statement, $start, $size);
+					$type = (static::is_keyword($token, $dialect)) ? static::KEYWORD_TOKEN : static::IDENTIFIER_TOKEN;
+					$this->tuples[] = array(
+						'type' => $type,
+						'token' => $token,
+					);
+					$this->size++;
+					// echo Debug::vars($token);
+				}
+				else { // miscellaneous token
+					$token = $char;
+					$type = '';
+					switch ($char) {
+						case '+':
+						case '*':
+						case '%':
+						case '&':
+						case '~':
+							$type = static::OPERATOR_TOKEN;
+						break;
+						case '?':
+							$type = static::PARAMETER_TOKEN;
+						break;
+						case ';':
+							$type = static::TERMINAL_TOKEN;
+						break;
+						default:
+							$type = $token;
+						break;
+					}
+					$this->tuples[] = array(
+						'type' => $type,
+						'token' => $token,
+					);
+					$this->size++;
+					// echo Debug::vars($token);
 					$position++;
-					$next = static::char_at($statement, $position, $strlen);
-				} while(($position <= $length) AND ((($next >= 'a') AND ($next <= 'z')) OR (($next >= 'A') AND ($next <= 'Z')) OR ($next == '_') OR (($next >= '0') AND ($next <= '9'))));
-				$size = $position - $start;
-				$token = substr($statement, $start, $size);
-				$type = (static::is_keyword($token, $dialect)) ? static::KEYWORD_TOKEN : static::IDENTIFIER_TOKEN;
-				$this->tuples[] = array(
-					'type' => $type,
-					'token' => $token,
-				);
-				$this->size++;
-				// echo Debug::vars($token);
-			}
-			else { // miscellaneous token
-				$token = $char;
-				$type = '';
-				switch ($char) {
-					case '+':
-					case '*':
-					case '%':
-					case '&':
-					case '~':
-						$type = static::OPERATOR_TOKEN;
-					break;
-					case '?':
-						$type = static::PARAMETER_TOKEN;
-					break;
-					case ';':
-						$type = static::TERMINAL_TOKEN;
-					break;
-					default:
-						$type = $token;
-					break;
 				}
-				$this->tuples[] = array(
-					'type' => $type,
-					'token' => $token,
-				);
-				$this->size++;
-				// echo Debug::vars($token);
-				$position++;
 			}
 		}
-	}
 
-	/**
-	 * This method returns an array of the found tuples.
-	 *
-	 * @access public
-	 * @return array                                    an array of tuples
-	 */
-	public function as_array() {
-		return $this->tuples;
-	}
+		/**
+		 * This method returns an array of the found tuples.
+		 *
+		 * @access public
+		 * @return array                                    an array of tuples
+		 */
+		public function as_array() {
+			return $this->tuples;
+		}
 
-	/**
-	 * This method returns the total number of tuples found.
-	 *
-	 * @access public
-	 * @override
-	 * @return integer                                  the total number of tuples found
-	 */
-	public function count() {
-		return $this->size;
-	}
+		/**
+		 * This method returns the total number of tuples found.
+		 *
+		 * @access public
+		 * @override
+		 * @return integer                                  the total number of tuples found
+		 */
+		public function count() {
+			return $this->size;
+		}
 
-	/**
-	 * This method returns the current tuple.
-	 *
-	 * @access public
-	 * @override
-	 * @return array                                    the current tuple
-	 */
-	public function current() {
-		return $this->tuples[$this->position];
-	}
+		/**
+		 * This method returns the current tuple.
+		 *
+		 * @access public
+		 * @override
+		 * @return array                                    the current tuple
+		 */
+		public function current() {
+			return $this->tuples[$this->position];
+		}
 
-	/**
-	 * This method returns a tuple either at the current position or
-	 * the specified position.
-	 *
-	 * @access public
-	 * @param integer $index                            the tuple's index
-	 * @return mixed                                    the tuple
-	 */
-	public function fetch($index = -1) {
-		settype($index, 'integer');
-		if ($index < 0) {
-			$index = $this->position;
+		/**
+		 * This method returns a tuple either at the current position or
+		 * the specified position.
+		 *
+		 * @access public
+		 * @param integer $index                            the tuple's index
+		 * @return mixed                                    the tuple
+		 */
+		public function fetch($index = -1) {
+			settype($index, 'integer');
+			if ($index < 0) {
+				$index = $this->position;
+				$this->position++;
+			}
+
+			if (isset($this->tuples[$index])) {
+				return $this->tuples[$index];
+			}
+
+			return FALSE;
+		}
+
+		/**
+		 * This method returns the index to the current tuple.
+		 *
+		 * @access public
+		 * @override
+		 * @return integer                                  the index of the current tuple
+		 */
+		public function key() {
+			return $this->position;
+		}
+
+		/**
+		 * This method moves forward the index to the next tuple.
+		 *
+		 * @access public
+		 * @override
+		 */
+		public function next() {
 			$this->position++;
 		}
 
-		if (isset($this->tuples[$index])) {
-			return $this->tuples[$index];
+		/**
+		 * This method determines whether an offset exists.
+		 *
+		 * @access public
+		 * @override
+		 * @param integer $offset                           the offset to be evaluated
+		 * @return boolean                                  whether the requested offset exists
+		 */
+		public function offsetExists($offset) {
+			return isset($this->tuples[$offset]);
 		}
 
-		return FALSE;
-	}
-
-	/**
-	 * This method returns the index to the current tuple.
-	 *
-	 * @access public
-	 * @override
-	 * @return integer                                  the index of the current tuple
-	 */
-	public function key() {
-		return $this->position;
-	}
-
-	/**
-	 * This method moves forward the index to the next tuple.
-	 *
-	 * @access public
-	 * @override
-	 */
-	public function next() {
-		$this->position++;
-	}
-
-	/**
-	 * This method determines whether an offset exists.
-	 *
-	 * @access public
-	 * @override
-	 * @param integer $offset                           the offset to be evaluated
-	 * @return boolean                                  whether the requested offset exists
-	 */
-	public function offsetExists($offset) {
-		return isset($this->tuples[$offset]);
-	}
-
-	/**
-	 * This method gets value at the specified offset.
-	 *
-	 * @access public
-	 * @override
-	 * @param integer $offset                           the offset to be fetched
-	 * @return mixed                                    the value at the specified offset
-	 */
-	public function offsetGet($offset) {
-		return isset($this->tuples[$offset]) ? $this->tuples[$offset] : NULL;
-	}
-
-	/**
-	 * This method sets the specified value at the specified offset.
-	 *
-	 * @access public
-	 * @override
-	 * @param integer $offset                           the offset to be set
-	 * @param mixed $value                              the value to be set
-	 * @throws Throwable\UnimplementedMethod\Exception  indicates the result cannot be modified
-	 */
-	public function offsetSet($offset, $value) {
-		throw new Throwable\UnimplementedMethod\Exception('Message: Invalid to call member function. Reason: Tokenizer cannot be modified.', array());
-	}
-
-	/**
-	 * This method allows for the specified offset to be unset.
-	 *
-	 * @access public
-	 * @override
-	 * @param integer $offset                           the offset to be unset
-	 * @throws Throwable\UnimplementedMethod\Exception  indicates the result cannot be modified
-	 */
-	public function offsetUnset($offset) {
-		throw new Throwable\UnimplementedMethod\Exception('Message: Invalid to call member function. Reason: Tokenizer cannot be modified..', array());
-	}
-
-	/**
-	 * This method returns the current iterator position.
-	 *
-	 * @access public
-	 * @override
-	 * @return integer                                  the current iterator position
-	 */
-	public function position() {
-		return $this->position;
-	}
-
-	/**
-	 * This method rewinds the iterator back to starting position.
-	 *
-	 * @access public
-	 * @override
-	 */
-	public function rewind() {
-		$this->position = 0;
-	}
-
-	/**
-	 * This method sets the position pointer to the seeked position.
-	 *
-	 * @access public
-	 * @override
-	 * @param integer $position                         the seeked position
-	 * @throws Throwable\OutOfBounds\Exception          indicates that the seeked position
-	 *                                                  is out of bounds
-	 */
-	public function seek($position) {
-		if ( ! isset($this->tuples[$position])) {
-			throw new Throwable\OutOfBounds\Exception('Message: Invalid array position. Reason: The specified position is out of bounds.', array(':position' => $position, ':count' => $this->size));
+		/**
+		 * This method gets value at the specified offset.
+		 *
+		 * @access public
+		 * @override
+		 * @param integer $offset                           the offset to be fetched
+		 * @return mixed                                    the value at the specified offset
+		 */
+		public function offsetGet($offset) {
+			return isset($this->tuples[$offset]) ? $this->tuples[$offset] : NULL;
 		}
-		$this->position = $position;
-	}
 
-	/**
-	 * This method checks if the current iterator position is valid.
-	 *
-	 * @access public
-	 * @override
-	 * @return boolean                                  whether the current iterator position is valid
-	 */
-	public function valid() {
-		return isset($this->tuples[$this->position]);
-	}
+		/**
+		 * This method sets the specified value at the specified offset.
+		 *
+		 * @access public
+		 * @override
+		 * @param integer $offset                           the offset to be set
+		 * @param mixed $value                              the value to be set
+		 * @throws Throwable\UnimplementedMethod\Exception  indicates the result cannot be modified
+		 */
+		public function offsetSet($offset, $value) {
+			throw new Throwable\UnimplementedMethod\Exception('Message: Invalid to call member function. Reason: Tokenizer cannot be modified.', array());
+		}
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		/**
+		 * This method allows for the specified offset to be unset.
+		 *
+		 * @access public
+		 * @override
+		 * @param integer $offset                           the offset to be unset
+		 * @throws Throwable\UnimplementedMethod\Exception  indicates the result cannot be modified
+		 */
+		public function offsetUnset($offset) {
+			throw new Throwable\UnimplementedMethod\Exception('Message: Invalid to call member function. Reason: Tokenizer cannot be modified..', array());
+		}
 
-	/**
-	 * This method returns the character at the specified position.
-	 *
-	 * @access protected
-	 * @static
-	 * @param string &$string                           the string to be used
-	 * @param integer $index                            the character's index
-	 * @param integer $length                           the string's length
-	 * @return char                                     the character at the specified index
-	 */
-	protected static function char_at(&$string, $index, $length) {
-		return ($index < $length) ? $string[$index] : '';
-	}
+		/**
+		 * This method returns the current iterator position.
+		 *
+		 * @access public
+		 * @override
+		 * @return integer                                  the current iterator position
+		 */
+		public function position() {
+			return $this->position;
+		}
 
-	/**
-	 * This method checks whether the specified token is a reserved keyword.
-	 *
-	 * @access public
-	 * @static
-	 * @param string $token                             the token to be cross-referenced
-	 * @return boolean                                  whether the token is a reserved keyword
-	 *
-	 * @see http://drupal.org/node/141051
-	 */
-	public static function is_keyword($token, $dialect) {
-		$precompiler = '\\Leap\\Core\\DB\\' . $dialect . '\\Precompiler';
-		$result = $precompiler::is_keyword($token);
-		return $result;
+		/**
+		 * This method rewinds the iterator back to starting position.
+		 *
+		 * @access public
+		 * @override
+		 */
+		public function rewind() {
+			$this->position = 0;
+		}
+
+		/**
+		 * This method sets the position pointer to the seeked position.
+		 *
+		 * @access public
+		 * @override
+		 * @param integer $position                         the seeked position
+		 * @throws Throwable\OutOfBounds\Exception          indicates that the seeked position
+		 *                                                  is out of bounds
+		 */
+		public function seek($position) {
+			if ( ! isset($this->tuples[$position])) {
+				throw new Throwable\OutOfBounds\Exception('Message: Invalid array position. Reason: The specified position is out of bounds.', array(':position' => $position, ':count' => $this->size));
+			}
+			$this->position = $position;
+		}
+
+		/**
+		 * This method checks if the current iterator position is valid.
+		 *
+		 * @access public
+		 * @override
+		 * @return boolean                                  whether the current iterator position is valid
+		 */
+		public function valid() {
+			return isset($this->tuples[$this->position]);
+		}
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		/**
+		 * This method returns the character at the specified position.
+		 *
+		 * @access protected
+		 * @static
+		 * @param string &$string                           the string to be used
+		 * @param integer $index                            the character's index
+		 * @param integer $length                           the string's length
+		 * @return char                                     the character at the specified index
+		 */
+		protected static function char_at(&$string, $index, $length) {
+			return ($index < $length) ? $string[$index] : '';
+		}
+
+		/**
+		 * This method checks whether the specified token is a reserved keyword.
+		 *
+		 * @access public
+		 * @static
+		 * @param string $token                             the token to be cross-referenced
+		 * @return boolean                                  whether the token is a reserved keyword
+		 *
+		 * @see http://drupal.org/node/141051
+		 */
+		public static function is_keyword($token, $dialect) {
+			$precompiler = '\\Leap\\Plugins\\DB\\' . $dialect . '\\Precompiler';
+			$result = $precompiler::is_keyword($token);
+			return $result;
+		}
+
 	}
 
 }

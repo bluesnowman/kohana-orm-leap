@@ -147,7 +147,7 @@ namespace Leap\Core\DB\Connection {
 					return $results;
 				}
 				else if ($this->data_source->cache->lifetime !== NULL) {
-					$this->cache_key = 'Leap\\Core\\DB\\Connection\\Driver::query("' . $this->data_source->id . '", "' . $type . '", "' . $sql . '")';
+					$this->cache_key = 'Leap\\Plugins\\DB\\Connection\\Driver::query("' . $this->data_source->id . '", "' . $type . '", "' . $sql . '")';
 					$results = \Kohana::cache($this->cache_key, NULL, $this->data_source->cache->lifetime);
 					if (($results !== NULL) AND ! $this->data_source->cache->force) {
 						return $results;
@@ -335,7 +335,7 @@ namespace Leap\Core\DB\Connection {
 		 */
 		public static function factory($config = 'default') {
 			$data_source = DB\DataSource::instance($config);
-			$driver = '\\Leap\\Core\\DB\\' . $data_source->dialect . '\\Connection\\' . $data_source->driver;
+			$driver = '\\Leap\\Plugins\\DB\\' . $data_source->dialect . '\\Connection\\' . $data_source->driver;
 			$connection = new $driver($data_source);
 			return $connection;
 		}

@@ -17,96 +17,102 @@
  * limitations under the License.
  */
 
-/**
- * This class contains a set of predefined operators.
- *
- * @package Leap
- * @category SQL
- * @version 2013-01-27
- *
- * @see http://www.firebirdsql.org/refdocs/langrefupd21-select.html
- * @see http://nimal.info/blog/2007/intersection-and-set-difference-in-mysql-a-workaround-for-except/
- * @see http://msdn.microsoft.com/en-us/library/ms189499.aspx
- * @see http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/operators005.htm
- * @see http://download.oracle.com/docs/cd/B19306_01/server.102/b14200/queries004.htm
- * @see http://www.sqlite.org/lang_select.html
- *
- * @abstract
- */
-abstract class Base\DB\SQL\Operator extends Core\Object {
+namespace Leap\Core\DB\SQL {
 
-	#region Comparison Operators
+	use Leap\Core;
 
-	const _BETWEEN_ = 'BETWEEN';
+	/**
+	 * This class contains a set of predefined operators.
+	 *
+	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Core\DB\SQL
+	 * @version 2014-01-26
+	 *
+	 * @see http://www.firebirdsql.org/refdocs/langrefupd21-select.html
+	 * @see http://nimal.info/blog/2007/intersection-and-set-difference-in-mysql-a-workaround-for-except/
+	 * @see http://msdn.microsoft.com/en-us/library/ms189499.aspx
+	 * @see http://www.stanford.edu/dept/itss/docs/oracle/10g/server.101/b10759/operators005.htm
+	 * @see http://download.oracle.com/docs/cd/B19306_01/server.102/b14200/queries004.htm
+	 * @see http://www.sqlite.org/lang_select.html
+	 */
+	abstract class Operator extends Core\Object {
 
-	const _EQUAL_TO_ = '=';
+		#region Comparison Operators
 
-	const _GLOB_ = 'GLOB'; // supported by SQLite
+		const _BETWEEN_ = 'BETWEEN';
 
-	const _GREATER_THAN_ = '>';
+		const _EQUAL_TO_ = '=';
 
-	const _GREATER_THAN_OR_EQUAL_TO_ = '>=';
+		const _GLOB_ = 'GLOB'; // supported by SQLite
 
-	const _IS_ = 'IS';
+		const _GREATER_THAN_ = '>';
 
-	const _IS_NOT_ = 'IS NOT';
+		const _GREATER_THAN_OR_EQUAL_TO_ = '>=';
 
-	const _IN_ = 'IN';
+		const _IS_ = 'IS';
 
-	const _LESS_THAN_ = '<';
+		const _IS_NOT_ = 'IS NOT';
 
-	const _LESS_THAN_OR_EQUAL_TO_ = '<=';
+		const _IN_ = 'IN';
 
-	const _LIKE_ = 'LIKE';
+		const _LESS_THAN_ = '<';
 
-	const _MATCH_ = 'MATCH'; // supported by SQLite
+		const _LESS_THAN_OR_EQUAL_TO_ = '<=';
 
-	const _NOT_BETWEEN_ = 'NOT BETWEEN';
+		const _LIKE_ = 'LIKE';
 
-	const _NOT_EQUAL_TO_ = '!=';
+		const _MATCH_ = 'MATCH'; // supported by SQLite
 
-	const _NOT_EQUIVALENT_ = '<>';
+		const _NOT_BETWEEN_ = 'NOT BETWEEN';
 
-	const _NOT_GLOB_ = 'NOT GLOB'; // supported by SQLite
+		const _NOT_EQUAL_TO_ = '!=';
 
-	const _NOT_IN_ = 'NOT IN';
+		const _NOT_EQUIVALENT_ = '<>';
 
-	const _NOT_LIKE_ = 'NOT LIKE';
+		const _NOT_GLOB_ = 'NOT GLOB'; // supported by SQLite
 
-	const _NOT_MATCH_ = 'NOT MATCH'; // supported by SQLite
+		const _NOT_IN_ = 'NOT IN';
 
-	const _NOT_REGEX_ = 'NOT REGEX'; // supported by MySQL, SQLite (variation)
+		const _NOT_LIKE_ = 'NOT LIKE';
 
-	const _NOT_SIMILAR_TO_ = 'NOT SIMILAR TO'; // supported by PostgreSQL
+		const _NOT_MATCH_ = 'NOT MATCH'; // supported by SQLite
 
-	const _REGEX_ = 'REGEX'; // supported by MySQL, SQLite (variation)
+		const _NOT_REGEX_ = 'NOT REGEX'; // supported by MySQL, SQLite (variation)
 
-	const _SIMILAR_TO_ = 'SIMILAR TO'; // supported by PostgreSQL
+		const _NOT_SIMILAR_TO_ = 'NOT SIMILAR TO'; // supported by PostgreSQL
 
-	#endregion
+		const _REGEX_ = 'REGEX'; // supported by MySQL, SQLite (variation)
 
-	#region Set Operators
+		const _SIMILAR_TO_ = 'SIMILAR TO'; // supported by PostgreSQL
 
-	const _EXCEPT_ = 'EXCEPT'; // supported by DB2, MS SQL, PostgreSQL, SQLite
+		#endregion
 
-	const _EXCEPT_ALL_ = 'EXCEPT ALL'; // supported by PostgreSQL
+		#region Set Operators
 
-	const _EXCEPT_DISTINCT_ = 'EXCEPT DISTINCT';
+		const _EXCEPT_ = 'EXCEPT'; // supported by DB2, MS SQL, PostgreSQL, SQLite
 
-	const _INTERSECT_ = 'INTERSECT'; // supported by DB2, MS SQL, Oracle, PostgreSQL, SQLite
+		const _EXCEPT_ALL_ = 'EXCEPT ALL'; // supported by PostgreSQL
 
-	const _INTERSECT_ALL_ = 'INTERSECT ALL'; // supported by PostgreSQL
+		const _EXCEPT_DISTINCT_ = 'EXCEPT DISTINCT';
 
-	const _INTERSECT_DISTINCT_ = 'INTERSECT DISTINCT';
+		const _INTERSECT_ = 'INTERSECT'; // supported by DB2, MS SQL, Oracle, PostgreSQL, SQLite
 
-	const _MINUS_ = 'MINUS'; // supported by Oracle
+		const _INTERSECT_ALL_ = 'INTERSECT ALL'; // supported by PostgreSQL
 
-	const _UNION_ = 'UNION'; // supported by DB2, Firebird, MS SQL, MySQL, Oracle, PostgreSQL, SQLite
+		const _INTERSECT_DISTINCT_ = 'INTERSECT DISTINCT';
 
-	const _UNION_ALL_ = 'UNION ALL'; // supported by DB2, Firebird, MS SQL, MySQL, Oracle, PostgreSQL, SQLite
+		const _MINUS_ = 'MINUS'; // supported by Oracle
 
-	const _UNION_DISTINCT_ = 'UNION DISTINCT'; // support by Firebird, MySQL
+		const _UNION_ = 'UNION'; // supported by DB2, Firebird, MS SQL, MySQL, Oracle, PostgreSQL, SQLite
 
-	#endregion
+		const _UNION_ALL_ = 'UNION ALL'; // supported by DB2, Firebird, MS SQL, MySQL, Oracle, PostgreSQL, SQLite
+
+		const _UNION_DISTINCT_ = 'UNION DISTINCT'; // support by Firebird, MySQL
+
+		#endregion
+
+	}
 
 }
