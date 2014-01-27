@@ -17,82 +17,87 @@
  * limitations under the License.
  */
 
-/**
- * This class represents a "has one" relation in a database table.
- *
- * @package Leap
- * @category ORM
- * @version 2013-01-28
- *
- * @abstract
- */
-abstract class Base\DB\ORM\Relation\HasOne extends DB\ORM\Relation {
+namespace Leap\Core\DB\ORM\Relation {
+
+	use Leap\Core\DB;
 
 	/**
-	 * This constructor initializes the class.
+	 * This class represents a "has one" relation in a database table.
 	 *
 	 * @access public
-	 * @override
-	 * @param DB\ORM\Model $model                   a reference to the implementing model
-	 * @param array $metadata                       the relation's metadata
+	 * @class
+	 * @package Leap\Core\DB\ORM\Relation
+	 * @version 2014-01-26
 	 */
-	public function __construct(DB\ORM\Model $model, Array $metadata = array()) {
-		parent::__construct($model, 'has_one');
+	class HasOne extends DB\ORM\Relation {
 
-		// the parent model is the referenced table
-		$parent_model = get_class($model);
+		/**
+		 * This constructor initializes the class.
+		 *
+		 * @access public
+		 * @override
+		 * @param DB\ORM\Model $model                   a reference to the implementing model
+		 * @param array $metadata                       the relation's metadata
+		 */
+		public function __construct(DB\ORM\Model $model, Array $metadata = array()) {
+			parent::__construct($model, 'has_one');
 
-		// Get parent model's name into variable, otherways a late static binding code throws a
-		// syntax error when used like this: $this->metadata['parent_model']::primary_key()
-		$this->metadata['parent_model'] = $parent_model;
+			// the parent model is the referenced table
+			$parent_model = get_class($model);
 
-		// the parent key (i.e. candidate key) is an ordered list of field names in the parent model
-		$this->metadata['parent_key'] = (isset($metadata['parent_key']))
-			? (array) $metadata['parent_key']
-			: $parent_model::primary_key();
+			// Get parent model's name into variable, otherways a late static binding code throws a
+			// syntax error when used like this: $this->metadata['parent_model']::primary_key()
+			$this->metadata['parent_model'] = $parent_model;
 
-		// the child model is the referencing table
-		$this->metadata['child_model'] = DB\ORM\Model::model_name($metadata['child_model']);
+			// the parent key (i.e. candidate key) is an ordered list of field names in the parent model
+			$this->metadata['parent_key'] = (isset($metadata['parent_key']))
+				? (array) $metadata['parent_key']
+				: $parent_model::primary_key();
 
-		// the child key (i.e. foreign key) is an ordered list of field names in the child model
-		$this->metadata['child_key'] = (array) $metadata['child_key'];
-	}
+			// the child model is the referencing table
+			$this->metadata['child_model'] = DB\ORM\Model::model_name($metadata['child_model']);
 
-	/**
-	 * This method loads the corresponding model.
-	 *
-	 * @access protected
-	 * @override
-	 * @return DB\ORM\Model							the corresponding model
-	 */
-	protected function load() {
-		$parent_key = $this->metadata['parent_key'];
-
-		$child_model = $this->metadata['child_model'];
-		$child_table = $child_model::table();
-		$child_key = $this->metadata['child_key'];
-		$child_source = $child_model::data_source(DB\DataSource::SLAVE_INSTANCE);
-
-		$builder = DB\SQL::select($child_source)
-			->all("{$child_table}.*")
-			->from($child_table);
-
-		$field_count = count($child_key);
-		for ($i = 0; $i < $field_count; $i++) {
-			$builder->where("{$child_table}.{$child_key[$i]}", DB\SQL\Operator::_EQUAL_TO_, $this->model->{$parent_key[$i]});
+			// the child key (i.e. foreign key) is an ordered list of field names in the child model
+			$this->metadata['child_key'] = (array) $metadata['child_key'];
 		}
 
-		$result = $builder->limit(1)->query($child_model);
+		/**
+		 * This method loads the corresponding model.
+		 *
+		 * @access protected
+		 * @override
+		 * @return DB\ORM\Model							the corresponding model
+		 */
+		protected function load() {
+			$parent_key = $this->metadata['parent_key'];
 
-		if ($result->is_loaded()) {
-			return $result->fetch(0);
+			$child_model = $this->metadata['child_model'];
+			$child_table = $child_model::table();
+			$child_key = $this->metadata['child_key'];
+			$child_source = $child_model::data_source(DB\DataSource::SLAVE_INSTANCE);
+
+			$builder = DB\SQL::select($child_source)
+				->all("{$child_table}.*")
+				->from($child_table);
+
+			$field_count = count($child_key);
+			for ($i = 0; $i < $field_count; $i++) {
+				$builder->where("{$child_table}.{$child_key[$i]}", DB\SQL\Operator::_EQUAL_TO_, $this->model->{$parent_key[$i]});
+			}
+
+			$result = $builder->limit(1)->query($child_model);
+
+			if ($result->is_loaded()) {
+				return $result->fetch(0);
+			}
+
+			$record = new $child_model();
+			for ($i = 0; $i < $field_count; $i++) {
+				$record->{$child_key[$i]} = $this->model->{$parent_key[$i]};
+			}
+			return $record;
 		}
 
-		$record = new $child_model();
-		for ($i = 0; $i < $field_count; $i++) {
-			$record->{$child_key[$i]} = $this->model->{$parent_key[$i]};
-		}
-		return $record;
 	}
 
 }

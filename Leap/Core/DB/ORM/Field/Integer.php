@@ -17,193 +17,199 @@
  * limitations under the License.
  */
 
-/**
- * This class represents an "integer" field in a database table.
- *
- * @package Leap
- * @category ORM
- * @version 2012-12-05
- *
- * @abstract
- */
-abstract class Base\DB\ORM\Field\Integer extends DB\ORM\Field {
+namespace Leap\Core\DB\ORM\Field {
+
+	use Leap\Core\DB;
+	use Leap\Core\Throwable;
 
 	/**
-	 * This constructor initializes the class.
+	 * This class represents an "integer" field in a database table.
 	 *
 	 * @access public
-	 * @param DB\ORM\Model $model                   a reference to the implementing model
-	 * @param array $metadata                       the field's metadata
-	 * @throws Throwable\Validation\Exception       indicates that the specified value does
-	 *                                              not validate
+	 * @class
+	 * @package Leap\Core\DB\ORM\Field
+	 * @version 2014-01-26
 	 */
-	public function __construct(DB\ORM\Model $model, Array $metadata = array()) {
-		parent::__construct($model, 'integer');
+	class Integer extends DB\ORM\Field {
 
-		if (isset($metadata['max_length'])) {
-			$this->metadata['max_length'] = (int) $metadata['max_length']; // the maximum length of the integer
-		}
+		/**
+		 * This constructor initializes the class.
+		 *
+		 * @access public
+		 * @param DB\ORM\Model $model                   a reference to the implementing model
+		 * @param array $metadata                       the field's metadata
+		 * @throws Throwable\Validation\Exception       indicates that the specified value does
+		 *                                              not validate
+		 */
+		public function __construct(DB\ORM\Model $model, Array $metadata = array()) {
+			parent::__construct($model, 'integer');
 
-		$this->metadata['unsigned'] = isset($metadata['unsigned']) ? (bool) $metadata['unsigned'] : FALSE;
-
-		if (isset($this->metadata['max_length']) AND ($this->metadata['max_length'] >= 11)) {
-			if (PHP_INT_SIZE === 4) {
-				$this->metadata['int8fix'] = TRUE;
-				$this->metadata['range']['lower_bound'] = $this->metadata['unsigned'] ? '0' : '-9223372036854775808';
-				$this->metadata['range']['upper_bound'] = '9223372036854775807';
+			if (isset($metadata['max_length'])) {
+				$this->metadata['max_length'] = (int) $metadata['max_length']; // the maximum length of the integer
 			}
-			else {
-				$this->metadata['range']['lower_bound'] = $this->metadata['unsigned'] ? 0 : -9223372036854775808;
-				$this->metadata['range']['upper_bound'] = 9223372036854775807;
-			}
-		}
-		else {
-			$this->metadata['range']['lower_bound'] = $this->metadata['unsigned'] ? 0 : -2147483648;
-			$this->metadata['range']['upper_bound'] = 2147483647;
-		}
 
-		if (isset($metadata['range'])) {
-			if (isset($this->metadata['int8fix'])) {
-				$this->metadata['range']['lower_bound'] = (bccomp(strval($metadata['range'][0]), ($this->metadata['range']['lower_bound']) === 1)) ? strval($metadata['range'][0]) : $this->metadata['range']['lower_bound'];
-				$this->metadata['range']['upper_bound'] = (bccomp(strval($metadata['range'][1]), ($this->metadata['range']['lower_bound']) === -1)) ? strval($metadata['range'][0]) : $this->metadata['range']['upper_bound'];
-			}
-			else {
-				$this->metadata['range']['lower_bound'] = max( (int) $metadata['range'][0], $this->metadata['range']['lower_bound']);
-				$this->metadata['range']['upper_bound'] = min( (int) $metadata['range'][1], $this->metadata['range']['upper_bound']);
-			}
-		}
+			$this->metadata['unsigned'] = isset($metadata['unsigned']) ? (bool) $metadata['unsigned'] : FALSE;
 
-		if (isset($metadata['savable'])) {
-			$this->metadata['savable'] = (bool) $metadata['savable'];
-		}
-
-		if (isset($metadata['nullable'])) {
-			$this->metadata['nullable'] = (bool) $metadata['nullable'];
-		}
-
-		if (isset($metadata['filter'])) {
-			$this->metadata['filter'] = (string) $metadata['filter'];
-		}
-
-		if (isset($metadata['callback'])) {
-			$this->metadata['callback'] = (string) $metadata['callback'];
-		}
-
-		if (isset($metadata['enum'])) {
-			$this->metadata['enum'] = (array) $metadata['enum'];
-		}
-
-		if (isset($metadata['control'])) {
-			$this->metadata['control'] = (string) $metadata['control'];
-		}
-
-		if (isset($metadata['label'])) {
-			$this->metadata['label'] = (string) $metadata['label'];
-		}
-
-		if (isset($metadata['default'])) {
-			$default = $metadata['default'];
-		}
-		else if ( ! $this->metadata['nullable']) {
-			if (isset($this->metadata['enum'])) {
-				$default = $this->metadata['enum'][0];
-			}
-			else if (isset($this->metadata['int8fix'])) {
-				$default = (bccomp($this->metadata['range']['lower_bound'], '0') === 1) ? $this->metadata['range']['lower_bound'] : '0';
-				if ((bccomp($default, '-2147483648') !== -1) OR (bccomp($default, '2147483647') !== 1)) {
-					$default = (int) $default;
+			if (isset($this->metadata['max_length']) AND ($this->metadata['max_length'] >= 11)) {
+				if (PHP_INT_SIZE === 4) {
+					$this->metadata['int8fix'] = TRUE;
+					$this->metadata['range']['lower_bound'] = $this->metadata['unsigned'] ? '0' : '-9223372036854775808';
+					$this->metadata['range']['upper_bound'] = '9223372036854775807';
+				}
+				else {
+					$this->metadata['range']['lower_bound'] = $this->metadata['unsigned'] ? 0 : -9223372036854775808;
+					$this->metadata['range']['upper_bound'] = 9223372036854775807;
 				}
 			}
 			else {
-				$default = max(0, $this->metadata['range']['lower_bound']);
+				$this->metadata['range']['lower_bound'] = $this->metadata['unsigned'] ? 0 : -2147483648;
+				$this->metadata['range']['upper_bound'] = 2147483647;
 			}
-		}
-		else {
-			$default = (isset($this->metadata['enum']) AND ! in_array(NULL, $this->metadata['enum']))
-				? $this->metadata['enum'][0]
-				: NULL;
-		}
 
-		if ( ! ($default instanceof DB\SQL\Expression)) {
-			if ($default !== NULL) {
-				if ((PHP_INT_SIZE !== 4) OR ! is_string($default) OR ! preg_match('/^-?[0-9]+$/D', $default) OR ((bccomp($default, '-2147483648') !== -1) AND (bccomp($default, '2147483647') !== 1))) {
-					settype($default, $this->metadata['type']);
+			if (isset($metadata['range'])) {
+				if (isset($this->metadata['int8fix'])) {
+					$this->metadata['range']['lower_bound'] = (bccomp(strval($metadata['range'][0]), ($this->metadata['range']['lower_bound']) === 1)) ? strval($metadata['range'][0]) : $this->metadata['range']['lower_bound'];
+					$this->metadata['range']['upper_bound'] = (bccomp(strval($metadata['range'][1]), ($this->metadata['range']['lower_bound']) === -1)) ? strval($metadata['range'][0]) : $this->metadata['range']['upper_bound'];
+				}
+				else {
+					$this->metadata['range']['lower_bound'] = max( (int) $metadata['range'][0], $this->metadata['range']['lower_bound']);
+					$this->metadata['range']['upper_bound'] = min( (int) $metadata['range'][1], $this->metadata['range']['upper_bound']);
 				}
 			}
-			if ( ! $this->validate($default)) {
-				throw new Throwable\Validation\Exception('Message: Unable to set default value for field. Reason: Value :value failed to pass validation constraints.', array(':value' => $default));
+
+			if (isset($metadata['savable'])) {
+				$this->metadata['savable'] = (bool) $metadata['savable'];
 			}
-		}
 
-		$this->metadata['default'] = $default;
-		$this->value = $default;
-	}
+			if (isset($metadata['nullable'])) {
+				$this->metadata['nullable'] = (bool) $metadata['nullable'];
+			}
 
-	/**
-	 * This method sets the value for the specified key.
-	 *
-	 * @access public
-	 * @override
-	 * @param string $key                           the name of the property
-	 * @param mixed $value                          the value of the property
-	 * @throws Throwable\Validation\Exception       indicates that the specified value does
-	 *                                              not validate
-	 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-	 *                                              either inaccessible or undefined
-	 */
-	public function __set($key, $value) {
-		switch ($key) {
-			case 'value':
-				if ( ! ($value instanceof DB\SQL\Expression)) {
-					if ($value !== NULL) {
-						if ( ! isset($this->metadata['int8fix']) OR is_int($value) OR ! preg_match('/^-?[0-9]+$/D', (string) $value) OR (bccomp( (string) $value, '-2147483648') !== -1 AND bccomp( (string) $value, '2147483647') !== 1)) {
-							settype($value, $this->metadata['type']);
-						}
-						if ( ! $this->validate($value)) {
-							throw new Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
-						}
-					}
-					else if ( ! $this->metadata['nullable']) {
-						$value = $this->metadata['default'];
+			if (isset($metadata['filter'])) {
+				$this->metadata['filter'] = (string) $metadata['filter'];
+			}
+
+			if (isset($metadata['callback'])) {
+				$this->metadata['callback'] = (string) $metadata['callback'];
+			}
+
+			if (isset($metadata['enum'])) {
+				$this->metadata['enum'] = (array) $metadata['enum'];
+			}
+
+			if (isset($metadata['control'])) {
+				$this->metadata['control'] = (string) $metadata['control'];
+			}
+
+			if (isset($metadata['label'])) {
+				$this->metadata['label'] = (string) $metadata['label'];
+			}
+
+			if (isset($metadata['default'])) {
+				$default = $metadata['default'];
+			}
+			else if ( ! $this->metadata['nullable']) {
+				if (isset($this->metadata['enum'])) {
+					$default = $this->metadata['enum'][0];
+				}
+				else if (isset($this->metadata['int8fix'])) {
+					$default = (bccomp($this->metadata['range']['lower_bound'], '0') === 1) ? $this->metadata['range']['lower_bound'] : '0';
+					if ((bccomp($default, '-2147483648') !== -1) OR (bccomp($default, '2147483647') !== 1)) {
+						$default = (int) $default;
 					}
 				}
-				if (isset($this->metadata['callback']) AND ! $this->model->{$this->metadata['callback']}($value)) {
-					throw new Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
+				else {
+					$default = max(0, $this->metadata['range']['lower_bound']);
 				}
-				$this->metadata['modified'] = TRUE;
-				$this->value = $value;
-			break;
-			case 'modified':
-				$this->metadata['modified'] = (bool) $value;
-			break;
-			default:
-				throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
-			break;
-		}
-	}
-
-	/**
-	 * This method validates the specified value against any constraints.
-	 *
-	 * @access protected
-	 * @override
-	 * @param mixed $value                          the value to be validated
-	 * @return boolean                              whether the specified value validates
-	 */
-	protected function validate($value) {
-		if ($value !== NULL) {
-			if (isset($this->metadata['max_length']) AND (strlen(strval($value)) > $this->metadata['max_length'])) {
-				return FALSE;
 			}
-			if (isset($this->metadata['int8fix'])) {
-				if ( ! preg_match('/^-?[0-9]+$/D', strval($value)) OR (bccomp(strval($value), strval($this->metadata['range']['lower_bound'])) === -1) OR (bccomp(strval($value), strval($this->metadata['range']['upper_bound'])) === 1))
+			else {
+				$default = (isset($this->metadata['enum']) AND ! in_array(NULL, $this->metadata['enum']))
+					? $this->metadata['enum'][0]
+					: NULL;
+			}
+
+			if ( ! ($default instanceof DB\SQL\Expression)) {
+				if ($default !== NULL) {
+					if ((PHP_INT_SIZE !== 4) OR ! is_string($default) OR ! preg_match('/^-?[0-9]+$/D', $default) OR ((bccomp($default, '-2147483648') !== -1) AND (bccomp($default, '2147483647') !== 1))) {
+						settype($default, $this->metadata['type']);
+					}
+				}
+				if ( ! $this->validate($default)) {
+					throw new Throwable\Validation\Exception('Message: Unable to set default value for field. Reason: Value :value failed to pass validation constraints.', array(':value' => $default));
+				}
+			}
+
+			$this->metadata['default'] = $default;
+			$this->value = $default;
+		}
+
+		/**
+		 * This method sets the value for the specified key.
+		 *
+		 * @access public
+		 * @override
+		 * @param string $key                           the name of the property
+		 * @param mixed $value                          the value of the property
+		 * @throws Throwable\Validation\Exception       indicates that the specified value does
+		 *                                              not validate
+		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
+		 *                                              either inaccessible or undefined
+		 */
+		public function __set($key, $value) {
+			switch ($key) {
+				case 'value':
+					if ( ! ($value instanceof DB\SQL\Expression)) {
+						if ($value !== NULL) {
+							if ( ! isset($this->metadata['int8fix']) OR is_int($value) OR ! preg_match('/^-?[0-9]+$/D', (string) $value) OR (bccomp( (string) $value, '-2147483648') !== -1 AND bccomp( (string) $value, '2147483647') !== 1)) {
+								settype($value, $this->metadata['type']);
+							}
+							if ( ! $this->validate($value)) {
+								throw new Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
+							}
+						}
+						else if ( ! $this->metadata['nullable']) {
+							$value = $this->metadata['default'];
+						}
+					}
+					if (isset($this->metadata['callback']) AND ! $this->model->{$this->metadata['callback']}($value)) {
+						throw new Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
+					}
+					$this->metadata['modified'] = TRUE;
+					$this->value = $value;
+				break;
+				case 'modified':
+					$this->metadata['modified'] = (bool) $value;
+				break;
+				default:
+					throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
+				break;
+			}
+		}
+
+		/**
+		 * This method validates the specified value against any constraints.
+		 *
+		 * @access protected
+		 * @override
+		 * @param mixed $value                          the value to be validated
+		 * @return boolean                              whether the specified value validates
+		 */
+		protected function validate($value) {
+			if ($value !== NULL) {
+				if (isset($this->metadata['max_length']) AND (strlen(strval($value)) > $this->metadata['max_length'])) {
 					return FALSE;
+				}
+				if (isset($this->metadata['int8fix'])) {
+					if ( ! preg_match('/^-?[0-9]+$/D', strval($value)) OR (bccomp(strval($value), strval($this->metadata['range']['lower_bound'])) === -1) OR (bccomp(strval($value), strval($this->metadata['range']['upper_bound'])) === 1))
+						return FALSE;
+				}
+				else if (($value < $this->metadata['range']['lower_bound']) OR ($value > $this->metadata['range']['upper_bound'])) {
+					return FALSE;
+				}
 			}
-			else if (($value < $this->metadata['range']['lower_bound']) OR ($value > $this->metadata['range']['upper_bound'])) {
-				return FALSE;
-			}
+			return parent::validate($value);
 		}
-		return parent::validate($value);
+
 	}
 
 }

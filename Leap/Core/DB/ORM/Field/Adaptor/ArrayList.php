@@ -23,7 +23,7 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 	use Leap\Core\Throwable;
 
 	/**
-	 * This class represents an "object" adaptor for a handling object storage
+	 * This class represents a "list" adaptor for a delimitated string field
 	 * in a database table.
 	 *
 	 * @access public
@@ -31,7 +31,7 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 	 * @package Leap\Core\DB\ORM\Field\Adaptor
 	 * @version 2014-01-26
 	 */
-	class Object extends DB\ORM\Field\Adaptor {
+	class ArrayList extends DB\ORM\Field\Adaptor {
 
 		/**
 		 * This constructor initializes the class.
@@ -45,7 +45,11 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 		public function __construct(DB\ORM\Model $model, Array $metadata = array()) {
 			parent::__construct($model, $metadata['field']);
 
-			$this->metadata['class'] = (string) $metadata['class'];
+			$this->metadata['delimiter'] = (isset($metadata['delimiter']))
+				? (string) $metadata['delimiter']
+				: ',';
+
+			$this->metadata['regex'] = '/' . preg_quote($this->metadata['delimiter']) . '/';
 		}
 
 		/**
@@ -63,7 +67,7 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 				case 'value':
 					$value = $this->model->{$this->metadata['field']};
 					if (($value !== NULL) AND ! ($value instanceof DB\SQL\Expression)) {
-						$value = unserialize($value);
+						$value = preg_split($this->metadata['regex'], $value);
 					}
 					return $value;
 				break;
@@ -87,11 +91,8 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 		public function __set($key, $value) {
 			switch ($key) {
 				case 'value':
-					if ($value !== NULL) {
-						if ( ! (is_object($value) AND ($value instanceof $this->metadata['class']))) {
-							throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Value is not an instance of data type.', array(':object' => $this->metadata['class'], ':type' => gettype($value)));
-						}
-						$value = (string) serialize($value);
+					if (is_array($value)) {
+						$value = implode($this->metadata['delimiter'], $value);
 					}
 					$this->model->{$this->metadata['field']} = $value;
 				break;

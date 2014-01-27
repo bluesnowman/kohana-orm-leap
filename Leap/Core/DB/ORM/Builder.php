@@ -17,33 +17,40 @@
  * limitations under the License.
  */
 
-/**
- * This class acts as an extension to the a builder class.
- *
- * @package Leap
- * @category ORM
- * @version 2013-01-28
- *
- * @abstract
- */
-abstract class Base\DB\ORM\Builder extends Core\Object {
+namespace Leap\Core\DB\ORM {
+
+	use Leap\Core;
+	use Leap\Core\DB;
 
 	/**
-	 * This variable stores an instance of the SQL builder class.
+	 * This class acts as an extension to the a builder class.
 	 *
-	 * @access protected
-	 * @var DB\SQL\Builder
-	 */
-	protected $builder;
-
-	/**
-	 * This constructor instantiates this class.
-	 *
+	 * @abstract
 	 * @access public
-	 * @param DB\SQL\Builder $builder             the SQL builder class to be extended
+	 * @class
+	 * @package Leap\Core\DB\ORM
+	 * @version 2014-01-26
 	 */
-	public function __construct(DB\SQL\Builder $builder) {
-		$this->builder = $builder;
+	abstract class Builder extends Core\Object {
+
+		/**
+		 * This variable stores an instance of the SQL builder class.
+		 *
+		 * @access protected
+		 * @var DB\SQL\Builder
+		 */
+		protected $builder;
+
+		/**
+		 * This constructor instantiates this class.
+		 *
+		 * @access public
+		 * @param DB\SQL\Builder $builder             the SQL builder class to be extended
+		 */
+		public function __construct(DB\SQL\Builder $builder) {
+			$this->builder = $builder;
+		}
+
 	}
 
 }

@@ -17,82 +17,90 @@
  * limitations under the License.
  */
 
-/**
- * This class represents an adaptor for a field in a database table.
- *
- * @package Leap
- * @category ORM
- * @version 2013-02-06
- *
- * @abstract
- */
-abstract class Base\DB\ORM\Field\Adaptor extends Core\Object {
+namespace Leap\Core\DB\ORM\Field {
+
+	use Leap\Core;
+	use Leap\Core\DB;
+	use Leap\Core\Throwable;
 
 	/**
-	 * This variable stores the adaptor's metadata.
+	 * This class represents an adaptor for a field in a database table.
 	 *
-	 * @access protected
-	 * @var array
-	 */
-	protected $metadata;
-
-	/**
-	 * This variable stores a reference to the implementing model.
-	 *
-	 * @access protected
-	 * @var DB\ORM\Model
-	 */
-	protected $model;
-
-	/**
-	 * This constructor initializes the class.
-	 *
+	 * @abstract
 	 * @access public
-	 * @param DB\ORM\Model $model                   a reference to the implementing model
-	 * @param string $field                         the name of field in the database table
-	 * @throws Throwable\InvalidArgument\Exception  indicates that an invalid field name
-	 *                                              was specified
+	 * @class
+	 * @package Leap\Core\DB\ORM\Field
+	 * @version 2014-01-26
 	 */
-	public function __construct(DB\ORM\Model $model, $field) {
-		if ( ! is_string($field) OR $model->is_adaptor($field) OR $model->is_alias($field) OR ! $model->is_field($field) OR $model->is_relation($field)) {
-			throw new Throwable\InvalidArgument\Exception('Message: Invalid field name defined. Reason: Field name either is not a field or is already defined.', array(':field' => $field));
+	abstract class Adaptor extends Core\Object {
+
+		/**
+		 * This variable stores the adaptor's metadata.
+		 *
+		 * @access protected
+		 * @var array
+		 */
+		protected $metadata;
+
+		/**
+		 * This variable stores a reference to the implementing model.
+		 *
+		 * @access protected
+		 * @var DB\ORM\Model
+		 */
+		protected $model;
+
+		/**
+		 * This constructor initializes the class.
+		 *
+		 * @access public
+		 * @param DB\ORM\Model $model                   a reference to the implementing model
+		 * @param string $field                         the name of field in the database table
+		 * @throws Throwable\InvalidArgument\Exception  indicates that an invalid field name
+		 *                                              was specified
+		 */
+		public function __construct(DB\ORM\Model $model, $field) {
+			if ( ! is_string($field) OR $model->is_adaptor($field) OR $model->is_alias($field) OR ! $model->is_field($field) OR $model->is_relation($field)) {
+				throw new Throwable\InvalidArgument\Exception('Message: Invalid field name defined. Reason: Field name either is not a field or is already defined.', array(':field' => $field));
+			}
+			$this->model = $model;
+			$this->metadata['field'] = $field;
 		}
-		$this->model = $model;
-		$this->metadata['field'] = $field;
+
+		/**
+		 * This destructor ensures that all references have been destroyed.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			unset($this->metadata);
+			unset($this->model);
+		}
+
+		/**
+		 * This method returns the value associated with the specified property.
+		 *
+		 * @access public
+		 * @abstract
+		 * @param string $key                           the name of the property
+		 * @return mixed                                the value of the property
+		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
+		 *                                              either inaccessible or undefined
+		 */
+		public abstract function __get($key);
+
+		/**
+		 * This method sets the value for the specified key.
+		 *
+		 * @access public
+		 * @abstract
+		 * @param string $key                           the name of the property
+		 * @param mixed $value                          the value of the property
+		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
+		 *                                              either inaccessible or undefined
+		 */
+		public abstract function __set($key, $value);
+
 	}
-
-	/**
-	 * This destructor ensures that all references have been destroyed.
-	 *
-	 * @access public
-	 */
-	public function __destruct() {
-		unset($this->metadata);
-		unset($this->model);
-	}
-
-	/**
-	 * This method returns the value associated with the specified property.
-	 *
-	 * @access public
-	 * @abstract
-	 * @param string $key                           the name of the property
-	 * @return mixed                                the value of the property
-	 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-	 *                                              either inaccessible or undefined
-	 */
-	public abstract function __get($key);
-
-	/**
-	 * This method sets the value for the specified key.
-	 *
-	 * @access public
-	 * @abstract
-	 * @param string $key                           the name of the property
-	 * @param mixed $value                          the value of the property
-	 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-	 *                                              either inaccessible or undefined
-	 */
-	public abstract function __set($key, $value);
 
 }

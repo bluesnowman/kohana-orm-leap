@@ -17,135 +17,141 @@
  * limitations under the License.
  */
 
-/**
- * This class represents a "datetime" field in a database table.
- *
- * @package Leap
- * @category ORM
- * @version 2012-11-29
- *
- * @abstract
- */
-abstract class Base\DB\ORM\Field\DateTime extends DB\ORM\Field {
+namespace Leap\Core\DB\ORM\Field {
+
+	use Leap\Core\DB;
+	use Leap\Core\Throwable;
 
 	/**
-	 * This constructor initializes the class.
+	 * This class represents a "datetime" field in a database table.
 	 *
 	 * @access public
-	 * @param DB\ORM\Model $model                   a reference to the implementing model
-	 * @param array $metadata                       the field's metadata
-	 * @throws Throwable\Validation\Exception       indicates that the specified value does
-	 *                                              not validate
+	 * @class
+	 * @package Leap\Core\DB\ORM\Field
+	 * @version 2014-01-26
 	 */
-	public function __construct(DB\ORM\Model $model, Array $metadata = array()) {
-		parent::__construct($model, 'string');
+	class DateTime extends DB\ORM\Field {
 
-		if (isset($metadata['savable'])) {
-			$this->metadata['savable'] = (bool) $metadata['savable'];
-		}
+		/**
+		 * This constructor initializes the class.
+		 *
+		 * @access public
+		 * @param DB\ORM\Model $model                   a reference to the implementing model
+		 * @param array $metadata                       the field's metadata
+		 * @throws Throwable\Validation\Exception       indicates that the specified value does
+		 *                                              not validate
+		 */
+		public function __construct(DB\ORM\Model $model, Array $metadata = array()) {
+			parent::__construct($model, 'string');
 
-		if (isset($metadata['nullable'])) {
-			$this->metadata['nullable'] = (bool) $metadata['nullable'];
-		}
-
-		if (isset($metadata['filter'])) {
-			$this->metadata['filter'] = (string) $metadata['filter'];
-		}
-
-		if (isset($metadata['callback'])) {
-			$this->metadata['callback'] = (string) $metadata['callback'];
-		}
-
-		if (isset($metadata['enum'])) {
-			$this->metadata['enum'] = (array) $metadata['enum'];
-		}
-
-		if (isset($metadata['control'])) {
-			$this->metadata['control'] = (string) $metadata['control'];
-		}
-
-		if (isset($metadata['label'])) {
-			$this->metadata['label'] = (string) $metadata['label'];
-		}
-
-		if (isset($metadata['default'])) {
-			$default = $metadata['default'];
-		}
-		else if ( ! $this->metadata['nullable']) {
-			$default = (isset($this->metadata['enum']))
-				? $this->metadata['enum'][0]
-				: '0000-00-00 00:00:00';
-		}
-		else {
-			$default = (isset($this->metadata['enum']) AND ! in_array(NULL, $this->metadata['enum']))
-				? $this->metadata['enum'][0]
-				: NULL;
-		}
-
-		if ( ! ($default instanceof DB\SQL\Expression)) {
-			if ($default !== NULL) {
-				if (is_integer($default)) {
-					$default = date('Y-m-d H:i:s', $default);
-				}
-				else {
-					$date = date_parse( (string) $default);
-					$default = date('Y-m-d H:i:s', mktime($date['hour'], $date['minute'], $date['second'], $date['month'], $date['day'], $date['year']));
-				}
+			if (isset($metadata['savable'])) {
+				$this->metadata['savable'] = (bool) $metadata['savable'];
 			}
-			if ( ! $this->validate($default)) {
-				throw new Throwable\Validation\Exception('Message: Unable to set default value for field. Reason: Value :value failed to pass validation constraints.', array(':value' => $default));
+
+			if (isset($metadata['nullable'])) {
+				$this->metadata['nullable'] = (bool) $metadata['nullable'];
 			}
-		}
 
-		$this->metadata['default'] = $default;
-		$this->value = $default;
-	}
+			if (isset($metadata['filter'])) {
+				$this->metadata['filter'] = (string) $metadata['filter'];
+			}
 
-	/**
-	 * This method sets the value for the specified key.
-	 *
-	 * @access public
-	 * @override
-	 * @param string $key                           the name of the property
-	 * @param mixed $value                          the value of the property
-	 * @throws Throwable\Validation\Exception       indicates that the specified value does
-	 *                                              not validate
-	 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-	 *                                              either inaccessible or undefined
-	 */
-	public function __set($key, $value) {
-		switch ($key) {
-			case 'value':
-				if ( ! ($value instanceof DB\SQL\Expression)) {
-					if ($value !== NULL) {
-						if (is_integer($value)) {
-							$value = date('Y-m-d H:i:s', $value);
-						}
-						else {
-							$date = date_parse( (string) $value);
-							$value = date('Y-m-d H:i:s', mktime($date['hour'], $date['minute'], $date['second'], $date['month'], $date['day'], $date['year']));
-						}
-						if ( ! $this->validate($value)) {
-							throw new Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
-						}
+			if (isset($metadata['callback'])) {
+				$this->metadata['callback'] = (string) $metadata['callback'];
+			}
+
+			if (isset($metadata['enum'])) {
+				$this->metadata['enum'] = (array) $metadata['enum'];
+			}
+
+			if (isset($metadata['control'])) {
+				$this->metadata['control'] = (string) $metadata['control'];
+			}
+
+			if (isset($metadata['label'])) {
+				$this->metadata['label'] = (string) $metadata['label'];
+			}
+
+			if (isset($metadata['default'])) {
+				$default = $metadata['default'];
+			}
+			else if ( ! $this->metadata['nullable']) {
+				$default = (isset($this->metadata['enum']))
+					? $this->metadata['enum'][0]
+					: '0000-00-00 00:00:00';
+			}
+			else {
+				$default = (isset($this->metadata['enum']) AND ! in_array(NULL, $this->metadata['enum']))
+					? $this->metadata['enum'][0]
+					: NULL;
+			}
+
+			if ( ! ($default instanceof DB\SQL\Expression)) {
+				if ($default !== NULL) {
+					if (is_integer($default)) {
+						$default = date('Y-m-d H:i:s', $default);
 					}
-					else if ( ! $this->metadata['nullable']) {
-						$value = $this->metadata['default'];
+					else {
+						$date = date_parse( (string) $default);
+						$default = date('Y-m-d H:i:s', mktime($date['hour'], $date['minute'], $date['second'], $date['month'], $date['day'], $date['year']));
 					}
 				}
-				if (isset($this->metadata['callback']) AND ! $this->model->{$this->metadata['callback']}($value)) {
-					throw new Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
+				if ( ! $this->validate($default)) {
+					throw new Throwable\Validation\Exception('Message: Unable to set default value for field. Reason: Value :value failed to pass validation constraints.', array(':value' => $default));
 				}
-				$this->metadata['modified'] = TRUE;
-				$this->value = $value;
-				break;
-			case 'modified':
-				$this->metadata['modified'] = (bool) $value;
-				break;
-			default:
-				throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
-				break;
+			}
+
+			$this->metadata['default'] = $default;
+			$this->value = $default;
 		}
+
+		/**
+		 * This method sets the value for the specified key.
+		 *
+		 * @access public
+		 * @override
+		 * @param string $key                           the name of the property
+		 * @param mixed $value                          the value of the property
+		 * @throws Throwable\Validation\Exception       indicates that the specified value does
+		 *                                              not validate
+		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
+		 *                                              either inaccessible or undefined
+		 */
+		public function __set($key, $value) {
+			switch ($key) {
+				case 'value':
+					if ( ! ($value instanceof DB\SQL\Expression)) {
+						if ($value !== NULL) {
+							if (is_integer($value)) {
+								$value = date('Y-m-d H:i:s', $value);
+							}
+							else {
+								$date = date_parse( (string) $value);
+								$value = date('Y-m-d H:i:s', mktime($date['hour'], $date['minute'], $date['second'], $date['month'], $date['day'], $date['year']));
+							}
+							if ( ! $this->validate($value)) {
+								throw new Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
+							}
+						}
+						else if ( ! $this->metadata['nullable']) {
+							$value = $this->metadata['default'];
+						}
+					}
+					if (isset($this->metadata['callback']) AND ! $this->model->{$this->metadata['callback']}($value)) {
+						throw new Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
+					}
+					$this->metadata['modified'] = TRUE;
+					$this->value = $value;
+					break;
+				case 'modified':
+					$this->metadata['modified'] = (bool) $value;
+					break;
+				default:
+					throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
+					break;
+			}
+		}
+
 	}
 
 }

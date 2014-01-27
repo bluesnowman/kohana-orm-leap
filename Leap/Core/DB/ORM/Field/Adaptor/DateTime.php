@@ -17,83 +17,89 @@
  * limitations under the License.
  */
 
-/**
- * This class represents an "date/time" adaptor for an integer field in a database
- * table.
- *
- * @package Leap
- * @category ORM
- * @version 2012-12-05
- *
- * @abstract
- */
-abstract class Base\DB\ORM\Field\Adaptor\DateTime extends DB\ORM\Field\Adaptor {
+namespace Leap\Core\DB\ORM\Field\Adaptor {
+
+	use Leap\Core\DB;
+	use Leap\Core\Throwable;
 
 	/**
-	 * This constructor initializes the class.
+	 * This class represents an "date/time" adaptor for an integer field in a database
+	 * table.
 	 *
 	 * @access public
-	 * @param DB\ORM\Model $model                   a reference to the implementing model
-	 * @param array $metadata                       the adaptor's metadata
-	 * @throws Throwable\InvalidArgument\Exception  indicates that an invalid field name
-	 *                                              was specified
+	 * @class
+	 * @package Leap\Core\DB\ORM\Field\Adaptor
+	 * @version 2014-01-26
 	 */
-	public function __construct(DB\ORM\Model $model, Array $metadata = array()) {
-		parent::__construct($model, $metadata['field']);
+	class DateTime extends DB\ORM\Field\Adaptor {
 
-		$this->metadata['format'] = (isset($metadata['format']))
-			? (string) $metadata['format']
-			: 'Y-m-d H:i:s';
-	}
+		/**
+		 * This constructor initializes the class.
+		 *
+		 * @access public
+		 * @param DB\ORM\Model $model                   a reference to the implementing model
+		 * @param array $metadata                       the adaptor's metadata
+		 * @throws Throwable\InvalidArgument\Exception  indicates that an invalid field name
+		 *                                              was specified
+		 */
+		public function __construct(DB\ORM\Model $model, Array $metadata = array()) {
+			parent::__construct($model, $metadata['field']);
 
-	/**
-	 * This method returns the value associated with the specified property.
-	 *
-	 * @access public
-	 * @override
-	 * @param string $key                           the name of the property
-	 * @return mixed                                the value of the property
-	 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-	 *                                              either inaccessible or undefined
-	 */
-	public function __get($key) {
-		switch ($key) {
-			case 'value':
-				$value = $this->model->{$this->metadata['field']};
-				if (($value !== NULL) AND ! ($value instanceof DB\SQL\Expression)) {
-					$value = date($this->metadata['format'], (int) $value);
-				}
-				return $value;
-			break;
-			default:
-				if (isset($this->metadata[$key])) { return $this->metadata[$key]; }
-			break;
+			$this->metadata['format'] = (isset($metadata['format']))
+				? (string) $metadata['format']
+				: 'Y-m-d H:i:s';
 		}
-		throw new Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
-	}
 
-	/**
-	 * This method sets the value for the specified key.
-	 *
-	 * @access public
-	 * @override
-	 * @param string $key                           the name of the property
-	 * @param mixed $value                          the value of the property
-	 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-	 *                                              either inaccessible or undefined
-	 */
-	public function __set($key, $value) {
-		switch ($key) {
-			case 'value':
-				if (is_string($value)) {
-					$value = strtotime($value);
-				}
-				$this->model->{$this->metadata['field']} = $value;
-			break;
-			default:
-				throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
-			break;
+		/**
+		 * This method returns the value associated with the specified property.
+		 *
+		 * @access public
+		 * @override
+		 * @param string $key                           the name of the property
+		 * @return mixed                                the value of the property
+		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
+		 *                                              either inaccessible or undefined
+		 */
+		public function __get($key) {
+			switch ($key) {
+				case 'value':
+					$value = $this->model->{$this->metadata['field']};
+					if (($value !== NULL) AND ! ($value instanceof DB\SQL\Expression)) {
+						$value = date($this->metadata['format'], (int) $value);
+					}
+					return $value;
+				break;
+				default:
+					if (isset($this->metadata[$key])) { return $this->metadata[$key]; }
+				break;
+			}
+			throw new Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
 		}
+
+		/**
+		 * This method sets the value for the specified key.
+		 *
+		 * @access public
+		 * @override
+		 * @param string $key                           the name of the property
+		 * @param mixed $value                          the value of the property
+		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
+		 *                                              either inaccessible or undefined
+		 */
+		public function __set($key, $value) {
+			switch ($key) {
+				case 'value':
+					if (is_string($value)) {
+						$value = strtotime($value);
+					}
+					$this->model->{$this->metadata['field']} = $value;
+				break;
+				default:
+					throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
+				break;
+			}
+		}
+
 	}
 
 }

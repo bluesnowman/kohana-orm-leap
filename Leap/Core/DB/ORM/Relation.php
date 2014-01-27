@@ -17,107 +17,115 @@
  * limitations under the License.
  */
 
-/**
- * This class represents a relation in a database table.
- *
- * @package Leap
- * @category ORM
- * @version 2013-02-06
- *
- * @abstract
- */
-abstract class Base\DB\ORM\Relation extends Core\Object {
+namespace Leap\Core\DB\ORM {
+
+	use Leap\Core;
+	use Leap\Core\DB;
+	use Leap\Core\Throwable;
 
 	/**
-	 * This variable stores the relation's corresponding model(s).
+	 * This class represents a relation in a database table.
 	 *
-	 * @access protected
-	 * @var mixed
-	 */
-	protected $cache;
-
-	/**
-	 * This variable stores the relation's metadata.
-	 *
-	 * @access protected
-	 * @var array
-	 */
-	protected $metadata;
-
-	/**
-	 * This variable stores a reference to the implementing model.
-	 *
-	 * @access protected
-	 * @var DB\ORM\Model
-	 */
-	protected $model;
-
-	/**
-	 * This constructor initializes the class.
-	 *
-	 * @access public
-	 * @param DB\ORM\Model $model                   a reference to the implementing model
-	 * @param string $type                          the type of relationship
-	 */
-	public function __construct(DB\ORM\Model $model, $type) {
-		$this->model = $model;
-		$this->metadata = array();
-		$this->metadata['type'] = $type;
-		$this->cache = NULL;
-	}
-
-	/**
-	 * This destructor ensures that all references have been destroyed.
-	 *
-	 * @access public
-	 */
-	public function __destruct() {
-		unset($this->cache);
-		unset($this->metadata);
-		unset($this->model);
-	}
-
-	/**
-	 * This method returns the value associated with the specified property.
-	 *
-	 * @access public
-	 * @override
-	 * @param string $key                           the name of the property
-	 * @return mixed                                the value of the property
-	 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-	 *                                              either inaccessible or undefined
-	 */
-	public function __get($key) {
-		switch ($key) {
-			case 'result':
-				if ($this->cache === NULL) {
-					$this->cache = $this->load();
-				}
-				return $this->cache;
-			break;
-			default:
-				if (isset($this->metadata[$key])) { return $this->metadata[$key]; }
-			break;
-		}
-		throw new Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
-	}
-
-	/**
-	 * This method loads the corresponding model(s).
-	 *
-	 * @access protected
 	 * @abstract
-	 * @return mixed								the corresponding model(s)
-	 */
-	protected abstract function load();
-
-	/**
-	 * This method resets the relation's cache to NULL.
-	 *
 	 * @access public
+	 * @class
+	 * @package Leap\Core\DB\ORM
+	 * @version 2014-01-26
 	 */
-	public function reset() {
-		$this->cache = NULL;
+	abstract class Relation extends Core\Object {
+
+		/**
+		 * This variable stores the relation's corresponding model(s).
+		 *
+		 * @access protected
+		 * @var mixed
+		 */
+		protected $cache;
+
+		/**
+		 * This variable stores the relation's metadata.
+		 *
+		 * @access protected
+		 * @var array
+		 */
+		protected $metadata;
+
+		/**
+		 * This variable stores a reference to the implementing model.
+		 *
+		 * @access protected
+		 * @var DB\ORM\Model
+		 */
+		protected $model;
+
+		/**
+		 * This constructor initializes the class.
+		 *
+		 * @access public
+		 * @param DB\ORM\Model $model                   a reference to the implementing model
+		 * @param string $type                          the type of relationship
+		 */
+		public function __construct(DB\ORM\Model $model, $type) {
+			$this->model = $model;
+			$this->metadata = array();
+			$this->metadata['type'] = $type;
+			$this->cache = NULL;
+		}
+
+		/**
+		 * This destructor ensures that all references have been destroyed.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			unset($this->cache);
+			unset($this->metadata);
+			unset($this->model);
+		}
+
+		/**
+		 * This method returns the value associated with the specified property.
+		 *
+		 * @access public
+		 * @override
+		 * @param string $key                           the name of the property
+		 * @return mixed                                the value of the property
+		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
+		 *                                              either inaccessible or undefined
+		 */
+		public function __get($key) {
+			switch ($key) {
+				case 'result':
+					if ($this->cache === NULL) {
+						$this->cache = $this->load();
+					}
+					return $this->cache;
+				break;
+				default:
+					if (isset($this->metadata[$key])) { return $this->metadata[$key]; }
+				break;
+			}
+			throw new Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
+		}
+
+		/**
+		 * This method loads the corresponding model(s).
+		 *
+		 * @access protected
+		 * @abstract
+		 * @return mixed								the corresponding model(s)
+		 */
+		protected abstract function load();
+
+		/**
+		 * This method resets the relation's cache to NULL.
+		 *
+		 * @access public
+		 */
+		public function reset() {
+			$this->cache = NULL;
+		}
+
 	}
 
 }
