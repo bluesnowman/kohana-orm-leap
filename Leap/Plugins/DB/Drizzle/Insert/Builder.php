@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Core\DB\Drizzle\Insert {
+namespace Leap\Plugins\DB\Drizzle\Insert {
 
 	/**
 	 * This class builds a Drizzle insert statement.

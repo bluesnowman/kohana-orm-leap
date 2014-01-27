@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Core\DB\Drizzle {
+namespace Leap\Plugins\DB\Drizzle {
 
 	/**
 	 * This class provides a way to access the scheme for a Drizzle database.

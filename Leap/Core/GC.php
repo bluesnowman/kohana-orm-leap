@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Core\System {
+namespace Leap\Core {
 
 	use \Leap\Core;
 
@@ -26,7 +26,7 @@ namespace Leap\Core\System {
 	 *
 	 * @access public
 	 * @class
-	 * @package Leap\Core\System
+	 * @package Leap\Core
 	 * @version 2014-01-25
 	 *
 	 * @see http://msdn.microsoft.com/en-us/library/system.gc.aspx
