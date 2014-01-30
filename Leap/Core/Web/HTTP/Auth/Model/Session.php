@@ -20,8 +20,6 @@
 
 namespace Leap\Core\Web\HTTP\Auth\Model {
 
-	use \Leap\Core\DB;
-
 	/**
 	 * This class represents a record in the "sessions" table.
 	 *
@@ -30,7 +28,7 @@ namespace Leap\Core\Web\HTTP\Auth\Model {
 	 * @package Leap\Core\Model
 	 * @version 2014-01-25
 	 */
-	class Session extends DB\ORM\Model {
+	class Session extends \Leap\Core\DB\ORM\Model {
 
 		/**
 		 * This constructor instantiates this class.
@@ -41,15 +39,15 @@ namespace Leap\Core\Web\HTTP\Auth\Model {
 			parent::__construct();
 
 			$this->fields = array(
-				'id' => new DB\ORM\Field\String($this, array(
+				'id' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'max_length' => 24,
 					'nullable' => FALSE,
 				)),
-				'last_active' => new DB\ORM\Field\Integer($this, array(
+				'last_active' => new \Leap\Core\DB\ORM\Field\Integer($this, array(
 					'max_length' => 11,
 					'nullable' => FALSE,
 				)),
-				'contents' => new DB\ORM\Field\Text($this, array(
+				'contents' => new \Leap\Core\DB\ORM\Field\Text($this, array(
 					'nullable' => FALSE,
 				)),
 			);

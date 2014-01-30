@@ -19,19 +19,15 @@
 
 namespace Leap\Core\DB {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class wraps the connection's configurations.
 	 *
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-01-25
+	 * @version 2014-01-28
 	 */
-	class DataSource extends Core\Object {
+	class DataSource extends \Leap\Core\Object {
 
 		/**
 		 * This constant represents a master instance of a database.
@@ -61,33 +57,33 @@ namespace Leap\Core\DB {
 		 * This method loads the configurations.
 		 *
 		 * @access public
-		 * @param mixed $config                         the data source configurations
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the database group is undefined
+		 * @param mixed $config                                     the data source configurations
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the database group is undefined
 		 */
 		public function __construct($config) {
 			if (empty($config)) {
 				$id = 'database.default';
 				if (($config = static::config($id)) === NULL) {
-					throw new Throwable\InvalidProperty\Exception('Message: Unable to load data source. Reason: Database group :id is undefined.', array(':id' => $id));
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to load data source. Reason: Database group :id is undefined.', array(':id' => $id));
 				}
 				$this->init($config, $id);
 			}
 			else if (is_string($config)) {
 				$id = 'database.' . $config;
 				if (($config = static::config($id)) === NULL) {
-					throw new Throwable\InvalidProperty\Exception('Message: Unable to load data source. Reason: Database group :id is undefined.', array(':id' => $id));
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to load data source. Reason: Database group :id is undefined.', array(':id' => $id));
 				}
 				$this->init($config, $id);
 			}
 			else if (is_array($config)) {
 				$this->init($config);
 			}
-			else if (is_object($config) AND ($config instanceof DB\DataSource)) {
+			else if (is_object($config) AND ($config instanceof \Leap\Core\DB\DataSource)) {
 				$this->settings = $config->settings;
 			}
 			else {
-				throw new Throwable\InvalidArgument\Exception('Message: Unable to load data source. Reason: Data type :type is mismatched.', array(':type' => gettype($config)));
+				throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Unable to load data source. Reason: Data type :type is mismatched.', array(':type' => gettype($config)));
 			}
 		}
 
@@ -96,10 +92,10 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $name                          the name of the property
-		 * @return mixed                                the value of the property
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $name                                      the name of the property
+		 * @return mixed                                            the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __get($name) {
 			switch ($name) {
@@ -117,7 +113,7 @@ namespace Leap\Core\DB {
 				case 'role':
 					return $this->settings[$name];
 				default:
-					throw new Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $name));
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $name));
 			}
 		}
 
@@ -254,16 +250,16 @@ namespace Leap\Core\DB {
 		 * @access public
 		 * @static
 		 * @param mixed $config                         the data source configurations
-		 * @return DB\DataSource                        a singleton instance of this class
+		 * @return \Leap\Core\DB\DataSource             a singleton instance of this class
 		 */
 		public static function instance($config = 'default') {
 			if (is_string($config)) {
 				if ( ! isset(static::$instances[$config])) {
-					static::$instances[$config] = new DB\DataSource($config);
+					static::$instances[$config] = new \Leap\Core\DB\DataSource($config);
 				}
 				return static::$instances[$config];
 			}
-			else if (is_object($config) AND ($config instanceof DB\DataSource)) {
+			else if (is_object($config) AND ($config instanceof \Leap\Core\DB\DataSource)) {
 				$id = $config->id;
 				if ( ! isset(static::$instances[$id])) {
 					static::$instances[$id] = $config;
@@ -273,12 +269,12 @@ namespace Leap\Core\DB {
 			else if (is_array($config) AND isset($config['id'])) {
 				$id = $config['id'];
 				if ( ! isset(static::$instances[$id])) {
-					static::$instances[$id] = new DB\DataSource($config);
+					static::$instances[$id] = new \Leap\Core\DB\DataSource($config);
 				}
 				return static::$instances[$id];
 			}
 			else {
-				$data_source = new DB\DataSource($config);
+				$data_source = new \Leap\Core\DB\DataSource($config);
 				static::$instances[$data_source->id] = $data_source;
 				return $data_source;
 			}

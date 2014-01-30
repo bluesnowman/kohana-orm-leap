@@ -20,8 +20,6 @@
 
 namespace Leap\Core\Web\HTTP\Auth {
 
-	use \Leap\Core\DB;
-
 	/**
 	 * This class represents a session.
 	 *
@@ -126,8 +124,8 @@ namespace Leap\Core\Web\HTTP\Auth {
 			}
 
 			// Delete the current session
-			DB\ORM::delete($this->table)
-				->where($this->columns['session_id'], DB\SQL\Operator::_EQUAL_TO_, $this->update_id)
+			\Leap\Core\DB\ORM::delete($this->table)
+				->where($this->columns['session_id'], \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->update_id)
 				->execute();
 
 			try {
@@ -153,8 +151,8 @@ namespace Leap\Core\Web\HTTP\Auth {
 				: \Date::MONTH; 		// Expire sessions after one month
 
 			// Delete all sessions that have expired
-			DB\ORM::delete($this->table)
-				->where($this->columns['last_active'], DB\SQL\Operator::_LESS_THAN_, time() - $expires)
+			\Leap\Core\DB\ORM::delete($this->table)
+				->where($this->columns['last_active'], \Leap\Core\DB\SQL\Operator::_LESS_THAN_, time() - $expires)
 				->execute();
 		}
 
@@ -181,8 +179,8 @@ namespace Leap\Core\Web\HTTP\Auth {
 			if ($id OR ($id = \Cookie::get($this->_name))) {
 
 				try {
-					$contents = DB\ORM::select($this->table, array($this->columns['contents']))
-						->where($this->columns['session_id'], DB\SQL\Operator::_EQUAL_TO_, $id)
+					$contents = \Leap\Core\DB\ORM::select($this->table, array($this->columns['contents']))
+						->where($this->columns['session_id'], \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $id)
 						->limit(1)
 						->query()
 						->fetch(0)
@@ -218,8 +216,8 @@ namespace Leap\Core\Web\HTTP\Auth {
 			do {
 				// Create a new session id
 				$id = str_replace('.', '-', uniqid(NULL, TRUE));
-				$count = DB\ORM::select($this->table, array($this->columns['session_id']))
-					->where($this->columns['session_id'], DB\SQL\Operator::_EQUAL_TO_, $id)
+				$count = \Leap\Core\DB\ORM::select($this->table, array($this->columns['session_id']))
+					->where($this->columns['session_id'], \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $id)
 					->query()
 					->count();
 			}
@@ -252,17 +250,17 @@ namespace Leap\Core\Web\HTTP\Auth {
 		protected function _write() {
 			if ($this->update_id === NULL) {
 				// Insert a new row
-				$query = DB\ORM::insert($this->table)
+				$query = \Leap\Core\DB\ORM::insert($this->table)
 					->column($this->columns['last_active'], $this->_data['last_active'])
 					->column($this->columns['contents'], $this->__toString())
 					->column($this->columns['session_id'], $this->session_id);
 			}
 			else {
 				// Update the row
-				$query = DB\ORM::update($this->table)
+				$query = \Leap\Core\DB\ORM::update($this->table)
 					->set($this->columns['last_active'], $this->_data['last_active'])
 					->set($this->columns['contents'], $this->__toString())
-					->where($this->columns['session_id'], DB\SQL\Operator::_EQUAL_TO_, $this->update_id);
+					->where($this->columns['session_id'], \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->update_id);
 
 				if ($this->update_id !== $this->session_id) {
 					// Also update the session id

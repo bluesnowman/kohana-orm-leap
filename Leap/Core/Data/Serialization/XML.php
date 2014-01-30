@@ -19,9 +19,6 @@
 
 namespace Leap\Core\Data\Serialization {
 
-	use Leap\Core;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class adds additional functionality to the underlying \SimpleXMLElement
 	 * class.
@@ -31,17 +28,17 @@ namespace Leap\Core\Data\Serialization {
 	 * @package Leap\Core\Data\Serialization
 	 * @version 2014-01-25
 	 */
-	class XML extends \SimpleXMLElement implements Core\IObject {
+	class XML extends \SimpleXMLElement implements \Leap\Core\IObject {
 
 		/**
 		 * This method returns a copy this object.
 		 *
 		 * @access public
-		 * @throws Throwable\UnimplementedMethod\Exception  indicates the method has not be
-		 *                                                  implemented
+		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception  indicates the method has not be
+		 *                                                             implemented
 		 */
 		public function __clone() {
-			throw new Throwable\UnimplementedMethod\Exception('Method ":method" has not been implemented in class ":class."', array(':class' => get_called_class(), ':method' => __FUNCTION__));
+			throw new \Leap\Core\Throwable\UnimplementedMethod\Exception('Method ":method" has not been implemented in class ":class."', array(':class' => get_called_class(), ':method' => __FUNCTION__));
 		}
 
 		/**
@@ -124,12 +121,12 @@ namespace Leap\Core\Data\Serialization {
 		 * This method returns whether the specified object is equal to the called object.
 		 *
 		 * @access public
-		 * @param Core\IObject $object                  the object to be evaluated
+		 * @param \Leap\Core\\IObject $object           the object to be evaluated
 		 * @return boolean                              whether the specified object is equal
 		 *                                              to the called object
 		 */
 		public function __equals($object) {
-			return (($object !== NULL) && ($object instanceof Core\IObject) && ($object->__hashCode() == $this->__hashCode()));
+			return (($object !== NULL) && ($object instanceof \Leap\Core\IObject) && ($object->__hashCode() == $this->__hashCode()));
 		}
 
 		/**
@@ -158,18 +155,18 @@ namespace Leap\Core\Data\Serialization {
 		 *
 		 * @access public
 		 * @static
-		 * @param string $uri                           the URI to the XML file
-		 * @return \SimpleXMLElement                    an instance of this class
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
-		 * @throws Throwable\FileNotFound\Exception     indicates that the file does not exist
+		 * @param string $uri                                       the URI to the XML file
+		 * @return \SimpleXMLElement                                an instance of this class
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
+		 * @throws \Leap\Core\Throwable\FileNotFound\Exception      indicates that the file does not exist
 		 */
 		public static function load($uri) {
 			if ( ! is_string($uri)) {
-				throw new Throwable\InvalidArgument\Exception('Message: Wrong data type specified. Reason: Argument must be a string.', array(':type', gettype($file)));
+				throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Wrong data type specified. Reason: Argument must be a string.', array(':type', gettype($uri)));
 			}
 
 			if ( ! file_exists($uri)) {
-				throw new Throwable\FileNotFound\Exception("Message: Unable to locate file. Reason: File ':file' does not exist.", array(':file', $file));
+				throw new \Leap\Core\Throwable\FileNotFound\Exception("Message: Unable to locate file. Reason: File ':file' does not exist.", array(':file', $uri));
 			}
 
 			$contents = file_get_contents($uri);

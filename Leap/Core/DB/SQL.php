@@ -19,18 +19,15 @@
 
 namespace Leap\Core\DB {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-
 	/**
 	 * This class provides a shortcut way to get the appropriate SQL builder class.
 	 *
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-01-25
+	 * @version 2014-01-28
 	 */
-	class SQL extends Core\Object {
+	class SQL extends \Leap\Core\Object {
 
 		/**
 		 * This method returns an instance of the DB\SQL\Delete\Proxy.
@@ -38,10 +35,10 @@ namespace Leap\Core\DB {
 		 * @access public
 		 * @static
 		 * @param mixed $config                         the data source configurations
-		 * @return DB\SQL\Delete\Proxy                  an instance of the class
+		 * @return \Leap\Core\DB\SQL\Delete\Proxy       an instance of the class
 		 */
 		public static function delete($config = 'default') {
-			$proxy = new DB\SQL\Delete\Proxy($config);
+			$proxy = new \Leap\Core\DB\SQL\Delete\Proxy($config);
 			return $proxy;
 		}
 
@@ -54,10 +51,10 @@ namespace Leap\Core\DB {
 		 * @param string $expr                          the raw SQL expression
 		 * @param array $params                         an associated array of parameter
 		 *                                              key/values pairs
-		 * @return DB\SQL\Expression                    the wrapped expression
+		 * @return \Leap\Core\DB\SQL\Expression         the wrapped expression
 		 */
 		public static function expr($expr, Array $params = array()) {
-			$expression = new DB\SQL\Expression($expr, $params);
+			$expression = new \Leap\Core\DB\SQL\Expression($expr, $params);
 			return $expression;
 		}
 
@@ -67,10 +64,10 @@ namespace Leap\Core\DB {
 		 * @access public
 		 * @static
 		 * @param mixed $config                         the data source configurations
-		 * @return DB\SQL\Insert\Proxy                  an instance of the class
+		 * @return \Leap\Core\DB\SQL\Insert\Proxy       an instance of the class
 		 */
 		public static function insert($config = 'default') {
-			$proxy = new DB\SQL\Insert\Proxy($config);
+			$proxy = new \Leap\Core\DB\SQL\Insert\Proxy($config);
 			return $proxy;
 		}
 
@@ -81,10 +78,10 @@ namespace Leap\Core\DB {
 		 * @access public
 		 * @static
 		 * @param mixed $config                         the data source configurations
-		 * @return DB\SQL\Precompiler                   an instance of the pre-compiler
+		 * @return \Leap\Core\DB\SQL\Precompiler        an instance of the pre-compiler
 		 */
 		public static function precompiler($config = 'default') {
-			$data_source = DB\DataSource::instance($config);
+			$data_source = \Leap\Core\DB\DataSource::instance($config);
 			$precompiler = '\\Leap\\Plugins\\DB\\' . $data_source->dialect . '\\Precompiler';
 			$object = new $precompiler($data_source);
 			return $object;
@@ -97,10 +94,10 @@ namespace Leap\Core\DB {
 		 * @static
 		 * @param mixed $config                         the data source configurations
 		 * @param array $columns                        the columns to be selected
-		 * @return DB\SQL\Select\Proxy                  an instance of the class
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       an instance of the class
 		 */
 		public static function select($config = 'default', Array $columns = array()) {
-			$proxy = new DB\SQL\Select\Proxy($config, $columns);
+			$proxy = new \Leap\Core\DB\SQL\Select\Proxy($config, $columns);
 			return $proxy;
 		}
 
@@ -110,10 +107,10 @@ namespace Leap\Core\DB {
 		 * @access public
 		 * @static
 		 * @param mixed $config                         the data source configurations
-		 * @return DB\SQL\Update\Proxy                  an instance of the class
+		 * @return \Leap\Core\DB\SQL\Update\Proxy       an instance of the class
 		 */
 		public static function update($config = 'default') {
-			$proxy = new DB\SQL\Update\Proxy($config);
+			$proxy = new \Leap\Core\DB\SQL\Update\Proxy($config);
 			return $proxy;
 		}
 

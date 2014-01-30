@@ -19,8 +19,6 @@
 
 namespace Leap\Core {
 
-	use \Leap\Core;
-
 	/**
 	 * This class manages garbage collection.
 	 *
@@ -31,7 +29,7 @@ namespace Leap\Core {
 	 *
 	 * @see http://msdn.microsoft.com/en-us/library/system.gc.aspx
 	 */
-	class GC extends Core\Object {
+	class GC extends \Leap\Core\Object {
 
 		/**
 		 * This method forces garbage collector to start immediately.

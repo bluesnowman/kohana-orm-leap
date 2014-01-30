@@ -20,8 +20,6 @@
 
 namespace Leap\Core\Web\HTTP\Auth\Model {
 
-	use \Leap\Core\DB;
-
 	/**
 	 * This class represents a record in the "roles" table.
 	 *
@@ -30,7 +28,7 @@ namespace Leap\Core\Web\HTTP\Auth\Model {
 	 * @package Leap\Core\Model
 	 * @version 2014-01-25
 	 */
-	class Role extends DB\ORM\Model {
+	class Role extends \Leap\Core\DB\ORM\Model {
 
 		/**
 		 * This constructor instantiates this class.
@@ -41,25 +39,25 @@ namespace Leap\Core\Web\HTTP\Auth\Model {
 			parent::__construct();
 
 			$this->fields = array(
-				'id' => new DB\ORM\Field\Integer($this, array(
+				'id' => new \Leap\Core\DB\ORM\Field\Integer($this, array(
 					'max_length' => 11,
 					'nullable' => FALSE,
 					'unsigned' => TRUE,
 				)),
-				'name' => new DB\ORM\Field\String($this, array(
+				'name' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'max_length' => 255,
 					'nullable' => FALSE,
 				)),
-				'description' => new DB\ORM\Field\String($this, array(
+				'description' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'max_length' => 255,
 					'nullable' => FALSE,
 				)),
 			);
 
 			$this->relations = array(
-				'user_roles' => new DB\ORM\Relation\HasMany($this, array(
+				'user_roles' => new \Leap\Core\DB\ORM\Relation\HasMany($this, array(
 					'child_key' => array('id'),
-					'child_model' => 'User_Role',
+					'child_model' => '\\Leap\Core\\Web\\HTTP\\Auth\\Model\\User\\Role',
 					'parent_key' => array('id'),
 				)),	 
 			);

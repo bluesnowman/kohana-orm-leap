@@ -19,8 +19,6 @@
 
 namespace Leap\Core\Throwable\Marshalling {
 
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class indicates that data could not be marshalled.
 	 *
@@ -29,6 +27,6 @@ namespace Leap\Core\Throwable\Marshalling {
 	 * @package Leap\Core\Throwable
 	 * @version 2014-01-25
 	 */
-	class Exception extends Throwable\Runtime\Exception {}
+	class Exception extends \Leap\Core\Throwable\Runtime\Exception {}
 
 }

@@ -19,18 +19,15 @@
 
 namespace Leap\Core\DB {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-
 	/**
 	 * This class provides a shortcut way to get the appropriate ORM builder class.
 	 *
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-01-25
+	 * @version 2014-01-28
 	 */
-	class ORM extends Core\Object {
+	class ORM extends \Leap\Core\Object {
 
 		/**
 		 * This method returns an instance of the DB\ORM\Delete\Proxy.
@@ -38,10 +35,10 @@ namespace Leap\Core\DB {
 		 * @access public
 		 * @static
 		 * @param string $model                         the model's name
-		 * @return DB\ORM\Delete\Proxy                  an instance of the class
+		 * @return \Leap\Core\DB\ORM\Delete\Proxy       an instance of the class
 		 */
 		public static function delete($model) {
-			$proxy = new DB\ORM\Delete\Proxy($model);
+			$proxy = new \Leap\Core\DB\ORM\Delete\Proxy($model);
 			return $proxy;
 		}
 
@@ -54,10 +51,10 @@ namespace Leap\Core\DB {
 		 * @param string $expr                          the raw SQL expression
 		 * @param array $params                         an associated array of parameter
 		 *                                              key/values pairs
-		 * @return DB\SQL\Expression                    the wrapped expression
+		 * @return \Leap\Core\DB\SQL\Expression         the wrapped expression
 		 */
 		public static function expr($expr, Array $params = array()) {
-			$expression = new DB\SQL\Expression($expr, $params);
+			$expression = new \Leap\Core\DB\SQL\Expression($expr, $params);
 			return $expression;
 		}
 
@@ -67,10 +64,10 @@ namespace Leap\Core\DB {
 		 * @access public
 		 * @static
 		 * @param string $model                         the model's name
-		 * @return DB\ORM\Insert\Proxy                  an instance of the class
+		 * @return \Leap\Core\DB\ORM\Insert\Proxy       an instance of the class
 		 */
 		public static function insert($model) {
-			$proxy = new DB\ORM\Insert\Proxy($model);
+			$proxy = new \Leap\Core\DB\ORM\Insert\Proxy($model);
 			return $proxy;
 		}
 
@@ -85,7 +82,7 @@ namespace Leap\Core\DB {
 		 * @return mixed                                an instance of the specified model
 		 */
 		public static function model($model, $primary_key = array()) {
-			$model = DB\ORM\Model::factory($model);
+			$model = \Leap\Core\DB\ORM\Model::factory($model);
 			if ( ! empty($primary_key)) {
 				if ( ! is_array($primary_key)) {
 					$primary_key = array($primary_key);
@@ -108,11 +105,11 @@ namespace Leap\Core\DB {
 		 * @access public
 		 * @static
 		 * @param string $model                         the model's name
-		 * @return DB\SQL\Precompiler                   an instance of the pre-compiler
+		 * @return \Leap\Core\DB\SQL\Precompiler        an instance of the pre-compiler
 		 */
 		public static function precompiler($model) {
-			$model = DB\ORM\Model::model_name($model);
-			$data_source = $model::data_source(DB\DataSource::MASTER_INSTANCE);
+			$model = \Leap\Core\DB\ORM\Model::model_name($model);
+			$data_source = $model::data_source(\Leap\Core\DB\DataSource::MASTER_INSTANCE);
 			$precompiler = '\\Leap\\Plugins\\DB\\' . $data_source->dialect . '\\Precompiler';
 			$object = new $precompiler($data_source);
 			return $object;
@@ -125,10 +122,10 @@ namespace Leap\Core\DB {
 		 * @static
 		 * @param string $model                         the model's name
 		 * @param array $columns                        the columns to be selected
-		 * @return DB\ORM\Select\Proxy                  an instance of the class
+		 * @return \Leap\Core\DB\ORM\Select\Proxy       an instance of the class
 		 */
 		public static function select($model, Array $columns = array()) {
-			$proxy = new DB\ORM\Select\Proxy($model, $columns);
+			$proxy = new \Leap\Core\DB\ORM\Select\Proxy($model, $columns);
 			return $proxy;
 		}
 
@@ -138,10 +135,10 @@ namespace Leap\Core\DB {
 		 * @access public
 		 * @static
 		 * @param string $model                         the model's name
-		 * @return DB\ORM\Update\Proxy                  an instance of the class
+		 * @return \Leap\Core\DB\ORM\Update\Proxy       an instance of the class
 		 */
 		public static function update($model) {
-			$proxy = new DB\ORM\Update\Proxy($model);
+			$proxy = new \Leap\Core\DB\ORM\Update\Proxy($model);
 			return $proxy;
 		}
 

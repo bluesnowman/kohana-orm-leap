@@ -19,7 +19,7 @@
 
 namespace Leap\Core\DB\ORM\Field\Adaptor {
 
-	use Leap\Core\DB;
+	use Leap\Core;
 	use Leap\Core\Throwable;
 
 	/**
@@ -34,18 +34,18 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 	 * @see http://www.php.net/manual/en/function.gzcompress.php
 	 * @see http://php.net/manual/en/function.gzuncompress.php
 	 */
-	class GZ extends DB\ORM\Field\Adaptor {
+	class GZ extends Core\DB\ORM\Field\Adaptor {
 
 		/**
 		 * This constructor initializes the class.
 		 *
 		 * @access public
-		 * @param DB\ORM\Model $model                   a reference to the implementing model
+		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
 		 * @param array $metadata                       the adaptor's metadata
 		 * @throws Throwable\InvalidArgument\Exception  indicates that an invalid field name
 		 *                                              was specified
 		 */
-		public function __construct(DB\ORM\Model $model, Array $metadata = array()) {
+		public function __construct(Core\DB\ORM\Model $model, Array $metadata = array()) {
 			parent::__construct($model, $metadata['field']);
 
 			$this->metadata['level'] = (isset($metadata['level']))
@@ -67,7 +67,7 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 			switch ($key) {
 				case 'value':
 					$value = $this->model->{$this->metadata['field']};
-					if (($value !== NULL) AND ! ($value instanceof DB\SQL\Expression)) {
+					if (($value !== NULL) AND ! ($value instanceof Core\DB\SQL\Expression)) {
 						$value = gzuncompress($value);
 					}
 					return $value;

@@ -19,9 +19,6 @@
 
 namespace Leap\Core {
 
-	use Leap\Core;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class acts as the base class for a object.
 	 *
@@ -31,17 +28,17 @@ namespace Leap\Core {
 	 * @package Leap\Core
 	 * @version 2014-01-25
 	 */
-	abstract class Object implements Core\IObject {
+	abstract class Object implements \Leap\Core\IObject {
 
 		/**
 		 * This method returns a copy this object.
 		 *
 		 * @access public
-		 * @throws Throwable\UnimplementedMethod\Exception  indicates the method has not be
-		 *                                                  implemented
+		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception   indicates the method has not be
+		 *                                                              implemented
 		 */
 		public function __clone() {
-			throw new Throwable\UnimplementedMethod\Exception('Method ":method" has not been implemented in class ":class."', array(':class' => get_called_class(), ':method' => __FUNCTION__));
+			throw new \Leap\Core\Throwable\UnimplementedMethod\Exception('Method ":method" has not been implemented in class ":class."', array(':class' => get_called_class(), ':method' => __FUNCTION__));
 		}
 
 		/**
@@ -62,7 +59,7 @@ namespace Leap\Core {
 		 *                                              to the called object
 		 */
 		public function __equals($object) {
-			return (($object !== NULL) && ($object instanceof Core\IObject) && ($object->__hashCode() == $this->__hashCode()));
+			return (($object !== NULL) && ($object instanceof \Leap\Core\IObject) && ($object->__hashCode() == $this->__hashCode()));
 		}
 
 		/**

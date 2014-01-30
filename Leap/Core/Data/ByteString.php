@@ -19,8 +19,6 @@
 
 namespace Leap\Core\Data {
 
-	use Leap\Core;
-
 	/**
 	 * This class represents a data buffer.
 	 *
@@ -31,7 +29,7 @@ namespace Leap\Core\Data {
 	 *
 	 * @see https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSData_Class/Reference/Reference.html
 	 */
-	class ByteString extends Core\Object implements \Countable {
+	class ByteString extends \Leap\Core\Object implements \Countable {
 
 		/**
 		 * This constant represents binary data.
@@ -200,7 +198,7 @@ namespace Leap\Core\Data {
 					break;
 				}
 			}
-			else if (is_object($data) AND ($data instanceof Core\Data\ByteString)) {
+			else if (is_object($data) AND ($data instanceof \Leap\Core\Data\ByteString)) {
 				return $data->as_hexcode();
 			}
 			return '';

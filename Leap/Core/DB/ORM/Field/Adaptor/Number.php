@@ -19,7 +19,7 @@
 
 namespace Leap\Core\DB\ORM\Field\Adaptor {
 
-	use Leap\Core\DB;
+	use Leap\Core;
 	use Leap\Core\Throwable;
 
 	/**
@@ -33,18 +33,18 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 	 * @see http://php.net/manual/en/function.number-format.php
 	 * @see http://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html
 	 */
-	class Number extends DB\ORM\Field\Adaptor {
+	class Number extends Core\DB\ORM\Field\Adaptor {
 
 		/**
 		 * This constructor initializes the class.
 		 *
 		 * @access public
-		 * @param DB\ORM\Model $model                   a reference to the implementing model
+		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
 		 * @param array $metadata                       the adaptor's metadata
 		 * @throws Throwable\InvalidArgument\Exception  indicates that an invalid field name
 		 *                                              was specified
 		 */
-		public function __construct(DB\ORM\Model $model, Array $metadata = array()) {
+		public function __construct(Core\DB\ORM\Model $model, Array $metadata = array()) {
 			parent::__construct($model, $metadata['field']);
 
 			// Sets the number of decimal points.
@@ -88,7 +88,7 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 			switch ($key) {
 				case 'value':
 					$value = $this->model->{$this->metadata['field']};
-					if (($value !== NULL) AND ! ($value instanceof DB\SQL\Expression)) {
+					if (($value !== NULL) AND ! ($value instanceof Core\DB\SQL\Expression)) {
 						$value = number_format($value, $this->metadata['precision'], $this->metadata['separator'], $this->metadata['delimiter']);
 					}
 					return $value;

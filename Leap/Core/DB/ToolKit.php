@@ -19,8 +19,6 @@
 
 namespace Leap\Core\DB {
 
-	use Leap\Core;
-
 	/**
 	 * This class provides a set of helper functions that are often used when
 	 * data is stored in a database.
@@ -30,7 +28,7 @@ namespace Leap\Core\DB {
 	 * @package Leap\Core\DB
 	 * @version 2014-01-25
 	 */
-	class ToolKit extends Core\Object {
+	class ToolKit extends \Leap\Core\Object {
 
 		/**
 		 * This method converts a like clause to a regular expression.

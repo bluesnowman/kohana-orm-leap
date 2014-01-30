@@ -19,17 +19,13 @@
 
 namespace Leap\Core\DB\Connection {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class manages the caching of database connections.
 	 *
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\Connection
-	 * @version 2014-01-25
+	 * @version 2014-01-28
 	 *
 	 * @see http://stackoverflow.com/questions/1353822/how-to-implement-database-connection-pool-in-php
 	 * @see http://www.webdevelopersjournal.com/columns/connection_pool.html
@@ -37,7 +33,7 @@ namespace Leap\Core\DB\Connection {
 	 * @see http://www.snaq.net/java/DBPool/
 	 * @see http://www.koders.com/java/fid4840DD8CBE361AA355537C8C9332D92F226F19C1.aspx?s=Q
 	 */
-	class Pool extends Core\Object implements \Countable {
+	class Pool extends \Leap\Core\Object implements \Countable {
 
 		/**
 		 * This variable stores the lookup table.
@@ -77,17 +73,17 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                           the name of the property
-		 * @return mixed                                the value of the property
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @return mixed                                            the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __get($key) {
 			switch ($key) {
 				case 'max_size':
 					return $this->settings[$key];
 				default:
-					throw new Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
 				break;
 			}
 		}
@@ -97,10 +93,10 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                           the name of the property
-		 * @param mixed $value                          the value of the property
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @param mixed $value                                      the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __set($key, $value) {
 			switch ($key) {
@@ -108,7 +104,7 @@ namespace Leap\Core\DB\Connection {
 					$this->settings[$key] = abs( (int) $value);
 				break;
 				default:
-					throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
 				break;
 			}
 		}
@@ -117,17 +113,17 @@ namespace Leap\Core\DB\Connection {
 		 * This method adds an existing connection to the connection pool.
 		 *
 		 * @access public
-		 * @param DB\Connection\Driver $connection      the connection to be added
-		 * @return boolean                              whether the connection was added
-		 * @throws Throwable\Database\Exception         indicates that no new connections
-		 *                                              can be added
+		 * @param \Leap\Core\DB\Connection\Driver $connection     the connection to be added
+		 * @return boolean                                        whether the connection was added
+		 * @throws \Leap\Core\Throwable\Database\Exception        indicates that no new connections
+		 *                                                        can be added
 		 */
-		public function add_connection(DB\Connection\Driver $connection) {
+		public function add_connection(\Leap\Core\DB\Connection\Driver $connection) {
 			if ($connection !== NULL) {
 				$connection_id = $connection->__hashCode();
 				if ( ! isset($this->lookup[$connection_id])) {
 					if ($this->count() >= $this->settings['max_size']) {
-						throw new Throwable\Database\Exception('Message: Failed to add connection. Reason: Exceeded maximum number of connections that may be held in the pool.', array(':source' => $connection->data_source->id));
+						throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to add connection. Reason: Exceeded maximum number of connections that may be held in the pool.', array(':source' => $connection->data_source->id));
 					}
 					$data_source_id = $connection->data_source->id;
 					$this->pool[$data_source_id][$connection_id] = $connection;
@@ -156,14 +152,14 @@ namespace Leap\Core\DB\Connection {
 		 * will be returned when $new is set to "FALSE."
 		 *
 		 * @access public
-		 * @param mixed $config                         the data source configurations
-		 * @param boolean $new                          whether to create a new connection
-		 * @return DB\Connection\Driver                 the appropriate connection
-		 * @throws Throwable\Database\Exception         indicates that no new connections
-		 *                                              can be added
+		 * @param mixed $config                              the data source configurations
+		 * @param boolean $new                               whether to create a new connection
+		 * @return \Leap\Core\DB\Connection\Driver           the appropriate connection
+		 * @throws \Leap\Core\Throwable\Database\Exception   indicates that no new connections
+		 *                                                   can be added
 		 */
 		public function get_connection($config = 'default', $new = FALSE) {
-			$data_source = DB\DataSource::instance($config);
+			$data_source = \Leap\Core\DB\DataSource::instance($config);
 			if (isset($this->pool[$data_source->id]) AND ! empty($this->pool[$data_source->id])) {
 				if ($new) {
 					foreach ($this->pool[$data_source->id] as $connection) {
@@ -189,9 +185,9 @@ namespace Leap\Core\DB\Connection {
 				}
 			}
 			if ($this->count() >= $this->settings['max_size']) {
-				throw new Throwable\Database\Exception('Message: Failed to create new connection. Reason: Exceeded maximum number of connections that may be held in the pool.', array(':source' => $data_source, ':new' => $new));
+				throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to create new connection. Reason: Exceeded maximum number of connections that may be held in the pool.', array(':source' => $data_source, ':new' => $new));
 			}
-			$connection = DB\Connection\Driver::factory($data_source);
+			$connection = \Leap\Core\DB\Connection\Driver::factory($data_source);
 			$connection->open();
 			$connection_id = $connection->__hashCode();
 			$this->pool[$data_source->id][$connection_id] = $connection;
@@ -204,9 +200,9 @@ namespace Leap\Core\DB\Connection {
 		 * connection will then be allowed to close via its destructor when completely unset.
 		 *
 		 * @access public
-		 * @param DB\Connection\Driver $connection      the connection to be released
+		 * @param \Leap\Core\DB\Connection\Driver $connection the connection to be released
 		 */
-		public function release(DB\Connection\Driver $connection) {
+		public function release(\Leap\Core\DB\Connection\Driver $connection) {
 			if ($connection !== NULL) {
 				$connection_id = $connection->__hashCode();
 				if (isset($this->lookup[$connection_id])) {
@@ -224,7 +220,7 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access protected
 		 * @static
-		 * @var DB\Connection\Pool
+		 * @var \Leap\Core\DB\Connection\Pool
 		 */
 		protected static $instance = NULL;
 
@@ -246,7 +242,7 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @static
-		 * @return DB\Connection\Pool               	a singleton instance of this class
+		 * @return \Leap\Core\DB\Connection\Pool               a singleton instance of this class
 		 */
 		public static function instance() {
 			if (static::$instance === NULL) {

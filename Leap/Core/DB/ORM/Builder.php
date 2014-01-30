@@ -20,7 +20,6 @@
 namespace Leap\Core\DB\ORM {
 
 	use Leap\Core;
-	use Leap\Core\DB;
 
 	/**
 	 * This class acts as an extension to the a builder class.
@@ -29,7 +28,7 @@ namespace Leap\Core\DB\ORM {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM
-	 * @version 2014-01-26
+	 * @version 2014-01-28
 	 */
 	abstract class Builder extends Core\Object {
 
@@ -37,7 +36,7 @@ namespace Leap\Core\DB\ORM {
 		 * This variable stores an instance of the SQL builder class.
 		 *
 		 * @access protected
-		 * @var DB\SQL\Builder
+		 * @var Core\DB\SQL\Builder
 		 */
 		protected $builder;
 
@@ -45,9 +44,9 @@ namespace Leap\Core\DB\ORM {
 		 * This constructor instantiates this class.
 		 *
 		 * @access public
-		 * @param DB\SQL\Builder $builder             the SQL builder class to be extended
+		 * @param Core\DB\SQL\Builder $builder        the SQL builder class to be extended
 		 */
-		public function __construct(DB\SQL\Builder $builder) {
+		public function __construct(Core\DB\SQL\Builder $builder) {
 			$this->builder = $builder;
 		}
 

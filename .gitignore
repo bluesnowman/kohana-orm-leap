@@ -1,4 +1,8 @@
+## Hidden Files
+
 .DS_Store
 .idea
-/_site/
 .svn
+
+## Directories
+/_site/

@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-
 	/**
 	 * This class provides a way to access the scheme for a database.
 	 *
@@ -29,15 +26,15 @@ namespace Leap\Core\DB {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-01-25
+	 * @version 2014-01-28
 	 */
-	abstract class Schema extends Core\Object {
+	abstract class Schema extends \Leap\Core\Object {
 
 		/**
 		 * This variable stores a reference to the data source.
 		 *
 		 * @access protected
-		 * @var DB\DataSource
+		 * @var \Leap\Core\DB\DataSource
 		 */
 		protected $data_source;
 
@@ -46,7 +43,7 @@ namespace Leap\Core\DB {
 		 * interface.
 		 *
 		 * @access protected
-		 * @var DB\SQL\Precompiler
+		 * @var \Leap\Core\DB\SQL\Precompiler
 		 */
 		protected $precompiler;
 
@@ -57,7 +54,7 @@ namespace Leap\Core\DB {
 		 * @param mixed $config                  the data source configurations
 		 */
 		public function __construct($config) {
-			$this->data_source = DB\DataSource::instance($config);
+			$this->data_source = \Leap\Core\DB\DataSource::instance($config);
 			$precompiler = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Precompiler';
 			$this->precompiler = new $precompiler();
 		}
@@ -170,7 +167,7 @@ namespace Leap\Core\DB {
 		 * @abstract
 		 * @param string $table                 the table to evaluated
 		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 an array of fields within the specified
+		 * @return \Leap\Core\DB\ResultSet      an array of fields within the specified
 		 *                                      table
 		 */
 		public abstract function fields($table, $like = '');
@@ -195,7 +192,7 @@ namespace Leap\Core\DB {
 		 * @abstract
 		 * @param string $table                 the table to evaluated
 		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of indexes for the specified
+		 * @return \Leap\Core\DB\ResultSet      a result set of indexes for the specified
 		 *                                      table
 		 */
 		public abstract function indexes($table, $like = '');
@@ -248,7 +245,7 @@ namespace Leap\Core\DB {
 		 * @access public
 		 * @abstract
 		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of database tables
+		 * @return \Leap\Core\DB\ResultSet      a result set of database tables
 		 */
 		public abstract function tables($like = '');
 
@@ -273,7 +270,7 @@ namespace Leap\Core\DB {
 		 * @abstract
 		 * @param string $table                 the table to evaluated
 		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of triggers for the specified
+		 * @return \Leap\Core\DB\ResultSet      a result set of triggers for the specified
 		 *                                      table
 		 */
 		public abstract function triggers($table, $like = '');
@@ -292,7 +289,7 @@ namespace Leap\Core\DB {
 		 * @access public
 		 * @abstract
 		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of database views
+		 * @return \Leap\Core\DB\ResultSet      a result set of database views
 		 */
 		public abstract function views($like = '');
 

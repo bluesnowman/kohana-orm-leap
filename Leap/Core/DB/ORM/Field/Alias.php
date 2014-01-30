@@ -20,7 +20,6 @@
 namespace Leap\Core\DB\ORM\Field {
 
 	use Leap\Core;
-	use Leap\Core\DB;
 	use Leap\Core\Throwable;
 
 	/**
@@ -45,7 +44,7 @@ namespace Leap\Core\DB\ORM\Field {
 		 * This variable stores a reference to the implementing model.
 		 *
 		 * @access protected
-		 * @var DB\ORM\Model
+		 * @var Core\DB\ORM\Model
 		 */
 		protected $model;
 
@@ -53,12 +52,12 @@ namespace Leap\Core\DB\ORM\Field {
 		 * This constructor initializes the class.
 		 *
 		 * @access public
-		 * @param DB\ORM\Model $model                   a reference to the implementing model
+		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
 		 * @param string $field                         the name of field in the database table
 		 * @throws Throwable\InvalidArgument\Exception  indicates that an invalid field name
 		 *                                              was specified
 		 */
-		public function __construct(DB\ORM\Model $model, $field) {
+		public function __construct(Core\DB\ORM\Model $model, $field) {
 			if ( ! is_string($field) OR $model->is_adaptor($field) OR $model->is_alias($field) OR ! $model->is_field($field) OR $model->is_relation($field)) {
 				throw new Throwable\InvalidArgument\Exception('Message: Invalid field name defined. Reason: Field name either is not a field or is already defined.', array(':field' => $field));
 			}

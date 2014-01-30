@@ -19,9 +19,6 @@
 
 namespace Leap\Core\Data {
 
-	use Leap\Core;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class represents a bit-field value.
 	 *
@@ -30,7 +27,7 @@ namespace Leap\Core\Data {
 	 * @package Leap\Core\Data
 	 * @version 2014-01-25
 	 */
-	class BitField extends Core\Object implements \Countable {
+	class BitField extends \Leap\Core\Object implements \Countable {
 
 		/**
 		 * This variable stores the maximum size/boundary of the bit-field.
@@ -87,14 +84,14 @@ namespace Leap\Core\Data {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $field                         the name of the field
-		 * @return integer                              the value of the field
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $field                                     the name of the field
+		 * @return integer                                          the value of the field
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __get($field) {
 			if ( ! array_key_exists($field, $this->values)) {
-				throw new Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :field is either inaccessible or undefined.', array(':field' => $field));
+				throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :field is either inaccessible or undefined.', array(':field' => $field));
 			}
 			return $this->values[$field];
 		}
@@ -116,14 +113,14 @@ namespace Leap\Core\Data {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $field                         the name of the field
-		 * @param mixed $value                          the value of the field
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $field                                     the name of the field
+		 * @param mixed $value                                      the value of the field
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __set($field, $value) {
 			if ( ! array_key_exists($field, $this->values)) {
-				throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :field is either inaccessible or undefined.', array(':field' => $field, ':value' => $value));
+				throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :field is either inaccessible or undefined.', array(':field' => $field, ':value' => $value));
 			}
 			$this->values[$field] = bindec(static::unpack($value, $this->boundary));
 		}
@@ -223,8 +220,8 @@ namespace Leap\Core\Data {
 		 * This method maps the specified value using the bit-field pattern.
 		 *
 		 * @access public
-		 * @param mixed $value                          the value to be mapped
-		 * @throws Throwable\Runtime\Exception          indicates an invalid pattern
+		 * @param mixed $value                              the value to be mapped
+		 * @throws \Leap\Core\Throwable\Runtime\Exception   indicates an invalid pattern
 		 */
 		public function map($value) {
 			$this->values = array();
@@ -238,7 +235,7 @@ namespace Leap\Core\Data {
 				$start += $bits;
 			}
 			if ($start > $this->boundary) {
-				throw new Throwable\Runtime\Exception('Message: Invalid bit-field pattern. Reason: Pattern exceeds the bit boundary of :boundary.', array(':pattern' => $this->pattern, ':boundary' => $this->boundary));
+				throw new \Leap\Core\Throwable\Runtime\Exception('Message: Invalid bit-field pattern. Reason: Pattern exceeds the bit boundary of :boundary.', array(':pattern' => $this->pattern, ':boundary' => $this->boundary));
 			}
 		}
 
@@ -285,7 +282,7 @@ namespace Leap\Core\Data {
 					return $binary;
 				}
 			}
-			else if (is_object($value) AND ($value instanceof Core\Data\BitField)) {
+			else if (is_object($value) AND ($value instanceof \Leap\Core\Data\BitField)) {
 				return $value->as_binary();
 			}
 			return str_pad('0', $boundary, '0', STR_PAD_LEFT);

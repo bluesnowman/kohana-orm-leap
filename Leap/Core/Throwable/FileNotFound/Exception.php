@@ -19,8 +19,6 @@
 
 namespace Leap\Core\Throwable\FileNotFound {
 
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class indicates that a file could not be found.
 	 *
@@ -29,6 +27,6 @@ namespace Leap\Core\Throwable\FileNotFound {
 	 * @package Leap\Core\Throwable
 	 * @version 2014-01-25
 	 */
-	class Exception extends Throwable\Runtime\Exception {}
+	class Exception extends \Leap\Core\Throwable\Runtime\Exception {}
 
 }

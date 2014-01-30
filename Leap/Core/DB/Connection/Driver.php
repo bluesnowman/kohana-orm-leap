@@ -19,10 +19,6 @@
 
 namespace Leap\Core\DB\Connection {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class sets forth the functions for a database connection.
 	 *
@@ -30,9 +26,9 @@ namespace Leap\Core\DB\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\Connection
-	 * @version 2014-01-25
+	 * @version 2014-01-28
 	 */
-	abstract class Driver extends Core\Object {
+	abstract class Driver extends \Leap\Core\Object {
 
 		/**
 		 * This variable stores the connection configurations.
@@ -46,7 +42,7 @@ namespace Leap\Core\DB\Connection {
 		 * This variable stores the connection configurations.
 		 *
 		 * @access protected
-		 * @var DB\DataSource
+		 * @var \Leap\Core\DB\DataSource
 		 */
 		protected $data_source;
 
@@ -54,7 +50,7 @@ namespace Leap\Core\DB\Connection {
 		 * This variable stores a reference to the lock builder.
 		 *
 		 * @access protected
-		 * @var DB\SQL\Lock\Builder
+		 * @var \Leap\Core\DB\SQL\Lock\Builder
 		 */
 		protected $lock;
 
@@ -78,12 +74,12 @@ namespace Leap\Core\DB\Connection {
 		 * This method initializes the class with the specified data source.
 		 *
 		 * @access public
-		 * @param DB\DataSource $data_source            the data source to be used
+		 * @param \Leap\Core\DB\DataSource $data_source       the data source to be used
 		 */
-		public function __construct(DB\DataSource $data_source) {
+		public function __construct(\Leap\Core\DB\DataSource $data_source) {
 			$this->cache_key = NULL;
 			$this->data_source = $data_source;
-			$this->lock = DB\SQL\Lock\Builder::factory($this);
+			$this->lock = \Leap\Core\DB\SQL\Lock\Builder::factory($this);
 			$this->resource = NULL;
 			$this->sql = '';
 		}
@@ -101,10 +97,10 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                           the name of the property
-		 * @return mixed                                the value of the property
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @return mixed                                            the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __get($key) {
 			switch ($key) {
@@ -115,7 +111,7 @@ namespace Leap\Core\DB\Connection {
 				case 'sql':
 					return $this->sql;
 				default:
-					throw new Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
 			}
 		}
 
@@ -124,7 +120,7 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @abstract
-		 * @throws Throwable\SQL\Exception              indicates that the executed
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
 		 *                                              statement failed
 		 */
 		public abstract function begin_transaction();
@@ -135,8 +131,8 @@ namespace Leap\Core\DB\Connection {
 		 * @access protected
 		 * @param string $sql                           the SQL statement being queried
 		 * @param string $type                          the return type that is being used
-		 * @param DB\ResultSet $results                 the result set
-		 * @return DB\ResultSet                         the result set for the specified
+		 * @param \Leap\Core\DB\ResultSet $results      the result set
+		 * @return \Leap\Core\DB\ResultSet              the result set for the specified
 		 */
 		protected function cache($sql, $type, $results = NULL) {
 			if ($this->data_source->cache->enabled) {
@@ -171,7 +167,7 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @abstract
-		 * @throws Throwable\SQL\Exception              indicates that the executed
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
 		 *                                              statement failed
 		 */
 		public abstract function commit();
@@ -182,7 +178,7 @@ namespace Leap\Core\DB\Connection {
 		 * @access public
 		 * @abstract
 		 * @param string $sql                           the SQL statement
-		 * @throws Throwable\SQL\Exception              indicates that the executed
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
 		 *                                              statement failed
 		 */
 		public abstract function execute($sql);
@@ -195,7 +191,7 @@ namespace Leap\Core\DB\Connection {
 		 * @param string $table                         the table to be queried
 		 * @param string $column                        the column representing the table's id
 		 * @return integer                              the last insert id
-		 * @throws Throwable\SQL\Exception              indicates that the query failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the query failed
 		 */
 		public abstract function get_last_insert_id($table = NULL, $column = 'id');
 
@@ -203,13 +199,13 @@ namespace Leap\Core\DB\Connection {
 		 * This method returns the connection's resource.
 		 *
 		 * @access public
-		 * @return mixed                                the resource being used
-		 * @throws Throwable\Database\Exception         indicates that no connection has been
-		 *                                              established
+		 * @return mixed                                    the resource being used
+		 * @throws \Leap\Core\Throwable\Database\Exception  indicates that no connection has been
+		 *                                                  established
 		 */
 		public function get_resource() {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\Database\Exception('Message: Unable to fetch resource. Reason: No connection has been established.');
+				throw new \Leap\Core\Throwable\Database\Exception('Message: Unable to fetch resource. Reason: No connection has been established.');
 			}
 			return $this->resource;
 		}
@@ -227,8 +223,8 @@ namespace Leap\Core\DB\Connection {
 		 * This method opens a connection using the data source provided.
 		 *
 		 * @access public
-		 * @throws Throwable\Database\Exception         indicates that there is problem with
-		 *                                              opening the connection
+		 * @throws \Leap\Core\Throwable\Database\Exception  indicates that there is problem with
+		 *                                                  opening the connection
 		 */
 		public abstract function open();
 
@@ -238,20 +234,20 @@ namespace Leap\Core\DB\Connection {
 		 * @access public
 		 * @param string $sql                           the SQL statement
 		 * @param string $type                          the return type to be used
-		 * @return DB\ResultSet                         the result set
-		 * @throws Throwable\SQL\Exception              indicates that the query failed
+		 * @return \Leap\Core\DB\ResultSet              the result set
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the query failed
 		 */
 		public function query($sql, $type = 'array') {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: Unable to find connection.');
 			}
 			$result_set = $this->cache($sql, $type);
 			if ($result_set !== NULL) {
 				$this->sql = $sql;
 				return $result_set;
 			}
-			$reader = DB\SQL\DataReader::factory($this, $sql);
-			$result_set = $this->cache($sql, $type, new DB\ResultSet($reader, $type));
+			$reader = \Leap\Core\DB\SQL\DataReader::factory($this, $sql);
+			$result_set = $this->cache($sql, $type, new \Leap\Core\DB\ResultSet($reader, $type));
 			$this->sql = $sql;
 			return $result_set;
 		}
@@ -263,7 +259,7 @@ namespace Leap\Core\DB\Connection {
 		 * @param string $string                        the string to be escaped
 		 * @param char $escape                          the escape character
 		 * @return string                               the quoted string
-		 * @throws Throwable\SQL\Exception              indicates that no connection could
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that no connection could
 		 *                                              be found
 		 *
 		 * @license http://codeigniter.com/user_guide/license.html
@@ -278,7 +274,7 @@ namespace Leap\Core\DB\Connection {
 			);
 
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to quote/escape string. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to quote/escape string. Reason: Unable to find connection.');
 			}
 
 			do {
@@ -300,14 +296,14 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @param string $sql                           the SQL statement
-		 * @return DB\SQL\DataReader                    the SQL data reader
-		 * @throws Throwable\SQL\Exception              indicates that the query failed
+		 * @return \Leap\Core\DB\SQL\DataReader         the SQL data reader
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the query failed
 		 */
 		public function reader($sql) {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to create SQL data reader. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to create SQL data reader. Reason: Unable to find connection.');
 			}
-			$reader = DB\SQL\DataReader::factory($this, $sql);
+			$reader = \Leap\Core\DB\SQL\DataReader::factory($this, $sql);
 			$this->sql = $sql;
 			return $reader;
 		}
@@ -317,7 +313,7 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @abstract
-		 * @throws Throwable\SQL\Exception              indicates that the executed
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
 		 *                                              statement failed
 		 */
 		public abstract function rollback();
@@ -331,10 +327,10 @@ namespace Leap\Core\DB\Connection {
 		 * @access public
 		 * @static
 		 * @param mixed $config                         the data source configurations
-		 * @return DB\Connection\Driver                 the database connection
+		 * @return \Leap\Core\DB\Connection\Driver      the database connection
 		 */
 		public static function factory($config = 'default') {
-			$data_source = DB\DataSource::instance($config);
+			$data_source = \Leap\Core\DB\DataSource::instance($config);
 			$driver = '\\Leap\\Plugins\\DB\\' . $data_source->dialect . '\\Connection\\' . $data_source->driver;
 			$connection = new $driver($data_source);
 			return $connection;

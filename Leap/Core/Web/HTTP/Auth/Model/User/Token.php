@@ -20,8 +20,6 @@
 
 namespace Leap\Core\Web\HTTP\Auth\Model\User {
 
-	use \Leap\Core\DB;
-
 	/**
 	 * This class represents a record in the "user_tokens" table.
 	 *
@@ -30,7 +28,7 @@ namespace Leap\Core\Web\HTTP\Auth\Model\User {
 	 * @package Leap\Core\Model\User
 	 * @version 2014-01-25
 	 */
-	class Token extends DB\ORM\Model {
+	class Token extends \Leap\Core\DB\ORM\Model {
 
 		/**
 		 * This constructor instantiates this class.
@@ -41,34 +39,34 @@ namespace Leap\Core\Web\HTTP\Auth\Model\User {
 			parent::__construct();
 
 			$this->fields = array(
-				'id' => new DB\ORM\Field\Integer($this, array(
+				'id' => new \Leap\Core\DB\ORM\Field\Integer($this, array(
 					'max_length' => 11,
 					'nullable' => FALSE,
 					'unsigned' => TRUE,
 				)),
-				'user_id' => new DB\ORM\Field\Integer($this, array(
+				'user_id' => new \Leap\Core\DB\ORM\Field\Integer($this, array(
 					'max_length' => 11,
 					'nullable' => FALSE,
 					'unsigned' => TRUE,
 				)),
-				'user_agent' => new DB\ORM\Field\String($this, array(
+				'user_agent' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'max_length' => 40,
 					'nullable' => FALSE,
 				)),
-				'token' => new DB\ORM\Field\String($this, array(
+				'token' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'max_length' => 40,
 					'nullable' => FALSE,
 				)),
-				'type' => new DB\ORM\Field\String($this, array(
+				'type' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'max_length' => 100,
 					'nullable' => FALSE,
 				)),
-				'created' => new DB\ORM\Field\Integer($this, array(
+				'created' => new \Leap\Core\DB\ORM\Field\Integer($this, array(
 					'max_length' => 11,
 					'nullable' => FALSE,
 					'unsigned' => TRUE,
 				)),
-				'expires' => new DB\ORM\Field\Integer($this, array(
+				'expires' => new \Leap\Core\DB\ORM\Field\Integer($this, array(
 					'max_length' => 11,
 					'nullable' => FALSE,
 					'unsigned' => TRUE,
@@ -76,10 +74,10 @@ namespace Leap\Core\Web\HTTP\Auth\Model\User {
 			);
 
 			$this->relations = array(
-				'user' => new DB\ORM\Relation\BelongsTo($this, array(
+				'user' => new \Leap\Core\DB\ORM\Relation\BelongsTo($this, array(
 					'child_key' => array('user_id'),
 					'parent_key' => array('id'),
-					'parent_model' => 'User',
+					'parent_model' => '\\Leap\Core\\Web\\HTTP\\Auth\\Model\\User',
 				)),
 			);
 		}
@@ -94,7 +92,7 @@ namespace Leap\Core\Web\HTTP\Auth\Model\User {
 			do {
 				$token = sha1(uniqid(\Text::random('alnum', 32), TRUE));
 			}
-			while(DB\SQL::select($this->data_source(DB\DataSource::SLAVE_INSTANCE))->from($this->table())->where('token', DB\SQL\Operator::_EQUAL_TO_, $token)->query()->is_loaded());
+			while(\Leap\Core\DB\SQL::select($this->data_source(\Leap\Core\DB\DataSource::SLAVE_INSTANCE))->from($this->table())->where('token', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $token)->query()->is_loaded());
 			return $token;
 		}
 

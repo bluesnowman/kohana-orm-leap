@@ -19,9 +19,6 @@
 
 namespace Leap\Core\Throwable\Runtime {
 
-	use Leap\Core;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class represents a Runtime Exception.
 	 *
@@ -30,7 +27,7 @@ namespace Leap\Core\Throwable\Runtime {
 	 * @package Leap\Core\Throwable
 	 * @version 2014-01-25
 	 */
-	class Exception extends \Exception implements Core\IObject {
+	class Exception extends \Exception implements \Leap\Core\IObject {
 
 		/**
 		 * This variable stores the code associated with the exception.
@@ -62,11 +59,11 @@ namespace Leap\Core\Throwable\Runtime {
 		 * This method returns a copy this object.
 		 *
 		 * @access public
-		 * @throws Throwable\UnimplementedMethod\Exception  indicates the method has not be
-		 *                                                  implemented
+		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception   indicates the method has not be
+		 *                                                              implemented
 		 */
 		public function __clone() {
-			throw new Throwable\UnimplementedMethod\Exception('Method ":method" has not been implemented in class ":class."', array(':class' => get_called_class(), ':method' => __FUNCTION__));
+			throw new \Leap\Core\Throwable\UnimplementedMethod\Exception('Method ":method" has not been implemented in class ":class."', array(':class' => get_called_class(), ':method' => __FUNCTION__));
 		}
 
 		/**
@@ -82,12 +79,12 @@ namespace Leap\Core\Throwable\Runtime {
 		 * This method returns whether the specified object is equal to the called object.
 		 *
 		 * @access public
-		 * @param Core\IObject $object                       the object to be evaluated
+		 * @param \Leap\Core\IObject $object            the object to be evaluated
 		 * @return boolean                              whether the specified object is equal
 		 *                                              to the called object
 		 */
 		public function __equals($object) {
-			return (($object !== NULL) && ($object instanceof Throwable\Runtime\Exception) && ($object->__hashCode() == $this->__hashCode()));
+			return (($object !== NULL) && ($object instanceof \Leap\Core\Throwable\Runtime\Exception) && ($object->__hashCode() == $this->__hashCode()));
 		}
 
 		/**

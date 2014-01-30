@@ -25,13 +25,12 @@ namespace Leap\Core\DB\SQL {
 	/**
 	 * This class represents an SQL expression.
 	 *
-	 * @abstract
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-01-26
+	 * @version 2014-01-28
 	 */
-	abstract class Expression extends Core\Object {
+	class Expression extends Core\Object {
 
 		/**
 		 * This variable stores the raw SQL expression string.

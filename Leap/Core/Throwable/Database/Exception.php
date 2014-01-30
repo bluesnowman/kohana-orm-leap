@@ -19,8 +19,6 @@
 
 namespace Leap\Core\Throwable\Database {
 
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class indicates there is a problem associated with the database.
 	 *
@@ -30,6 +28,6 @@ namespace Leap\Core\Throwable\Database {
 	 * @version 2014-01-25
 	 *
 	 */
-	class Exception extends Throwable\Runtime\Exception {}
+	class Exception extends \Leap\Core\Throwable\Runtime\Exception {}
 
 }

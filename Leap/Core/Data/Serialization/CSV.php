@@ -19,9 +19,6 @@
 
 namespace Leap\Core\Data\Serialization {
 
-	use Leap\Core;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class creates and parses CSV documents.
 	 *
@@ -30,7 +27,7 @@ namespace Leap\Core\Data\Serialization {
 	 * @package Leap\Core\Data\Serialization
 	 * @version 2014-01-25
 	 */
-	class CSV extends Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator {
+	class CSV extends \Leap\Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator {
 
 		/**
 		 * This variable stores the data to be included in the CSV file.
@@ -135,10 +132,10 @@ namespace Leap\Core\Data\Serialization {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                               the name of the property
-		 * @return mixed                                    the value of the property
-		 * @throws Throwable\InvalidProperty\Exception      indicates that the specified property is
-		 *                                                  either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @return mixed                                            the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __get($key) {
 			switch ($key) {
@@ -157,7 +154,7 @@ namespace Leap\Core\Data\Serialization {
 				case 'eol':
 					return $this->eol;
 				default:
-					throw new Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
 				break;
 			}
 		}
@@ -167,10 +164,10 @@ namespace Leap\Core\Data\Serialization {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                               the name of the property
-		 * @param mixed $value                              the value of the property
-		 * @throws Throwable\InvalidProperty\Exception      indicates that the specified property is
-		 *                                                  either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @param mixed $value                                      the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __set($key, $value) {
 			switch ($key) {
@@ -194,7 +191,7 @@ namespace Leap\Core\Data\Serialization {
 					$this->eol = (is_string($value)) ? $value : chr(10);
 				break;
 				default:
-					throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
 				break;
 			}
 		}
@@ -347,13 +344,13 @@ namespace Leap\Core\Data\Serialization {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $offset                           the offset to be set
-		 * @param mixed $value                              the value to be set
-		 * @throws Throwable\InvalidArgument\Exception      indicates a data type mismatch
+		 * @param integer $offset                                   the offset to be set
+		 * @param mixed $value                                      the value to be set
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 */
 		public function offsetSet($offset, $value) {
 			if ( ! is_array($value)) {
-				throw new Throwable\InvalidArgument\Exception('Message: Unable to set value. Reason: Value must be an array.', array(':type' => gettype($value)));
+				throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Unable to set value. Reason: Value must be an array.', array(':type' => gettype($value)));
 			}
 			else if ($offset === NULL) {
 				$this->data[] = $value;
@@ -368,11 +365,11 @@ namespace Leap\Core\Data\Serialization {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $offset                           the offset to be unset
-		 * @throws Throwable\UnimplementedMethod\Exception  indicates the result cannot be modified
+		 * @param integer $offset                                       the offset to be unset
+		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception   indicates the result cannot be modified
 		 */
 		public function offsetUnset($offset) {
-			throw new Throwable\UnimplementedMethod\Exception('Message: Invalid call to member function. Reason: The CSV class cannot be modified.', array());
+			throw new \Leap\Core\Throwable\UnimplementedMethod\Exception('Message: Invalid call to member function. Reason: The CSV class cannot be modified.', array());
 		}
 
 		/**
@@ -474,13 +471,13 @@ namespace Leap\Core\Data\Serialization {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $position                         the seeked position
-		 * @throws Throwable\OutOfBounds\Exception          indicates that the seeked position
-		 *                                                  is out of bounds
+		 * @param integer $position                             the seeked position
+		 * @throws \Leap\Core\Throwable\OutOfBounds\Exception   indicates that the seeked position
+		 *                                                      is out of bounds
 		 */
 		public function seek($position) {
 			if ( ! isset($this->data[$position])) {
-				throw new Throwable\OutOfBounds\Exception('Message: Invalid array position. Reason: The specified position is out of bounds.', array(':position' => $position, ':count' => $this->count()));
+				throw new \Leap\Core\Throwable\OutOfBounds\Exception('Message: Invalid array position. Reason: The specified position is out of bounds.', array(':position' => $position, ':count' => $this->count()));
 			}
 			$this->position = $position;
 		}
@@ -504,7 +501,7 @@ namespace Leap\Core\Data\Serialization {
 		 * @access public
 		 * @static
 		 * @param array $config                             the configuration array
-		 * @return Core\Data\Serialization\CSV                                      an instance of the CSV class
+		 * @return \Leap\Core\Data\Serialization\CSV        an instance of the CSV class
 		 */
 		public static function factory(Array $config = array()) {
 			return new static($config);
@@ -516,7 +513,7 @@ namespace Leap\Core\Data\Serialization {
 		 * @access public
 		 * @static
 		 * @param array $config                             the configuration array
-		 * @return Core\Data\Serialization\CSV                                      an instance of the CSV class containing
+		 * @return \Leap\Core\Data\Serialization\CSV        an instance of the CSV class containing
 		 *                                                  the contents of the file.
 		 *
 		 * @see http://www.php.net/manual/en/function.fgetcsv.php

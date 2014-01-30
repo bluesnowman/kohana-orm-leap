@@ -20,7 +20,6 @@
 namespace Leap\Core\DB\ORM\Insert {
 
 	use Leap\Core;
-	use Leap\Core\DB;
 	use Leap\Core\Throwable;
 
 	/**
@@ -29,15 +28,15 @@ namespace Leap\Core\DB\ORM\Insert {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM\Insert
-	 * @version 2014-01-26
+	 * @version 2014-01-28
 	 */
-	class Proxy extends Core\Object implements DB\SQL\Statement {
+	class Proxy extends Core\Object implements Core\DB\SQL\Statement {
 
 		/**
 		 * This variable stores an instance of the SQL builder class.
 		 *
 		 * @access protected
-		 * @var DB\SQL\Insert\Builder
+		 * @var Core\DB\SQL\Insert\Builder
 		 */
 		protected $builder;
 
@@ -45,7 +44,7 @@ namespace Leap\Core\DB\ORM\Insert {
 		 * This variable stores a reference to the data source.
 		 *
 		 * @access protected
-		 * @var DB\DataSource
+		 * @var Core\DB\DataSource
 		 */
 		protected $data_source;
 
@@ -53,7 +52,7 @@ namespace Leap\Core\DB\ORM\Insert {
 		 * This variable stores an instance of the ORM builder extension class.
 		 *
 		 * @access protected
-		 * @var DB\ORM\Builder
+		 * @var Core\DB\ORM\Builder
 		 */
 		protected $extension;
 
@@ -73,11 +72,11 @@ namespace Leap\Core\DB\ORM\Insert {
 		 */
 		public function __construct($model) {
 			$name = $model;
-			$model = DB\ORM\Model::model_name($name);
-			$this->data_source = DB\DataSource::instance($model::data_source(DB\DataSource::MASTER_INSTANCE));
+			$model = Core\DB\ORM\Model::model_name($name);
+			$this->data_source = Core\DB\DataSource::instance($model::data_source(Core\DB\DataSource::MASTER_INSTANCE));
 			$builder = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Insert\\Builder';
 			$this->builder = new $builder($this->data_source);
-			$extension = DB\ORM\Model::builder_name($name);
+			$extension = Core\DB\ORM\Model::builder_name($name);
 			if (class_exists($extension)) {
 				$this->extension = new $extension($this->builder);
 			}
@@ -102,7 +101,7 @@ namespace Leap\Core\DB\ORM\Insert {
 			if ($this->extension !== NULL) {
 				if (method_exists($this->extension, $function)) {
 					$result = call_user_func_array(array($this->extension, $function), $arguments);
-					if ($result instanceof DB\ORM\Builder) {
+					if ($result instanceof Core\DB\ORM\Builder) {
 						return $this;
 					}
 					return $result;
@@ -117,7 +116,7 @@ namespace Leap\Core\DB\ORM\Insert {
 		 * @access public
 		 * @param string $column                            the column to be set
 		 * @param string $value                             the value to be set
-		 * @return DB\ORM\Insert\Proxy                      a reference to the current instance
+		 * @return Core\DB\ORM\Insert\Proxy                 a reference to the current instance
 		 */
 		public function column($column, $value) {
 			$this->builder->column($column, $value, 0);
@@ -157,7 +156,7 @@ namespace Leap\Core\DB\ORM\Insert {
 		public function execute() {
 			$model = $this->model;
 			$auto_increment = $model::is_auto_incremented();
-			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
+			$connection = Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
 			$connection->execute($this->statement());
 			$primary_key = ($auto_increment) ? $connection->get_last_insert_id() : 0;
 			return $primary_key;
@@ -167,7 +166,7 @@ namespace Leap\Core\DB\ORM\Insert {
 		 * This method resets the current builder.
 		 *
 		 * @access public
-		 * @return DB\ORM\Insert\Proxy                      a reference to the current instance
+		 * @return Core\DB\ORM\Insert\Proxy                 a reference to the current instance
 		 */
 		public function reset() {
 			$this->builder->reset();

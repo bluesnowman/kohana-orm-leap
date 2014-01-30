@@ -20,8 +20,6 @@
 
 namespace Leap\Core\Web\HTTP\Auth\Model {
 
-	use \Leap\Core\DB;
-
 	/**
 	 * This class represents a record in the "users" table.
 	 *
@@ -30,7 +28,7 @@ namespace Leap\Core\Web\HTTP\Auth\Model {
 	 * @package Leap\Core\Model
 	 * @version 2014-01-25
 	 */
-	class User extends DB\ORM\Model {
+	class User extends \Leap\Core\DB\ORM\Model {
 
 		/**
 		 * This constructor instantiates this class.
@@ -41,84 +39,84 @@ namespace Leap\Core\Web\HTTP\Auth\Model {
 			parent::__construct();
 
 			$this->fields = array(
-				'id' => new DB\ORM\Field\Integer($this, array(
+				'id' => new \Leap\Core\DB\ORM\Field\Integer($this, array(
 					'max_length' => 11,
 					'nullable' => FALSE,
 					'unsigned' => TRUE,
 				)),
-				'email' => new DB\ORM\Field\String($this, array(
+				'email' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'max_length' => 254,
 					'nullable' => FALSE,
 				)),
-				'username' => new DB\ORM\Field\String($this, array(
+				'username' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'default' => '',
 					'max_length' => 32,
 					'nullable' => FALSE,
 				)),
-				'password' => new DB\ORM\Field\String($this, array(
+				'password' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'max_length' => 64,
 					'nullable' => FALSE,
 				)),
 				// Personal Details
-				'firstname' => new DB\ORM\Field\String($this, array(
+				'firstname' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'default' => NULL,
 					'max_length' => 35,
 					'nullable' => TRUE,
 				)),
-				'lastname' => new DB\ORM\Field\String($this, array(
+				'lastname' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'default' => NULL,
 					'max_length' => 50,
 					'nullable' => TRUE,
 				)),
 				// Account Status Details
-				'activated' => new DB\ORM\Field\Boolean($this, array(
+				'activated' => new \Leap\Core\DB\ORM\Field\Boolean($this, array(
 					'default' => TRUE,
 					'nullable' => FALSE,
 				)),
-				'banned' => new DB\ORM\Field\Boolean($this, array(
+				'banned' => new \Leap\Core\DB\ORM\Field\Boolean($this, array(
 					'default' => FALSE,
 					'nullable' => FALSE,
 				)),
-				'ban_reason' => new DB\ORM\Field\String($this, array(
+				'ban_reason' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'default' => NULL,
 					'max_length' => 255,
 					'nullable' => TRUE,
 				)),
 				// Account Utility Details
-				'new_password_key' => new DB\ORM\Field\String($this, array(
+				'new_password_key' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'default' => NULL,
 					'max_length' => 64,
 					'nullable' => TRUE,
 				)),
-				'new_password_requested' => new DB\ORM\Field\Integer($this, array(
+				'new_password_requested' => new \Leap\Core\DB\ORM\Field\Integer($this, array(
 					'default' => NULL,
 					'max_length' => 11,
 					'nullable' => TRUE,
 				)),
-				'new_email' => new DB\ORM\Field\String($this, array(
+				'new_email' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'default' => NULL,
 					'max_length' => 254,
 					'nullable' => TRUE,
 				)),
-				'new_email_key' => new DB\ORM\Field\String($this, array(
+				'new_email_key' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'default' => NULL,
 					'max_length' => 64,
 					'nullable' => TRUE,
 				)),
 				// Account Metrics Details
-				'logins' => new DB\ORM\Field\Integer($this, array(
+				'logins' => new \Leap\Core\DB\ORM\Field\Integer($this, array(
 					'default' => 0,
 					'max_length' => 10,
 					'nullable' => FALSE,
 					'unsigned' => TRUE,
 				)),
-				'last_login' => new DB\ORM\Field\Integer($this, array(
+				'last_login' => new \Leap\Core\DB\ORM\Field\Integer($this, array(
 					'default' => NULL,
 					'max_length' => 10,
 					'nullable' => TRUE,
 					'unsigned' => TRUE,
 				)),
-				'last_ip' => new DB\ORM\Field\String($this, array(
+				'last_ip' => new \Leap\Core\DB\ORM\Field\String($this, array(
 					'default' => NULL,
 					'max_length' => 39,
 					'nullable' => TRUE,
@@ -126,23 +124,23 @@ namespace Leap\Core\Web\HTTP\Auth\Model {
 			);
 
 			$this->adaptors = array(
-				'last_login_formatted' => new DB\ORM\Field\Adaptor\DateTime($this, array(
+				'last_login_formatted' => new \Leap\Core\DB\ORM\Field\Adaptor\DateTime($this, array(
 					'field' => 'last_login',
 				)),
-				'new_password_requested_formatted' => new DB\ORM\Field\Adaptor\DateTime($this, array(
+				'new_password_requested_formatted' => new \Leap\Core\DB\ORM\Field\Adaptor\DateTime($this, array(
 					'field' => 'new_password_requested',
 				)),
 			);
 
 			$this->relations = array(
-				'user_roles' => new DB\ORM\Relation\HasMany($this, array(
+				'user_roles' => new \Leap\Core\DB\ORM\Relation\HasMany($this, array(
 					'child_key' => array('user_id'),
-					'child_model' => 'User_Role',
+					'child_model' => '\\Leap\\Core\\Web\\HTTP\\Auth\\Model\\User\\Role',
 					'parent_key' => array('id'),
 				)),
-				'user_token' => new DB\ORM\Relation\HasMany($this, array(
+				'user_token' => new \Leap\Core\DB\ORM\Relation\HasMany($this, array(
 					'child_key' => array('user_id'),
-					'child_model' => 'User_Token',
+					'child_model' => '\\Leap\\Core\\Web\\HTTP\\Auth\\Model\\User\\Token',
 					'parent_key' => array('id'),
 				)),
 			);

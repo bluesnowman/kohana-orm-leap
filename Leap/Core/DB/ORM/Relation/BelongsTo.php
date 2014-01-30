@@ -19,7 +19,7 @@
 
 namespace Leap\Core\DB\ORM\Relation {
 
-	use Leap\Core\DB;
+	use Leap\Core;
 
 	/**
 	 * This class represents a "belongs to" relation in a database table.
@@ -27,23 +27,23 @@ namespace Leap\Core\DB\ORM\Relation {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM\Relation
-	 * @version 2014-01-26
+	 * @version 2014-01-28
 	 */
-	class BelongsTo extends DB\ORM\Relation {
+	class BelongsTo extends Core\DB\ORM\Relation {
 
 		/**
 		 * This constructor initializes the class.
 		 *
 		 * @access public
 		 * @override
-		 * @param DB\ORM\Model $model                   a reference to the implementing model
+		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
 		 * @param array $metadata                       the relation's metadata
 		 */
-		public function __construct(DB\ORM\Model $model, Array $metadata = array()) {
+		public function __construct(Core\DB\ORM\Model $model, Array $metadata = array()) {
 			parent::__construct($model, 'belongs_to');
 
 			// the parent model is the referenced table
-			$parent_model = DB\ORM\Model::model_name($metadata['parent_model']);
+			$parent_model = Core\DB\ORM\Model::model_name($metadata['parent_model']);
 
 			// Get parent model's name into variable, otherways a late static binding code throws a
 			// syntax error when used like this: $this->metadata['parent_model']::primary_key()
@@ -66,23 +66,23 @@ namespace Leap\Core\DB\ORM\Relation {
 		 *
 		 * @access protected
 		 * @override
-		 * @return DB\ORM\Model							the corresponding model
+		 * @return Core\DB\ORM\Model                    the corresponding model
 		 */
 		protected function load() {
 			$parent_model = $this->metadata['parent_model'];
 			$parent_table = $parent_model::table();
 			$parent_key = $this->metadata['parent_key'];
-			$parent_source = $parent_model::data_source(DB\DataSource::SLAVE_INSTANCE);
+			$parent_source = $parent_model::data_source(Core\DB\DataSource::SLAVE_INSTANCE);
 
 			$child_key = $this->metadata['child_key'];
 
-			$builder = DB\SQL::select($parent_source)
+			$builder = Core\DB\SQL::select($parent_source)
 				->all("{$parent_table}.*")
 				->from($parent_table);
 
 			$field_count = count($child_key);
 			for ($i = 0; $i < $field_count; $i++) {
-				$builder->where("{$parent_table}.{$parent_key[$i]}", DB\SQL\Operator::_EQUAL_TO_, $this->model->{$child_key[$i]});
+				$builder->where("{$parent_table}.{$parent_key[$i]}", Core\DB\SQL\Operator::_EQUAL_TO_, $this->model->{$child_key[$i]});
 			}
 
 			$result = $builder->limit(1)->query($parent_model);

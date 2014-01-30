@@ -20,7 +20,6 @@
 namespace Leap\Core\DB\ORM {
 
 	use Leap\Core;
-	use Leap\Core\DB;
 	use Leap\Core\Throwable;
 
 	/**
@@ -30,7 +29,7 @@ namespace Leap\Core\DB\ORM {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM
-	 * @version 2014-01-26
+	 * @version 2014-01-28
 	 */
 	abstract class Relation extends Core\Object {
 
@@ -54,7 +53,7 @@ namespace Leap\Core\DB\ORM {
 		 * This variable stores a reference to the implementing model.
 		 *
 		 * @access protected
-		 * @var DB\ORM\Model
+		 * @var Core\DB\ORM\Model
 		 */
 		protected $model;
 
@@ -62,10 +61,10 @@ namespace Leap\Core\DB\ORM {
 		 * This constructor initializes the class.
 		 *
 		 * @access public
-		 * @param DB\ORM\Model $model                   a reference to the implementing model
+		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
 		 * @param string $type                          the type of relationship
 		 */
-		public function __construct(DB\ORM\Model $model, $type) {
+		public function __construct(Core\DB\ORM\Model $model, $type) {
 			$this->model = $model;
 			$this->metadata = array();
 			$this->metadata['type'] = $type;

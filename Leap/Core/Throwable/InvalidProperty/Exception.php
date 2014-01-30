@@ -19,8 +19,6 @@
 
 namespace Leap\Core\Throwable\InvalidProperty {
 
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class indicates that no property with the specified key was found.
 	 *
@@ -29,6 +27,6 @@ namespace Leap\Core\Throwable\InvalidProperty {
 	 * @package Leap\Core\Throwable
 	 * @version 2014-01-25
 	 */
-	class Exception extends Throwable\Runtime\Exception {}
+	class Exception extends \Leap\Core\Throwable\Runtime\Exception {}
 
 }

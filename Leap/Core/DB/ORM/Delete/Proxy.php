@@ -20,7 +20,6 @@
 namespace Leap\Core\DB\ORM\Delete {
 
 	use Leap\Core;
-	use Leap\Core\DB;
 	use Leap\Core\Throwable;
 
 	/**
@@ -29,15 +28,15 @@ namespace Leap\Core\DB\ORM\Delete {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM\Delete
-	 * @version 2014-01-26
+	 * @version 2014-01-28
 	 */
-	class Proxy extends Core\Object implements DB\SQL\Statement {
+	class Proxy extends Core\Object implements Core\DB\SQL\Statement {
 
 		/**
 		 * This variable stores an instance of the SQL builder class.
 		 *
 		 * @access protected
-		 * @var DB\SQL\Delete\Builder
+		 * @var Core\DB\SQL\Delete\Builder
 		 */
 		protected $builder;
 
@@ -45,7 +44,7 @@ namespace Leap\Core\DB\ORM\Delete {
 		 * This variable stores a reference to the data source.
 		 *
 		 * @access protected
-		 * @var DB\DataSource
+		 * @var Core\DB\DataSource
 		 */
 		protected $data_source;
 
@@ -53,7 +52,7 @@ namespace Leap\Core\DB\ORM\Delete {
 		 * This variable stores an instance of the ORM builder extension class.
 		 *
 		 * @access protected
-		 * @var DB\ORM\Builder
+		 * @var Core\DB\ORM\Builder
 		 */
 		protected $extension;
 
@@ -73,7 +72,7 @@ namespace Leap\Core\DB\ORM\Delete {
 			if ($this->extension !== NULL) {
 				if (method_exists($this->extension, $function)) {
 					$result = call_user_func_array(array($this->extension, $function), $arguments);
-					if ($result instanceof DB\ORM\Builder) {
+					if ($result instanceof Core\DB\ORM\Builder) {
 						return $this;
 					}
 					return $result;
@@ -90,11 +89,11 @@ namespace Leap\Core\DB\ORM\Delete {
 		 */
 		public function __construct($model) {
 			$name = $model;
-			$model = DB\ORM\Model::model_name($name);
-			$this->data_source = DB\DataSource::instance($model::data_source(DB\DataSource::MASTER_INSTANCE));
+			$model = Core\DB\ORM\Model::model_name($name);
+			$this->data_source = Core\DB\DataSource::instance($model::data_source(Core\DB\DataSource::MASTER_INSTANCE));
 			$builder = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Delete\\Builder';
 			$this->builder = new $builder($this->data_source);
-			$extension = DB\ORM\Model::builder_name($name);
+			$extension = Core\DB\ORM\Model::builder_name($name);
 			if (class_exists($extension)) {
 				$this->extension = new $extension($this->builder);
 			}
@@ -119,7 +118,7 @@ namespace Leap\Core\DB\ORM\Delete {
 		 * @access public
 		 */
 		public function execute() {
-			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
+			$connection = Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
 			$connection->execute($this->statement());
 		}
 
@@ -128,7 +127,7 @@ namespace Leap\Core\DB\ORM\Delete {
 		 *
 		 * @access public
 		 * @param integer $limit                            the "limit" constraint
-		 * @return DB\ORM\Delete\Proxy                      a reference to the current instance
+		 * @return Core\DB\ORM\Delete\Proxy                 a reference to the current instance
 		 */
 		public function limit($limit) {
 			$this->builder->limit($limit);
@@ -140,7 +139,7 @@ namespace Leap\Core\DB\ORM\Delete {
 		 *
 		 * @access public
 		 * @param integer $offset                           the "offset" constraint
-		 * @return DB\ORM\Delete\Proxy                      a reference to the current instance
+		 * @return Core\DB\ORM\Delete\Proxy                 a reference to the current instance
 		 */
 		public function offset($offset) {
 			$this->builder->offset($offset);
@@ -156,7 +155,7 @@ namespace Leap\Core\DB\ORM\Delete {
 		 *                                                  column will sorted either in ascending or
 		 *                                                  descending order
 		 * @param string $nulls                             the weight to be given to null values
-		 * @return DB\ORM\Delete\Proxy                      a reference to the current instance
+		 * @return Core\DB\ORM\Delete\Proxy                 a reference to the current instance
 		 */
 		public function order_by($column, $ordering = 'ASC', $nulls = 'DEFAULT') {
 			$this->builder->order_by($column, $ordering, $nulls);
@@ -167,7 +166,7 @@ namespace Leap\Core\DB\ORM\Delete {
 		 * This method resets the current builder.
 		 *
 		 * @access public
-		 * @return DB\ORM\Delete\Proxy                      a reference to the current instance
+		 * @return Core\DB\ORM\Delete\Proxy                 a reference to the current instance
 		 */
 		public function reset() {
 			$this->builder->reset();
@@ -195,7 +194,7 @@ namespace Leap\Core\DB\ORM\Delete {
 		 * @param string $operator                          the operator to be used
 		 * @param string $value                             the value the column is constrained with
 		 * @param string $connector                         the connector to be used
-		 * @return DB\ORM\Delete\Proxy                      a reference to the current instance
+		 * @return Core\DB\ORM\Delete\Proxy                 a reference to the current instance
 		 */
 		public function where($column, $operator, $value, $connector = 'AND') {
 			$this->builder->where($column, $operator, $value, $connector);
@@ -208,7 +207,7 @@ namespace Leap\Core\DB\ORM\Delete {
 		 * @access public
 		 * @param string $parenthesis                       the parenthesis to be used
 		 * @param string $connector                         the connector to be used
-		 * @return DB\ORM\Delete\Proxy                      a reference to the current instance
+		 * @return Core\DB\ORM\Delete\Proxy                 a reference to the current instance
 		 */
 		public function where_block($parenthesis, $connector = 'AND') {
 			$this->builder->where_block($parenthesis, $connector);

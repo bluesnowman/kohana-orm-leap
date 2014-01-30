@@ -20,7 +20,6 @@
 namespace Leap\Core\DB\ORM {
 
 	use Leap\Core;
-	use Leap\Core\DB;
 	use Leap\Core\Throwable;
 
 	/**
@@ -30,7 +29,7 @@ namespace Leap\Core\DB\ORM {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM
-	 * @version 2014-01-26
+	 * @version 2014-01-28
 	 */
 	abstract class Model extends Core\Object implements Core\GC\IDisposable {
 
@@ -235,9 +234,9 @@ namespace Leap\Core\DB\ORM {
 			if (empty($primary_key) OR ! is_array($primary_key)) {
 				throw new Throwable\Marshalling\Exception('Message: Failed to delete record from database. Reason: No primary key has been declared.');
 			}
-			$builder = DB\SQL::delete(static::data_source(DB\DataSource::MASTER_INSTANCE))->from(static::table());
+			$builder = Core\DB\SQL::delete(static::data_source(Core\DB\DataSource::MASTER_INSTANCE))->from(static::table());
 			foreach ($primary_key as $column) {
-				$builder->where($column, DB\SQL\Operator::_EQUAL_TO_, $this->fields[$column]->value);
+				$builder->where($column, Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields[$column]->value);
 			}
 			$builder->execute();
 			if ($reset) {
@@ -375,11 +374,11 @@ namespace Leap\Core\DB\ORM {
 		 *                                              table
 		 */
 		public function is_saved() {
-			$builder = DB\SQL::select(static::data_source(DB\DataSource::MASTER_INSTANCE)) // done on master instead of slave
+			$builder = Core\DB\SQL::select(static::data_source(Core\DB\DataSource::MASTER_INSTANCE)) // done on master instead of slave
 				->from(static::table())
 				->limit(1);
 			foreach (static::primary_key() as $column) {
-				$builder->where($column, DB\SQL\Operator::_EQUAL_TO_, $this->fields[$column]->value);
+				$builder->where($column, Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields[$column]->value);
 			}
 			return $builder->query()->is_loaded();
 		}
@@ -414,9 +413,9 @@ namespace Leap\Core\DB\ORM {
 				if (empty($primary_key) OR ! is_array($primary_key)) {
 					throw new Throwable\Marshalling\Exception('Message: Failed to load record from database. Reason: No primary key has been declared.');
 				}
-				$builder = DB\SQL::select(static::data_source(DB\DataSource::SLAVE_INSTANCE))->from(static::table())->limit(1);
+				$builder = Core\DB\SQL::select(static::data_source(Core\DB\DataSource::SLAVE_INSTANCE))->from(static::table())->limit(1);
 				foreach ($primary_key as $column) {
-					$builder->where($column, DB\SQL\Operator::_EQUAL_TO_, $this->fields[$column]->value);
+					$builder->where($column, Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields[$column]->value);
 				}
 				$record = $builder->query();
 				if ( ! $record->is_loaded()) {
@@ -497,7 +496,7 @@ namespace Leap\Core\DB\ORM {
 				throw new Throwable\Marshalling\Exception('Message: Failed to save record to database. Reason: No primary key has been declared.');
 			}
 
-			$data_source = static::data_source(DB\DataSource::MASTER_INSTANCE);
+			$data_source = static::data_source(Core\DB\DataSource::MASTER_INSTANCE);
 			$table = static::table();
 			$columns = array_keys($this->fields);
 			$hash_code = $this->hash_code();
@@ -515,12 +514,12 @@ namespace Leap\Core\DB\ORM {
 
 					// Check if the record exists in database
 					if ($do_insert) {
-						$builder = DB\SQL::select($data_source)
-								->column(DB\SQL::expr(1), 'IsFound')
+						$builder = Core\DB\SQL::select($data_source)
+								->column(Core\DB\SQL::expr(1), 'IsFound')
 								->from($table);
 
 						foreach ($primary_key as $column) {
-							$builder->where($column, DB\SQL\Operator::_EQUAL_TO_, $this->fields[$column]->value);
+							$builder->where($column, Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields[$column]->value);
 						}
 
 						$do_insert = ! ($builder->limit(1)->query()->is_loaded());
@@ -529,7 +528,7 @@ namespace Leap\Core\DB\ORM {
 
 				if ( ! $do_insert) {
 					if ( ! empty($columns)) {
-						$builder = DB\SQL::update($data_source)
+						$builder = Core\DB\SQL::update($data_source)
 							->table($table);
 
 						// Is there any data to save and it's worth to execute the query?
@@ -540,7 +539,7 @@ namespace Leap\Core\DB\ORM {
 								// Add column values to the query builder
 								$builder->set($column, $this->fields[$column]->value);
 
-								if (in_array($column, $primary_key) OR ($this->fields[$column]->value instanceof DB\SQL\Expression)) {
+								if (in_array($column, $primary_key) OR ($this->fields[$column]->value instanceof Core\DB\SQL\Expression)) {
 									// Reloading required because primary key has been changed or an SQL expression has been used
 									$reload = TRUE;
 								}
@@ -556,7 +555,7 @@ namespace Leap\Core\DB\ORM {
 						// Execute the query only if there is data to save
 						if ($is_worth) {
 							foreach ($primary_key as $column) {
-								$builder->where($column, DB\SQL\Operator::_EQUAL_TO_, $this->fields[$column]->value);
+								$builder->where($column, Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields[$column]->value);
 							}
 
 							$builder->execute();
@@ -569,7 +568,7 @@ namespace Leap\Core\DB\ORM {
 
 			if ($do_insert) {
 				if ( ! empty($columns)) {
-					$builder = DB\SQL::insert($data_source)
+					$builder = Core\DB\SQL::insert($data_source)
 						->into($table);
 
 					// Is any data to save and it's worth to execute the query?
@@ -583,7 +582,7 @@ namespace Leap\Core\DB\ORM {
 							// Add column values to the query builder
 							$builder->column($column, $this->fields[$column]->value);
 
-							if ($this->fields[$column]->value instanceof DB\SQL\Expression) {
+							if ($this->fields[$column]->value instanceof Core\DB\SQL\Expression) {
 								// Reloading required, if using SQL expressions
 								$reload = TRUE;
 							}
@@ -615,7 +614,7 @@ namespace Leap\Core\DB\ORM {
 
 				$primary_key = static::primary_key();
 				//set the primary keys in a temp variable
-				$temp = new stdClass;
+				$temp = new \stdClass;
 
 				foreach ($primary_key as $column) {
 					$temp->$column=$this->$column;
@@ -641,7 +640,7 @@ namespace Leap\Core\DB\ORM {
 		 * @access public
 		 * @param array $values                         an array of column/value mappings
 		 * @param mixed $expected                       an array of keys to take from $values, or NULL
-		 * @return DB\ORM\Model                         a reference to the current instance
+		 * @return Core\DB\ORM\Model                    a reference to the current instance
 		 */
 		public function set_values(Array $values, Array $expected = NULL) {
 			// Automatically create list expected keys
@@ -705,7 +704,7 @@ namespace Leap\Core\DB\ORM {
 		 * @return string                               the builder's class name
 		 */
 		public static function builder_name($builder) {
-			$prefix = 'Builder_Leap_';
+			$prefix = 'Builder\\Leap\\';
 			if (preg_match('/^' . $prefix . '.*$/i', $builder)) {
 				return $builder;
 			}
@@ -751,7 +750,7 @@ namespace Leap\Core\DB\ORM {
 		 * @return mixed                                an instance of the specified model
 		 */
 		public static function factory($model) {
-			$model = DB\ORM\Model::model_name($model);
+			$model = Core\DB\ORM\Model::model_name($model);
 			return new $model();
 		}
 
@@ -813,7 +812,7 @@ namespace Leap\Core\DB\ORM {
 		 * @return string                               the database table's name
 		 */
 		public static function table() {
-			$segments = preg_split('/_/', get_called_class());
+			$segments = preg_split('/(\\\|_)/', get_called_class());
 			return $segments[count($segments) - 1];
 		}
 

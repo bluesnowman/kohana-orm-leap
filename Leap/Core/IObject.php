@@ -19,8 +19,6 @@
 
 namespace Leap\Core {
 
-	use Leap\Core;
-
 	/**
 	 * This interface defines the contract for an object.
 	 *
@@ -49,7 +47,7 @@ namespace Leap\Core {
 		 * This method returns whether the specified object is equal to the called object.
 		 *
 		 * @access public
-		 * @param Core\IObject $object                  the object to be evaluated
+		 * @param \Leap\Core\IObject $object            the object to be evaluated
 		 * @return boolean                              whether the specified object is equal
 		 *                                              to the called object
 		 */

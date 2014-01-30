@@ -24,7 +24,7 @@
 
 namespace Leap\Core\DB\ORM {
 
-	use Leap\Core\DB;
+	use Leap\Core;
 	use Leap\Core\Throwable;
 
 	/**
@@ -35,7 +35,7 @@ namespace Leap\Core\DB\ORM {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM
-	 * @version 2014-01-26
+	 * @version 2014-01-28
 	 *
 	 * @see http://imrannazar.com/Modified-Preorder-Tree-Traversal
 	 * @see http://www.sitepoint.com/hierarchical-data-database-2/
@@ -49,7 +49,7 @@ namespace Leap\Core\DB\ORM {
 	 * @see https://github.com/smgladkovskiy/jelly-mptt
 	 * @see https://github.com/banks/sprig-mptt
 	 */
-	abstract class MPTT extends DB\ORM\Model {
+	abstract class MPTT extends Core\DB\ORM\Model {
 
 		/**
 		 * This constructor instantiates this class.
@@ -60,31 +60,31 @@ namespace Leap\Core\DB\ORM {
 			parent::__construct();
 
 			$this->fields = array(
-				'id' => new DB\ORM\Field\Integer($this, array(
+				'id' => new Core\DB\ORM\Field\Integer($this, array(
 					'max_length' => 11,
 					'nullable' => FALSE,
 					'unsigned' => TRUE,
 				)),
-				'scope' => new DB\ORM\Field\Integer($this, array(
+				'scope' => new Core\DB\ORM\Field\Integer($this, array(
 					'max_length' => 11,
 					'nullable' => FALSE,
 					'unsigned' => TRUE,
 				)),
-				'name' => new DB\ORM\Field\String($this, array(
+				'name' => new Core\DB\ORM\Field\String($this, array(
 					'max_length' => 70,
 					'nullable' => TRUE,
 				)),
-				'parent_id' => new DB\ORM\Field\Integer($this, array(
+				'parent_id' => new Core\DB\ORM\Field\Integer($this, array(
 					'max_length' => 11,
 					'nullable' => TRUE,
 					'unsigned' => TRUE,
 				)),
-				'lft' => new DB\ORM\Field\Integer($this, array(
+				'lft' => new Core\DB\ORM\Field\Integer($this, array(
 					'max_length' => 11,
 					'nullable' => FALSE,
 					'unsigned' => TRUE,
 				)),
-				'rgt' => new DB\ORM\Field\Integer($this, array(
+				'rgt' => new Core\DB\ORM\Field\Integer($this, array(
 					'max_length' => 11,
 					'nullable' => FALSE,
 					'unsigned' => TRUE,
@@ -138,7 +138,7 @@ namespace Leap\Core\DB\ORM {
 		 * @param string $name                              the name to given to the node
 		 * @param array $fields                             an associated array of additional field
 		 *                                                  name/value pairs
-		 * @return DB\ORM\MPTT                              the newly added child node
+		 * @return Core\DB\ORM\MPTT                         the newly added child node
 		 * @throws Throwable\Marshalling\Exception          indicates that the node could not
 		 *                                                  be added
 		 *
@@ -151,26 +151,26 @@ namespace Leap\Core\DB\ORM {
 				throw new Throwable\Marshalling\Exception('Message: Failed to insert record to database. Reason: Model is not insertable.', array(':class' => get_called_class()));
 			}
 
-			$data_source = static::data_source(DB\DataSource::MASTER_INSTANCE);
+			$data_source = static::data_source(Core\DB\DataSource::MASTER_INSTANCE);
 			$table = static::table();
 
-			$connection = DB\Connection\Pool::instance()->get_connection($data_source);
+			$connection = Core\DB\Connection\Pool::instance()->get_connection($data_source);
 			$connection->lock->add($table)->acquire();
 
-			$update = DB\SQL::update($data_source)
-				->set('rgt', DB\ORM::expr('rgt + 2'))
+			$update = Core\DB\SQL::update($data_source)
+				->set('rgt', Core\DB\ORM::expr('rgt + 2'))
 				->table($table)
-				->where('scope', DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
-				->where('rgt', DB\SQL\Operator::_GREATER_THAN_, $this->fields['rgt']->value)
+				->where('scope', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
+				->where('rgt', Core\DB\SQL\Operator::_GREATER_THAN_, $this->fields['rgt']->value)
 				->statement();
 
 			$connection->execute($update);
 
-			$update = DB\SQL::update($data_source)
-				->set('lft', DB\ORM::expr('lft + 2'))
+			$update = Core\DB\SQL::update($data_source)
+				->set('lft', Core\DB\ORM::expr('lft + 2'))
 				->table($table)
-				->where('scope', DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
-				->where('lft', DB\SQL\Operator::_GREATER_THAN_, $this->fields['lft']->value)
+				->where('scope', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
+				->where('lft', Core\DB\SQL\Operator::_GREATER_THAN_, $this->fields['lft']->value)
 				->statement();
 
 			$connection->execute($update);
@@ -178,7 +178,7 @@ namespace Leap\Core\DB\ORM {
 			$lft = $this->fields['lft']->value + 1;
 			$rgt = $this->fields['lft']->value + 2;
 
-			$builder = DB\SQL::insert($data_source)
+			$builder = Core\DB\SQL::insert($data_source)
 				->into($table)
 				->column('scope', $this->fields['scope']->value)
 				->column('name', $name)
@@ -197,20 +197,20 @@ namespace Leap\Core\DB\ORM {
 			$connection->execute($insert);
 			$id = $connection->get_last_insert_id();
 
-			$select = DB\SQL::select($data_source)
+			$select = Core\DB\SQL::select($data_source)
 				->column('t1.parent_id')
 				->from($table, 't1')
-				->where('t1.scope', DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
-				->where('t1.lft', DB\SQL\Operator::_LESS_THAN_, DB\SQL::expr('t0.lft'))
-				->where('t1.rgt', DB\SQL\Operator::_GREATER_THAN_, DB\SQL::expr('t0.rgt'))
-				->order_by(DB\SQL::expr('t1.rgt - t0.rgt'))
+				->where('t1.scope', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
+				->where('t1.lft', Core\DB\SQL\Operator::_LESS_THAN_, Core\DB\SQL::expr('t0.lft'))
+				->where('t1.rgt', Core\DB\SQL\Operator::_GREATER_THAN_, Core\DB\SQL::expr('t0.rgt'))
+				->order_by(Core\DB\SQL::expr('t1.rgt - t0.rgt'))
 				->limit(1);
 
-			$update = DB\SQL::update($data_source)
+			$update = Core\DB\SQL::update($data_source)
 				->set('t0.parent_id', $select)
 				->table($table, 't0')
-				->where('t0.scope', DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
-				->where('t0.lft', DB\SQL\Operator::_GREATER_THAN_, $this->fields['lft']->value)
+				->where('t0.scope', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
+				->where('t0.lft', Core\DB\SQL\Operator::_GREATER_THAN_, $this->fields['lft']->value)
 				->statement();
 
 			$connection->execute($update);
@@ -244,28 +244,28 @@ namespace Leap\Core\DB\ORM {
 		 *                                                  descending order
 		 * @param integer $limit                            the number of ancestors to return
 		 * @param boolean $root                             whether to include the root node
-		 * @return DB\ResultSet                             a result set of ancestor nodes for the current
+		 * @return Core\DB\ResultSet                        a result set of ancestor nodes for the current
 		 *                                                  node
 		 */
 		public function ancestors($ordering = 'ASC', $limit = 0, $root = TRUE) {
-			$data_source = static::data_source(DB\DataSource::SLAVE_INSTANCE);
+			$data_source = static::data_source(Core\DB\DataSource::SLAVE_INSTANCE);
 
-			$builder = DB\SQL::select($data_source)
+			$builder = Core\DB\SQL::select($data_source)
 				->all('t1.*')
 				->from(static::table(), 't1')
-				->where('t1.scope', DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
-				->where('t1.id', DB\SQL\Operator::_NOT_EQUIVALENT_, $this->fields['id']->value)
-				->where('t1.lft', DB\SQL\Operator::_LESS_THAN_, $this->fields['lft']->value)
-				->where('t1.rgt', DB\SQL\Operator::_GREATER_THAN_, $this->fields['rgt']->value)
+				->where('t1.scope', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
+				->where('t1.id', Core\DB\SQL\Operator::_NOT_EQUIVALENT_, $this->fields['id']->value)
+				->where('t1.lft', Core\DB\SQL\Operator::_LESS_THAN_, $this->fields['lft']->value)
+				->where('t1.rgt', Core\DB\SQL\Operator::_GREATER_THAN_, $this->fields['rgt']->value)
 				->order_by('t1.lft', 'DESC')
 				->limit($limit);
 
 			if ( ! $root) {
-				$builder->where('t1.lft', DB\SQL\Operator::_NOT_EQUAL_TO_, 1);
+				$builder->where('t1.lft', Core\DB\SQL\Operator::_NOT_EQUAL_TO_, 1);
 			}
 
 			if ($ordering == 'ASC') {
-				$builder = DB\SQL::select($data_source)
+				$builder = Core\DB\SQL::select($data_source)
 					->all('t0.*')
 					->from($builder, 't0')
 					->order_by('t0.lft', 'ASC');
@@ -282,7 +282,7 @@ namespace Leap\Core\DB\ORM {
 		 *                                                  left column will sorted either in ascending or
 		 *                                                  descending order
 		 * @param integer $limit                            the "limit" constraint
-		 * @return DB\ResultSet                             a result set of children nodes
+		 * @return Core\DB\ResultSet                        a result set of children nodes
 		 */
 		public function children($ordering = 'ASC', $limit = 0) {
 			return $this->descendants($ordering, $limit, TRUE, FALSE);
@@ -306,37 +306,37 @@ namespace Leap\Core\DB\ORM {
 				throw new Throwable\Marshalling\Exception('Message: Failed to delete record from database. Reason: Model is not savable.', array(':class' => get_called_class()));
 			}
 
-			$data_source = static::data_source(DB\DataSource::MASTER_INSTANCE);
+			$data_source = static::data_source(Core\DB\DataSource::MASTER_INSTANCE);
 			$table = static::table();
 
-			$connection = DB\Connection\Pool::instance()->get_connection($data_source);
+			$connection = Core\DB\Connection\Pool::instance()->get_connection($data_source);
 			$connection->lock->add($table)->acquire();
 
-			$select = DB\SQL::select($data_source)
+			$select = Core\DB\SQL::select($data_source)
 				->column('t1.parent_id')
 				->from($table, 't1')
-				->where('t1.scope', DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
-				->where('t1.id', DB\SQL\Operator::_NOT_EQUIVALENT_, $this->fields['id']->value)
-				->where('t1.lft', DB\SQL\Operator::_LESS_THAN_, DB\SQL::expr('t0.lft'))
-				->where('t1.rgt', DB\SQL\Operator::_GREATER_THAN_, DB\SQL::expr('t0.rgt'))
-				->order_by(DB\SQL::expr('t1.rgt - t0.rgt'))
+				->where('t1.scope', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
+				->where('t1.id', Core\DB\SQL\Operator::_NOT_EQUIVALENT_, $this->fields['id']->value)
+				->where('t1.lft', Core\DB\SQL\Operator::_LESS_THAN_, Core\DB\SQL::expr('t0.lft'))
+				->where('t1.rgt', Core\DB\SQL\Operator::_GREATER_THAN_, Core\DB\SQL::expr('t0.rgt'))
+				->order_by(Core\DB\SQL::expr('t1.rgt - t0.rgt'))
 				->limit(1);
 
-			$update = DB\SQL::update($data_source)
+			$update = Core\DB\SQL::update($data_source)
 				->set('t0.parent_id', $select)
-				->set('t0.lft', DB\ORM::expr('t0.lft - 2'))
-				->set('t0.rgt', DB\ORM::expr('t0.rgt - 2'))
+				->set('t0.lft', Core\DB\ORM::expr('t0.lft - 2'))
+				->set('t0.rgt', Core\DB\ORM::expr('t0.rgt - 2'))
 				->table($table, 't0')
-				->where('t0.scope', DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
-				->where('t0.lft', DB\SQL\Operator::_GREATER_THAN_, $this->fields['rgt']->value)
+				->where('t0.scope', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
+				->where('t0.lft', Core\DB\SQL\Operator::_GREATER_THAN_, $this->fields['rgt']->value)
 				->statement();
 
 			$connection->execute($update);
 
-			$delete = DB\SQL::delete($data_source)
+			$delete = Core\DB\SQL::delete($data_source)
 				->from($table)
-				->where('scope', DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
-				->where('id', DB\SQL\Operator::_EQUAL_TO_, $this->fields['id']->value)
+				->where('scope', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
+				->where('id', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['id']->value)
 				->statement();
 
 			$connection->execute($delete);
@@ -361,22 +361,22 @@ namespace Leap\Core\DB\ORM {
 		 * @param integer $limit                            the "limit" constraint
 		 * @param boolean $children_only                    whether to only fetch the direct children
 		 * @param boolean $leaves_only                      whether to only fetch leaves
-		 * @return DB\ResultSet                             a result set of descendant nodes
+		 * @return Core\DB\ResultSet                        a result set of descendant nodes
 		 */
 		public function descendants($ordering = 'ASC', $limit = 0, $children_only = FALSE, $leaves_only = FALSE) {
-			$builder = DB\ORM::select(get_class($this))
-				->where('scope', DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
-				->where('lft', DB\SQL\Operator::_GREATER_THAN_, $this->fields['lft']->value)
-				->where('rgt', DB\SQL\Operator::_LESS_THAN_, $this->fields['rgt']->value)
+			$builder = Core\DB\ORM::select(get_class($this))
+				->where('scope', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
+				->where('lft', Core\DB\SQL\Operator::_GREATER_THAN_, $this->fields['lft']->value)
+				->where('rgt', Core\DB\SQL\Operator::_LESS_THAN_, $this->fields['rgt']->value)
 				->order_by('lft', $ordering)
 				->limit($limit);
 
 			if ($children_only) {
-				$builder->where('parent_id', DB\SQL\Operator::_EQUAL_TO_, $this->fields['id']->value);
+				$builder->where('parent_id', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['id']->value);
 			}
 
 			if ($leaves_only) {
-				$builder->where('rgt', DB\SQL\Operator::_EQUAL_TO_, DB\SQL::expr('lft + 1'));
+				$builder->where('rgt', Core\DB\SQL\Operator::_EQUAL_TO_, Core\DB\SQL::expr('lft + 1'));
 			}
 
 			return $builder->query();
@@ -397,11 +397,11 @@ namespace Leap\Core\DB\ORM {
 		 * supplied node.
 		 *
 		 * @access public
-		 * @param DB\ORM\MPTT $descendant                   the descendant node
+		 * @param Core\DB\ORM\MPTT $descendant              the descendant node
 		 * @return boolean                                  whether the current node is an ancestor
 		 *                                                  of the supplied node
 		 */
-		public function is_ancestor(DB\ORM\MPTT $descendant) {
+		public function is_ancestor(Core\DB\ORM\MPTT $descendant) {
 			return (($descendant->scope == $this->fields['scope']->value) AND ($descendant->lft > $this->fields['lft']->value) AND ($descendant->rgt < $this->fields['rgt']->value));
 		}
 
@@ -410,11 +410,11 @@ namespace Leap\Core\DB\ORM {
 		 * node.
 		 *
 		 * @access public
-		 * @param DB\ORM\MPTT $parent                       the parent node
+		 * @param Core\DB\ORM\MPTT $parent                  the parent node
 		 * @return boolean                                  whether the current node is the parent
 		 *                                                  of the supplied node
 		 */
-		public function is_child(DB\ORM\MPTT $parent) {
+		public function is_child(Core\DB\ORM\MPTT $parent) {
 			return (($parent->scope == $this->fields['scope']->value) AND ($parent->id == $this->fields['parent_id']->value));
 		}
 
@@ -423,11 +423,11 @@ namespace Leap\Core\DB\ORM {
 		 * supplied node.
 		 *
 		 * @access public
-		 * @param DB\ORM\MPTT $ancestor                     the ancestor node
+		 * @param Core\DB\ORM\MPTT $ancestor                the ancestor node
 		 * @return boolean                                  whether the current node is a descendant
 		 *                                                  of the supplied node
 		 */
-		public function is_descendant(DB\ORM\MPTT $ancestor) {
+		public function is_descendant(Core\DB\ORM\MPTT $ancestor) {
 			return (($ancestor->scope == $this->fields['scope']->value) AND ($ancestor->lft < $this->fields['lft']->value) AND ($ancestor->rgt > $this->fields['rgt']->value));
 		}
 
@@ -446,11 +446,11 @@ namespace Leap\Core\DB\ORM {
 		 * node.
 		 *
 		 * @access public
-		 * @param DB\ORM\MPTT $child                        the child node
+		 * @param Core\DB\ORM\MPTT $child                   the child node
 		 * @return boolean                                  whether the supplied node is a child
 		 *                                                  of the current node
 		 */
-		public function is_parent(DB\ORM\MPTT $child) {
+		public function is_parent(Core\DB\ORM\MPTT $child) {
 			return (($child->scope == $this->fields['scope']->value) AND ($child->parent_id === $this->fields['id']->value));
 		}
 
@@ -469,11 +469,11 @@ namespace Leap\Core\DB\ORM {
 		 * node.
 		 *
 		 * @access public
-		 * @param DB\ORM\MPTT $sibling                      a sibling node
+		 * @param Core\DB\ORM\MPTT $sibling                 a sibling node
 		 * @return boolean                                  whether the current node is a sibling
 		 *                                                  of the supplied node
 		 */
-		public function is_sibling(DB\ORM\MPTT $sibling) {
+		public function is_sibling(Core\DB\ORM\MPTT $sibling) {
 			return (($sibling->scope == $this->fields['scope']->value) AND ($sibling->parent_id == $this->fields['parent_id']->value) AND ($sibling->id != $this->fields['id']->value));
 		}
 
@@ -485,7 +485,7 @@ namespace Leap\Core\DB\ORM {
 		 *                                                  left column will sorted either in ascending or
 		 *                                                  descending order
 		 * @param integer $limit                            the "limit" constraint
-		 * @return DB\ResultSet                             the leaves under the current node
+		 * @return Core\DB\ResultSet                        the leaves under the current node
 		 */
 		public function leaves($ordering = 'ASC', $limit = 0) {
 			return $this->descendants($ordering, $limit, FALSE, TRUE);
@@ -501,11 +501,11 @@ namespace Leap\Core\DB\ORM {
 		 * @see http://stackoverflow.com/questions/7661913/modified-preorder-tree-traversal-selecting-nodes-1-level-deep
 		 */
 		public function level() {
-			$record = DB\SQL::select(static::data_source(DB\DataSource::SLAVE_INSTANCE))
-				->column(DB\SQL::expr('COUNT(parent_id) - 1'), 'level')
+			$record = Core\DB\SQL::select(static::data_source(Core\DB\DataSource::SLAVE_INSTANCE))
+				->column(Core\DB\SQL::expr('COUNT(parent_id) - 1'), 'level')
 				->from(static::table())
-				->where('scope', DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
-				->where('parent_id', DB\SQL\Operator::_EQUAL_TO_, $this->fields['parent_id']->value)
+				->where('scope', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
+				->where('parent_id', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['parent_id']->value)
 				->group_by('parent_id')
 				->query()
 				->fetch();
@@ -517,7 +517,7 @@ namespace Leap\Core\DB\ORM {
 		 * This method returns a model describing the parent node.
 		 *
 		 * @access public
-		 * @return DB\ORM\MPTT                              a model describing the parent node
+		 * @return Core\DB\ORM\MPTT                         a model describing the parent node
 		 */
 		public function parent() {
 			if ( ! $this->is_root()) {
@@ -550,12 +550,12 @@ namespace Leap\Core\DB\ORM {
 		 * This method returns a model describing the root node.
 		 *
 		 * @access public
-		 * @return DB\ORM\MPTT                              a model describing the root node
+		 * @return Core\DB\ORM\MPTT                         a model describing the root node
 		 */
 		public function root() {
-			$record = DB\ORM::select(get_class($this))
-				->where('scope', DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
-				->where('lft', DB\SQL\Operator::_EQUAL_TO_, 1)
+			$record = Core\DB\ORM::select(get_class($this))
+				->where('scope', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
+				->where('lft', Core\DB\SQL\Operator::_EQUAL_TO_, 1)
 				->limit(1)
 				->query()
 				->fetch();
@@ -581,9 +581,9 @@ namespace Leap\Core\DB\ORM {
 			$columns = array_keys($this->fields);
 
 			if ( ! empty($columns)) {
-				$builder = DB\SQL::update(static::data_source(DB\DataSource::MASTER_INSTANCE))
+				$builder = Core\DB\SQL::update(static::data_source(Core\DB\DataSource::MASTER_INSTANCE))
 					->table(static::table())
-					->where('id', DB\SQL\Operator::_EQUAL_TO_, $this->fields['id']->value);
+					->where('id', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['id']->value);
 
 				$ignore_keys = array('id', 'scope', 'parent_id', 'lft', 'rgt');
 
@@ -624,23 +624,23 @@ namespace Leap\Core\DB\ORM {
 		 *                                                  left column will sorted either in ascending or
 		 *                                                  descending order
 		 * @param boolean $self                             whether to include the current node
-		 * @return DB\ResultSet                             an array of sibling nodes
+		 * @return Core\DB\ResultSet                        an array of sibling nodes
 		 */
 		public function siblings($ordering = 'ASC', $self = FALSE) {
 			if ( ! $this->root()) {
-				$builder = DB\ORM::select(get_class($this))
-					->where('scope', DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
-					->where('parent_id', DB\SQL\Operator::_EQUAL_TO_, $this->fields['parent_id']->value)
+				$builder = Core\DB\ORM::select(get_class($this))
+					->where('scope', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
+					->where('parent_id', Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['parent_id']->value)
 					->order_by('lft', $ordering);
 
 				if ( ! $self) {
-					$builder->where('id', DB\SQL\Operator::_NOT_EQUIVALENT_, $this->fields['id']->value);
+					$builder->where('id', Core\DB\SQL\Operator::_NOT_EQUIVALENT_, $this->fields['id']->value);
 				}
 
 				return $builder->query();
 			}
 
-			$results = new DB\ResultSet(array());
+			$results = new Core\DB\ResultSet(array());
 
 			return $results;
 		}
@@ -685,16 +685,16 @@ namespace Leap\Core\DB\ORM {
 		 * @param string $name                              the name to given to the node
 		 * @param array $fields                             an associated array of additional field
 		 *                                                  name/value pairs
-		 * @return DB\ORM\MPTT                              the newly created root node
+		 * @return Core\DB\ORM\MPTT                         the newly created root node
 		 **/
 		public static function add_root($scope, $name, Array $fields = NULL) {
-			$data_source = static::data_source(DB\DataSource::MASTER_INSTANCE);
+			$data_source = static::data_source(Core\DB\DataSource::MASTER_INSTANCE);
 			$table = static::table();
 
-			$connection = DB\Connection\Pool::instance()->get_connection($data_source);
+			$connection = Core\DB\Connection\Pool::instance()->get_connection($data_source);
 			$connection->lock->add($table)->acquire();
 
-			$builder = DB\SQL::insert($data_source)
+			$builder = Core\DB\SQL::insert($data_source)
 				->into($table)
 				->column('scope', $scope)
 				->column('name', $name)
@@ -743,14 +743,14 @@ namespace Leap\Core\DB\ORM {
 		 *                                                  left column will sorted either in ascending or
 		 *                                                  descending order
 		 * @param integer $limit                            the "limit" constraint
-		 * @return DB\ResultSet                             a result set containing all nodes in the
+		 * @return Core\DB\ResultSet                        a result set containing all nodes in the
 		 *                                                  specified tree's scope
 		 */
 		public static function full_tree($scope, $ordering = 'ASC', $limit = 0) {
 			$model = get_called_class();
 
-			$results = DB\ORM::select($model)
-				->where('scope', DB\SQL\Operator::_EQUAL_TO_, $scope)
+			$results = Core\DB\ORM::select($model)
+				->where('scope', Core\DB\SQL\Operator::_EQUAL_TO_, $scope)
 				->order_by('lft', $ordering)
 				->limit($limit)
 				->query();

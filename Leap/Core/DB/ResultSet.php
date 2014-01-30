@@ -19,19 +19,15 @@
 
 namespace Leap\Core\DB {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class represents a result set.
 	 *
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-01-25
+	 * @version 2014-01-28
 	 */
-	class ResultSet extends Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator {
+	class ResultSet extends \Leap\Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator {
 
 		/**
 		 * This variable stores the current position in the records array.
@@ -81,7 +77,7 @@ namespace Leap\Core\DB {
 			else {
 				$this->records = array();
 				$this->size = 0;
-				if (is_object($buffer) AND ($buffer instanceof DB\SQL\DataReader)) {
+				if (is_object($buffer) AND ($buffer instanceof \Leap\Core\DB\SQL\DataReader)) {
 					while ($buffer->read()) {
 						$this->records[] = $buffer->row($type);
 						$this->size++;
@@ -109,10 +105,10 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @param array $config                             the configuration array
-		 * @return Core\Data\Serialization\CSV                                      an instance of the CSV class
+		 * @return \Leap\Core\Data\Serialization\CSV        an instance of the CSV class
 		 */
 		public function as_csv(Array $config = array()) {
-			$csv = new Core\Data\Serialization\CSV($config);
+			$csv = new \Leap\Core\Data\Serialization\CSV($config);
 			if ($this->is_loaded()) {
 				switch ($this->type) {
 					case 'array':
@@ -123,7 +119,7 @@ namespace Leap\Core\DB {
 					break;
 					default:
 						if (class_exists($this->type)) {
-							if (($this->records[0] instanceof DB\ORM\Model) OR method_exists($this->records[0], 'as_array')) {
+							if (($this->records[0] instanceof \Leap\Core\DB\ORM\Model) OR method_exists($this->records[0], 'as_array')) {
 								foreach ($this->records as $record) {
 									$csv->add_row($record->as_array());
 								}
@@ -296,12 +292,12 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $offset                           the offset to be set
-		 * @param mixed $value                              the value to be set
-		 * @throws Throwable\UnimplementedMethod\Exception  indicates the result cannot be modified
+		 * @param integer $offset                                       the offset to be set
+		 * @param mixed $value                                          the value to be set
+		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception   indicates the result cannot be modified
 		 */
 		public function offsetSet($offset, $value) {
-			throw new Throwable\UnimplementedMethod\Exception('Message: Invalid call to member function. Reason: Result set cannot be modified.', array(':offset' => $offset, ':value' => $value));
+			throw new \Leap\Core\Throwable\UnimplementedMethod\Exception('Message: Invalid call to member function. Reason: Result set cannot be modified.', array(':offset' => $offset, ':value' => $value));
 		}
 
 		/**
@@ -309,11 +305,11 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $offset                           the offset to be unset
-		 * @throws Throwable\UnimplementedMethod\Exception  indicates the result cannot be modified
+		 * @param integer $offset                                       the offset to be unset
+		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception   indicates the result cannot be modified
 		 */
 		public function offsetUnset($offset) {
-			throw new Throwable\UnimplementedMethod\Exception('Message: Invalid call to member function. Reason: Result set cannot be modified.', array(':offset' => $offset));
+			throw new \Leap\Core\Throwable\UnimplementedMethod\Exception('Message: Invalid call to member function. Reason: Result set cannot be modified.', array(':offset' => $offset));
 		}
 
 		/**
@@ -342,13 +338,13 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $position                         the seeked position
-		 * @throws Throwable\OutOfBounds\Exception          indicates that the seeked position
-		 *                                                  is out of bounds
+		 * @param integer $position                             the seeked position
+		 * @throws \Leap\Core\Throwable\OutOfBounds\Exception   indicates that the seeked position
+		 *                                                      is out of bounds
 		 */
 		public function seek($position) {
 			if ( ! isset($this->records[$position])) {
-				throw new Throwable\OutOfBounds\Exception('Message: Invalid array position. Reason: The specified position is out of bounds.', array(':position' => $position, ':count' => $this->size));
+				throw new \Leap\Core\Throwable\OutOfBounds\Exception('Message: Invalid array position. Reason: The specified position is out of bounds.', array(':position' => $position, ':count' => $this->size));
 			}
 			$this->position = $position;
 		}

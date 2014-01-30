@@ -20,10 +20,6 @@
 
 namespace Leap\Core\Web\HTTP {
 
-	use Leap\Core\DB;
-	use Leap\Core\Model;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class is a driver that handles authentication.
 	 *
@@ -76,9 +72,9 @@ namespace Leap\Core\Web\HTTP {
 		 * This constructor initializes the class using the specified config information.
 		 *
 		 * @access public
-		 * @param mixed $config                     the config information to be used
-		 * @throws Throwable\Runtime\Exception      indicates that error occurred when loading
-		 *                                          a configuration
+		 * @param mixed $config                                 the config information to be used
+		 * @throws \Leap\Core\Throwable\Runtime\Exception       indicates that error occurred when loading
+		 *                                                      a configuration
 		 */
 		public function __construct($config = NULL) {
 			parent::__construct($config);
@@ -117,7 +113,7 @@ namespace Leap\Core\Web\HTTP {
 			}
 
 			if (empty($config['login_with_email']) AND empty($config['login_with_username'])) {
-				throw new Throwable\Runtime\Exception('Message: Unable to load configuration. Reason: A valid "login_with" setting must be set in you auth config file.');
+				throw new \Leap\Core\Throwable\Runtime\Exception('Message: Unable to load configuration. Reason: A valid "login_with" setting must be set in you auth config file.');
 			}
 		}
 
@@ -129,12 +125,12 @@ namespace Leap\Core\Web\HTTP {
 		 */
 		public function auto_login() {
 			if ($token = \Cookie::get('authautologin')) {
-				$token = DB\ORM::select($this->models['token'])
-					->where($this->columns['token'], DB\SQL\Operator::_EQUAL_TO_, $token)
+				$token = \Leap\Core\DB\ORM::select($this->models['token'])
+					->where($this->columns['token'], \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $token)
 					->limit(1)
 					->query()
 					->fetch(0);
-				$token_model = DB\ORM\Model::model_name($this->models['token']);
+				$token_model = \Leap\Core\DB\ORM\Model::model_name($this->models['token']);
 				if (($token instanceof $token_model) AND $token->is_loaded() AND $token->user->is_loaded()) {
 					if ($token->user_agent === sha1(\Request::$user_agent)) {
 						// Save the token to create a new unique token
@@ -249,20 +245,20 @@ namespace Leap\Core\Web\HTTP {
 		 * This method gets a user matching the login configuration information.
 		 *
 		 * @access protected
-		 * @param string $user                      the user's name
-		 * @return Model\User                       the user's object
+		 * @param string $user                          the user's name
+		 * @return \Leap\Core\Web\HTTP\Auth\Model\User  the user's object
 		 */
 		protected function get_user_by_login($user) {
-			$builder = DB\ORM::select($this->models['user']);
+			$builder = \Leap\Core\DB\ORM::select($this->models['user']);
 			if ( ! empty($this->_config['login_with_email']) AND ! empty($this->_config['login_with_username'])) {
-				$builder->where($this->columns['user_username'], DB\SQL\Operator::_EQUAL_TO_, $user);
-				$builder->where($this->columns['user_email'], DB\SQL\Operator::_EQUAL_TO_, $user, DB\SQL\Connector::_OR_);
+				$builder->where($this->columns['user_username'], \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $user);
+				$builder->where($this->columns['user_email'], \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $user, \Leap\Core\DB\SQL\Connector::_OR_);
 			}
 			else if ( ! empty($this->_config['login_with_email'])) {
-				$builder->where($this->columns['user_email'], DB\SQL\Operator::_EQUAL_TO_, $user);
+				$builder->where($this->columns['user_email'], \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $user);
 			}
 			else {
-				$builder->where($this->columns['user_username'], DB\SQL\Operator::_EQUAL_TO_, $user);
+				$builder->where($this->columns['user_username'], \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $user);
 			}
 			$user = $builder->limit(1)->query()->fetch(0);
 			return $user;
@@ -280,8 +276,8 @@ namespace Leap\Core\Web\HTTP {
 		public function logged_in($roles = NULL, $all_required = TRUE) {
 			$user = $this->get_user();
 
-			$user_model = DB\ORM\Model::model_name($this->models['user']);
-			$role_model = DB\ORM\Model::model_name($this->models['role']);
+			$user_model = \Leap\Core\DB\ORM\Model::model_name($this->models['user']);
+			$role_model = \Leap\Core\DB\ORM\Model::model_name($this->models['role']);
 
 			// If there is a user, proceed
 			if (($user instanceof $user_model) AND $user->is_loaded()) {
@@ -305,8 +301,8 @@ namespace Leap\Core\Web\HTTP {
 					foreach ($roles as $role) {
 						// If you haven't passed in a role object then get it from the DB, by the name passed in the array.
 						if ( ! is_object($role)) {
-							$role = DB\ORM::select($this->models['role'])
-								->where($this->columns['role_name'], DB\SQL\Operator::_EQUAL_TO_, $role)
+							$role = \Leap\Core\DB\ORM::select($this->models['role'])
+								->where($this->columns['role_name'], \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $role)
 								->limit(1)
 								->query()
 								->fetch(0);
@@ -326,8 +322,8 @@ namespace Leap\Core\Web\HTTP {
 				}
 				else { // Single Role
 					if ( ! is_object($roles)) {
-						$role = DB\ORM::select($this->models['role'])
-							->where($this->columns['role_name'], DB\SQL\Operator::_EQUAL_TO_, $roles)
+						$role = \Leap\Core\DB\ORM::select($this->models['role'])
+							->where($this->columns['role_name'], \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $roles)
 							->limit(1)
 							->query()
 							->fetch(0);
@@ -377,7 +373,7 @@ namespace Leap\Core\Web\HTTP {
 					}
 					else {
 						if ($remember === TRUE) {
-							$token = DB\ORM::model($this->models['token']);
+							$token = \Leap\Core\DB\ORM::model($this->models['token']);
 							$token->user_id = $user->id;
 							$token->expires = time() + $this->_config['lifetime'];
 							$token->user_agent = sha1(\Request::$user_agent);
@@ -416,15 +412,15 @@ namespace Leap\Core\Web\HTTP {
 				\Cookie::delete('authautologin');
 
 				// Clear the autologin token from the database
-				$token = DB\ORM::select($this->models['token'])
-					->where($this->columns['token'], DB\SQL\Operator::_EQUAL_TO_, $token)
+				$token = \Leap\Core\DB\ORM::select($this->models['token'])
+					->where($this->columns['token'], \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $token)
 					->limit(1)
 					->query()
 					->fetch(0);
-				$token_model = DB\ORM\Model::model_name($this->models['token']);
+				$token_model = \Leap\Core\DB\ORM\Model::model_name($this->models['token']);
 				if ($logout_all) {
-					DB\ORM::delete($this->models['token'])
-						->where($this->columns['user_id'], DB\SQL\Operator::_EQUAL_TO_, $token->user)
+					\Leap\Core\DB\ORM::delete($this->models['token'])
+						->where($this->columns['user_id'], \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $token->user)
 						->execute();
 				}
 				else if (($token instanceof $token_model) AND $token->is_loaded()) {

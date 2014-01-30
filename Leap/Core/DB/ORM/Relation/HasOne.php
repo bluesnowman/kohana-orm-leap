@@ -19,7 +19,7 @@
 
 namespace Leap\Core\DB\ORM\Relation {
 
-	use Leap\Core\DB;
+	use Leap\Core;
 
 	/**
 	 * This class represents a "has one" relation in a database table.
@@ -27,19 +27,19 @@ namespace Leap\Core\DB\ORM\Relation {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM\Relation
-	 * @version 2014-01-26
+	 * @version 2014-01-28
 	 */
-	class HasOne extends DB\ORM\Relation {
+	class HasOne extends Core\DB\ORM\Relation {
 
 		/**
 		 * This constructor initializes the class.
 		 *
 		 * @access public
 		 * @override
-		 * @param DB\ORM\Model $model                   a reference to the implementing model
+		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
 		 * @param array $metadata                       the relation's metadata
 		 */
-		public function __construct(DB\ORM\Model $model, Array $metadata = array()) {
+		public function __construct(Core\DB\ORM\Model $model, Array $metadata = array()) {
 			parent::__construct($model, 'has_one');
 
 			// the parent model is the referenced table
@@ -55,7 +55,7 @@ namespace Leap\Core\DB\ORM\Relation {
 				: $parent_model::primary_key();
 
 			// the child model is the referencing table
-			$this->metadata['child_model'] = DB\ORM\Model::model_name($metadata['child_model']);
+			$this->metadata['child_model'] = Core\DB\ORM\Model::model_name($metadata['child_model']);
 
 			// the child key (i.e. foreign key) is an ordered list of field names in the child model
 			$this->metadata['child_key'] = (array) $metadata['child_key'];
@@ -66,7 +66,7 @@ namespace Leap\Core\DB\ORM\Relation {
 		 *
 		 * @access protected
 		 * @override
-		 * @return DB\ORM\Model							the corresponding model
+		 * @return Core\DB\ORM\Model                    the corresponding model
 		 */
 		protected function load() {
 			$parent_key = $this->metadata['parent_key'];
@@ -74,15 +74,15 @@ namespace Leap\Core\DB\ORM\Relation {
 			$child_model = $this->metadata['child_model'];
 			$child_table = $child_model::table();
 			$child_key = $this->metadata['child_key'];
-			$child_source = $child_model::data_source(DB\DataSource::SLAVE_INSTANCE);
+			$child_source = $child_model::data_source(Core\DB\DataSource::SLAVE_INSTANCE);
 
-			$builder = DB\SQL::select($child_source)
+			$builder = Core\DB\SQL::select($child_source)
 				->all("{$child_table}.*")
 				->from($child_table);
 
 			$field_count = count($child_key);
 			for ($i = 0; $i < $field_count; $i++) {
-				$builder->where("{$child_table}.{$child_key[$i]}", DB\SQL\Operator::_EQUAL_TO_, $this->model->{$parent_key[$i]});
+				$builder->where("{$child_table}.{$child_key[$i]}", Core\DB\SQL\Operator::_EQUAL_TO_, $this->model->{$parent_key[$i]});
 			}
 
 			$result = $builder->limit(1)->query($child_model);

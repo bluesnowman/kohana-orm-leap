@@ -19,7 +19,7 @@
 
 namespace Leap\Core\DB\ORM\Field {
 
-	use Leap\Core\DB;
+	use Leap\Core;
 	use Leap\Core\Throwable;
 
 	/**
@@ -30,18 +30,18 @@ namespace Leap\Core\DB\ORM\Field {
 	 * @package Leap\Core\DB\ORM\Field
 	 * @version 2014-01-26
 	 */
-	class Integer extends DB\ORM\Field {
+	class Integer extends Core\DB\ORM\Field {
 
 		/**
 		 * This constructor initializes the class.
 		 *
 		 * @access public
-		 * @param DB\ORM\Model $model                   a reference to the implementing model
+		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
 		 * @param array $metadata                       the field's metadata
 		 * @throws Throwable\Validation\Exception       indicates that the specified value does
 		 *                                              not validate
 		 */
-		public function __construct(DB\ORM\Model $model, Array $metadata = array()) {
+		public function __construct(Core\DB\ORM\Model $model, Array $metadata = array()) {
 			parent::__construct($model, 'integer');
 
 			if (isset($metadata['max_length'])) {
@@ -128,7 +128,7 @@ namespace Leap\Core\DB\ORM\Field {
 					: NULL;
 			}
 
-			if ( ! ($default instanceof DB\SQL\Expression)) {
+			if ( ! ($default instanceof Core\DB\SQL\Expression)) {
 				if ($default !== NULL) {
 					if ((PHP_INT_SIZE !== 4) OR ! is_string($default) OR ! preg_match('/^-?[0-9]+$/D', $default) OR ((bccomp($default, '-2147483648') !== -1) AND (bccomp($default, '2147483647') !== 1))) {
 						settype($default, $this->metadata['type']);
@@ -158,7 +158,7 @@ namespace Leap\Core\DB\ORM\Field {
 		public function __set($key, $value) {
 			switch ($key) {
 				case 'value':
-					if ( ! ($value instanceof DB\SQL\Expression)) {
+					if ( ! ($value instanceof Core\DB\SQL\Expression)) {
 						if ($value !== NULL) {
 							if ( ! isset($this->metadata['int8fix']) OR is_int($value) OR ! preg_match('/^-?[0-9]+$/D', (string) $value) OR (bccomp( (string) $value, '-2147483648') !== -1 AND bccomp( (string) $value, '2147483647') !== 1)) {
 								settype($value, $this->metadata['type']);
