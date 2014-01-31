@@ -222,7 +222,7 @@ namespace Leap\Plugins\DB\DB2 {
 		 * @see http://www.tek-tips.com/viewthread.cfm?qid=128876&page=108
 		 */
 		public function indexes($table, $like = '') {
-			$builder = DB\SQL::select($this->data_source)
+			$builder = \Leap\Core\DB\SQL::select($this->data_source)
 				->column('t1.TABSCHEMA', 'schema')
 				->column('t1.TABNAME', 'table')
 				->column('t1.INDNAME', 'index')
@@ -233,17 +233,17 @@ namespace Leap\Plugins\DB\DB2 {
 				->column(DB\SQL::expr("CASE \"t1\".\"UNIQUERULE\" WHEN 'P' THEN 1 ELSE 0 END"), 'primary')
 				->from('SYSCAT.INDEXCOLUSE', 't0')
 				->join(DB\SQL\JoinType::_LEFT_, 'SYSCAT.INDEXES', 't1')
-				->on('t1.INDSCHEMA', DB\SQL\Operator::_EQUAL_TO_, 't0.INDSCHEMA')
-				->on('t1.INDNAME', DB\SQL\Operator::_EQUAL_TO_, 't0.INDNAME')
-				->where('t1.TABSCHEMA', DB\SQL\Operator::_NOT_LIKE_, 'SYS%')
-				->where('t1.TABNAME', DB\SQL\Operator::_EQUAL_TO_, $table)
+				->on('t1.INDSCHEMA', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't0.INDSCHEMA')
+				->on('t1.INDNAME', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't0.INDNAME')
+				->where('t1.TABSCHEMA', \Leap\Core\DB\SQL\Operator::_NOT_LIKE_, 'SYS%')
+				->where('t1.TABNAME', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
 				->order_by(DB\SQL::expr('UPPER("t1"."TABSCHEMA")'))
 				->order_by(DB\SQL::expr('UPPER("t1"."TABNAME")'))
 				->order_by(DB\SQL::expr('UPPER("t1"."INDNAME")'))
 				->order_by('t0.COLSEQ');
 
 			if ( ! empty($like)) {
-				$builder->where('t1.INDNAME', DB\SQL\Operator::_LIKE_, $like);
+				$builder->where('t1.INDNAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 			}
 
 			return $builder->query();
@@ -271,18 +271,18 @@ namespace Leap\Plugins\DB\DB2 {
 		 * @see http://www.selectorweb.com/db2.html
 		 */
 		public function tables($like = '') {
-			$builder = DB\SQL::select($this->data_source)
+			$builder = \Leap\Core\DB\SQL::select($this->data_source)
 				->column('TABSCHEMA', 'schema')
 				->column('TABNAME', 'table')
 				->column(DB\SQL::expr("'BASE'"), 'type')
 				->from('SYSCAT.TABLES')
-				->where('TABSCHEMA', DB\SQL\Operator::_NOT_LIKE_, 'SYS%')
-				->where('TYPE', DB\SQL\Operator::_EQUAL_TO_, 'T')
+				->where('TABSCHEMA', \Leap\Core\DB\SQL\Operator::_NOT_LIKE_, 'SYS%')
+				->where('TYPE', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'T')
 				->order_by(DB\SQL::expr('UPPER("TABSCHEMA")'))
 				->order_by(DB\SQL::expr('UPPER("TABNAME")'));
 
 			if ( ! empty($like)) {
-				$builder->where('TABNAME', DB\SQL\Operator::_LIKE_, $like);
+				$builder->where('TABNAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 			}
 
 			return $builder->query();
@@ -316,7 +316,7 @@ namespace Leap\Plugins\DB\DB2 {
 		 * @see http://publib.boulder.ibm.com/infocenter/db2luw/v9/topic/com.ibm.db2.udb.admin.doc/doc/r0001066.htm
 		 */
 		public function triggers($table, $like = '') {
-			$builder = DB\SQL::select($this->data_source)
+			$builder = \Leap\Core\DB\SQL::select($this->data_source)
 				->column('TABSCHEMA', 'schema')
 				->column('TABNAME', 'table')
 				->column('TRIGNAME', 'trigger')
@@ -327,15 +327,15 @@ namespace Leap\Plugins\DB\DB2 {
 				->column(DB\SQL::expr('0'), 'seq_index')
 				->column('CREATE_TIME', 'created')
 				->from('SYSCAT.TRIGGERS')
-				->where('TABSCHEMA', DB\SQL\Operator::_NOT_LIKE_, 'SYS%')
-				->where('TABNAME', DB\SQL\Operator::_EQUAL_TO_, $table)
-				->where('VALID', DB\SQL\Operator::_NOT_EQUIVALENT_, 'Y')
+				->where('TABSCHEMA', \Leap\Core\DB\SQL\Operator::_NOT_LIKE_, 'SYS%')
+				->where('TABNAME', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
+				->where('VALID', \Leap\Core\DB\SQL\Operator::_NOT_EQUIVALENT_, 'Y')
 				->order_by(DB\SQL::expr('UPPER("TABSCHEMA")'))
 				->order_by(DB\SQL::expr('UPPER("TABNAME")'))
 				->order_by(DB\SQL::expr('UPPER("TRIGNAME")'));
 
 			if ( ! empty($like)) {
-				$builder->where('TRIGNAME', DB\SQL\Operator::_LIKE_, $like);
+				$builder->where('TRIGNAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 			}
 
 			return $builder->query();
@@ -362,18 +362,18 @@ namespace Leap\Plugins\DB\DB2 {
 		 * @see http://www.ibm.com/developerworks/data/library/techarticle/dm-0411melnyk/
 		 */
 		public function views($like = '') {
-			$builder = DB\SQL::select($this->data_source)
+			$builder = \Leap\Core\DB\SQL::select($this->data_source)
 				->column('VIEWSCHEMA', 'schema')
 				->column('VIEWNAME', 'table')
 				->column(DB\SQL::expr("'VIEW'"), 'type')
 				->from('SYSCAT.VIEWS')
-				->where('VIEWSCHEMA', DB\SQL\Operator::_NOT_LIKE_, 'SYS%')
-				->where('VALID', DB\SQL\Operator::_NOT_EQUIVALENT_, 'Y')
+				->where('VIEWSCHEMA', \Leap\Core\DB\SQL\Operator::_NOT_LIKE_, 'SYS%')
+				->where('VALID', \Leap\Core\DB\SQL\Operator::_NOT_EQUIVALENT_, 'Y')
 				->order_by(DB\SQL::expr('UPPER("VIEWSCHEMA")'))
 				->order_by(DB\SQL::expr('UPPER("VIEWNAME")'));
 
 			if ( ! empty($like)) {
-				$builder->where('VIEWNAME', DB\SQL\Operator::_LIKE_, $like);
+				$builder->where('VIEWNAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 			}
 
 			return $builder->query();

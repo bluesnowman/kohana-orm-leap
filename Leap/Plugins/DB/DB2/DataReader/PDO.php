@@ -29,6 +29,6 @@ namespace Leap\Plugins\DB\DB2\DataReader {
 	 *
 	 * @abstract
 	 */
-	abstract class PDO extends DB\SQL\DataReader\PDO {}
+	abstract class PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
 
 }

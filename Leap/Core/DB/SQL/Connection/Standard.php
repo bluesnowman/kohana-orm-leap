@@ -19,8 +19,6 @@
 
 namespace Leap\Core\DB\SQL\Connection {
 
-	use Leap\Core\DB;
-
 	/**
 	 * This class handles a standard connection.
 	 *
@@ -30,7 +28,7 @@ namespace Leap\Core\DB\SQL\Connection {
 	 * @package Leap\Core\DB\SQL\Connection
 	 * @version 2014-01-26
 	 */
-	abstract class Standard extends DB\Connection\Driver {
+	abstract class Standard extends \Leap\Core\DB\Connection\Driver {
 
 		/**
 		 * This method is for determining whether a connection is established.

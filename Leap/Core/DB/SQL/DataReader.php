@@ -19,10 +19,6 @@
 
 namespace Leap\Core\DB\SQL {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class is used to read data from an SQL database.
 	 *
@@ -32,7 +28,7 @@ namespace Leap\Core\DB\SQL {
 	 * @package Leap\Core\DB\SQL
 	 * @version 2014-01-26
 	 */
-	abstract class DataReader extends Core\Object {
+	abstract class DataReader extends \Leap\Core\Object {
 
 		/**
 		 * This variable stores the command reference being utilized.
@@ -55,12 +51,12 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param DB\Connection\Driver $connection  the connection to be used
-		 * @param string $sql                       the SQL statement to be queried
-		 * @param integer $mode                     the execution mode to be used
-		 * @throws Throwable\SQL\Exception          indicates that the query failed
+		 * @param \Leap\Core\DB\Connection\Driver $connection   the connection to be used
+		 * @param string $sql                                   the SQL statement to be queried
+		 * @param integer $mode                                 the execution mode to be used
+		 * @throws \Leap\Core\Throwable\SQL\Exception           indicates that the query failed
 		 */
-		public abstract function __construct(DB\Connection\Driver $connection, $sql, $mode = NULL);
+		public abstract function __construct(\Leap\Core\DB\Connection\Driver $connection, $sql, $mode = NULL);
 
 		/**
 		 * This destructor ensures that the command reference has been freed.
@@ -136,13 +132,13 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @static
-		 * @param DB\Connection\Driver $connection         the connection to be used
-		 * @param string $sql                              the SQL statement to be queried
-		 * @param integer $mode                            the execution mode to be used
-		 * @return DB\SQL\DataReader                       an instance of the appropriate
-		 *                                                 SQL data reader
+		 * @param \Leap\Core\DB\Connection\Driver $connection   the connection to be used
+		 * @param string $sql                                   the SQL statement to be queried
+		 * @param integer $mode                                 the execution mode to be used
+		 * @return \Leap\Core\DB\SQL\DataReader                 an instance of the appropriate
+		 *                                                      SQL data reader
 		 */
-		public static function factory(DB\Connection\Driver $connection, $sql, $mode = NULL) {
+		public static function factory(\Leap\Core\DB\Connection\Driver $connection, $sql, $mode = NULL) {
 			$class = '\\Leap\\Plugins\\DB\\' . $connection->data_source->dialect . '\\DataReader\\' . $connection->data_source->driver;
 			$reader = new $class($connection, $sql, $mode);
 			return $reader;

@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\SQL\Connection {
 
-	use Leap\Core\DB;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class handles a PDO connection.
 	 *
@@ -34,7 +31,7 @@ namespace Leap\Core\DB\SQL\Connection {
 	 * @see http://www.php.net/manual/en/book.pdo.php
 	 * @see http://www.electrictoolbox.com/php-pdo-dsn-connection-string/
 	 */
-	abstract class PDO extends DB\Connection\Driver {
+	abstract class PDO extends \Leap\Core\DB\Connection\Driver {
 
 		/**
 		 * This destructor will ensure that the connection is closed.
@@ -53,7 +50,7 @@ namespace Leap\Core\DB\SQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\SQL\Exception              indicates that the executed
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
 		 *                                              statement failed
 		 *
 		 * @see http://www.php.net/manual/en/pdo.begintransaction.php
@@ -64,7 +61,7 @@ namespace Leap\Core\DB\SQL\Connection {
 				$this->sql = 'BEGIN TRANSACTION;';
 			}
 			catch (\Exception $ex) {
-				throw new Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: :reason', array(':reason' => $ex->getMessage()));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: :reason', array(':reason' => $ex->getMessage()));
 			}
 		}
 		/**
@@ -87,7 +84,7 @@ namespace Leap\Core\DB\SQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\SQL\Exception              indicates that the executed
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
 		 *                                              statement failed
 		 *
 		 * @see http://www.php.net/manual/en/pdo.commit.php
@@ -98,7 +95,7 @@ namespace Leap\Core\DB\SQL\Connection {
 				$this->sql = 'COMMIT;';
 			}
 			catch (\Exception $ex) {
-				throw new Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: :reason', array(':reason' => $ex->getMessage()));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: :reason', array(':reason' => $ex->getMessage()));
 			}
 		}
 
@@ -108,16 +105,16 @@ namespace Leap\Core\DB\SQL\Connection {
 		 * @access public
 		 * @override
 		 * @param string $sql                           the SQL statement
-		 * @throws Throwable\SQL\Exception              indicates that the executed
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
 		 *                                              statement failed
 		 */
 		public function execute($sql) {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
 			$command = @$this->resource->exec($sql);
 			if ($command === FALSE) {
-				throw new Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => $this->resource->errorInfo()));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => $this->resource->errorInfo()));
 			}
 			$this->sql = $sql;
 		}
@@ -130,18 +127,18 @@ namespace Leap\Core\DB\SQL\Connection {
 		 * @param string $table                         the table to be queried
 		 * @param string $column                        the column representing the table's id
 		 * @return integer                              the last insert id
-		 * @throws Throwable\SQL\Exception              indicates that the query failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the query failed
 		 *
 		 * @see http://www.php.net/manual/en/pdo.lastinsertid.php
 		 */
 		public function get_last_insert_id($table = NULL, $column = 'id') {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: Unable to find connection.');
 			}
 			try {
 				if (is_string($table)) {
 					$sql = $this->sql;
-					$precompiler = DB\SQL::precompiler($this->data_source);
+					$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 					$table = $precompiler->prepare_identifier($table);
 					$column = $precompiler->prepare_identifier($column);
 					$alias = $precompiler->prepare_alias('id');
@@ -152,7 +149,7 @@ namespace Leap\Core\DB\SQL\Connection {
 				return $this->resource->lastInsertId();
 			}
 			catch (\Exception $ex) {
-				throw new Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: :reason', array(':reason' => $ex->getMessage()));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: :reason', array(':reason' => $ex->getMessage()));
 			}
 		}
 
@@ -175,12 +172,12 @@ namespace Leap\Core\DB\SQL\Connection {
 		 * @param string $string                        the string to be escaped
 		 * @param char $escape                          the escape character
 		 * @return string                               the quoted string
-		 * @throws Throwable\SQL\Exception              indicates that no connection could
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that no connection could
 		 *                                              be found
 		 */
 		public function quote($string, $escape = NULL) {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to quote/escape string. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to quote/escape string. Reason: Unable to find connection.');
 			}
 
 			$value = @$this->resource->quote($string);
@@ -201,7 +198,7 @@ namespace Leap\Core\DB\SQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\SQL\Exception              indicates that the executed
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
 		 *                                              statement failed
 		 *
 		 * @see http://www.php.net/manual/en/pdo.rollback.php
@@ -212,7 +209,7 @@ namespace Leap\Core\DB\SQL\Connection {
 				$this->sql = 'ROLLBACK;';
 			}
 			catch (\Exception $ex) {
-				throw new Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: :reason', array(':reason' => $ex->getMessage()));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: :reason', array(':reason' => $ex->getMessage()));
 			}
 		}
 

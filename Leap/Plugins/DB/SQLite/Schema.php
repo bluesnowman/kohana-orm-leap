@@ -212,17 +212,17 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 		$path_info = pathinfo($this->data_source->database);
 		$schema = $path_info['filename'];
 
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column(DB\SQL::expr("'{$schema}'"), 'schema')
 			->column('name', 'table')
 			->column(DB\SQL::expr("'BASE'"), 'type')
 			->from(DB\SQL::expr('(SELECT * FROM [sqlite_master] UNION ALL SELECT * FROM [sqlite_temp_master])'))
-			->where('type', DB\SQL\Operator::_EQUAL_TO_, 'table')
-			->where('name', DB\SQL\Operator::_NOT_LIKE_, 'sqlite_%')
+			->where('type', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'table')
+			->where('name', \Leap\Core\DB\SQL\Operator::_NOT_LIKE_, 'sqlite_%')
 			->order_by(DB\SQL::expr('UPPER([name])'));
 
 		if ( ! empty($like)) {
-			$builder->where('name', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('name', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();
@@ -259,7 +259,7 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 		$path_info = pathinfo($this->data_source->database);
 		$schema = $path_info['filename'];
 
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column(DB\SQL::expr("'{$schema}'"), 'schema')
 			->column('tbl_name', 'table')
 			->column('name', 'trigger')
@@ -270,13 +270,13 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 			->column(DB\SQL::expr('0'), 'seq_index')
 			->column(DB\SQL::expr('NULL'), 'created')
 			->from(DB\SQL::expr('(SELECT * FROM [sqlite_master] UNION ALL SELECT * FROM [sqlite_temp_master])'))
-			->where('type', DB\SQL\Operator::_EQUAL_TO_, 'trigger')
-			->where('tbl_name', DB\SQL\Operator::_NOT_LIKE_, 'sqlite_%')
+			->where('type', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'trigger')
+			->where('tbl_name', \Leap\Core\DB\SQL\Operator::_NOT_LIKE_, 'sqlite_%')
 			->order_by(DB\SQL::expr('UPPER([tbl_name])'))
 			->order_by(DB\SQL::expr('UPPER([name])'));
 
 		if ( ! empty($like)) {
-			$builder->where('[name]', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('[name]', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		$reader = $builder->reader();
@@ -344,17 +344,17 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 		$path_info = pathinfo($this->data_source->database);
 		$schema = $path_info['filename'];
 
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column(DB\SQL::expr("'{$schema}'"), 'schema')
 			->column('name', 'table')
 			->column(DB\SQL::expr("'VIEW'"), 'type')
 			->from(DB\SQL::expr('(SELECT * FROM [sqlite_master] UNION ALL SELECT * FROM [sqlite_temp_master])'))
-			->where('type', DB\SQL\Operator::_EQUAL_TO_, 'view')
-			->where('name', DB\SQL\Operator::_NOT_LIKE_, 'sqlite_%')
+			->where('type', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'view')
+			->where('name', \Leap\Core\DB\SQL\Operator::_NOT_LIKE_, 'sqlite_%')
 			->order_by(DB\SQL::expr('UPPER([name])'));
 
 		if ( ! empty($like)) {
-			$builder->where('name', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('name', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();

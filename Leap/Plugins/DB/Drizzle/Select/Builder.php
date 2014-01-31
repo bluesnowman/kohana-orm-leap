@@ -30,7 +30,7 @@ namespace Leap\Plugins\DB\Drizzle\Select {
 	 *
 	 * @abstract
 	 */
-	abstract class Builder extends DB\SQL\Select\Builder {
+	abstract class Builder extends \Leap\Core\DB\SQL\Select\Builder {
 
 		/**
 		 * This method returns the SQL statement.

@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\SQL {
 
-	use Leap\Core;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class allows an application to tokenize an SQL statement.
 	 *
@@ -33,7 +30,7 @@ namespace Leap\Core\DB\SQL {
 	 * @see http://www.sqlite.org/c3ref/complete.html
 	 * @see http://www.opensource.apple.com/source/SQLite/SQLite-74/public_source/src/complete.c
 	 */
-	abstract class Tokenizer extends Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator {
+	abstract class Tokenizer extends \Leap\Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator {
 
 		/**
 		 * This constant represents an error token.
@@ -585,12 +582,12 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $offset                           the offset to be set
-		 * @param mixed $value                              the value to be set
-		 * @throws Throwable\UnimplementedMethod\Exception  indicates the result cannot be modified
+		 * @param integer $offset                                       the offset to be set
+		 * @param mixed $value                                          the value to be set
+		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception   indicates the result cannot be modified
 		 */
 		public function offsetSet($offset, $value) {
-			throw new Throwable\UnimplementedMethod\Exception('Message: Invalid to call member function. Reason: Tokenizer cannot be modified.', array());
+			throw new \Leap\Core\Throwable\UnimplementedMethod\Exception('Message: Invalid to call member function. Reason: Tokenizer cannot be modified.', array());
 		}
 
 		/**
@@ -598,11 +595,11 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $offset                           the offset to be unset
-		 * @throws Throwable\UnimplementedMethod\Exception  indicates the result cannot be modified
+		 * @param integer $offset                                       the offset to be unset
+		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception   indicates the result cannot be modified
 		 */
 		public function offsetUnset($offset) {
-			throw new Throwable\UnimplementedMethod\Exception('Message: Invalid to call member function. Reason: Tokenizer cannot be modified..', array());
+			throw new \Leap\Core\Throwable\UnimplementedMethod\Exception('Message: Invalid to call member function. Reason: Tokenizer cannot be modified..', array());
 		}
 
 		/**
@@ -631,13 +628,13 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $position                         the seeked position
-		 * @throws Throwable\OutOfBounds\Exception          indicates that the seeked position
-		 *                                                  is out of bounds
+		 * @param integer $position                             the seeked position
+		 * @throws \Leap\Core\Throwable\OutOfBounds\Exception   indicates that the seeked position
+		 *                                                      is out of bounds
 		 */
 		public function seek($position) {
 			if ( ! isset($this->tuples[$position])) {
-				throw new Throwable\OutOfBounds\Exception('Message: Invalid array position. Reason: The specified position is out of bounds.', array(':position' => $position, ':count' => $this->size));
+				throw new \Leap\Core\Throwable\OutOfBounds\Exception('Message: Invalid array position. Reason: The specified position is out of bounds.', array(':position' => $position, ':count' => $this->size));
 			}
 			$this->position = $position;
 		}

@@ -28,7 +28,7 @@
  *
  * @abstract
  */
-abstract class Base\DB\MsSQL\Connection\PDO extends DB\SQL\Connection\PDO {
+abstract class Base\DB\MsSQL\Connection\PDO extends \Leap\Core\DB\SQL\Connection\PDO {
 
 	/**
 	 * This method returns the last insert id.
@@ -49,7 +49,7 @@ abstract class Base\DB\MsSQL\Connection\PDO extends DB\SQL\Connection\PDO {
 		try {
 			if (is_string($table)) {
 				$sql = $this->sql;
-				$precompiler = DB\SQL::precompiler($this->data_source);
+				$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 				$table = $precompiler->prepare_identifier($table);
 				$column = $precompiler->prepare_identifier($column);
 				$alias = $precompiler->prepare_alias('id');

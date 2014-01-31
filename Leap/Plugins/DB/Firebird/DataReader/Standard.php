@@ -27,7 +27,7 @@
  *
  * @abstract
  */
-abstract class Base\DB\Firebird\DataReader\Standard extends DB\SQL\DataReader\Standard {
+abstract class Base\DB\Firebird\DataReader\Standard extends \Leap\Core\DB\SQL\DataReader\Standard {
 
 	/**
 	 * This variable is used to store the connection's resource.

@@ -28,7 +28,7 @@
  *
  * @abstract
  */
-abstract class Base\DB\Oracle\Select\Builder extends DB\SQL\Select\Builder {
+abstract class Base\DB\Oracle\Select\Builder extends \Leap\Core\DB\SQL\Select\Builder {
 
 	/**
 	 * This method combines another SQL statement using the specified operator.
@@ -38,7 +38,7 @@ abstract class Base\DB\Oracle\Select\Builder extends DB\SQL\Select\Builder {
 	 * @param string $operator                  the operator to be used to append
 	 *                                          the specified SQL statement
 	 * @param string $statement                 the SQL statement to be appended
-	 * @return DB\SQL\Select\Builder            a reference to the current instance
+	 * @return \Leap\Core\DB\SQL\Select\Builder            a reference to the current instance
 	 * @throws Throwable\SQL\Exception          indicates an invalid SQL build instruction
 	 */
 	public function combine($operator, $statement) {

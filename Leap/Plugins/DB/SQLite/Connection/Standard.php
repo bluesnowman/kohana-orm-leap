@@ -28,7 +28,7 @@
  *
  * @abstract
  */
-abstract class Base\DB\SQLite\Connection\Standard extends DB\SQL\Connection\Standard {
+abstract class Base\DB\SQLite\Connection\Standard extends \Leap\Core\DB\SQL\Connection\Standard {
 
 	/**
 	 * This destructor ensures that the connection is closed.
@@ -126,7 +126,7 @@ abstract class Base\DB\SQLite\Connection\Standard extends DB\SQL\Connection\Stan
 		}
 		if (is_string($table)) {
 			$sql = $this->sql;
-			$precompiler = DB\SQL::precompiler($this->data_source);
+			$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 			$table = $precompiler->prepare_identifier($table);
 			$column = $precompiler->prepare_identifier($column);
 			$id = (int) $this->query("SELECT MAX({$column}) AS \"id\" FROM {$table};")->get('id', 0);

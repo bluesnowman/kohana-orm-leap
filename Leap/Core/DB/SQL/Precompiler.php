@@ -19,10 +19,6 @@
 
 namespace Leap\Core\DB\SQL {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class provides a set of functions for preparing SQL expressions.
 	 *
@@ -34,7 +30,7 @@ namespace Leap\Core\DB\SQL {
 	 *
 	 * @see http://en.wikibooks.org/wiki/SQL_Dialects_Reference
 	 */
-	abstract class Precompiler extends Core\Object {
+	abstract class Precompiler extends \Leap\Core\Object {
 
 		/**
 		 * This variable stores a reference to the data source.
@@ -59,9 +55,9 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $expr                          the expression to be prepared
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 */
 		public abstract function prepare_alias($expr);
 
@@ -80,21 +76,21 @@ namespace Leap\Core\DB\SQL {
 		 * This method prepares the specified expression as a connector.
 		 *
 		 * @access public
-		 * @param string $expr                          the expression to be prepared
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 */
 		public function prepare_connector($expr) {
 			if (is_string($expr)) {
 				$expr = strtoupper($expr);
 				switch ($expr) {
-					case DB\SQL\Connector::_AND_:
-					case DB\SQL\Connector::_OR_:
+					case \Leap\Core\DB\SQL\Connector::_AND_:
+					case \Leap\Core\DB\SQL\Connector::_OR_:
 						return $expr;
 					break;
 				}
 			}
-			throw new Throwable\InvalidArgument\Exception('Message: Invalid connector token specified. Reason: Token must exist in the enumerated set.', array(':expr' => $expr));
+			throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid connector token specified. Reason: Token must exist in the enumerated set.', array(':expr' => $expr));
 		}
 
 		/**
@@ -102,9 +98,9 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $expr                          the expression to be prepared
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 */
 		public abstract function prepare_identifier($expr);
 
@@ -113,9 +109,9 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $expr                          the expression to be prepared
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 */
 		public abstract function prepare_join($expr);
 
@@ -135,10 +131,10 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $expr                          the expression to be prepared
-		 * @param string $group                         the operator grouping
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @param string $group                                     the operator grouping
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 */
 		public abstract function prepare_operator($expr, $group);
 
@@ -160,9 +156,9 @@ namespace Leap\Core\DB\SQL {
 		 * This method prepares the specified expression as a parenthesis.
 		 *
 		 * @access public
-		 * @param string $expr                          the expression to be prepared
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 */
 		public function prepare_parenthesis($expr) {
 			if (is_string($expr)) {
@@ -173,7 +169,7 @@ namespace Leap\Core\DB\SQL {
 					break;
 				}
 			}
-			throw new Throwable\InvalidArgument\Exception('Message: Invalid parenthesis token specified. Reason: Token must exist in the enumerated set.', array(':expr' => $expr));
+			throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid parenthesis token specified. Reason: Token must exist in the enumerated set.', array(':expr' => $expr));
 		}
 
 		/**
@@ -192,9 +188,9 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $expr                          the expression to be prepared
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 */
 		public abstract function prepare_wildcard($expr);
 

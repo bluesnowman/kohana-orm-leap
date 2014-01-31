@@ -19,8 +19,6 @@
 
 namespace Leap\Core\DB\SQL\DataReader {
 
-	use Leap\Core\DB;
-
 	/**
 	 * This class is used to read data from a SQL database using a standard
 	 * driver.
@@ -31,6 +29,6 @@ namespace Leap\Core\DB\SQL\DataReader {
 	 * @package Leap\Core\DB\SQL\DataReader
 	 * @version 2014-01-26
 	 */
-	abstract class Standard extends DB\SQL\DataReader {}
+	abstract class Standard extends \Leap\Core\DB\SQL\DataReader {}
 
 }

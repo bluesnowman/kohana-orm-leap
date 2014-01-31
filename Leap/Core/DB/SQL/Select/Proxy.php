@@ -19,10 +19,6 @@
 
 namespace Leap\Core\DB\SQL\Select {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class builds an SQL select statement.
 	 *
@@ -31,13 +27,13 @@ namespace Leap\Core\DB\SQL\Select {
 	 * @package Leap\Core\DB\SQL\Select
 	 * @version 2014-01-26
 	 */
-	class Proxy extends Core\Object implements DB\SQL\Statement {
+	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
 		/**
 		 * This variable stores an instance of the SQL builder class.
 		 *
 		 * @access protected
-		 * @var DB\SQL\Select\Builder
+		 * @var \Leap\Core\DB\SQL\Select\Builder
 		 */
 		protected $builder;
 
@@ -45,7 +41,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * This variable stores a reference to the data source.
 		 *
 		 * @access protected
-		 * @var DB\DataSource
+		 * @var \Leap\Core\DB\DataSource
 		 */
 		protected $data_source;
 
@@ -57,7 +53,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @param array $columns                        the columns to be selected
 		 */
 		public function __construct($config, Array $columns = array()) {
-			$this->data_source = DB\DataSource::instance($config);
+			$this->data_source = \Leap\Core\DB\DataSource::instance($config);
 			$builder = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Select\\Builder';
 			$this->builder = new $builder($this->data_source, $columns);
 		}
@@ -78,7 +74,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 *
 		 * @access public
 		 * @param string $wildcard                      the wildcard to be used
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       a reference to the current instance
 		 */
 		public function all($wildcard = '*') {
 			$this->builder->all($wildcard);
@@ -91,7 +87,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @access public
 		 * @param string $column                        the column to be selected
 		 * @param string $alias                         the alias to be used for the specified column
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       a reference to the current instance
 		 */
 		public function column($column, $alias = NULL) {
 			$this->builder->column($column, $alias);
@@ -105,7 +101,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @param string $operator                      the operator to be used to append
 		 *                                              the specified SQL statement
 		 * @param string $statement                     the SQL statement to be appended
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       a reference to the current instance
 		 */
 		public function combine($operator, $statement) {
 			$this->builder->combine($operator, $statement);
@@ -118,7 +114,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @access public
 		 * @param string $column                        the column to be counted
 		 * @param string $alias                         the alias to be used for the specified column
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
 		 */
 		public function count($column = '*', $alias = 'count') {
 			$this->builder->count($column, $alias);
@@ -131,7 +127,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @access public
 		 * @param boolean $distinct                     whether to constrain the SQL statement to only
 		 *                                              distinct records
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       a reference to the current instance
 		 */
 		public function distinct($distinct = TRUE) {
 			$this->builder->distinct($distinct);
@@ -144,7 +140,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @access public
 		 * @param string $table                         the table to be accessed
 		 * @param string $alias                         the alias to be used for the specified table
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       a reference to the current instance
 		 */
 		public function from($table, $alias = NULL) {
 			$this->builder->from($table, $alias);
@@ -156,7 +152,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 *
 		 * @access public
 		 * @param string $column                        the column to be grouped
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       a reference to the current instance
 		 */
 		public function group_by($column) {
 			$this->builder->group_by($column);
@@ -171,7 +167,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @param string $operator                      the operator to be used
 		 * @param string $value                         the value the column is constrained with
 		 * @param string $connector                     the connector to be used
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       a reference to the current instance
 		 */
 		public function having($column, $operator, $value, $connector = 'AND') {
 			$this->builder->having($column, $operator, $value, $connector);
@@ -184,7 +180,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @access public
 		 * @param string $parenthesis                   the parenthesis to be used
 		 * @param string $connector                     the connector to be used
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       a reference to the current instance
 		 */
 		public function having_block($parenthesis, $connector = 'AND') {
 			$this->builder->having_block($parenthesis, $connector);
@@ -198,7 +194,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @param string $type                          the type of join
 		 * @param string $table                         the table to be joined
 		 * @param string $alias                         the alias to be used for the specified table
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       a reference to the current instance
 		 */
 		public function join($type, $table, $alias = NULL) {
 			$this->builder->join($type, $table, $alias);
@@ -210,7 +206,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 *
 		 * @access public
 		 * @param integer $limit                        the "limit" constraint
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       a reference to the current instance
 		 */
 		public function limit($limit) {
 			$this->builder->limit($limit);
@@ -222,7 +218,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 *
 		 * @access public
 		 * @param integer $offset                       the "offset" constraint
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       a reference to the current instance
 		 */
 		public function offset($offset) {
 			$this->builder->offset($offset);
@@ -236,8 +232,8 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @param string $column0                       the column to be constrained on
 		 * @param string $operator                      the operator to be used
 		 * @param string $column1                       the constraint column
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
-		 * @throws Throwable\SQL\Exception              indicates an invalid SQL build instruction
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       a reference to the current instance
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates an invalid SQL build instruction
 		 */
 		public function on($column0, $operator, $column1) {
 			$this->builder->on($column0, $operator, $column1);
@@ -253,7 +249,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 *                                              column will sorted either in ascending or
 		 *                                              descending order
 		 * @param string $nulls                         the weight to be given to null values
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy                  a reference to the current instance
 		 */
 		public function order_by($column, $ordering = 'ASC', $nulls = 'DEFAULT') {
 			$this->builder->order_by($column, $ordering, $nulls);
@@ -267,7 +263,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @access public
 		 * @param integer $offset                       the "offset" constraint
 		 * @param integer $limit                        the "limit" constraint
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy                  a reference to the current instance
 		 */
 		public function page($offset, $limit) {
 			$this->builder->page($offset, $limit);
@@ -279,10 +275,10 @@ namespace Leap\Core\DB\SQL\Select {
 		 *
 		 * @access public
 		 * @param string $type               	        the return type to be used
-		 * @return DB\ResultSet                         the result set
+		 * @return \Leap\Core\DB\ResultSet              the result set
 		 */
 		public function query($type = 'array') {
-			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
+			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
 			$result_set = $connection->query($this->statement(TRUE), $type);
 			return $result_set;
 		}
@@ -292,10 +288,10 @@ namespace Leap\Core\DB\SQL\Select {
 		 * statement.
 		 *
 		 * @access public
-		 * @return DB\SQL\DataReader                    the data reader
+		 * @return \Leap\Core\DB\SQL\DataReader          the data reader
 		 */
 		public function reader() {
-			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
+			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
 			$reader = $connection->reader($this->statement(TRUE));
 			return $reader;
 		}
@@ -304,7 +300,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * This method resets the current builder.
 		 *
 		 * @access public
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy        a reference to the current instance
 		 */
 		public function reset() {
 			$this->builder->reset();
@@ -329,7 +325,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 *
 		 * @access public
 		 * @param string $column                        the column to be constrained
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       a reference to the current instance
 		 */
 		public function using($column) {
 			$this->builder->using($column);
@@ -344,7 +340,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @param string $operator                      the operator to be used
 		 * @param string $value                         the value the column is constrained with
 		 * @param string $connector                     the connector to be used
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       a reference to the current instance
 		 */
 		public function where($column, $operator, $value, $connector = 'AND') {
 			$this->builder->where($column, $operator, $value, $connector);
@@ -357,7 +353,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @access public
 		 * @param string $parenthesis                   the parenthesis to be used
 		 * @param string $connector                     the connector to be used
-		 * @return DB\SQL\Select\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Proxy       a reference to the current instance
 		 */
 		public function where_block($parenthesis, $connector = 'AND') {
 			$this->builder->where_block($parenthesis, $connector);

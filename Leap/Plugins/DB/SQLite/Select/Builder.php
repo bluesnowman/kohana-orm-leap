@@ -28,7 +28,7 @@
  *
  * @abstract
  */
-abstract class Base\DB\SQLite\Select\Builder extends DB\SQL\Select\Builder {
+abstract class Base\DB\SQLite\Select\Builder extends \Leap\Core\DB\SQL\Select\Builder {
 
 	/**
 	 * This method returns the SQL statement.

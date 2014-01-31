@@ -30,7 +30,7 @@ namespace Leap\Plugins\DB\Drizzle\Delete {
 	 *
 	 * @abstract
 	 */
-	abstract class Builder extends DB\SQL\Delete\Builder {
+	abstract class Builder extends \Leap\Core\DB\SQL\Delete\Builder {
 
 		/**
 		 * This method returns the SQL statement.

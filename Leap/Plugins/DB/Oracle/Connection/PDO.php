@@ -28,7 +28,7 @@
  *
  * @abstract
  */
-abstract class Base\DB\Oracle\Connection\PDO extends DB\SQL\Connection\PDO {
+abstract class Base\DB\Oracle\Connection\PDO extends \Leap\Core\DB\SQL\Connection\PDO {
 
 	/**
 	 * This method processes an SQL statement that will NOT return data.
@@ -106,7 +106,7 @@ abstract class Base\DB\Oracle\Connection\PDO extends DB\SQL\Connection\PDO {
 	 * @access public
 	 * @override
 	 * @param string $sql						    the SQL statement
-	 * @return DB\SQL\DataReader                    the SQL data reader
+	 * @return \Leap\Core\DB\SQL\DataReader                    the SQL data reader
 	 * @throws Throwable\SQL\Exception              indicates that the query failed
 	 */
 	public function reader($sql) {

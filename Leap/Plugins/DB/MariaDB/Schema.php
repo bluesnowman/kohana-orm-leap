@@ -246,18 +246,18 @@ abstract class Base\DB\MariaDB\Schema extends DB\Schema {
 	 * @see http://www.geeksww.com/tutorials/database_management_systems/mysql/tips_and_tricks/mysql_query_to_find_all_views_in_a_database.php
 	 */
 	public function tables($like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('TABLE_SCHEMA', 'schema')
 			->column('TABLE_NAME', 'table')
 			->column(DB\SQL::expr("'BASE'"), 'type')
 			->from('INFORMATION_SCHEMA.TABLES')
-			//->where('TABLE_SCHEMA', DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
-			->where(DB\SQL::expr('UPPER(`TABLE_TYPE`)'), DB\SQL\Operator::_EQUAL_TO_, 'BASE_TABLE')
+			//->where('TABLE_SCHEMA', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
+			->where(DB\SQL::expr('UPPER(`TABLE_TYPE`)'), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'BASE_TABLE')
 			->order_by(DB\SQL::expr('UPPER(`TABLE_SCHEMA`)'))
 			->order_by(DB\SQL::expr('UPPER(`TABLE_NAME`)'));
 
 		if ( ! empty($like)) {
-			$builder->where('TABLE_NAME', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('TABLE_NAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();
@@ -291,7 +291,7 @@ abstract class Base\DB\MariaDB\Schema extends DB\Schema {
 	 * @see http://dev.mysql.com/doc/refman/5.6/en/show-triggers.html
 	 */
 	public function triggers($table, $like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('EVENT_OBJECT_SCHEMA', 'schema')
 			->column('EVENT_OBJECT_TABLE', 'table')
 			->column('TRIGGER_NAME', 'trigger')
@@ -302,15 +302,15 @@ abstract class Base\DB\MariaDB\Schema extends DB\Schema {
 			->column('ACTION_ORDER', 'seq_index')
 			->column('CREATED', 'created')
 			->from('INFORMATION_SCHEMA.TRIGGERS')
-			//->where('EVENT_OBJECT_SCHEMA', DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
-			->where(DB\SQL::expr('UPPER(`EVENT_OBJECT_TABLE`)'), DB\SQL\Operator::_EQUAL_TO_, $table)
+			//->where('EVENT_OBJECT_SCHEMA', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
+			->where(DB\SQL::expr('UPPER(`EVENT_OBJECT_TABLE`)'), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
 			->order_by(DB\SQL::expr('UPPER(`EVENT_OBJECT_SCHEMA`)'))
 			->order_by(DB\SQL::expr('UPPER(`EVENT_OBJECT_TABLE`)'))
 			->order_by(DB\SQL::expr('UPPER(`TRIGGER_NAME`)'))
 			->order_by('ACTION_ORDER');
 
 		if ( ! empty($like)) {
-			$builder->where('TRIGGER_NAME', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('TRIGGER_NAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();
@@ -335,18 +335,18 @@ abstract class Base\DB\MariaDB\Schema extends DB\Schema {
 	 * @see http://www.geeksww.com/tutorials/database_management_systems/mysql/tips_and_tricks/mysql_query_to_find_all_views_in_a_database.php
 	 */
 	public function views($like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('TABLE_SCHEMA', 'schema')
 			->column('TABLE_NAME', 'table')
 			->column(DB\SQL::expr("'VIEW'"), 'type')
 			->from('INFORMATION_SCHEMA.TABLES')
-			//->where('TABLE_SCHEMA', DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
-			->where(DB\SQL::expr('UPPER(`TABLE_TYPE`)'), DB\SQL\Operator::_EQUAL_TO_, 'VIEW')
+			//->where('TABLE_SCHEMA', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
+			->where(DB\SQL::expr('UPPER(`TABLE_TYPE`)'), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'VIEW')
 			->order_by(DB\SQL::expr('UPPER(`TABLE_SCHEMA`)'))
 			->order_by(DB\SQL::expr('UPPER(`TABLE_NAME`)'));
 
 		if ( ! empty($like)) {
-			$builder->where('TABLE_NAME', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('TABLE_NAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();

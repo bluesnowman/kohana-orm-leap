@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\SQL\DataReader {
 
-	use Leap\Core\DB;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class is used to read data from an SQL database using the PDO
 	 * driver.
@@ -32,23 +29,23 @@ namespace Leap\Core\DB\SQL\DataReader {
 	 * @package Leap\Core\DB\SQL\DataReader
 	 * @version 2014-01-26
 	 */
-	abstract class PDO extends DB\SQL\DataReader {
+	abstract class PDO extends \Leap\Core\DB\SQL\DataReader {
 
 		/**
 		 * This method initializes the class.
 		 *
 		 * @access public
 		 * @override
-		 * @param DB\Connection\Driver $connection  the connection to be used
-		 * @param string $sql                       the SQL statement to be queried
-		 * @param integer $mode                     the execution mode to be used
-		 * @throws Throwable\SQL\Exception          indicates that the query failed
+		 * @param \Leap\Core\DB\Connection\Driver $connection   the connection to be used
+		 * @param string $sql                                   the SQL statement to be queried
+		 * @param integer $mode                                 the execution mode to be used
+		 * @throws \Leap\Core\Throwable\SQL\Exception           indicates that the query failed
 		 */
-		public function __construct(DB\Connection\Driver $connection, $sql, $mode = NULL) {
+		public function __construct(\Leap\Core\DB\Connection\Driver $connection, $sql, $mode = NULL) {
 			$resource = $connection->get_resource();
 			$command = @$resource->query($sql);
 			if ($command === FALSE) {
-				throw new Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: :reason', array(':reason' => $resource->errorInfo()));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: :reason', array(':reason' => $resource->errorInfo()));
 			}
 			$this->command = $command;
 			$this->record = FALSE;

@@ -30,7 +30,7 @@ namespace Leap\Plugins\DB\DB2\Connection {
 	 *
 	 * @abstract
 	 */
-	abstract class PDO extends DB\SQL\Connection\PDO {
+	abstract class PDO extends \Leap\Core\DB\SQL\Connection\PDO {
 
 		/**
 		 * This method opens a connection using the data source provided.

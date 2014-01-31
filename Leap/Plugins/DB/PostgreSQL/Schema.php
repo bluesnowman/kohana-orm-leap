@@ -121,7 +121,7 @@ abstract class Base\DB\PostgreSQL\Schema extends DB\Schema {
 	 * @see http://www.linuxscrew.com/2009/07/03/postgresql-show-tables-show-databases-show-columns/
 	 */
 	public function fields($table, $like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('table_schema', 'schema')
 			->column('table_name', 'table')
 			->column('column_name', 'column')
@@ -133,11 +133,11 @@ abstract class Base\DB\PostgreSQL\Schema extends DB\Schema {
 			->column(DB\SQL::expr("CASE WHEN is_nullable = 'YES' THEN 1 ELSE 0 END"), 'nullable')
 			->column('column_default', 'default')
 			->from('information_schema.columns')
-			->where('table_name', DB\SQL\Operator::_EQUAL_TO_, $table)
+			->where('table_name', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
 			->order_by('ordinal_position');
 		
 		if ( ! empty($like)) {
-			$builder->where('column_name', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('column_name', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();
@@ -172,7 +172,7 @@ abstract class Base\DB\PostgreSQL\Schema extends DB\Schema {
 	 * @see http://www.postgresql.org/docs/current/static/catalog-pg-index.html
 	 */
 	public function indexes($table, $like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('t4.schname', 'schema')
 			->column('t0.relname', 'table')
 			->column('t2.relname', 'index')
@@ -183,23 +183,23 @@ abstract class Base\DB\PostgreSQL\Schema extends DB\Schema {
 			->column(DB\SQL::expr("CASE \"t1\".\"indisprimary\" WHEN 't' THEN 1 ELSE 0 END"), 'primary')
 			->from('pg_class', 't0')
 			->join(DB\SQL\JoinType::_LEFT_, 'pg_index', 't1')
-			->on('t1.indrelid', DB\SQL\Operator::_EQUAL_TO_, 't0.oid')
+			->on('t1.indrelid', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't0.oid')
 			->join(DB\SQL\JoinType::_LEFT_, 'pg_class', 't2')
-			->on('t2.oid', DB\SQL\Operator::_EQUAL_TO_, 't1.indexrelid')
+			->on('t2.oid', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't1.indexrelid')
 			->join(DB\SQL\JoinType::_LEFT_, 'pg_attribute', 't3')
-			->on('t3.attrelid', DB\SQL\Operator::_EQUAL_TO_, 't0.oid')
-			->on('t3.attnum', DB\SQL\Operator::_EQUAL_TO_, DB\SQL::expr('ANY("t1"."indkey")'))			
-			->join(DB\SQL\JoinType::_LEFT_, DB\SQL::expr('(SELECT "t5"."table_schema" AS "schname", "t5"."table_schema" AS "relname" FROM "information_schema"."tables" AS "t5" WHERE "t5"."table_type" = \'BASE TABLE\' AND "t5"."table_schema" NOT IN (\'pg_catalog\', \'information_schema\'))'), 't4')
-			->on('t4.relname', DB\SQL\Operator::_EQUAL_TO_, 't0.relname')
-			->where('t0.relkind', DB\SQL\Operator::_EQUAL_TO_, 'r')
-			->where('t0.relname', DB\SQL\Operator::_EQUAL_TO_, $table)
+			->on('t3.attrelid', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't0.oid')
+			->on('t3.attnum', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, \Leap\Core\DB\SQL::expr('ANY("t1"."indkey")'))			
+			->join(DB\SQL\JoinType::_LEFT_, \Leap\Core\DB\SQL::expr('(SELECT "t5"."table_schema" AS "schname", "t5"."table_schema" AS "relname" FROM "information_schema"."tables" AS "t5" WHERE "t5"."table_type" = \'BASE TABLE\' AND "t5"."table_schema" NOT IN (\'pg_catalog\', \'information_schema\'))'), 't4')
+			->on('t4.relname', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't0.relname')
+			->where('t0.relkind', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'r')
+			->where('t0.relname', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
 			->order_by(DB\SQL::expr('UPPER("t4"."schname")'))
 			->order_by(DB\SQL::expr('UPPER("t0"."relname")'))
 			->order_by(DB\SQL::expr('UPPER("t2"."relname")'))
 			->order_by('t3.attnum');
 
 		if ( ! empty($like)) {
-			$builder->where('t2.relname', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('t2.relname', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();
@@ -226,18 +226,18 @@ abstract class Base\DB\PostgreSQL\Schema extends DB\Schema {
 	 * @see http://www.polak.ro/postgresql-select-tables-names.html
 	 */
 	public function tables($like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('table_schema', 'schema')
 			->column('table_name', 'table')
 			->column(DB\SQL::expr("'BASE'"), 'type')
 			->from('information_schema.tables')
-			->where('table_type', DB\SQL\Operator::_EQUAL_TO_, 'BASE TABLE')
-			->where('table_schema', DB\SQL\Operator::_NOT_IN_, array('pg_catalog', 'information_schema'))
+			->where('table_type', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'BASE TABLE')
+			->where('table_schema', \Leap\Core\DB\SQL\Operator::_NOT_IN_, array('pg_catalog', 'information_schema'))
 			->order_by(DB\SQL::expr('UPPER("table_schema")'))
 			->order_by(DB\SQL::expr('UPPER("table_name")'));
 
 		if ( ! empty($like)) {
-			$builder->where('table_name', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('table_name', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();
@@ -270,7 +270,7 @@ abstract class Base\DB\PostgreSQL\Schema extends DB\Schema {
 	 * @see http://www.postgresql.org/docs/8.1/static/infoschema-triggers.html
 	 */
 	public function triggers($table, $like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('event_object_schema', 'schema')
 			->column('event_object_table', 'table')
 			->column('trigger_name', 'trigger')
@@ -281,16 +281,16 @@ abstract class Base\DB\PostgreSQL\Schema extends DB\Schema {
 			->column('action_order', 'seq_index')
 			->column(DB\SQL::expr('NULL'), 'created')
 			->from('information_schema.triggers')
-			->where('event_object_schema', DB\SQL\Operator::_NOT_IN_, array('pg_catalog', 'information_schema'))
+			->where('event_object_schema', \Leap\Core\DB\SQL\Operator::_NOT_IN_, array('pg_catalog', 'information_schema'))
 			->where('event_object_table', '!~', '^pg_')
-			->where(DB\SQL::expr('UPPER("event_object_table")'), DB\SQL\Operator::_EQUAL_TO_, $table)
+			->where(DB\SQL::expr('UPPER("event_object_table")'), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
 			->order_by(DB\SQL::expr('UPPER("event_object_schema")'))
 			->order_by(DB\SQL::expr('UPPER("event_object_table")'))
 			->order_by(DB\SQL::expr('UPPER("trigger_name")'))
 			->order_by('action_order');
 
 		if ( ! empty($like)) {
-			$builder->where('trigger_name', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('trigger_name', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();
@@ -317,19 +317,19 @@ abstract class Base\DB\PostgreSQL\Schema extends DB\Schema {
 	 * @see http://www.polak.ro/postgresql-select-tables-names.html
 	 */
 	public function views($like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('table_schema', 'schema')
 			->column('table_name', 'table')
 			->column(DB\SQL::expr("'VIEW'"), 'type')
 			->from('information_schema.tables')
-			->where('table_type', DB\SQL\Operator::_EQUAL_TO_, 'VIEW')
-			->where('table_schema', DB\SQL\Operator::_NOT_IN_, array('pg_catalog', 'information_schema'))
+			->where('table_type', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'VIEW')
+			->where('table_schema', \Leap\Core\DB\SQL\Operator::_NOT_IN_, array('pg_catalog', 'information_schema'))
 			->where('table_name', '!~', '^pg_')
 			->order_by(DB\SQL::expr('UPPER("table_schema")'))
 			->order_by(DB\SQL::expr('UPPER("table_name")'));
 
 		if ( ! empty($like)) {
-			$builder->where('table_name', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('table_name', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();

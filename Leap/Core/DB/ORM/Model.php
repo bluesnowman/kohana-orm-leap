@@ -31,7 +31,7 @@ namespace Leap\Core\DB\ORM {
 	 * @package Leap\Core\DB\ORM
 	 * @version 2014-01-28
 	 */
-	abstract class Model extends Core\Object implements Core\GC\IDisposable {
+	abstract class Model extends \Leap\Core\Object implements \Leap\Core\GC\IDisposable {
 
 		/**
 		 * This variable stores the record's adaptors.
@@ -228,15 +228,15 @@ namespace Leap\Core\DB\ORM {
 		 */
 		public function delete($reset = FALSE) {
 			if ( ! static::is_savable()) {
-				throw new Throwable\Marshalling\Exception('Message: Failed to delete record from database. Reason: Model is not savable.', array(':class' => get_called_class()));
+				throw new \Leap\Core\Throwable\Marshalling\Exception('Message: Failed to delete record from database. Reason: Model is not savable.', array(':class' => get_called_class()));
 			}
 			$primary_key = static::primary_key();
 			if (empty($primary_key) OR ! is_array($primary_key)) {
-				throw new Throwable\Marshalling\Exception('Message: Failed to delete record from database. Reason: No primary key has been declared.');
+				throw new \Leap\Core\Throwable\Marshalling\Exception('Message: Failed to delete record from database. Reason: No primary key has been declared.');
 			}
-			$builder = Core\DB\SQL::delete(static::data_source(Core\DB\DataSource::MASTER_INSTANCE))->from(static::table());
+			$builder = Core\DB\SQL::delete(static::data_source(\Leap\Core\DB\DataSource::MASTER_INSTANCE))->from(static::table());
 			foreach ($primary_key as $column) {
-				$builder->where($column, Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields[$column]->value);
+				$builder->where($column, \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields[$column]->value);
 			}
 			$builder->execute();
 			if ($reset) {
@@ -284,7 +284,7 @@ namespace Leap\Core\DB\ORM {
 				if (static::is_auto_incremented()) {
 					$column = $primary_key[0];
 					if ( ! isset($this->fields[$column])) {
-						throw new Throwable\InvalidProperty\Exception('Message: Unable to generate hash code for model. Reason: Primary key contains a non-existent field name.', array(':primary_key' => $primary_key));
+						throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to generate hash code for model. Reason: Primary key contains a non-existent field name.', array(':primary_key' => $primary_key));
 					}
 					$value = $this->fields[$column]->value;
 					return ( ! empty($value)) ? sha1("{$column}={$value}") : NULL;
@@ -292,7 +292,7 @@ namespace Leap\Core\DB\ORM {
 				$buffer = '';
 				foreach ($primary_key as $column) {
 					if ( ! isset($this->fields[$column])) {
-						throw new Throwable\InvalidProperty\Exception('Message: Unable to generate hash code for model. Reason: Primary key contains a non-existent field name.', array(':primary_key' => $primary_key));
+						throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to generate hash code for model. Reason: Primary key contains a non-existent field name.', array(':primary_key' => $primary_key));
 					}
 					$value = $this->fields[$column]->value;
 					if ($value !== NULL) {
@@ -301,7 +301,7 @@ namespace Leap\Core\DB\ORM {
 				}
 				return ($buffer != '') ? sha1($buffer) : NULL;
 			}
-			throw new Throwable\Database\Exception('Message: Unable to generate hash code for model. Reason: No primary key has been declared.', array(':primary_key' => $primary_key));
+			throw new \Leap\Core\Throwable\Database\Exception('Message: Unable to generate hash code for model. Reason: No primary key has been declared.', array(':primary_key' => $primary_key));
 		}
 
 		/**

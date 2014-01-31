@@ -28,7 +28,7 @@
  *
  * @abstract
  */
-abstract class Base\DB\SQLite\Delete\Builder extends DB\SQL\Delete\Builder {
+abstract class Base\DB\SQLite\Delete\Builder extends \Leap\Core\DB\SQL\Delete\Builder {
 
 	/**
 	 * This method returns the SQL statement.

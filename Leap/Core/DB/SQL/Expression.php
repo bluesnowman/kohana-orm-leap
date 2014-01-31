@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\SQL {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-
 	/**
 	 * This class represents an SQL expression.
 	 *
@@ -30,7 +27,7 @@ namespace Leap\Core\DB\SQL {
 	 * @package Leap\Core\DB\SQL
 	 * @version 2014-01-28
 	 */
-	class Expression extends Core\Object {
+	class Expression extends \Leap\Core\Object {
 
 		/**
 		 * This variable stores the raw SQL expression string.
@@ -79,7 +76,7 @@ namespace Leap\Core\DB\SQL {
 		 * @access public
 		 * @param string $key                           the parameter key
 		 * @param mixed &$value                         the parameter value
-		 * @return DB\SQL\Expression                    a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Expression         a reference to the current instance
 		 */
 		public function bind($key, &$value) {
 			$this->params[$key] = &$value;
@@ -92,7 +89,7 @@ namespace Leap\Core\DB\SQL {
 		 * @access public
 		 * @param string $key                           the parameter key
 		 * @param mixed $value                          the parameter value
-		 * @return DB\SQL\Expression                    a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Expression         a reference to the current instance
 		 */
 		public function param($key, $value) {
 			$this->params[$key] = $value;
@@ -105,7 +102,7 @@ namespace Leap\Core\DB\SQL {
 		 * @access public
 		 * @param array $params                         an associated array of parameter
 		 *                                              key/values pairs
-		 * @return DB\SQL\Expression                    a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Expression         a reference to the current instance
 		 */
 		public function parameters(Array $params) {
 			$this->params = $params + $this->params;
@@ -121,11 +118,11 @@ namespace Leap\Core\DB\SQL {
 		 * @return string                               the compiled SQL expression
 		 */
 		public function value($object = NULL) {
-			if (is_string($object) OR is_array($object) OR ($object instanceof DB\DataSource)) {
-				$object = DB\SQL::precompiler($object);
+			if (is_string($object) OR is_array($object) OR ($object instanceof \Leap\Core\DB\DataSource)) {
+				$object = \Leap\Core\DB\SQL::precompiler($object);
 			}
 			$expr = $this->expr;
-			if (($object instanceof DB\SQL\Precompiler) AND ! empty($this->params)) {
+			if (($object instanceof \Leap\Core\DB\SQL\Precompiler) AND ! empty($this->params)) {
 				$params = array_map(array($object, 'prepare_value'), $this->params);
 				$expr = strtr($expr, $params);
 			}

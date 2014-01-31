@@ -19,8 +19,6 @@
 
 namespace Leap\Core\DB\SQL {
 
-	use Leap\Core;
-
 	/**
 	 * This class contains a set of predefined operators.
 	 *
@@ -37,7 +35,7 @@ namespace Leap\Core\DB\SQL {
 	 * @see http://download.oracle.com/docs/cd/B19306_01/server.102/b14200/queries004.htm
 	 * @see http://www.sqlite.org/lang_select.html
 	 */
-	abstract class Operator extends Core\Object {
+	abstract class Operator extends \Leap\Core\Object {
 
 		#region Comparison Operators
 

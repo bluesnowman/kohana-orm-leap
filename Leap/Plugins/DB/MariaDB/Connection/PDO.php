@@ -29,7 +29,7 @@
  *
  * @abstract
  */
-abstract class Base\DB\MariaDB\Connection\PDO extends DB\SQL\Connection\PDO {
+abstract class Base\DB\MariaDB\Connection\PDO extends \Leap\Core\DB\SQL\Connection\PDO {
 
 	/**
 	 * This method opens a connection using the data source provided.

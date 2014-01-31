@@ -30,14 +30,14 @@
  *
  * @abstract
  */
-abstract class Base\DB\Firebird\Lock\Builder extends DB\SQL\Lock\Builder {
+abstract class Base\DB\Firebird\Lock\Builder extends \Leap\Core\DB\SQL\Lock\Builder {
 
 	/**
 	 * This method acquires the required locks.
 	 *
 	 * @access public
 	 * @override
-	 * @return DB\SQL\Lock\Builder                     a reference to the current instance
+	 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
 	 */
 	public function acquire() {
 		$this->connection->begin_transaction();
@@ -54,7 +54,7 @@ abstract class Base\DB\Firebird\Lock\Builder extends DB\SQL\Lock\Builder {
 	 * @override
 	 * @param string $table                            the table to be locked
 	 * @param array $hints                             the hints to be applied
-	 * @return DB\SQL\Lock\Builder                     a reference to the current instance
+	 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
 	 */
 	public function add($table, Array $hints = NULL) {
 		$table = $this->precompiler->prepare_identifier($table);
@@ -69,7 +69,7 @@ abstract class Base\DB\Firebird\Lock\Builder extends DB\SQL\Lock\Builder {
 	 * @override
 	 * @param string $method                           the method to be used to release
 	 *                                                 the lock(s)
-	 * @return DB\SQL\Lock\Builder                     a reference to the current instance
+	 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
 	 */
 	public function release($method = '') {
 		switch (strtoupper($method)) {

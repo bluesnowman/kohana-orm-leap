@@ -19,8 +19,6 @@
 
 namespace Leap\Core\DB\SQL {
 
-	use Leap\Core;
-
 	/**
 	 * This class contains a set of predefined join types.
 	 *
@@ -41,7 +39,7 @@ namespace Leap\Core\DB\SQL {
 	 * @see http://www.postgresql.org/docs/8.2/static/queries-table-expressions.html
 	 * @see http://www.sqlite.org/lang_select.html
 	 */
-	abstract class JoinType extends Core\Object {
+	abstract class JoinType extends \Leap\Core\Object {
 
 		const _CROSS_ = 'CROSS'; // supported by DB2, Drizzle, Firebird, MS SQL, MySQL, Oracle, PostgreSQL, SQLite
 

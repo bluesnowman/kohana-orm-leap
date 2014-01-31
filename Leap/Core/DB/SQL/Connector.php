@@ -19,8 +19,6 @@
 
 namespace Leap\Core\DB\SQL {
 
-	use Leap\Core;
-
 	/**
 	 * This class contains a set of predefined connectors.
 	 *
@@ -30,7 +28,7 @@ namespace Leap\Core\DB\SQL {
 	 * @package Leap\Core\DB\SQL
 	 * @version 2014-01-26
 	 */
-	abstract class Connector extends Core\Object {
+	abstract class Connector extends \Leap\Core\Object {
 
 		const _AND_ = 'AND';
 

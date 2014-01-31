@@ -19,10 +19,6 @@
 
 namespace Leap\Core\DB\SQL\Update {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class builds an SQL update statement.
 	 *
@@ -31,13 +27,13 @@ namespace Leap\Core\DB\SQL\Update {
 	 * @package Leap\Core\DB\SQL\Update
 	 * @version 2014-01-26
 	 */
-	class Proxy extends Core\Object implements DB\SQL\Statement {
+	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
 		/**
 		 * This variable stores an instance of the SQL builder class.
 		 *
 		 * @access protected
-		 * @var DB\SQL\Update\Builder
+		 * @var \Leap\Core\DB\SQL\Update\Builder
 		 */
 		protected $builder;
 
@@ -45,7 +41,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 * This variable stores a reference to the data source.
 		 *
 		 * @access protected
-		 * @var DB\DataSource
+		 * @var \Leap\Core\DB\DataSource
 		 */
 		protected $data_source;
 
@@ -56,7 +52,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 * @param mixed $config                         the data source configurations
 		 */
 		public function __construct($config) {
-			$this->data_source = DB\DataSource::instance($config);
+			$this->data_source = \Leap\Core\DB\DataSource::instance($config);
 			$builder = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Update\\Builder';
 			$this->builder = new $builder($this->data_source);
 		}
@@ -78,7 +74,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 * @access public
 		 */
 		public function execute() {
-			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
+			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
 			$connection->execute($this->statement(TRUE));
 		}
 
@@ -87,7 +83,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 *
 		 * @access public
 		 * @param integer $limit                        the "limit" constraint
-		 * @return DB\SQL\Update\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Proxy       a reference to the current instance
 		 */
 		public function limit($limit) {
 			$this->builder->limit($limit);
@@ -99,7 +95,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 *
 		 * @access public
 		 * @param integer $offset                       the "offset" constraint
-		 * @return DB\SQL\Update\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Proxy       a reference to the current instance
 		 */
 		public function offset($offset) {
 			$this->builder->offset($offset);
@@ -115,7 +111,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 *                                              column will sorted either in ascending or
 		 *                                              descending order
 		 * @param string $nulls                         the weight to be given to null values
-		 * @return DB\SQL\Update\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Proxy       a reference to the current instance
 		 */
 		public function order_by($column, $ordering = 'ASC', $nulls = 'DEFAULT') {
 			$this->builder->order_by($column, $ordering, $nulls);
@@ -126,7 +122,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 * This method resets the current builder.
 		 *
 		 * @access public
-		 * @return DB\SQL\Update\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Proxy       a reference to the current instance
 		 */
 		public function reset() {
 			$this->builder->reset();
@@ -139,7 +135,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 * @access public
 		 * @param string $column                        the column to be set
 		 * @param string $value                         the value to be set
-		 * @return DB\SQL\Update\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Proxy       a reference to the current instance
 		 */
 		public function set($column, $value) {
 			$this->builder->set($column, $value);
@@ -165,7 +161,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 * @access public
 		 * @param string $table                         the database table to be modified
 		 * @param string $alias                         the alias to be used for the specified table
-		 * @return DB\SQL\Update\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Proxy       a reference to the current instance
 		 */
 		public function table($table, $alias = NULL) {
 			$this->builder->table($table, $alias);
@@ -180,7 +176,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 * @param string $operator                      the operator to be used
 		 * @param string $value                         the value the column is constrained with
 		 * @param string $connector                     the connector to be used
-		 * @return DB\SQL\Update\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Proxy       a reference to the current instance
 		 */
 		public function where($column, $operator, $value, $connector = 'AND') {
 			$this->builder->where($column, $operator, $value, $connector);
@@ -193,7 +189,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 * @access public
 		 * @param string $parenthesis                   the parenthesis to be used
 		 * @param string $connector                     the connector to be used
-		 * @return DB\SQL\Update\Proxy                  a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Proxy       a reference to the current instance
 		 */
 		public function where_block($parenthesis, $connector = 'AND') {
 			$this->builder->where_block($parenthesis, $connector);

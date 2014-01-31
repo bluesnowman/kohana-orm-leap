@@ -29,7 +29,7 @@ namespace Leap\Plugins\DB\Drizzle\DataReader {
 	 *
 	 * @abstract
 	 */
-	abstract class TCP extends DB\SQL\DataReader\Standard {
+	abstract class TCP extends \Leap\Core\DB\SQL\DataReader\Standard {
 
 		/**
 		 * This method initializes the class.

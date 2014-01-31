@@ -151,7 +151,7 @@ abstract class Base\DB\MsSQL\Schema extends DB\Schema {
 	 * @see http://stackoverflow.com/questions/765867/list-of-all-index-index-columns-in-sql-server-db
 	 */
 	public function indexes($table, $like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('t1.NAME', 'schema')
 			->column('t0.NAME', 'table')
 			->column('t2.NAME', 'index')
@@ -161,24 +161,24 @@ abstract class Base\DB\MsSQL\Schema extends DB\Schema {
 			->column('t2.IS_UNIQUE', 'unique')
 			->from('SYS.TABLES', 't0')
 			->join(DB\SQL\JoinType::_LEFT_, 'SYS.SCHEMAS', 't1')
-			->on('t1.SCHEMA_ID', DB\SQL\Operator::_EQUAL_TO_, 't0.SCHEMA_ID')
+			->on('t1.SCHEMA_ID', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't0.SCHEMA_ID')
 			->join(DB\SQL\JoinType::_LEFT_, 'SYS.INDEXES', 't2')
-			->on('t2.OBJECT_ID', DB\SQL\Operator::_EQUAL_TO_, 't0.OBJECT_ID')
+			->on('t2.OBJECT_ID', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't0.OBJECT_ID')
 			->join(DB\SQL\JoinType::_LEFT_, 'SYS.INDEX_COLUMNS', 't3')
-			->on('t3.OBJECT_ID', DB\SQL\Operator::_EQUAL_TO_, 't0.OBJECT_ID')
-			->on('t3.INDEX_ID', DB\SQL\Operator::_EQUAL_TO_, 't2.INDEX_ID')
+			->on('t3.OBJECT_ID', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't0.OBJECT_ID')
+			->on('t3.INDEX_ID', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't2.INDEX_ID')
 			->join(DB\SQL\JoinType::_LEFT_, 'SYS.COLUMNS', 't4')
-			->on('t4.OBJECT_ID', DB\SQL\Operator::_EQUAL_TO_, 't0.OBJECT_ID')
-			->on('t4.COLUMN_ID', DB\SQL\Operator::_EQUAL_TO_, 't3.COLUMN_ID')
-			->where('t0.NAME', DB\SQL\Operator::_EQUAL_TO_, $table)
-			->where('t2.IS_DISABLED', DB\SQL\Operator::_EQUAL_TO_, 0)
+			->on('t4.OBJECT_ID', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't0.OBJECT_ID')
+			->on('t4.COLUMN_ID', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't3.COLUMN_ID')
+			->where('t0.NAME', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
+			->where('t2.IS_DISABLED', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 0)
 			->order_by(DB\SQL::expr('UPPER([t1].[NAME])'))
 			->order_by(DB\SQL::expr('UPPER([t0].[NAME])'))
 			->order_by(DB\SQL::expr('UPPER([t2].[NAME])'))
 			->order_by('t3.KEY_ORDINAL');
 
 		if ( ! empty($like)) {
-			$builder->where('t2.NAME', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('t2.NAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();
@@ -203,18 +203,18 @@ abstract class Base\DB\MsSQL\Schema extends DB\Schema {
 	 * @see http://www.alberton.info/sql_server_meta_info.html
 	 */
 	public function tables($like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('[TABLE_SCHEMA]', 'schema')
 			->column('[TABLE_NAME]', 'table')
 			->column(DB\SQL::expr("'BASE'"), 'type')
 			->from('[INFORMATION_SCHEMA].[TABLES]')
-			->where('[TABLE_TYPE]', DB\SQL\Operator::_EQUAL_TO_, 'BASE_TABLE')
-			->where(DB\SQL::expr("OBJECTPROPERTY(OBJECT_ID([TABLE_NAME]), 'IsMsShipped')"), DB\SQL\Operator::_EQUAL_TO_, 0)
+			->where('[TABLE_TYPE]', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'BASE_TABLE')
+			->where(DB\SQL::expr("OBJECTPROPERTY(OBJECT_ID([TABLE_NAME]), 'IsMsShipped')"), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 0)
 			->order_by(DB\SQL::expr('UPPER([TABLE_SCHEMA])'))
 			->order_by(DB\SQL::expr('UPPER([TABLE_NAME])'));
 
 		if ( ! empty($like)) {
-			$builder->where('[TABLE_NAME]', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('[TABLE_NAME]', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();
@@ -249,7 +249,7 @@ abstract class Base\DB\MsSQL\Schema extends DB\Schema {
 	 * @see http://stackoverflow.com/questions/4305691/need-to-list-all-triggers-in-sql-server-database-with-table-name-and-tables-sch
 	 */
 	public function triggers($table, $like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('[t4].[NAME]', 'schema')
 			->column('[t1].[NAME]', 'table')
 			->column('[t0].[NAME]', 'trigger')
@@ -261,22 +261,22 @@ abstract class Base\DB\MsSQL\Schema extends DB\Schema {
 			->column(DB\SQL::expr('NULL'), 'created')
 			->from('[SYSOBJECTS]', '[t0]')
 			->join(NULL, '[SYSOBJECTS]', '[t1]')
-			->on('[t1].[ID]', DB\SQL\Operator::_EQUAL_TO_, '[t0].[PARENT_OBJ]')
+			->on('[t1].[ID]', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, '[t0].[PARENT_OBJ]')
 			->join(NULL, '[SYSCOMMENTS]', '[t2]')
-			->on('[t2].[ID]', DB\SQL\Operator::_EQUAL_TO_, '[t0].[ID]')
+			->on('[t2].[ID]', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, '[t0].[ID]')
 			->join(DB\SQL\JoinType::_LEFT_, '[SYS].[TABLES]', '[t3]')
-			->on('[t3].[OBJECT_ID]', DB\SQL\Operator::_EQUAL_TO_, '[t0].[PARENT_OBJ]')
+			->on('[t3].[OBJECT_ID]', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, '[t0].[PARENT_OBJ]')
 			->join(DB\SQL\JoinType::_LEFT_, '[SYS].[SCHEMAS]', '[t4]')
-			->on('[t4].[SCHEMA_ID]', DB\SQL\Operator::_EQUAL_TO_, '[t3].[SCHEMA_ID]')
-			->where('[t0].[XTYPE]', DB\SQL\Operator::_EQUAL_TO_, 'TR')
-			->where('[t1].[NAME]', DB\SQL\Operator::_EQUAL_TO_, $table)
-			->where(DB\SQL::expr("CASE WHEN OBJECTPROPERTY([t0].[ID], 'ExecIsTriggerDisabled') = 1 THEN 0 ELSE 1 END"), DB\SQL\Operator::_EQUAL_TO_, 1)
+			->on('[t4].[SCHEMA_ID]', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, '[t3].[SCHEMA_ID]')
+			->where('[t0].[XTYPE]', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'TR')
+			->where('[t1].[NAME]', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
+			->where(DB\SQL::expr("CASE WHEN OBJECTPROPERTY([t0].[ID], 'ExecIsTriggerDisabled') = 1 THEN 0 ELSE 1 END"), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 1)
 			->order_by(DB\SQL::expr('UPPER([t4].[NAME])'))
 			->order_by(DB\SQL::expr('UPPER([t1].[NAME])'))
 			->order_by(DB\SQL::expr('UPPER([t0].[NAME])'));
 
 		if ( ! empty($like)) {
-			$builder->where('[t0].[NAME]', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('[t0].[NAME]', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();
@@ -301,18 +301,18 @@ abstract class Base\DB\MsSQL\Schema extends DB\Schema {
 	 * @see http://www.alberton.info/sql_server_meta_info.html
 	 */
 	public function views($like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('[TABLE_SCHEMA]', 'schema')
 			->column('[TABLE_NAME]', 'table')
 			->column(DB\SQL::expr("'VIEW'"), 'type')
 			->from('[INFORMATION_SCHEMA].[TABLES]')
-			->where('[TABLE_TYPE]', DB\SQL\Operator::_EQUAL_TO_, 'VIEW')
-			->where(DB\SQL::expr("OBJECTPROPERTY(OBJECT_ID([TABLE_NAME]), 'IsMsShipped')"), DB\SQL\Operator::_EQUAL_TO_, 0)
+			->where('[TABLE_TYPE]', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'VIEW')
+			->where(DB\SQL::expr("OBJECTPROPERTY(OBJECT_ID([TABLE_NAME]), 'IsMsShipped')"), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 0)
 			->order_by(DB\SQL::expr('UPPER([TABLE_SCHEMA])'))
 			->order_by(DB\SQL::expr('UPPER([TABLE_NAME])'));
 
 		if ( ! empty($like)) {
-			$builder->where('[TABLE_NAME]', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('[TABLE_NAME]', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();

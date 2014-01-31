@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\SQL\Select {
 
-	use Leap\Core\DB;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class builds an SQL select statement.
 	 *
@@ -31,16 +28,16 @@ namespace Leap\Core\DB\SQL\Select {
 	 * @package Leap\Core\DB\SQL\Select
 	 * @version 2014-01-26
 	 */
-	abstract class Builder extends DB\SQL\Builder {
+	abstract class Builder extends \Leap\Core\DB\SQL\Builder {
 
 		/**
 		 * This constructor instantiates this class using the specified data source.
 		 *
 		 * @access public
-		 * @param DB\DataSource $data_source            the data source to be used
+		 * @param \Leap\Core\DB\DataSource $data_source the data source to be used
 		 * @param array $columns                        the columns to be selected
 		 */
-		public function __construct(DB\DataSource $data_source, Array $columns = array()) {
+		public function __construct(\Leap\Core\DB\DataSource $data_source, Array $columns = array()) {
 			$this->dialect = $data_source->dialect;
 			$precompiler = '\\Leap\\Plugins\\DB\\' . $this->dialect . '\\Precompiler';
 			$this->precompiler = new $precompiler($data_source);
@@ -55,7 +52,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 *
 		 * @access public
 		 * @param string $wildcard                      the wildcard to be used
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Builder                a reference to the current instance
 		 */
 		public function all($wildcard = '*') {
 			$this->data['wildcard'] = $this->precompiler->prepare_wildcard($wildcard);
@@ -69,7 +66,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @access public
 		 * @param string $column                        the column to be selected
 		 * @param string $alias                         the alias to be used for the specified column
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Builder                a reference to the current instance
 		 */
 		public function column($column, $alias = NULL) {
 			$column = $this->precompiler->prepare_identifier($column);
@@ -88,8 +85,8 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @param string $operator                      the operator to be used to append
 		 *                                              the specified SQL statement
 		 * @param string $statement                     the SQL statement to be appended
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
-		 * @throws Throwable\SQL\Exception              indicates an invalid SQL build instruction
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates an invalid SQL build instruction
 		 */
 		public function combine($operator, $statement) {
 			$builder = '\\Leap\\Plugins\\DB\\' . $this->dialect . '\\Select\\Builder';
@@ -97,7 +94,7 @@ namespace Leap\Core\DB\SQL\Select {
 				$statement = $statement->statement(FALSE);
 			}
 			else if ( ! preg_match('/^SELECT.*$/i', $statement)) {
-				throw new Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: May only combine a SELECT statement.', array(':operator' => $operator, ':statement' => $statement));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: May only combine a SELECT statement.', array(':operator' => $operator, ':statement' => $statement));
 			}
 			$statement = trim($statement, "; \t\n\r\0\x0B");
 			$operator = $this->precompiler->prepare_operator($operator, 'SET');
@@ -111,13 +108,13 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @access public
 		 * @param string $column                        the column to be counted
 		 * @param string $alias                         the alias to be used for the specified column
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
 		 */
 		public function count($column = '*', $alias = 'count') {
 			$column = ( ! empty($column) AND (substr_compare($column, '*', -1, 1) === 0))
 				? $this->precompiler->prepare_wildcard($column)
 				: $this->precompiler->prepare_identifier($column);
-			return $this->column(DB\SQL::expr("COUNT({$column})"), $alias);
+			return $this->column(\Leap\Core\DB\SQL::expr("COUNT({$column})"), $alias);
 		}
 
 		/**
@@ -126,7 +123,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @access public
 		 * @param boolean $distinct                     whether to constrain the SQL statement to only
 		 *                                              distinct records
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
 		 */
 		public function distinct($distinct = TRUE) {
 			$this->data['distinct'] = $this->precompiler->prepare_boolean($distinct);
@@ -139,7 +136,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @access public
 		 * @param string $table                         the table to be accessed
 		 * @param string $alias                         the alias to be used for the specified table
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
 		 */
 		public function from($table, $alias = NULL) {
 			$table = $this->precompiler->prepare_identifier($table);
@@ -156,7 +153,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 *
 		 * @access public
 		 * @param string $column                        the column(s) to be grouped
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
 		 */
 		public function group_by($column) {
 			$fields = (is_array($column)) ? $column : array($column);
@@ -175,17 +172,17 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @param string $operator                      the operator to be used
 		 * @param string $value                         the value the column is constrained with
 		 * @param string $connector                     the connector to be used
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
-		 * @throws Throwable\SQL\Exception              indicates an invalid SQL build instruction
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates an invalid SQL build instruction
 		 */
 		public function having($column, $operator, $value, $connector = 'AND') {
 			if (empty($this->data['group_by'])) {
-				throw new Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Must declare a GROUP BY clause before declaring a "having" constraint.', array(':column' => $column, ':operator' => $operator, ':value' => $value, ':connector' => $connector));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Must declare a GROUP BY clause before declaring a "having" constraint.', array(':column' => $column, ':operator' => $operator, ':value' => $value, ':connector' => $connector));
 			}
 			$operator = $this->precompiler->prepare_operator($operator, 'COMPARISON');
-			if (($operator == DB\SQL\Operator::_BETWEEN_) OR ($operator == DB\SQL\Operator::_NOT_BETWEEN_)) {
+			if (($operator == \Leap\Core\DB\SQL\Operator::_BETWEEN_) OR ($operator == \Leap\Core\DB\SQL\Operator::_NOT_BETWEEN_)) {
 				if ( ! is_array($value)) {
-					throw new Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Operator requires the value to be declared as an array.', array(':column' => $column, ':operator' => $operator, ':value' => $value, ':connector' => $connector));
+					throw new \Leap\Core\Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Operator requires the value to be declared as an array.', array(':column' => $column, ':operator' => $operator, ':value' => $value, ':connector' => $connector));
 				}
 				$column = $this->precompiler->prepare_identifier($column);
 				$value0 = $this->precompiler->prepare_value($value[0]);
@@ -194,21 +191,21 @@ namespace Leap\Core\DB\SQL\Select {
 				$this->data['having'][] = array($connector, "{$column} {$operator} {$value0} AND {$value1}");
 			}
 			else {
-				if (($operator == DB\SQL\Operator::_IN_ OR $operator == DB\SQL\Operator::_NOT_IN_) AND ! is_array($value)) {
-					throw new Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Operator requires the value to be declared as an array.', array(':column' => $column, ':operator' => $operator, ':value' => $value, ':connector' => $connector));
+				if (($operator == \Leap\Core\DB\SQL\Operator::_IN_ OR $operator == \Leap\Core\DB\SQL\Operator::_NOT_IN_) AND ! is_array($value)) {
+					throw new \Leap\Core\Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Operator requires the value to be declared as an array.', array(':column' => $column, ':operator' => $operator, ':value' => $value, ':connector' => $connector));
 				}
 				if ($value === NULL) {
 					switch ($operator) {
-						case DB\SQL\Operator::_EQUAL_TO_:
-							$operator = DB\SQL\Operator::_IS_;
+						case \Leap\Core\DB\SQL\Operator::_EQUAL_TO_:
+							$operator = \Leap\Core\DB\SQL\Operator::_IS_;
 						break;
-						case DB\SQL\Operator::_NOT_EQUIVALENT_:
-							$operator = DB\SQL\Operator::_IS_NOT_;
+						case \Leap\Core\DB\SQL\Operator::_NOT_EQUIVALENT_:
+							$operator = \Leap\Core\DB\SQL\Operator::_IS_NOT_;
 						break;
 					}
 				}
 				$column = $this->precompiler->prepare_identifier($column);
-				$escape = (in_array($operator, array(DB\SQL\Operator::_LIKE_, DB\SQL\Operator::_NOT_LIKE_)))
+				$escape = (in_array($operator, array(\Leap\Core\DB\SQL\Operator::_LIKE_, \Leap\Core\DB\SQL\Operator::_NOT_LIKE_)))
 					? '\\\\'
 					: NULL;
 				$value = $this->precompiler->prepare_value($value, $escape);
@@ -224,12 +221,12 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @access public
 		 * @param string $parenthesis                   the parenthesis to be used
 		 * @param string $connector                     the connector to be used
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
-		 * @throws Throwable\SQL\Exception              indicates an invalid SQL build instruction
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates an invalid SQL build instruction
 		 */
 		public function having_block($parenthesis, $connector = 'AND') {
 			if (empty($this->data['group_by'])) {
-				throw new Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Must declare a GROUP BY clause before declaring a "having" constraint.', array(':parenthesis' => $parenthesis, ':connector' => $connector));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Must declare a GROUP BY clause before declaring a "having" constraint.', array(':parenthesis' => $parenthesis, ':connector' => $connector));
 			}
 			$parenthesis = $this->precompiler->prepare_parenthesis($parenthesis);
 			$connector = $this->precompiler->prepare_connector($connector);
@@ -244,7 +241,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @param string $type                          the type of join
 		 * @param string $table                         the table to be joined
 		 * @param string $alias                         the alias to be used for the specified table
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
 		 */
 		public function join($type, $table, $alias = NULL) {
 			$table = 'JOIN ' . $this->precompiler->prepare_identifier($table);
@@ -265,7 +262,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 *
 		 * @access public
 		 * @param integer $limit                        the "limit" constraint
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
 		 */
 		public function limit($limit) {
 			$this->data['limit'] = $this->precompiler->prepare_natural($limit);
@@ -277,7 +274,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 *
 		 * @access public
 		 * @param integer $offset                       the "offset" constraint
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
 		 */
 		public function offset($offset) {
 			$this->data['offset'] = $this->precompiler->prepare_natural($offset);
@@ -291,15 +288,15 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @param string $column0                       the column to be constrained on
 		 * @param string $operator                      the operator to be used
 		 * @param string $column1                       the constraint column
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
-		 * @throws Throwable\SQL\Exception              indicates an invalid SQL build instruction
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates an invalid SQL build instruction
 		 */
 		public function on($column0, $operator, $column1) {
 			if ( ! empty($this->data['join'])) {
 				$index = count($this->data['join']) - 1;
 				$condition = $this->data['join'][$index][2];
 				if ( ! empty($condition)) {
-					throw new Throwable\SQL\Exception('Message: Invalid build instruction. Reason: Must not declare two different types of constraints on a JOIN statement.', array(':column0' => $column0, ':operator' => $operator, ':column1:' => $column1));
+					throw new \Leap\Core\Throwable\SQL\Exception('Message: Invalid build instruction. Reason: Must not declare two different types of constraints on a JOIN statement.', array(':column0' => $column0, ':operator' => $operator, ':column1:' => $column1));
 				}
 				$column0 = $this->precompiler->prepare_identifier($column0);
 				$operator = $this->precompiler->prepare_operator($operator, 'COMPARISON');
@@ -307,7 +304,7 @@ namespace Leap\Core\DB\SQL\Select {
 				$this->data['join'][$index][1][] = "{$column0} {$operator} {$column1}";
 			}
 			else {
-				throw new Throwable\SQL\Exception('Message: Invalid build instruction. Reason: Must declare a JOIN clause before declaring an "on" constraint.', array(':column0' => $column0, ':operator' => $operator, ':column1:' => $column1));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Invalid build instruction. Reason: Must declare a JOIN clause before declaring an "on" constraint.', array(':column0' => $column0, ':operator' => $operator, ':column1:' => $column1));
 			}
 			return $this;
 		}
@@ -321,7 +318,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 *                                              column will sorted either in ascending or
 		 *                                              descending order
 		 * @param string $nulls                         the weight to be given to null values
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
 		 */
 		public function order_by($column, $ordering = 'ASC', $nulls = 'DEFAULT') {
 			$this->data['order_by'][] = $this->precompiler->prepare_ordering($column, $ordering, $nulls);
@@ -335,7 +332,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @access public
 		 * @param integer $offset                       the "offset" constraint
 		 * @param integer $limit                        the "limit" constraint
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
 		 */
 		public function page($offset, $limit) {
 			$this->offset($offset);
@@ -347,7 +344,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * This method resets the current builder.
 		 *
 		 * @access public
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Builder                a reference to the current instance
 		 */
 		public function reset() {
 			$this->data = array(
@@ -372,21 +369,21 @@ namespace Leap\Core\DB\SQL\Select {
 		 *
 		 * @access public
 		 * @param string $column                        the column to be constrained
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
-		 * @throws Throwable\SQL\Exception              indicates an invalid SQL build instruction
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates an invalid SQL build instruction
 		 */
 		public function using($column) {
 			if ( ! empty($this->data['join'])) {
 				$index = count($this->data['join']) - 1;
 				$condition = $this->data['join'][$index][1];
 				if ( ! empty($condition)) {
-					throw new Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Must not declare two different types of constraints on a JOIN statement.', array(':column' => $column));
+					throw new \Leap\Core\Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Must not declare two different types of constraints on a JOIN statement.', array(':column' => $column));
 				}
 				$column = $this->precompiler->prepare_identifier($column);
 				$this->data['join'][$index][2][] = $column;
 			}
 			else {
-				throw new Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Must declare a JOIN clause before declaring a "using" constraint.', array(':column' => $column));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Must declare a JOIN clause before declaring a "using" constraint.', array(':column' => $column));
 			}
 			return $this;
 		}
@@ -399,14 +396,14 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @param string $operator                      the operator to be used
 		 * @param string $value                         the value the column is constrained with
 		 * @param string $connector                     the connector to be used
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
-		 * @throws Throwable\SQL\Exception              indicates an invalid SQL build instruction
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
+		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates an invalid SQL build instruction
 		 */
 		public function where($column, $operator, $value, $connector = 'AND') {
 			$operator = $this->precompiler->prepare_operator($operator, 'COMPARISON');
-			if (($operator == DB\SQL\Operator::_BETWEEN_) OR ($operator == DB\SQL\Operator::_NOT_BETWEEN_)) {
+			if (($operator == \Leap\Core\DB\SQL\Operator::_BETWEEN_) OR ($operator == \Leap\Core\DB\SQL\Operator::_NOT_BETWEEN_)) {
 				if ( ! is_array($value)) {
-					throw new Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Operator requires the value to be declared as an array.', array(':column' => $column, ':operator' => $operator, ':value' => $value, ':connector' => $connector));
+					throw new \Leap\Core\Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Operator requires the value to be declared as an array.', array(':column' => $column, ':operator' => $operator, ':value' => $value, ':connector' => $connector));
 				}
 				$column = $this->precompiler->prepare_identifier($column);
 				$value0 = $this->precompiler->prepare_value($value[0]);
@@ -415,21 +412,21 @@ namespace Leap\Core\DB\SQL\Select {
 				$this->data['where'][] = array($connector, "{$column} {$operator} {$value0} AND {$value1}");
 			}
 			else {
-				if ((($operator == DB\SQL\Operator::_IN_) OR ($operator == DB\SQL\Operator::_NOT_IN_)) AND ! is_array($value)) {
-					throw new Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Operator requires the value to be declared as an array.', array(':column' => $column, ':operator' => $operator, ':value' => $value, ':connector' => $connector));
+				if ((($operator == \Leap\Core\DB\SQL\Operator::_IN_) OR ($operator == \Leap\Core\DB\SQL\Operator::_NOT_IN_)) AND ! is_array($value)) {
+					throw new \Leap\Core\Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: Operator requires the value to be declared as an array.', array(':column' => $column, ':operator' => $operator, ':value' => $value, ':connector' => $connector));
 				}
 				if ($value === NULL) {
 					switch ($operator) {
-						case DB\SQL\Operator::_EQUAL_TO_:
-							$operator = DB\SQL\Operator::_IS_;
+						case \Leap\Core\DB\SQL\Operator::_EQUAL_TO_:
+							$operator = \Leap\Core\DB\SQL\Operator::_IS_;
 						break;
-						case DB\SQL\Operator::_NOT_EQUIVALENT_:
-							$operator = DB\SQL\Operator::_IS_NOT_;
+						case \Leap\Core\DB\SQL\Operator::_NOT_EQUIVALENT_:
+							$operator = \Leap\Core\DB\SQL\Operator::_IS_NOT_;
 						break;
 					}
 				}
 				$column = $this->precompiler->prepare_identifier($column);
-				$escape = (in_array($operator, array(DB\SQL\Operator::_LIKE_, DB\SQL\Operator::_NOT_LIKE_)))
+				$escape = (in_array($operator, array(\Leap\Core\DB\SQL\Operator::_LIKE_, \Leap\Core\DB\SQL\Operator::_NOT_LIKE_)))
 					? '\\\\'
 					: NULL;
 				$value = $this->precompiler->prepare_value($value, $escape);
@@ -445,7 +442,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @access public
 		 * @param string $parenthesis                   the parenthesis to be used
 		 * @param string $connector                     the connector to be used
-		 * @return DB\SQL\Select\Builder                a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Select\Builder     a reference to the current instance
 		 */
 		public function where_block($parenthesis, $connector = 'AND') {
 			$parenthesis = $this->precompiler->prepare_parenthesis($parenthesis);

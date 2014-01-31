@@ -28,7 +28,7 @@
  *
  * @abstract
  */
-abstract class Base\DB\Oracle\Insert\Builder extends DB\SQL\Insert\Builder {
+abstract class Base\DB\Oracle\Insert\Builder extends \Leap\Core\DB\SQL\Insert\Builder {
 
 	/**
 	 * This method returns the SQL statement.

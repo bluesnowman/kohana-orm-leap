@@ -27,4 +27,4 @@
  *
  * @abstract
  */
-abstract class Base\DB\PostgreSQL\DataReader\PDO extends DB\SQL\DataReader\PDO {}
+abstract class Base\DB\PostgreSQL\DataReader\PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}

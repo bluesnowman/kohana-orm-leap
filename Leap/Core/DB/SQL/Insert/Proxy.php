@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\SQL\Insert {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-
 	/**
 	 * This class builds an SQL insert statement.
 	 *
@@ -30,14 +27,14 @@ namespace Leap\Core\DB\SQL\Insert {
 	 * @package Leap\Core\DB\SQL\Insert
 	 * @version 2014-01-26
 	 */
-	class Proxy extends Core\Object implements DB\SQL\Statement {
+	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
 		/**
 		 * This variable stores an instance of the SQL statement builder of the preferred SQL
 		 * language dialect.
 		 *
 		 * @access protected
-		 * @var DB\SQL\Builder
+		 * @var \Leap\Core\DB\SQL\Builder
 		 */
 		protected $builder;
 
@@ -45,7 +42,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * This variable stores a reference to the data source.
 		 *
 		 * @access protected
-		 * @var DB\DataSource
+		 * @var \Leap\Core\DB\DataSource
 		 */
 		protected $data_source;
 
@@ -56,7 +53,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * @param mixed $config                             the data source configurations
 		 */
 		public function __construct($config) {
-			$this->data_source = DB\DataSource::instance($config);
+			$this->data_source = \Leap\Core\DB\DataSource::instance($config);
 			$builder = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Insert\\Builder';
 			$this->builder = new $builder($this->data_source);
 		}
@@ -79,7 +76,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * @param string $column                 	        the column to be set
 		 * @param string $value                  	        the value to be set
 		 * @param integer $row						        the index of the row
-		 * @return DB\SQL\Insert\Proxy           	        a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Insert\Proxy           a reference to the current instance
 		 */
 		public function column($column, $value, $row = 0) {
 			$this->builder->column($column, $value, $row);
@@ -95,7 +92,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		 */
 		public function execute() {
 			$auto_increment = ((func_num_args() > 0) AND (func_get_arg(0) === TRUE));
-			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
+			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
 			$connection->execute($this->statement(TRUE));
 			$primary_key = ($auto_increment) ? $connection->get_last_insert_id() : 0;
 			return $primary_key;
@@ -106,7 +103,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		 *
 		 * @access public
 		 * @param string $table                             the database table to be modified
-		 * @return DB\SQL\Insert\Proxy           	        a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Insert\Proxy           a reference to the current instance
 		 */
 		public function into($table) {
 			$this->builder->into($table);
@@ -117,7 +114,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * This method resets the current builder.
 		 *
 		 * @access public
-		 * @return DB\SQL\Insert\Proxy                      a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Insert\Proxy           a reference to the current instance
 		 */
 		public function reset() {
 			$this->builder->reset();
@@ -130,7 +127,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * @access public
 		 * @param array $values						        the columns/values pairs to be set
 		 * @param integer $row						        the index of the row
-		 * @return DB\SQL\Insert\Proxy  			        a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Insert\Proxy  			a reference to the current instance
 		 */
 		public function row(Array $values, $row = 0) {
 			$this->builder->row($values, $row);

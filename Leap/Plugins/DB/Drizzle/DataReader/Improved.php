@@ -31,7 +31,7 @@ namespace Leap\Plugins\DB\Drizzle\DataReader {
 	 *
 	 * @abstract
 	 */
-	abstract class Improved extends DB\SQL\DataReader\Standard {
+	abstract class Improved extends \Leap\Core\DB\SQL\DataReader\Standard {
 
 		/**
 		 * This method initializes the class.

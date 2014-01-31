@@ -30,7 +30,7 @@ namespace Leap\Plugins\DB\DB2\Update {
 	 *
 	 * @abstract
 	 */
-	abstract class Builder extends DB\SQL\Update\Builder {
+	abstract class Builder extends \Leap\Core\DB\SQL\Update\Builder {
 
 		/**
 		 * This method returns the SQL statement.

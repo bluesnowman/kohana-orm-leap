@@ -99,7 +99,7 @@ namespace Leap\Core\DB\ORM\Field {
 					: NULL;
 			}
 
-			if ( ! ($default instanceof DB\SQL\Expression)) {
+			if ( ! ($default instanceof \Leap\Core\DB\SQL\Expression)) {
 				if ($default !== NULL) {
 					settype($default, $this->metadata['type']);
 				}
@@ -127,7 +127,7 @@ namespace Leap\Core\DB\ORM\Field {
 		public function __set($key, $value) {
 			switch ($key) {
 				case 'value':
-					if ( ! ($value instanceof DB\SQL\Expression)) {
+					if ( ! ($value instanceof \Leap\Core\DB\SQL\Expression)) {
 						if ($value !== NULL) {
 							$value = number_format( (float) $value, $this->metadata['scale'], '.', '');
 							settype($value, $this->metadata['type']);

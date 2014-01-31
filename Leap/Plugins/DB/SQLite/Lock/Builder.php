@@ -28,14 +28,14 @@
  *
  * @abstract
  */
-abstract class Base\DB\SQLite\Lock\Builder extends DB\SQL\Lock\Builder {
+abstract class Base\DB\SQLite\Lock\Builder extends \Leap\Core\DB\SQL\Lock\Builder {
 
 	/**
 	 * This method acquires the required locks.
 	 *
 	 * @access public
 	 * @override
-	 * @return DB\SQL\Lock\Builder                     a reference to the current instance
+	 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
 	 */
 	public function acquire() {
 		$this->connection->execute($this->data[0]);
@@ -49,7 +49,7 @@ abstract class Base\DB\SQLite\Lock\Builder extends DB\SQL\Lock\Builder {
 	 * @override
 	 * @param string $table                            the table to be locked
 	 * @param array $hints                             the hints to be applied
-	 * @return DB\SQL\Lock\Builder                     a reference to the current instance
+	 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
 	 */
 	public function add($table, Array $hints = NULL) {
 		$mode = 'EXCLUSIVE';
@@ -71,7 +71,7 @@ abstract class Base\DB\SQLite\Lock\Builder extends DB\SQL\Lock\Builder {
 	 * @override
 	 * @param string $method                           the method to be used to release
 	 *                                                 the lock(s)
-	 * @return DB\SQL\Lock\Builder                     a reference to the current instance
+	 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
 	 */
 	public function release($method = '') {
 		switch (strtoupper($method)) {

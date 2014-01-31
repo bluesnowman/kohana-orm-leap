@@ -31,7 +31,7 @@ namespace Leap\Plugins\DB\Drizzle\DataReader {
 	 *
 	 * @abstract
 	 */
-	abstract class Standard extends DB\SQL\DataReader\Standard {
+	abstract class Standard extends \Leap\Core\DB\SQL\DataReader\Standard {
 
 		/**
 		 * This method initializes the class.

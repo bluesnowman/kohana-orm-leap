@@ -26,7 +26,7 @@
  *
  * @abstract
  */
-abstract class Base\DB\PostgreSQL\Precompiler extends DB\SQL\Precompiler {
+abstract class Base\DB\PostgreSQL\Precompiler extends \Leap\Core\DB\SQL\Precompiler {
 
 	/**
 	 * This constant represents an opening identifier quote character.
@@ -77,7 +77,7 @@ abstract class Base\DB\PostgreSQL\Precompiler extends DB\SQL\Precompiler {
 		if ($expr instanceof DB\PostgreSQL\Select\Builder) {
 			return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 		}
-		else if ($expr instanceof DB\SQL\Expression) {
+		else if ($expr instanceof \Leap\Core\DB\SQL\Expression) {
 			return $expr->value($this);
 		}
 		else if (class_exists('\\Database\\Expression') AND ($expr instanceof \Database\Expression)) {
@@ -113,22 +113,22 @@ abstract class Base\DB\PostgreSQL\Precompiler extends DB\SQL\Precompiler {
 		if (is_string($expr)) {
 			$expr = strtoupper($expr);
 			switch ($expr) {
-				case DB\SQL\JoinType::_CROSS_:
-				case DB\SQL\JoinType::_INNER_:
-				case DB\SQL\JoinType::_LEFT_:
-				case DB\SQL\JoinType::_LEFT_OUTER_:
-				case DB\SQL\JoinType::_RIGHT_:
-				case DB\SQL\JoinType::_RIGHT_OUTER_:
-				case DB\SQL\JoinType::_FULL_:
-				case DB\SQL\JoinType::_FULL_OUTER_:
-				case DB\SQL\JoinType::_NATURAL_:
-				case DB\SQL\JoinType::_NATURAL_INNER_:
-				case DB\SQL\JoinType::_NATURAL_LEFT_:
-				case DB\SQL\JoinType::_NATURAL_LEFT_OUTER_:
-				case DB\SQL\JoinType::_NATURAL_RIGHT_:
-				case DB\SQL\JoinType::_NATURAL_RIGHT_OUTER_:
-				case DB\SQL\JoinType::_NATURAL_FULL_:
-				case DB\SQL\JoinType::_NATURAL_FULL_OUTER_:
+				case \Leap\Core\DB\SQL\JoinType::_CROSS_:
+				case \Leap\Core\DB\SQL\JoinType::_INNER_:
+				case \Leap\Core\DB\SQL\JoinType::_LEFT_:
+				case \Leap\Core\DB\SQL\JoinType::_LEFT_OUTER_:
+				case \Leap\Core\DB\SQL\JoinType::_RIGHT_:
+				case \Leap\Core\DB\SQL\JoinType::_RIGHT_OUTER_:
+				case \Leap\Core\DB\SQL\JoinType::_FULL_:
+				case \Leap\Core\DB\SQL\JoinType::_FULL_OUTER_:
+				case \Leap\Core\DB\SQL\JoinType::_NATURAL_:
+				case \Leap\Core\DB\SQL\JoinType::_NATURAL_INNER_:
+				case \Leap\Core\DB\SQL\JoinType::_NATURAL_LEFT_:
+				case \Leap\Core\DB\SQL\JoinType::_NATURAL_LEFT_OUTER_:
+				case \Leap\Core\DB\SQL\JoinType::_NATURAL_RIGHT_:
+				case \Leap\Core\DB\SQL\JoinType::_NATURAL_RIGHT_OUTER_:
+				case \Leap\Core\DB\SQL\JoinType::_NATURAL_FULL_:
+				case \Leap\Core\DB\SQL\JoinType::_NATURAL_FULL_OUTER_:
 					return $expr;
 				break;
 			}
@@ -161,31 +161,31 @@ abstract class Base\DB\PostgreSQL\Precompiler extends DB\SQL\Precompiler {
 			$expr = strtoupper($expr);
 			if ($group == 'COMPARISON') {
 				switch ($expr) {
-					case DB\SQL\Operator::_NOT_EQUAL_TO_:
-					case DB\SQL\Operator::_NOT_EQUIVALENT_:
-						return DB\SQL\Operator::_NOT_EQUIVALENT_;
-					case DB\SQL\Operator::_EQUAL_TO_:
-					case DB\SQL\Operator::_BETWEEN_:
-					case DB\SQL\Operator::_NOT_BETWEEN_:
+					case \Leap\Core\DB\SQL\Operator::_NOT_EQUAL_TO_:
+					case \Leap\Core\DB\SQL\Operator::_NOT_EQUIVALENT_:
+						return \Leap\Core\DB\SQL\Operator::_NOT_EQUIVALENT_;
+					case \Leap\Core\DB\SQL\Operator::_EQUAL_TO_:
+					case \Leap\Core\DB\SQL\Operator::_BETWEEN_:
+					case \Leap\Core\DB\SQL\Operator::_NOT_BETWEEN_:
 					case '<<':   // is contained within
 					case '<<=':  // is contained within or equals
 					case '>>':   // contains
 					case '>>=':  // contains or equals
-					case DB\SQL\Operator::_LIKE_:
+					case \Leap\Core\DB\SQL\Operator::_LIKE_:
 					case '~~':   // like
-					case DB\SQL\Operator::_NOT_LIKE_:
+					case \Leap\Core\DB\SQL\Operator::_NOT_LIKE_:
 					case '!~~':  // not like
-					case DB\SQL\Operator::_LESS_THAN_:
-					case DB\SQL\Operator::_LESS_THAN_OR_EQUAL_TO_:
-					case DB\SQL\Operator::_GREATER_THAN_:
-					case DB\SQL\Operator::_GREATER_THAN_OR_EQUAL_TO_:
-					case DB\SQL\Operator::_IN_:
-					case DB\SQL\Operator::_NOT_IN_:
+					case \Leap\Core\DB\SQL\Operator::_LESS_THAN_:
+					case \Leap\Core\DB\SQL\Operator::_LESS_THAN_OR_EQUAL_TO_:
+					case \Leap\Core\DB\SQL\Operator::_GREATER_THAN_:
+					case \Leap\Core\DB\SQL\Operator::_GREATER_THAN_OR_EQUAL_TO_:
+					case \Leap\Core\DB\SQL\Operator::_IN_:
+					case \Leap\Core\DB\SQL\Operator::_NOT_IN_:
 					case '!!=':  // not in
-					case DB\SQL\Operator::_IS_:
-					case DB\SQL\Operator::_IS_NOT_:
-					case DB\SQL\Operator::_SIMILAR_TO_:
-					case DB\SQL\Operator::_NOT_SIMILAR_TO_:
+					case \Leap\Core\DB\SQL\Operator::_IS_:
+					case \Leap\Core\DB\SQL\Operator::_IS_NOT_:
+					case \Leap\Core\DB\SQL\Operator::_SIMILAR_TO_:
+					case \Leap\Core\DB\SQL\Operator::_NOT_SIMILAR_TO_:
 					case '~':   // Match (regex), case sensitive
 					case '~*':  // Match (regex), case insensitive
 					case '!~':  // Does not match (regex), case sensitive
@@ -207,12 +207,12 @@ abstract class Base\DB\PostgreSQL\Precompiler extends DB\SQL\Precompiler {
 			}
 			else if ($group == 'SET') {
 				switch ($expr) {
-					case DB\SQL\Operator::_EXCEPT_:
-					case DB\SQL\Operator::_EXCEPT_ALL_:
-					case DB\SQL\Operator::_INTERSECT_:
-					case DB\SQL\Operator::_INTERSECT_ALL_:
-					case DB\SQL\Operator::_UNION_:
-					case DB\SQL\Operator::_UNION_ALL_:
+					case \Leap\Core\DB\SQL\Operator::_EXCEPT_:
+					case \Leap\Core\DB\SQL\Operator::_EXCEPT_ALL_:
+					case \Leap\Core\DB\SQL\Operator::_INTERSECT_:
+					case \Leap\Core\DB\SQL\Operator::_INTERSECT_ALL_:
+					case \Leap\Core\DB\SQL\Operator::_UNION_:
+					case \Leap\Core\DB\SQL\Operator::_UNION_ALL_:
 						return $expr;
 					break;
 				}
@@ -290,7 +290,7 @@ abstract class Base\DB\PostgreSQL\Precompiler extends DB\SQL\Precompiler {
 			if ($expr instanceof DB\PostgreSQL\Select\Builder) {
 				return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 			}
-			else if ($expr instanceof DB\SQL\Expression) {
+			else if ($expr instanceof \Leap\Core\DB\SQL\Expression) {
 				return $expr->value($this);
 			}
 			else if (class_exists('\\Database\\Expression') AND ($expr instanceof \Database\Expression)) {

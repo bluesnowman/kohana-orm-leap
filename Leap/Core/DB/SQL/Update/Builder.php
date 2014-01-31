@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\SQL\Update {
 
-	use Leap\Core\DB;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class builds an SQL update statement.
 	 *
@@ -31,15 +28,15 @@ namespace Leap\Core\DB\SQL\Update {
 	 * @package Leap\Core\DB\SQL\Update
 	 * @version 2014-01-26
 	 */
-	abstract class Builder extends DB\SQL\Builder {
+	abstract class Builder extends \Leap\Core\DB\SQL\Builder {
 
 		/**
 		 * This constructor instantiates this class using the specified data source.
 		 *
 		 * @access public
-		 * @param DB\DataSource $data_source                the data source to be used
+		 * @param \Leap\Core\DB\DataSource $data_source    the data source to be used
 		 */
-		public function __construct(DB\DataSource $data_source) {
+		public function __construct(\Leap\Core\DB\DataSource $data_source) {
 			$this->dialect = $data_source->dialect;
 			$precompiler = '\\Leap\\Plugins\\DB\\' . $this->dialect . '\\Precompiler';
 			$this->precompiler = new $precompiler($data_source);
@@ -51,7 +48,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 *
 		 * @access public
 		 * @param integer $limit                            the "limit" constraint
-		 * @return DB\SQL\Update\Builder                    a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Builder         a reference to the current instance
 		 */
 		public function limit($limit) {
 			$this->data['limit'] = $this->precompiler->prepare_natural($limit);
@@ -63,7 +60,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 *
 		 * @access public
 		 * @param integer $offset                           the "offset" constraint
-		 * @return DB\SQL\Update\Builder                    a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Builder         a reference to the current instance
 		 */
 		public function offset($offset) {
 			$this->data['offset'] = $this->precompiler->prepare_natural($offset);
@@ -79,7 +76,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 *                                                  column will sorted either in ascending or
 		 *                                                  descending order
 		 * @param string $nulls                             the weight to be given to null values
-		 * @return DB\SQL\Update\Builder                    a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Builder         a reference to the current instance
 		 */
 		public function order_by($column, $ordering = 'ASC', $nulls = 'DEFAULT') {
 			$this->data['order_by'][] = $this->precompiler->prepare_ordering($column, $ordering, $nulls);
@@ -90,7 +87,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 * This method resets the current builder.
 		 *
 		 * @access public
-		 * @return DB\SQL\Update\Builder                    a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Builder                    a reference to the current instance
 		 */
 		public function reset() {
 			$this->data = array(
@@ -110,7 +107,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 * @access public
 		 * @param string $column                            the column to be set
 		 * @param string $value                             the value to be set
-		 * @return DB\SQL\Update\Builder                    a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Builder         a reference to the current instance
 		 */
 		public function set($column, $value) {
 			$column = $this->precompiler->prepare_identifier($column);
@@ -125,7 +122,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 * @access public
 		 * @param string $table                             the database table to be modified
 		 * @param string $alias                             the alias to be used for the specified table
-		 * @return DB\SQL\Update\Builder                    a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Builder         a reference to the current instance
 		 */
 		public function table($table, $alias = NULL) {
 			$table = $this->precompiler->prepare_identifier($table);
@@ -145,14 +142,14 @@ namespace Leap\Core\DB\SQL\Update {
 		 * @param string $operator                          the operator to be used
 		 * @param string $value                             the value the column is constrained with
 		 * @param string $connector                         the connector to be used
-		 * @return DB\SQL\Update\Builder                    a reference to the current instance
-		 * @throws Throwable\SQL\Exception                  indicates an invalid SQL build instruction
+		 * @return \Leap\Core\DB\SQL\Update\Builder         a reference to the current instance
+		 * @throws \Leap\Core\Throwable\SQL\Exception       indicates an invalid SQL build instruction
 		 */
 		public function where($column, $operator, $value, $connector = 'AND') {
 			$operator = $this->precompiler->prepare_operator($operator, 'COMPARISON');
-			if (($operator == DB\SQL\Operator::_BETWEEN_) OR ($operator == DB\SQL\Operator::_NOT_BETWEEN_)) {
+			if (($operator == \Leap\Core\DB\SQL\Operator::_BETWEEN_) OR ($operator == \Leap\Core\DB\SQL\Operator::_NOT_BETWEEN_)) {
 				if ( ! is_array($value)) {
-					throw new Throwable\SQL\Exception('Message: Invalid build instruction. Reason: Operator requires the value to be declared as an array.', array(':column' => $column, ':operator' => $operator, ':value' => $value, ':connector' => $connector));
+					throw new \Leap\Core\Throwable\SQL\Exception('Message: Invalid build instruction. Reason: Operator requires the value to be declared as an array.', array(':column' => $column, ':operator' => $operator, ':value' => $value, ':connector' => $connector));
 				}
 				$column = $this->precompiler->prepare_identifier($column);
 				$value0 = $this->precompiler->prepare_value($value[0]);
@@ -161,21 +158,21 @@ namespace Leap\Core\DB\SQL\Update {
 				$this->data['where'][] = array($connector, "{$column} {$operator} {$value0} AND {$value1}");
 			}
 			else {
-				if (($operator == DB\SQL\Operator::_IN_ OR $operator == DB\SQL\Operator::_NOT_IN_) AND ! is_array($value)) {
-					throw new Throwable\SQL\Exception('Message: Invalid build instruction. Reason: Operator requires the value to be declared as an array.', array(':column' => $column, ':operator' => $operator, ':value' => $value, ':connector' => $connector));
+				if (($operator == \Leap\Core\DB\SQL\Operator::_IN_ OR $operator == \Leap\Core\DB\SQL\Operator::_NOT_IN_) AND ! is_array($value)) {
+					throw new \Leap\Core\Throwable\SQL\Exception('Message: Invalid build instruction. Reason: Operator requires the value to be declared as an array.', array(':column' => $column, ':operator' => $operator, ':value' => $value, ':connector' => $connector));
 				}
 				if ($value === NULL) {
 					switch ($operator) {
-						case DB\SQL\Operator::_EQUAL_TO_:
-							$operator = DB\SQL\Operator::_IS_;
+						case \Leap\Core\DB\SQL\Operator::_EQUAL_TO_:
+							$operator = \Leap\Core\DB\SQL\Operator::_IS_;
 						break;
-						case DB\SQL\Operator::_NOT_EQUIVALENT_:
-							$operator = DB\SQL\Operator::_IS_NOT_;
+						case \Leap\Core\DB\SQL\Operator::_NOT_EQUIVALENT_:
+							$operator = \Leap\Core\DB\SQL\Operator::_IS_NOT_;
 						break;
 					}
 				}
 				$column = $this->precompiler->prepare_identifier($column);
-				$escape = (in_array($operator, array(DB\SQL\Operator::_LIKE_, DB\SQL\Operator::_NOT_LIKE_)))
+				$escape = (in_array($operator, array(\Leap\Core\DB\SQL\Operator::_LIKE_, \Leap\Core\DB\SQL\Operator::_NOT_LIKE_)))
 					? '\\\\'
 					: NULL;
 				$value = $this->precompiler->prepare_value($value, $escape);
@@ -191,7 +188,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 * @access public
 		 * @param string $parenthesis                       the parenthesis to be used
 		 * @param string $connector                         the connector to be used
-		 * @return DB\SQL\Update\Builder                    a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Builder         a reference to the current instance
 		 */
 		public function where_block($parenthesis, $connector = 'AND') {
 			$parenthesis = $this->precompiler->prepare_parenthesis($parenthesis);

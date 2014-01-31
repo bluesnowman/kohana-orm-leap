@@ -305,4 +305,4 @@ Change Log for Leap ORM
 * Added an extra parameter to DB\ORM::model.
 * Improved algorithm in DB\ORM\Model::load.
 * Added DB\ResultSet::get.
-* Expanded the functionality of DB\SQL\Select\Builder::group_by.
+* Expanded the functionality of \Leap\Core\DB\SQL\Select\Builder::group_by.

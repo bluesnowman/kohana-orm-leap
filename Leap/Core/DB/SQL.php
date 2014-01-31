@@ -30,7 +30,7 @@ namespace Leap\Core\DB {
 	class SQL extends \Leap\Core\Object {
 
 		/**
-		 * This method returns an instance of the DB\SQL\Delete\Proxy.
+		 * This method returns an instance of the \Leap\Core\DB\SQL\Delete\Proxy.
 		 *
 		 * @access public
 		 * @static
@@ -59,7 +59,7 @@ namespace Leap\Core\DB {
 		}
 
 		/**
-		 * This method returns an instance of the DB\SQL\Insert\Proxy.
+		 * This method returns an instance of the \Leap\Core\DB\SQL\Insert\Proxy.
 		 *
 		 * @access public
 		 * @static
@@ -88,7 +88,7 @@ namespace Leap\Core\DB {
 		}
 
 		/**
-		 * This method returns an instance of the DB\SQL\Select\Proxy.
+		 * This method returns an instance of the \Leap\Core\DB\SQL\Select\Proxy.
 		 *
 		 * @access public
 		 * @static
@@ -102,7 +102,7 @@ namespace Leap\Core\DB {
 		}
 
 		/**
-		 * This method returns an instance of the DB\SQL\Update\Proxy.
+		 * This method returns an instance of the \Leap\Core\DB\SQL\Update\Proxy.
 		 *
 		 * @access public
 		 * @static

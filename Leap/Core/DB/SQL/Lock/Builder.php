@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\SQL\Lock {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-
 	/**
 	 * This class builds an SQL lock statement.
 	 *
@@ -31,13 +28,13 @@ namespace Leap\Core\DB\SQL\Lock {
 	 * @package Leap\Core\DB\SQL\Lock
 	 * @version 2014-01-26
 	 */
-	abstract class Builder extends Core\Object {
+	abstract class Builder extends \Leap\Core\Object {
 
 		/**
 		 * This variable stores a reference to the database connection.
 		 *
 		 * @access protected
-		 * @var DB\Connection\Driver
+		 * @var \Leap\Core\DB\Connection\Driver
 		 */
 		protected $connection;
 
@@ -53,7 +50,7 @@ namespace Leap\Core\DB\SQL\Lock {
 		 * This variable stores a reference to the pre-compiler.
 		 *
 		 * @access protected
-		 * @var DB\SQL\Precompiler
+		 * @var \Leap\Core\DB\SQL\Precompiler
 		 */
 		protected $precompiler;
 
@@ -61,11 +58,11 @@ namespace Leap\Core\DB\SQL\Lock {
 		 * This constructor instantiates this class using the specified data source.
 		 *
 		 * @access public
-		 * @param DB\Connection\Driver $connection         the connection to be used
+		 * @param \Leap\Core\DB\Connection\Driver $connection   the connection to be used
 		 */
-		public function __construct(DB\Connection\Driver $connection) {
+		public function __construct(\Leap\Core\DB\Connection\Driver $connection) {
 			$this->connection = $connection;
-			$this->precompiler = DB\SQL::precompiler($connection->data_source);
+			$this->precompiler = \Leap\Core\DB\SQL::precompiler($connection->data_source);
 			$this->reset();
 		}
 
@@ -74,7 +71,7 @@ namespace Leap\Core\DB\SQL\Lock {
 		 *
 		 * @access public
 		 * @abstract
-		 * @return DB\SQL\Lock\Builder                     a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
 		 */
 		public abstract function acquire();
 
@@ -85,7 +82,7 @@ namespace Leap\Core\DB\SQL\Lock {
 		 * @abstract
 		 * @param string $table                            the table to be locked
 		 * @param array $hints                             the hints to be applied
-		 * @return DB\SQL\Lock\Builder                     a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
 		 */
 		public abstract function add($table, Array $hints = NULL);
 
@@ -96,7 +93,7 @@ namespace Leap\Core\DB\SQL\Lock {
 		 * @abstract
 		 * @param string $method                           the method to be used to release
 		 *                                                 the lock(s)
-		 * @return DB\SQL\Lock\Builder                     a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
 		 */
 		public abstract function release($method = '');
 
@@ -104,7 +101,7 @@ namespace Leap\Core\DB\SQL\Lock {
 		 * This method resets the current builder.
 		 *
 		 * @access public
-		 * @return DB\SQL\Lock\Builder                      a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                      a reference to the current instance
 		 */
 		public function reset() {
 			$this->data = array();
@@ -118,11 +115,11 @@ namespace Leap\Core\DB\SQL\Lock {
 		 *
 		 * @access public
 		 * @static
-		 * @param DB\Connection\Driver $connection         the connection to be used
-		 * @return DB\SQL\Lock\Builder                     an instance of the appropriate
-		 *                                                 SQL lock builder
+		 * @param \Leap\Core\DB\Connection\Driver $connection   the connection to be used
+		 * @return \Leap\Core\DB\SQL\Lock\Builder               an instance of the appropriate
+		 *                                                      SQL lock builder
 		 */
-		public static function factory(DB\Connection\Driver $connection) {
+		public static function factory(\Leap\Core\DB\Connection\Driver $connection) {
 			$class = '\\Leap\\Plugins\\DB\\' . $connection->data_source->dialect . '\\Lock\\Builder';
 			$builder = new $class($connection);
 			return $builder;

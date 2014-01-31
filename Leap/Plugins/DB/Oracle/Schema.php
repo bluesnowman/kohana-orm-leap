@@ -240,7 +240,7 @@ abstract class Base\DB\Oracle\Schema extends DB\Schema {
 	 * @see http://www.techonthenet.com/oracle/questions/find_pkeys.php
 	 */
 	public function indexes($table, $like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('t0.TABLE_OWNER', 'schema')
 			->column('t0.TABLE_NAME', 'table')
 			->column('t0.INDEX_NAME', 'index')
@@ -251,21 +251,21 @@ abstract class Base\DB\Oracle\Schema extends DB\Schema {
 			->column(DB\SQL::expr("CASE \"t2\".\"CONSTRAINT_TYPE\" WHEN 'P' THEN 1 ELSE 0 END"), 'primary')
 			->from('SYS.ALL_IND_COLUMNS', 't0')
 			//->join(DB\SQL\JoinType::_LEFT_, 'SYS.ALL_INDEXES', 't1')
-			//->on('t1.OWNER', DB\SQL\Operator::_EQUAL_TO_, 't0.INDEX_OWNER')
-			//->on('t1.INDEX_NAME', DB\SQL\Operator::_EQUAL_TO_, 't0.INDEX_NAME')
+			//->on('t1.OWNER', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't0.INDEX_OWNER')
+			//->on('t1.INDEX_NAME', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't0.INDEX_NAME')
 			->join(DB\SQL\JoinType::_LEFT_, 'SYS.ALL_CONSTRAINTS', 't2')
-			->on('t2.INDEX_OWNER', DB\SQL\Operator::_EQUAL_TO_, 't0.INDEX_OWNER')
-			->on('t2.INDEX_NAME', DB\SQL\Operator::_EQUAL_TO_, 't0.INDEX_NAME')
-			->where('t0.TABLE_NAME', DB\SQL\Operator::_EQUAL_TO_, $table)
-			//->where('t1.STATUS', DB\SQL\Operator::_EQUAL_TO_, 'VALID')
-			->where('t2.STATUS', DB\SQL\Operator::_EQUAL_TO_, 'ENABLED')
+			->on('t2.INDEX_OWNER', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't0.INDEX_OWNER')
+			->on('t2.INDEX_NAME', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't0.INDEX_NAME')
+			->where('t0.TABLE_NAME', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
+			//->where('t1.STATUS', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'VALID')
+			->where('t2.STATUS', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'ENABLED')
 			->order_by(DB\SQL::expr('UPPER("t0"."TABLE_OWNER")'))
 			->order_by(DB\SQL::expr('UPPER("t0"."TABLE_NAME")'))
 			->order_by(DB\SQL::expr('UPPER("t0"."INDEX_NAME")'))
 			->order_by('t0.COLUMN_POSITION');
 
 		if ( ! empty($like)) {
-			$builder->where('t0.INDEX_NAME', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('t0.INDEX_NAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();
@@ -292,7 +292,7 @@ abstract class Base\DB\Oracle\Schema extends DB\Schema {
 	 * @see http://www.razorsql.com/articles/oracle_system_queries.html
 	 */
 	public function tables($like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('OWNER', 'schema')
 			->column('TABLE_NAME', 'table')
 			->column(DB\SQL::expr("'BASE'"), 'type')
@@ -301,7 +301,7 @@ abstract class Base\DB\Oracle\Schema extends DB\Schema {
 			->order_by(DB\SQL::expr('UPPER("TABLE_NAME")'));
 
 		if ( ! empty($like)) {
-			$builder->where('TABLE_NAME', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('TABLE_NAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();
@@ -336,7 +336,7 @@ abstract class Base\DB\Oracle\Schema extends DB\Schema {
 	 * @see http://www.razorsql.com/articles/oracle_system_queries.html
 	 */
 	public function triggers($table, $like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('OWNER', 'schema')
 			->column('TABLE_NAME', 'table')
 			->column('TRIGGER_NAME', 'trigger')
@@ -347,14 +347,14 @@ abstract class Base\DB\Oracle\Schema extends DB\Schema {
 			->column(DB\SQL::expr('0'), 'seq_index')
 			->column(DB\SQL::expr('NULL'), 'created')
 			->from('SYS.ALL_TRIGGERS')
-			->where('TABLE_NAME', DB\SQL\Operator::_EQUAL_TO_, $table)
-			->where('STATUS', DB\SQL\Operator::_EQUAL_TO_, 'ENABLED')
+			->where('TABLE_NAME', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
+			->where('STATUS', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'ENABLED')
 			->order_by(DB\SQL::expr('UPPER("OWNER")'))
 			->order_by(DB\SQL::expr('UPPER("TABLE_NAME")'))
 			->order_by(DB\SQL::expr('UPPER("TRIGGER_NAME")'));
 
 		if ( ! empty($like)) {
-			$builder->where('TRIGGER_NAME', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('TRIGGER_NAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();
@@ -380,7 +380,7 @@ abstract class Base\DB\Oracle\Schema extends DB\Schema {
 	 * @see http://www.razorsql.com/articles/oracle_system_queries.html
 	 */
 	public function views($like = '') {
-		$builder = DB\SQL::select($this->data_source)
+		$builder = \Leap\Core\DB\SQL::select($this->data_source)
 			->column('OWNER', 'schema')
 			->column('VIEW_NAME', 'table')
 			->column(DB\SQL::expr("'VIEW'"), 'type')
@@ -389,7 +389,7 @@ abstract class Base\DB\Oracle\Schema extends DB\Schema {
 			->order_by(DB\SQL::expr('UPPER("VIEW_NAME")'));
 
 		if ( ! empty($like)) {
-			$builder->where('VIEW_NAME', DB\SQL\Operator::_LIKE_, $like);
+			$builder->where('VIEW_NAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 		}
 
 		return $builder->query();

@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\SQL\Delete {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-
 	/**
 	 * This class builds an SQL delete statement.
 	 *
@@ -30,13 +27,13 @@ namespace Leap\Core\DB\SQL\Delete {
 	 * @package Leap\Core\DB\SQL\Delete
 	 * @version 2014-01-26
 	 */
-	class Proxy extends Core\Object implements DB\SQL\Statement {
+	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
 		/**
 		 * This variable stores an instance of the SQL builder class.
 		 *
 		 * @access protected
-		 * @var DB\SQL\Delete\Builder
+		 * @var \Leap\Core\DB\SQL\Delete\Builder
 		 */
 		protected $builder;
 
@@ -44,7 +41,7 @@ namespace Leap\Core\DB\SQL\Delete {
 		 * This variable stores a reference to the data source.
 		 *
 		 * @access protected
-		 * @var DB\DataSource
+		 * @var \Leap\Core\DB\DataSource
 		 */
 		protected $data_source;
 
@@ -55,7 +52,7 @@ namespace Leap\Core\DB\SQL\Delete {
 		 * @param mixed $config                             the data source configurations
 		 */
 		public function __construct($config) {
-			$this->data_source = DB\DataSource::instance($config);
+			$this->data_source = \Leap\Core\DB\DataSource::instance($config);
 			$builder = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Delete\\Builder';
 			$this->builder = new $builder($this->data_source);
 		}
@@ -77,7 +74,7 @@ namespace Leap\Core\DB\SQL\Delete {
 		 * @access public
 		 */
 		public function execute() {
-			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
+			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
 			$connection->execute($this->statement(TRUE));
 		}
 
@@ -86,7 +83,7 @@ namespace Leap\Core\DB\SQL\Delete {
 		 *
 		 * @access public
 		 * @param string $table                             the database table to be modified
-		 * @return DB\SQL\Delete\Proxy                      a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Delete\Proxy           a reference to the current instance
 		 */
 		public function from($table) {
 			$this->builder->from($table);
@@ -98,7 +95,7 @@ namespace Leap\Core\DB\SQL\Delete {
 		 *
 		 * @access public
 		 * @param integer $limit                            the "limit" constraint
-		 * @return DB\SQL\Delete\Proxy                      a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Delete\Proxy           a reference to the current instance
 		 */
 		public function limit($limit) {
 			$this->builder->limit($limit);
@@ -110,7 +107,7 @@ namespace Leap\Core\DB\SQL\Delete {
 		 *
 		 * @access public
 		 * @param integer $offset                           the "offset" constraint
-		 * @return DB\SQL\Delete\Proxy                      a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Delete\Proxy           a reference to the current instance
 		 */
 		public function offset($offset) {
 			$this->builder->offset($offset);
@@ -126,7 +123,7 @@ namespace Leap\Core\DB\SQL\Delete {
 		 *                                                  column will sorted either in ascending or
 		 *                                                  descending order
 		 * @param string $nulls                             the weight to be given to null values
-		 * @return DB\SQL\Delete\Proxy                      a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Delete\Proxy           a reference to the current instance
 		 */
 		public function order_by($column, $ordering = 'ASC', $nulls = 'DEFAULT') {
 			$this->builder->order_by($column, $ordering, $nulls);
@@ -137,7 +134,7 @@ namespace Leap\Core\DB\SQL\Delete {
 		 * This method resets the current builder.
 		 *
 		 * @access public
-		 * @return DB\SQL\Delete\Proxy                      a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Delete\Proxy            a reference to the current instance
 		 */
 		public function reset() {
 			$this->builder->reset();
@@ -165,7 +162,7 @@ namespace Leap\Core\DB\SQL\Delete {
 		 * @param string $operator                          the operator to be used
 		 * @param string $value                             the value the column is constrained with
 		 * @param string $connector                         the connector to be used
-		 * @return DB\SQL\Delete\Proxy                      a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Delete\Proxy           a reference to the current instance
 		 */
 		public function where($column, $operator, $value, $connector = 'AND') {
 			$this->builder->where($column, $operator, $value, $connector);
@@ -178,7 +175,7 @@ namespace Leap\Core\DB\SQL\Delete {
 		 * @access public
 		 * @param string $parenthesis                       the parenthesis to be used
 		 * @param string $connector                         the connector to be used
-		 * @return DB\SQL\Delete\Proxy                      a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Delete\Proxy           a reference to the current instance
 		 */
 		public function where_block($parenthesis, $connector = 'AND') {
 			$this->builder->where_block($parenthesis, $connector);

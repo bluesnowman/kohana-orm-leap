@@ -29,7 +29,7 @@
  *
  * @abstract
  */
-abstract class Base\DB\MsSQL\DataReader\Improved extends DB\SQL\DataReader\Standard {
+abstract class Base\DB\MsSQL\DataReader\Improved extends \Leap\Core\DB\SQL\DataReader\Standard {
 
 	/**
 	 * This method initializes the class.

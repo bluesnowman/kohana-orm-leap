@@ -33,7 +33,7 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 	 *
 	 * @abstract
 	 */
-	abstract class TCP extends DB\SQL\Connection\Standard {
+	abstract class TCP extends \Leap\Core\DB\SQL\Connection\Standard {
 
 		/**
 		 * This variable stores the last insert id.
@@ -140,7 +140,7 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 			}
 			if (is_string($table)) {
 				$sql = $this->sql;
-				$precompiler = DB\SQL::precompiler($this->data_source);
+				$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 				$table = $precompiler->prepare_identifier($table);
 				$column = $precompiler->prepare_identifier($column);
 				$id = (int) $this->query("SELECT MAX({$column}) AS `id` FROM {$table};")->get('id', 0);
@@ -201,7 +201,7 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 				$this->sql = $sql;
 				return $result_set;
 			}
-			$reader = DB\SQL\DataReader::factory($this, $sql);
+			$reader = \Leap\Core\DB\SQL\DataReader::factory($this, $sql);
 			$result_set = $this->cache($sql, $type, new DB\ResultSet($reader, $type));
 			$this->insert_id = FALSE;
 			$this->sql = $sql;

@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\SQL {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-
 	/**
 	 * This class provides the base functionality for an SQL statement.
 	 *
@@ -31,7 +28,7 @@ namespace Leap\Core\DB\SQL {
 	 * @package Leap\Core\DB\SQL
 	 * @version 2014-01-26
 	 */
-	abstract class Builder extends Core\Object implements DB\SQL\Statement {
+	abstract class Builder extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
 		/**
 		 * This constant represents a closing parenthesis.
@@ -69,7 +66,7 @@ namespace Leap\Core\DB\SQL {
 		 * This variable stores a reference to the pre-compiler.
 		 *
 		 * @access protected
-		 * @var DB\SQL\Precompiler
+		 * @var \Leap\Core\DB\SQL\Precompiler
 		 */
 		protected $precompiler;
 
@@ -91,10 +88,10 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @static
-		 * @param DB\DataSource $data_source        the data source to be used
-		 * @return DB\SQL\Builder                   a new instance of the calling class
+		 * @param \Leap\Core\DB\DataSource $data_source     the data source to be used
+		 * @return \Leap\Core\DB\SQL\Builder                a new instance of the calling class
 		 */
-		public static function factory(DB\DataSource $data_source) {
+		public static function factory(\Leap\Core\DB\DataSource $data_source) {
 			$class = get_called_class();
 			return new $class($data_source);
 		}

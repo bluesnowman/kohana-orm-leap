@@ -303,7 +303,7 @@ namespace Leap\Plugins\DB\MySQL {
 				->column('ACTION_ORDER', 'seq_index')
 				->column('CREATED', 'created')
 				->from('INFORMATION_SCHEMA.TRIGGERS')
-				//->where('EVENT_OBJECT_SCHEMA', DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
+				//->where('EVENT_OBJECT_SCHEMA', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
 				->where(\Leap\Core\DB\SQL::expr('UPPER(`EVENT_OBJECT_TABLE`)'), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
 				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`EVENT_OBJECT_SCHEMA`)'))
 				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`EVENT_OBJECT_TABLE`)'))
