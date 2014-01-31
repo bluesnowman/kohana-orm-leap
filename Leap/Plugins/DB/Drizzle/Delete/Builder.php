@@ -48,11 +48,11 @@ namespace Leap\Plugins\DB\Drizzle\Delete {
 				$append = FALSE;
 				$sql .= ' WHERE ';
 				foreach ($this->data['where'] as $where) {
-					if ($append AND ($where[1] != DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
+					if ($append AND ($where[1] != \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
 						$sql .= " {$where[0]} ";
 					}
 					$sql .= $where[1];
-					$append = ($where[1] != DB\SQL\Builder::_OPENING_PARENTHESIS_);
+					$append = ($where[1] != \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_);
 				}
 			}
 

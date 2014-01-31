@@ -19,17 +19,15 @@
 
 namespace Leap\Plugins\DB\MySQL {
 
-	use Leap\Core\DB;
-
 	/**
 	 * This class provides a way to access the scheme for a MySQL database.
 	 *
 	 * @access public
 	 * @class
 	 * @package Leap\Plugins\DB\MySQL
-	 * @version 2014-01-27
+	 * @version 2014-01-30
 	 */
-	class Schema extends DB\Schema {
+	class Schema extends \Leap\Core\DB\Schema {
 
 		/**
 		 * This method returns an associated array of default properties for the specified
@@ -111,13 +109,13 @@ namespace Leap\Plugins\DB\MySQL {
 		 * @override
 		 * @param string $table                 the table to evaluated
 		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 an array of fields within the specified
+		 * @return \Leap\Core\DB\ResultSet      an array of fields within the specified
 		 *                                      table
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.5/en/show-columns.html
 		 */
 		public function fields($table, $like = '') {
-			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
+			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
 
 			$schema = $this->precompiler->prepare_identifier($this->data_source->database);
 			$table = $this->precompiler->prepare_identifier($table);
@@ -160,7 +158,7 @@ namespace Leap\Plugins\DB\MySQL {
 
 			$reader->free();
 
-			$results = new DB\ResultSet($records);
+			$results = new \Leap\Core\DB\ResultSet($records);
 
 			return $results;
 		}
@@ -185,13 +183,13 @@ namespace Leap\Plugins\DB\MySQL {
 		 * @override
 		 * @param string $table                 the table to evaluated
 		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of indexes for the specified
+		 * @return \Leap\Core\DB\ResultSet      a result set of indexes for the specified
 		 *                                      table
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.6/en/show-index.html
 		 */
 		public function indexes($table, $like = '') {
-			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
+			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
 
 			$schema = $this->precompiler->prepare_identifier($this->data_source->database);
 			$table = $this->precompiler->prepare_identifier($table);
@@ -225,7 +223,7 @@ namespace Leap\Plugins\DB\MySQL {
 
 			$reader->free();
 
-			$results = new DB\ResultSet($records);
+			$results = new \Leap\Core\DB\ResultSet($records);
 
 			return $results;
 		}
@@ -244,23 +242,23 @@ namespace Leap\Plugins\DB\MySQL {
 		 * @access public
 		 * @override
 		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of database tables
+		 * @return \Leap\Core\DB\ResultSet      a result set of database tables
 		 *
 		 * @see http://www.geeksww.com/tutorials/database_management_systems/mysql/tips_and_tricks/mysql_query_to_find_all_views_in_a_database.php
 		 */
 		public function tables($like = '') {
-			$builder = DB\SQL::select($this->data_source)
+			$builder = \Leap\Core\DB\SQL::select($this->data_source)
 				->column('TABLE_SCHEMA', 'schema')
 				->column('TABLE_NAME', 'table')
-				->column(DB\SQL::expr("'BASE'"), 'type')
+				->column(\Leap\Core\DB\SQL::expr("'BASE'"), 'type')
 				->from('INFORMATION_SCHEMA.TABLES')
-				//->where('TABLE_SCHEMA', DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
-				->where(DB\SQL::expr('UPPER(`TABLE_TYPE`)'), DB\SQL\Operator::_EQUAL_TO_, 'BASE_TABLE')
-				->order_by(DB\SQL::expr('UPPER(`TABLE_SCHEMA`)'))
-				->order_by(DB\SQL::expr('UPPER(`TABLE_NAME`)'));
+				//->where('TABLE_SCHEMA', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
+				->where(\Leap\Core\DB\SQL::expr('UPPER(`TABLE_TYPE`)'), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'BASE_TABLE')
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`TABLE_SCHEMA`)'))
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`TABLE_NAME`)'));
 
 			if ( ! empty($like)) {
-				$builder->where('TABLE_NAME', DB\SQL\Operator::_LIKE_, $like);
+				$builder->where('TABLE_NAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 			}
 
 			return $builder->query();
@@ -287,14 +285,14 @@ namespace Leap\Plugins\DB\MySQL {
 		 * @override
 		 * @param string $table                 the table to evaluated
 		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of triggers for the specified
+		 * @return \Leap\Core\DB\ResultSet      a result set of triggers for the specified
 		 *                                      table
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.6/en/triggers-table.html
 		 * @see http://dev.mysql.com/doc/refman/5.6/en/show-triggers.html
 		 */
 		public function triggers($table, $like = '') {
-			$builder = DB\SQL::select($this->data_source)
+			$builder = \Leap\Core\DB\SQL::select($this->data_source)
 				->column('EVENT_OBJECT_SCHEMA', 'schema')
 				->column('EVENT_OBJECT_TABLE', 'table')
 				->column('TRIGGER_NAME', 'trigger')
@@ -306,14 +304,14 @@ namespace Leap\Plugins\DB\MySQL {
 				->column('CREATED', 'created')
 				->from('INFORMATION_SCHEMA.TRIGGERS')
 				//->where('EVENT_OBJECT_SCHEMA', DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
-				->where(DB\SQL::expr('UPPER(`EVENT_OBJECT_TABLE`)'), DB\SQL\Operator::_EQUAL_TO_, $table)
-				->order_by(DB\SQL::expr('UPPER(`EVENT_OBJECT_SCHEMA`)'))
-				->order_by(DB\SQL::expr('UPPER(`EVENT_OBJECT_TABLE`)'))
-				->order_by(DB\SQL::expr('UPPER(`TRIGGER_NAME`)'))
+				->where(\Leap\Core\DB\SQL::expr('UPPER(`EVENT_OBJECT_TABLE`)'), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`EVENT_OBJECT_SCHEMA`)'))
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`EVENT_OBJECT_TABLE`)'))
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`TRIGGER_NAME`)'))
 				->order_by('ACTION_ORDER');
 
 			if ( ! empty($like)) {
-				$builder->where('TRIGGER_NAME', DB\SQL\Operator::_LIKE_, $like);
+				$builder->where('TRIGGER_NAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 			}
 
 			return $builder->query();
@@ -333,23 +331,23 @@ namespace Leap\Plugins\DB\MySQL {
 		 * @access public
 		 * @override
 		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of database views
+		 * @return \Leap\Core\DB\ResultSet      a result set of database views
 		 *
 		 * @see http://www.geeksww.com/tutorials/database_management_systems/mysql/tips_and_tricks/mysql_query_to_find_all_views_in_a_database.php
 		 */
 		public function views($like = '') {
-			$builder = DB\SQL::select($this->data_source)
+			$builder = \Leap\Core\DB\SQL::select($this->data_source)
 				->column('TABLE_SCHEMA', 'schema')
 				->column('TABLE_NAME', 'table')
-				->column(DB\SQL::expr("'VIEW'"), 'type')
+				->column(\Leap\Core\DB\SQL::expr("'VIEW'"), 'type')
 				->from('INFORMATION_SCHEMA.TABLES')
-				//->where('TABLE_SCHEMA', DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
-				->where(DB\SQL::expr('UPPER(`TABLE_TYPE`)'), DB\SQL\Operator::_EQUAL_TO_, 'VIEW')
-				->order_by(DB\SQL::expr('UPPER(`TABLE_SCHEMA`)'))
-				->order_by(DB\SQL::expr('UPPER(`TABLE_NAME`)'));
+				//->where('TABLE_SCHEMA', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
+				->where(\Leap\Core\DB\SQL::expr('UPPER(`TABLE_TYPE`)'), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'VIEW')
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`TABLE_SCHEMA`)'))
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`TABLE_NAME`)'));
 
 			if ( ! empty($like)) {
-				$builder->where('TABLE_NAME', DB\SQL\Operator::_LIKE_, $like);
+				$builder->where('TABLE_NAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
 			}
 
 			return $builder->query();

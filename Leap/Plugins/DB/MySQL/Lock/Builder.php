@@ -17,68 +17,71 @@
  * limitations under the License.
  */
 
-/**
- * This class builds a MySQL lock statement.
- *
- * @package Leap
- * @category MySQL
- * @version 2013-01-12
- *
- * @see http://dev.mysql.com/doc/refman/5.6/en/lock-tables.html
- *
- * @abstract
- */
-abstract class Base\DB\MySQL\Lock\Builder extends DB\SQL\Lock\Builder {
+namespace Leap\Plugins\DB\MySQL\Lock {
 
 	/**
-	 * This method acquires the required locks.
+	 * This class builds a MySQL lock statement.
 	 *
 	 * @access public
-	 * @override
-	 * @return DB\SQL\Lock\Builder                     a reference to the current instance
+	 * @class
+	 * @package Leap\Plugins\DB\MySQL\Lock
+	 * @version 2014-01-30
+	 *
+	 * @see http://dev.mysql.com/doc/refman/5.6/en/lock-tables.html
 	 */
-	public function acquire() {
-		$this->connection->execute('LOCK TABLES ' . implode(',', $this->data) . ';');
-		return $this;
-	}
+	class Builder extends \Leap\Core\DB\SQL\Lock\Builder {
 
-	/**
-	 * This method adds a lock definition.
-	 *
-	 * @access public
-	 * @override
-	 * @param string $table                            the table to be locked
-	 * @param array $hints                             the hints to be applied
-	 * @return DB\SQL\Lock\Builder                     a reference to the current instance
-	 */
-	public function add($table, Array $hints = NULL) {
-		$modes = array();
-		if ($hints !== NULL) {
-			foreach ($hints as $hint) {
-				if (preg_match('/^((LOW_PRIORITY )?WRITE)|(READ( LOCAL)?)$/i', $hint)) {
-					$modes[] = strtoupper($hint);
+		/**
+		 * This method acquires the required locks.
+		 *
+		 * @access public
+		 * @override
+		 * @return \Leap\Core\DB\SQL\Lock\Builder          a reference to the current instance
+		 */
+		public function acquire() {
+			$this->connection->execute('LOCK TABLES ' . implode(',', $this->data) . ';');
+			return $this;
+		}
+
+		/**
+		 * This method adds a lock definition.
+		 *
+		 * @access public
+		 * @override
+		 * @param string $table                            the table to be locked
+		 * @param array $hints                             the hints to be applied
+		 * @return \Leap\Core\DB\SQL\Lock\Builder          a reference to the current instance
+		 */
+		public function add($table, Array $hints = NULL) {
+			$modes = array();
+			if ($hints !== NULL) {
+				foreach ($hints as $hint) {
+					if (preg_match('/^((LOW_PRIORITY )?WRITE)|(READ( LOCAL)?)$/i', $hint)) {
+						$modes[] = strtoupper($hint);
+					}
 				}
 			}
+			if (empty($modes)) {
+				$modes[] = 'WRITE';
+			}
+			$this->data[] = $this->precompiler->prepare_identifier($table) . ' ' . implode('|', $modes);
+			return $this;
 		}
-		if (empty($modes)) {
-			$modes[] = 'WRITE';
-		}
-		$this->data[] = $this->precompiler->prepare_identifier($table) . ' ' . implode('|', $modes);
-		return $this;
-	}
 
-	/**
-	 * This method releases all acquired locks.
-	 *
-	 * @access public
-	 * @override
-	 * @param string $method                           the method to be used to release
-	 *                                                 the lock(s)
-	 * @return DB\SQL\Lock\Builder                     a reference to the current instance
-	 */
-	public function release($method = '') {
-		$this->connection->execute('UNLOCK TABLES;');
-		return $this;
+		/**
+		 * This method releases all acquired locks.
+		 *
+		 * @access public
+		 * @override
+		 * @param string $method                           the method to be used to release
+		 *                                                 the lock(s)
+		 * @return \Leap\Core\DB\SQL\Lock\Builder          a reference to the current instance
+		 */
+		public function release($method = '') {
+			$this->connection->execute('UNLOCK TABLES;');
+			return $this;
+		}
+
 	}
 
 }

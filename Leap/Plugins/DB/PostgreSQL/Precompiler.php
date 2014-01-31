@@ -75,7 +75,7 @@ abstract class Base\DB\PostgreSQL\Precompiler extends DB\SQL\Precompiler {
 	 */
 	public function prepare_identifier($expr) {
 		if ($expr instanceof DB\PostgreSQL\Select\Builder) {
-			return DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE) . DB\SQL\Builder::_CLOSING_PARENTHESIS_;
+			return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 		}
 		else if ($expr instanceof DB\SQL\Expression) {
 			return $expr->value($this);
@@ -88,7 +88,7 @@ abstract class Base\DB\PostgreSQL\Precompiler extends DB\SQL\Precompiler {
 		}
 		else if (preg_match('/^SELECT.*$/i', $expr)) {
 			$expr = rtrim($expr, "; \t\n\r\0\x0B");
-			return DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr . DB\SQL\Builder::_CLOSING_PARENTHESIS_;
+			return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 		}
 		$parts = explode('.', $expr);
 		foreach ($parts as &$part) {
@@ -284,11 +284,11 @@ abstract class Base\DB\PostgreSQL\Precompiler extends DB\SQL\Precompiler {
 			foreach ($expr as $value) {
 				$buffer[] = $this->prepare_value($value, $escape);
 			}
-			return DB\SQL\Builder::_OPENING_PARENTHESIS_ . implode(', ', $buffer) . DB\SQL\Builder::_CLOSING_PARENTHESIS_;
+			return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . implode(', ', $buffer) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 		}
 		else if (is_object($expr)) {
 			if ($expr instanceof DB\PostgreSQL\Select\Builder) {
-				return DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE) . DB\SQL\Builder::_CLOSING_PARENTHESIS_;
+				return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 			}
 			else if ($expr instanceof DB\SQL\Expression) {
 				return $expr->value($this);

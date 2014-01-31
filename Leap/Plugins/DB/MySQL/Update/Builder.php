@@ -17,64 +17,67 @@
  * limitations under the License.
  */
 
-/**
- * This class builds a MySQL update statement.
- *
- * @package Leap
- * @category MySQL
- * @version 2011-12-05
- *
- * @see http://dev.mysql.com/doc/refman/5.0/en/update.html
- *
- * @abstract
- */
-abstract class Base\DB\MySQL\Update\Builder extends DB\SQL\Update\Builder {
+namespace Leap\Plugins\DB\MySQL\Update {
 
 	/**
-	 * This method returns the SQL statement.
+	 * This class builds a MySQL update statement.
 	 *
 	 * @access public
-	 * @override
-	 * @param boolean $terminated           whether to add a semi-colon to the end
-	 *                                      of the statement
-	 * @return string                       the SQL statement
+	 * @class
+	 * @package Leap\Plugins\DB\MySQL\Update
+	 * @version 2014-01-30
+	 *
+	 * @see http://dev.mysql.com/doc/refman/5.0/en/update.html
 	 */
-	public function statement($terminated = TRUE) {
-		$sql = "UPDATE {$this->data['table']}";
+	class Builder extends \Leap\Core\DB\SQL\Update\Builder {
 
-		if ( ! empty($this->data['column'])) {
-			$sql .= ' SET ' . implode(', ', array_values($this->data['column']));
-		}
+		/**
+		 * This method returns the SQL statement.
+		 *
+		 * @access public
+		 * @override
+		 * @param boolean $terminated           whether to add a semi-colon to the end
+		 *                                      of the statement
+		 * @return string                       the SQL statement
+		 */
+		public function statement($terminated = TRUE) {
+			$sql = "UPDATE {$this->data['table']}";
 
-		if ( ! empty($this->data['where'])) {
-			$append = FALSE;
-			$sql .= ' WHERE ';
-			foreach ($this->data['where'] as $where) {
-				if ($append AND ($where[1] != DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
-					$sql .= " {$where[0]} ";
-				}
-				$sql .= $where[1];
-				$append = ($where[1] != DB\SQL\Builder::_OPENING_PARENTHESIS_);
+			if ( ! empty($this->data['column'])) {
+				$sql .= ' SET ' . implode(', ', array_values($this->data['column']));
 			}
+
+			if ( ! empty($this->data['where'])) {
+				$append = FALSE;
+				$sql .= ' WHERE ';
+				foreach ($this->data['where'] as $where) {
+					if ($append AND ($where[1] != \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
+						$sql .= " {$where[0]} ";
+					}
+					$sql .= $where[1];
+					$append = ($where[1] != \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_);
+				}
+			}
+
+			if ( ! empty($this->data['order_by'])) {
+				$sql .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
+			}
+
+			if ($this->data['limit'] > 0) {
+				$sql .= " LIMIT {$this->data['limit']}";
+			}
+
+			if ($this->data['offset'] > 0) {
+				$sql .= " OFFSET {$this->data['offset']}";
+			}
+
+			if ($terminated) {
+				$sql .= ';';
+			}
+
+			return $sql;
 		}
 
-		if ( ! empty($this->data['order_by'])) {
-			$sql .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
-		}
-
-		if ($this->data['limit'] > 0) {
-			$sql .= " LIMIT {$this->data['limit']}";
-		}
-
-		if ($this->data['offset'] > 0) {
-			$sql .= " OFFSET {$this->data['offset']}";
-		}
-
-		if ($terminated) {
-			$sql .= ';';
-		}
-
-		return $sql;
 	}
 
 }

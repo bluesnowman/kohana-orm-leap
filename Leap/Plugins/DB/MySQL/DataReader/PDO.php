@@ -17,14 +17,17 @@
  * limitations under the License.
  */
 
-/**
- * This class is used to read data from a MySQL database using the PDO
- * driver.
- *
- * @package Leap
- * @category MySQL
- * @version 2012-12-04
- *
- * @abstract
- */
-abstract class Base\DB\MySQL\DataReader\PDO extends DB\SQL\DataReader\PDO {}
+namespace Leap\Plugins\DB\MySQL\DataReader {
+
+	/**
+	 * This class is used to read data from a MySQL database using the PDO
+	 * driver.
+	 *
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\MySQL\DataReader
+	 * @version 2014-01-30
+	 */
+	class PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
+
+}

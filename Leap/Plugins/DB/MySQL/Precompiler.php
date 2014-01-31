@@ -19,19 +19,15 @@
 
 namespace Leap\Plugins\DB\MySQL {
 
-	use Leap\Core;
-	use Leap\Core\DB;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class provides a set of functions for preparing MySQL expressions.
 	 *
 	 * @access public
 	 * @class
 	 * @package Leap\Plugins\DB\MySQL
-	 * @version 2014-01-27
+	 * @version 2014-01-30
 	 */
-	class Precompiler extends DB\SQL\Precompiler {
+	class Precompiler extends \Leap\Core\DB\SQL\Precompiler {
 
 		/**
 		 * This constant represents a closing identifier quote character.
@@ -56,13 +52,13 @@ namespace Leap\Plugins\DB\MySQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $expr                          the expression to be prepared
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 */
 		public function prepare_alias($expr) {
 			if ( ! is_string($expr)) {
-				throw new Throwable\InvalidArgument\Exception('Message: Invalid alias token specified. Reason: Token must be a string.', array(':expr' => $expr));
+				throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid alias token specified. Reason: Token must be a string.', array(':expr' => $expr));
 			}
 			return static::_OPENING_QUOTE_CHARACTER_ . trim(preg_replace('/[^a-z0-9$_ ]/i', '', $expr)) . static::_CLOSING_QUOTE_CHARACTER_;
 		}
@@ -72,26 +68,26 @@ namespace Leap\Plugins\DB\MySQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $expr                          the expression to be prepared
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
 		 * @see http://www.ispirer.com/wiki/sqlways/mysql/identifiers
 		 */
 		public function prepare_identifier($expr) {
-			if ($expr instanceof DB\MySQL\Select\Builder) {
-				return DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE) . DB\SQL\Builder::_CLOSING_PARENTHESIS_;
+			if ($expr instanceof \Leap\Plugins\DB\MySQL\Select\Builder) {
+				return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 			}
-			else if ($expr instanceof DB\SQL\Expression) {
+			else if ($expr instanceof \Leap\Core\DB\SQL\Expression) {
 				return $expr->value($this);
 			}
 			else if ( ! is_string($expr)) {
-				throw new Throwable\InvalidArgument\Exception('Message: Invalid identifier expression specified. Reason: Token must be a string.', array(':expr' => $expr));
+				throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid identifier expression specified. Reason: Token must be a string.', array(':expr' => $expr));
 			}
 			else if (preg_match('/^SELECT.*$/i', $expr)) {
 				$expr = rtrim($expr, "; \t\n\r\0\x0B");
-				return DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr . DB\SQL\Builder::_CLOSING_PARENTHESIS_;
+				return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 			}
 			$parts = explode('.', $expr);
 			foreach ($parts as &$part) {
@@ -106,9 +102,9 @@ namespace Leap\Plugins\DB\MySQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $expr                          the expression to be prepared
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.0/en/join.html
 		 */
@@ -116,23 +112,23 @@ namespace Leap\Plugins\DB\MySQL {
 			if (is_string($expr)) {
 				$expr = strtoupper($expr);
 				switch ($expr) {
-					case DB\SQL\JoinType::_CROSS_:
-					case DB\SQL\JoinType::_INNER_:
-					case DB\SQL\JoinType::_LEFT_:
-					case DB\SQL\JoinType::_LEFT_OUTER_:
-					case DB\SQL\JoinType::_RIGHT_:
-					case DB\SQL\JoinType::_RIGHT_OUTER_:
-					case DB\SQL\JoinType::_NATURAL_:
-					case DB\SQL\JoinType::_NATURAL_LEFT_:
-					case DB\SQL\JoinType::_NATURAL_LEFT_OUTER_:
-					case DB\SQL\JoinType::_NATURAL_RIGHT_:
-					case DB\SQL\JoinType::_NATURAL_RIGHT_OUTER_:
-					case DB\SQL\JoinType::_STRAIGHT_:
+					case \Leap\Core\DB\SQL\JoinType::_CROSS_:
+					case \Leap\Core\DB\SQL\JoinType::_INNER_:
+					case \Leap\Core\DB\SQL\JoinType::_LEFT_:
+					case \Leap\Core\DB\SQL\JoinType::_LEFT_OUTER_:
+					case \Leap\Core\DB\SQL\JoinType::_RIGHT_:
+					case \Leap\Core\DB\SQL\JoinType::_RIGHT_OUTER_:
+					case \Leap\Core\DB\SQL\JoinType::_NATURAL_:
+					case \Leap\Core\DB\SQL\JoinType::_NATURAL_LEFT_:
+					case \Leap\Core\DB\SQL\JoinType::_NATURAL_LEFT_OUTER_:
+					case \Leap\Core\DB\SQL\JoinType::_NATURAL_RIGHT_:
+					case \Leap\Core\DB\SQL\JoinType::_NATURAL_RIGHT_OUTER_:
+					case \Leap\Core\DB\SQL\JoinType::_STRAIGHT_:
 						return $expr;
 					break;
 				}
 			}
-			throw new Throwable\InvalidArgument\Exception('Message: Invalid join type token specified. Reason: Token must exist in the enumerated set.', array(':expr' => $expr));
+			throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid join type token specified. Reason: Token must exist in the enumerated set.', array(':expr' => $expr));
 		}
 
 		/**
@@ -140,10 +136,10 @@ namespace Leap\Plugins\DB\MySQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $expr                          the expression to be prepared
-		 * @param string $group                         the operator grouping
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @param string $group                                     the operator grouping
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 */
 		public function prepare_operator($expr, $group) {
 			if (is_string($group) AND is_string($expr)) {
@@ -151,39 +147,39 @@ namespace Leap\Plugins\DB\MySQL {
 				$expr = strtoupper($expr);
 				if ($group == 'COMPARISON') {
 					switch ($expr) {
-						case DB\SQL\Operator::_NOT_EQUAL_TO_:
-							$expr = DB\SQL\Operator::_NOT_EQUIVALENT_;
-						case DB\SQL\Operator::_NOT_EQUIVALENT_:
-						case DB\SQL\Operator::_EQUAL_TO_:
-						case DB\SQL\Operator::_BETWEEN_:
-						case DB\SQL\Operator::_NOT_BETWEEN_:
-						case DB\SQL\Operator::_LIKE_:
-						case DB\SQL\Operator::_NOT_LIKE_:
-						case DB\SQL\Operator::_LESS_THAN_:
-						case DB\SQL\Operator::_LESS_THAN_OR_EQUAL_TO_:
-						case DB\SQL\Operator::_GREATER_THAN_:
-						case DB\SQL\Operator::_GREATER_THAN_OR_EQUAL_TO_:
-						case DB\SQL\Operator::_IN_:
-						case DB\SQL\Operator::_NOT_IN_:
-						case DB\SQL\Operator::_IS_:
-						case DB\SQL\Operator::_IS_NOT_:
-						case DB\SQL\Operator::_REGEX_:
-						case DB\SQL\Operator::_NOT_REGEX_:
+						case \Leap\Core\DB\SQL\Operator::_NOT_EQUAL_TO_:
+							$expr = \Leap\Core\DB\SQL\Operator::_NOT_EQUIVALENT_;
+						case \Leap\Core\DB\SQL\Operator::_NOT_EQUIVALENT_:
+						case \Leap\Core\DB\SQL\Operator::_EQUAL_TO_:
+						case \Leap\Core\DB\SQL\Operator::_BETWEEN_:
+						case \Leap\Core\DB\SQL\Operator::_NOT_BETWEEN_:
+						case \Leap\Core\DB\SQL\Operator::_LIKE_:
+						case \Leap\Core\DB\SQL\Operator::_NOT_LIKE_:
+						case \Leap\Core\DB\SQL\Operator::_LESS_THAN_:
+						case \Leap\Core\DB\SQL\Operator::_LESS_THAN_OR_EQUAL_TO_:
+						case \Leap\Core\DB\SQL\Operator::_GREATER_THAN_:
+						case \Leap\Core\DB\SQL\Operator::_GREATER_THAN_OR_EQUAL_TO_:
+						case \Leap\Core\DB\SQL\Operator::_IN_:
+						case \Leap\Core\DB\SQL\Operator::_NOT_IN_:
+						case \Leap\Core\DB\SQL\Operator::_IS_:
+						case \Leap\Core\DB\SQL\Operator::_IS_NOT_:
+						case \Leap\Core\DB\SQL\Operator::_REGEX_:
+						case \Leap\Core\DB\SQL\Operator::_NOT_REGEX_:
 							return $expr;
 						break;
 					}
 				}
 				else if ($group == 'SET') {
 					switch ($expr) {
-						case DB\SQL\Operator::_UNION_:
-						case DB\SQL\Operator::_UNION_ALL_:
-						case DB\SQL\Operator::_UNION_DISTINCT_:
+						case \Leap\Core\DB\SQL\Operator::_UNION_:
+						case \Leap\Core\DB\SQL\Operator::_UNION_ALL_:
+						case \Leap\Core\DB\SQL\Operator::_UNION_DISTINCT_:
 							return $expr;
 						break;
 					}
 				}
 			}
-			throw new Throwable\InvalidArgument\Exception('Message: Invalid operator token specified. Reason: Token must exist in the enumerated set.', array(':group' => $group, ':expr' => $expr));
+			throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid operator token specified. Reason: Token must exist in the enumerated set.', array(':group' => $group, ':expr' => $expr));
 		}
 
 		/**
@@ -248,19 +244,19 @@ namespace Leap\Plugins\DB\MySQL {
 				foreach ($expr as $value) {
 					$buffer[] = $this->prepare_value($value, $escape);
 				}
-				return DB\SQL\Builder::_OPENING_PARENTHESIS_ . implode(', ', $buffer) . DB\SQL\Builder::_CLOSING_PARENTHESIS_;
+				return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . implode(', ', $buffer) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 			}
 			else if (is_object($expr)) {
-				if ($expr instanceof DB\MySQL\Select\Builder) {
-					return DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE) . DB\SQL\Builder::_CLOSING_PARENTHESIS_;
+				if ($expr instanceof \Leap\Plugins\DB\MySQL\Select\Builder) {
+					return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 				}
-				else if ($expr instanceof DB\SQL\Expression) {
+				else if ($expr instanceof \Leap\Core\DB\SQL\Expression) {
 					return $expr->value($this);
 				}
-				else if ($expr instanceof Core\Data\ByteString) {
+				else if ($expr instanceof \Leap\Core\Data\ByteString) {
 					return $expr->as_hexcode("x'%s'");
 				}
-				else if ($expr instanceof Core\Data\BitField) {
+				else if ($expr instanceof \Leap\Core\Data\BitField) {
 					return $expr->as_binary("b'%s'");
 				}
 				else {
@@ -280,7 +276,7 @@ namespace Leap\Plugins\DB\MySQL {
 				return "''";
 			}
 			else {
-				return DB\Connection\Pool::instance()->get_connection($this->data_source)->quote($expr, $escape);
+				return \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source)->quote($expr, $escape);
 			}
 		}
 
@@ -289,13 +285,13 @@ namespace Leap\Plugins\DB\MySQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $expr                          the expression to be prepared
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 */
 		public function prepare_wildcard($expr) {
 			if ( ! is_string($expr)) {
-				throw new Throwable\InvalidArgument\Exception('Message: Invalid wildcard token specified. Reason: Token must be a string.', array(':expr' => $expr));
+				throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid wildcard token specified. Reason: Token must be a string.', array(':expr' => $expr));
 			}
 			$parts = explode('.', $expr);
 			$count = count($parts);
@@ -318,7 +314,7 @@ namespace Leap\Plugins\DB\MySQL {
 		 *
 		 * @access protected
 		 * @static
-		 * @var Core\Data\Serialization\XML
+		 * @var \Leap\Core\Data\Serialization\XML
 		 */
 		protected static $xml = NULL;
 
@@ -334,7 +330,7 @@ namespace Leap\Plugins\DB\MySQL {
 		 */
 		public static function is_keyword($token) {
 			if (static::$xml === NULL) {
-				static::$xml = Core\Data\Serialization\XML::load('config/sql/mysql.xml');
+				static::$xml = \Leap\Core\Data\Serialization\XML::load('config/sql/mysql.xml');
 			}
 			$token = strtoupper($token);
 			$nodes = static::$xml->xpath("/sql/dialect[@name='mysql' and @version='5.6']/keywords[keyword = '{$token}']");

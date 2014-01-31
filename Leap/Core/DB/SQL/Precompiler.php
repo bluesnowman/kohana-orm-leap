@@ -167,8 +167,8 @@ namespace Leap\Core\DB\SQL {
 		public function prepare_parenthesis($expr) {
 			if (is_string($expr)) {
 				switch ($expr) {
-					case DB\SQL\Builder::_OPENING_PARENTHESIS_:
-					case DB\SQL\Builder::_CLOSING_PARENTHESIS_:
+					case \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_:
+					case \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_:
 						return $expr;
 					break;
 				}
