@@ -17,82 +17,85 @@
  * limitations under the License.
  */
 
-/**
- * This class builds a PostgreSQL lock statement.
- *
- * @package Leap
- * @category PostgreSQL
- * @version 2013-01-13
- *
- * @see http://www.postgresql.org/docs/9.2/static/sql-lock.html
- *
- * @abstract
- */
-abstract class Base\DB\PostgreSQL\Lock\Builder extends \Leap\Core\DB\SQL\Lock\Builder {
+namespace Leap\Plugins\DB\PostgreSQL\Lock {
 
 	/**
-	 * This method acquires the required locks.
+	 * This class builds a PostgreSQL lock statement.
 	 *
 	 * @access public
-	 * @override
-	 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
+	 * @class
+	 * @package Leap\Plugins\DB\PostgreSQL\Lock
+	 * @version 2014-04-19
+	 *
+	 * @see http://www.postgresql.org/docs/9.2/static/sql-lock.html
 	 */
-	public function acquire() {
-		$this->connection->begin_transaction();
-		foreach ($this->data as $sql) {
-			$this->connection->execute($sql);
+	class Builder extends \Leap\Core\DB\SQL\Lock\Builder {
+
+		/**
+		 * This method acquires the required locks.
+		 *
+		 * @access public
+		 * @override
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
+		 */
+		public function acquire() {
+			$this->connection->begin_transaction();
+			foreach ($this->data as $sql) {
+				$this->connection->execute($sql);
+			}
+			return $this;
 		}
-		return $this;
-	}
 
-	/**
-	 * This method adds a lock definition.
-	 *
-	 * @access public
-	 * @override
-	 * @param string $table                            the table to be locked
-	 * @param array $hints                             the hints to be applied
-	 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
-	 */
-	public function add($table, Array $hints = NULL) {
-		$table = $this->precompiler->prepare_identifier($table);
-		$sql = "LOCK TABLE {$table} IN ";
-		$mode = 'EXCLUSIVE';
-		$wait = '';
-		if ($hints !== NULL) {
-			foreach ($hints as $hint) {
-				if (preg_match('/^(EXCLUSIVE)|((ACCESS|ROW) (SHARE|EXCLUSIVE))|(SHARE( (UPDATE|ROW) EXCLUSIVE)?)$/i', $hint)) {
-					$mode = strtoupper($hint);
-				}
-				else if (preg_match('/^NOWAIT$/i', $hint)) {
-					$wait = ' NOWAIT';
+		/**
+		 * This method adds a lock definition.
+		 *
+		 * @access public
+		 * @override
+		 * @param string $table                                     the table to be locked
+		 * @param array $hints                                      the hints to be applied
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
+		 */
+		public function add($table, Array $hints = NULL) {
+			$table = $this->precompiler->prepare_identifier($table);
+			$sql = "LOCK TABLE {$table} IN ";
+			$mode = 'EXCLUSIVE';
+			$wait = '';
+			if ($hints !== NULL) {
+				foreach ($hints as $hint) {
+					if (preg_match('/^(EXCLUSIVE)|((ACCESS|ROW) (SHARE|EXCLUSIVE))|(SHARE( (UPDATE|ROW) EXCLUSIVE)?)$/i', $hint)) {
+						$mode = strtoupper($hint);
+					}
+					else if (preg_match('/^NOWAIT$/i', $hint)) {
+						$wait = ' NOWAIT';
+					}
 				}
 			}
+			$this->data[$table] = $sql . $mode . ' MODE' . $wait . ';';
+			return $this;
 		}
-		$this->data[$table] = $sql . $mode . ' MODE' . $wait . ';';
-		return $this;
-	}
 
-	/**
-	 * This method releases all acquired locks.
-	 *
-	 * @access public
-	 * @override
-	 * @param string $method                           the method to be used to release
-	 *                                                 the lock(s)
-	 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
-	 */
-	public function release($method = '') {
-		switch (strtoupper($method)) {
-			case 'ROLLBACK':
-				$this->connection->rollback();
-			break;
-			case 'COMMIT':
-			default:
-				$this->connection->commit();
-			break;
+		/**
+		 * This method releases all acquired locks.
+		 *
+		 * @access public
+		 * @override
+		 * @param string $method                                    the method to be used to release
+		 *                                                          the lock(s)
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
+		 */
+		public function release($method = '') {
+			switch (strtoupper($method)) {
+				case 'ROLLBACK':
+					$this->connection->rollback();
+				break;
+				case 'COMMIT':
+				default:
+					$this->connection->commit();
+				break;
+			}
+			return $this;
 		}
-		return $this;
+
 	}
 
 }

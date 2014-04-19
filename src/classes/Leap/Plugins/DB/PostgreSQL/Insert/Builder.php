@@ -17,60 +17,63 @@
  * limitations under the License.
  */
 
-/**
- * This class builds a PostgreSQL insert statement.
- *
- * @package Leap
- * @category PostgreSQL
- * @version 2012-12-05
- *
- * @see http://www.postgresql.org/docs/8.3/interactive/sql-insert.html
- *
- * @abstract
- */
-abstract class Base\DB\PostgreSQL\Insert\Builder extends \Leap\Core\DB\SQL\Insert\Builder {
+namespace Leap\Plugins\DB\PostgreSQL\Insert {
 
 	/**
-	 * This method returns the SQL statement.
+	 * This class builds a PostgreSQL insert statement.
 	 *
 	 * @access public
-	 * @override
-	 * @param boolean $terminated           whether to add a semi-colon to the end
-	 *                                      of the statement
-	 * @return string                       the SQL statement
+	 * @class
+	 * @package Leap\Plugins\DB\PostgreSQL\Insert
+	 * @version 2014-04-19
+	 *
+	 * @see http://www.postgresql.org/docs/8.3/interactive/sql-insert.html
 	 */
-	public function statement($terminated = TRUE) {
-		$sql = "INSERT INTO {$this->data['into']}";
+	class Builder extends \Leap\Core\DB\SQL\Insert\Builder {
 
-		if ( ! empty($this->data['columns'])) {
-			$rows = array_values($this->data['rows']);
-			$rowCt = count($rows);
-			$columns = array_keys($this->data['columns']);
-			$columnCt = count($columns);
-			$sql .= ' (' . implode(', ', $columns) . ') VALUES';
-			for ($r = 0; $r < $rowCt; $r++) {
-				if ($r > 0) {
-					$sql .= ',';
-				}
-				$sql .= ' (';
-				for ($c = 0; $c < $columnCt; $c++) {
-					if ($c > 0) {
-						$sql .= ', ';
+		/**
+		 * This method returns the SQL statement.
+		 *
+		 * @access public
+		 * @override
+		 * @param boolean $terminated                               whether to add a semi-colon to the end
+		 *                                                          of the statement
+		 * @return string                                           the SQL statement
+		 */
+		public function statement($terminated = TRUE) {
+			$sql = "INSERT INTO {$this->data['into']}";
+
+			if ( ! empty($this->data['columns'])) {
+				$rows = array_values($this->data['rows']);
+				$rowCt = count($rows);
+				$columns = array_keys($this->data['columns']);
+				$columnCt = count($columns);
+				$sql .= ' (' . implode(', ', $columns) . ') VALUES';
+				for ($r = 0; $r < $rowCt; $r++) {
+					if ($r > 0) {
+						$sql .= ',';
 					}
-					$column = $columns[$c];
-					$sql .= (isset($rows[$r][$column]))
-						? $rows[$r][$column]
-						: 'NULL';
+					$sql .= ' (';
+					for ($c = 0; $c < $columnCt; $c++) {
+						if ($c > 0) {
+							$sql .= ', ';
+						}
+						$column = $columns[$c];
+						$sql .= (isset($rows[$r][$column]))
+							? $rows[$r][$column]
+							: 'NULL';
+					}
+					$sql .= ')';
 				}
-				$sql .= ')';
 			}
+
+			if ($terminated) {
+				$sql .= ';';
+			}
+
+			return $sql;
 		}
 
-		if ($terminated) {
-			$sql .= ';';
-		}
-
-		return $sql;
 	}
 
 }
