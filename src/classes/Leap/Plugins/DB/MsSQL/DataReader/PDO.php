@@ -17,14 +17,17 @@
  * limitations under the License.
  */
 
-/**
- * This class is used to read data from a MS SQL database using the PDO
- * driver.
- *
- * @package Leap
- * @category MS SQL
- * @version 2012-12-04
- *
- * @abstract
- */
-abstract class Base\DB\MsSQL\DataReader\PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
+namespace Leap\Plugins\DB\MsSQL\DataReader {
+
+	/**
+	 * This class is used to read data from a MS SQL database using the PDO
+	 * driver.
+	 *
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\MsSQL\DataReader
+	 * @version 2014-04-19
+	 */
+	class PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
+
+}

@@ -17,89 +17,92 @@
  * limitations under the License.
  */
 
-/**
- * This class builds a MS SQL lock statement.
- *
- * @package Leap
- * @category MS SQL
- * @version 2013-01-13
- *
- * @see http://msdn.microsoft.com/en-us/library/ms187373.aspx
- * @see http://stackoverflow.com/questions/5102152/tablock-vs-tablockx
- * @see http://www.mssqlcity.com/Articles/Adm/SQL70Locks.htm
- * @see http://msdn.microsoft.com/en-us/library/aa213041%28v=sql.80%29.aspx
- * @see http://msdn.microsoft.com/en-us/library/ms173763.aspx
- * @see http://stackoverflow.com/questions/1636173/lock-a-table-in-sql-server
- *
- * @abstract
- */
-abstract class Base\DB\MsSQL\Lock\Builder extends \Leap\Core\DB\SQL\Lock\Builder {
+namespace Leap\Plugins\DB\MsSQL\Lock {
 
 	/**
-	 * This method acquires the required locks.
+	 * This class builds a MS SQL lock statement.
 	 *
 	 * @access public
-	 * @override
-	 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
+	 * @class
+	 * @package Leap\Plugins\DB\MsSQL\Lock
+	 * @version 2014-04-19
+	 *
+	 * @see http://msdn.microsoft.com/en-us/library/ms187373.aspx
+	 * @see http://stackoverflow.com/questions/5102152/tablock-vs-tablockx
+	 * @see http://www.mssqlcity.com/Articles/Adm/SQL70Locks.htm
+	 * @see http://msdn.microsoft.com/en-us/library/aa213041%28v=sql.80%29.aspx
+	 * @see http://msdn.microsoft.com/en-us/library/ms173763.aspx
+	 * @see http://stackoverflow.com/questions/1636173/lock-a-table-in-sql-server
 	 */
-	public function acquire() {
-		$this->connection->begin_transaction();
-		foreach ($this->data as $sql) {
-			$this->connection->execute($sql);
+	class Builder extends \Leap\Core\DB\SQL\Lock\Builder {
+
+		/**
+		 * This method acquires the required locks.
+		 *
+		 * @access public
+		 * @override
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
+		 */
+		public function acquire() {
+			$this->connection->begin_transaction();
+			foreach ($this->data as $sql) {
+				$this->connection->execute($sql);
+			}
+			return $this;
 		}
-		return $this;
-	}
 
-	/**
-	 * This method adds a lock definition.
-	 *
-	 * @access public
-	 * @override
-	 * @param string $table                            the table to be locked
-	 * @param array $hints                             the hints to be applied
-	 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
-	 */
-	public function add($table, Array $hints = NULL) {
-		$table = $this->precompiler->prepare_identifier($table);
-		$sql = "SELECT * FROM {$table} WITH (";
-		$modes = array();
-		if ($hints !== NULL) {
-			foreach ($hints as $hint) {
-				if (preg_match('/^FORCESCAN|HOLDLOCK|NOLOCK|NOWAIT|PAGLOCK|READCOMMITTED|READCOMMITTEDLOCK|READPAST|READUNCOMMITTED|REPEATABLEREAD|ROWLOCK|SERIALIZABLE|TABLOCK|TABLOCKX|UPDLOCK|XLOCK$/i', $hint)) {
-					$modes[] = strtoupper($hint);
-				}
-				else if (preg_match('/^(INDEX|FORCESEEK).+$/i', $hint)) {
-					$modes[] = \Leap\Core\DB\SQL::expr($hint);
+		/**
+		 * This method adds a lock definition.
+		 *
+		 * @access public
+		 * @override
+		 * @param string $table                                     the table to be locked
+		 * @param array $hints                                      the hints to be applied
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
+		 */
+		public function add($table, Array $hints = NULL) {
+			$table = $this->precompiler->prepare_identifier($table);
+			$sql = "SELECT * FROM {$table} WITH (";
+			$modes = array();
+			if ($hints !== NULL) {
+				foreach ($hints as $hint) {
+					if (preg_match('/^FORCESCAN|HOLDLOCK|NOLOCK|NOWAIT|PAGLOCK|READCOMMITTED|READCOMMITTEDLOCK|READPAST|READUNCOMMITTED|REPEATABLEREAD|ROWLOCK|SERIALIZABLE|TABLOCK|TABLOCKX|UPDLOCK|XLOCK$/i', $hint)) {
+						$modes[] = strtoupper($hint);
+					}
+					else if (preg_match('/^(INDEX|FORCESEEK).+$/i', $hint)) {
+						$modes[] = \Leap\Core\DB\SQL::expr($hint);
+					}
 				}
 			}
+			if (empty($modes)) {
+				$modes[] = 'TABLOCKX';
+			}
+			$this->data[$table] = $sql . implode(', ', $modes) . ');';
+			return $this;
 		}
-		if (empty($modes)) {
-			$modes[] = 'TABLOCKX';
-		}
-		$this->data[$table] = $sql . implode(', ', $modes) . ');';
-		return $this;
-	}
 
-	/**
-	 * This method releases all acquired locks.
-	 *
-	 * @access public
-	 * @override
-	 * @param string $method                           the method to be used to release
-	 *                                                 the lock(s)
-	 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
-	 */
-	public function release($method = '') {
-		switch (strtoupper($method)) {
-			case 'ROLLBACK':
-				$this->connection->rollback();
-			break;
-			case 'COMMIT':
-			default:
-				$this->connection->commit();
-			break;
+		/**
+		 * This method releases all acquired locks.
+		 *
+		 * @access public
+		 * @override
+		 * @param string $method                                    the method to be used to release
+		 *                                                          the lock(s)
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
+		 */
+		public function release($method = '') {
+			switch (strtoupper($method)) {
+				case 'ROLLBACK':
+					$this->connection->rollback();
+				break;
+				case 'COMMIT':
+				default:
+					$this->connection->commit();
+				break;
+			}
+			return $this;
 		}
-		return $this;
+
 	}
 
 }

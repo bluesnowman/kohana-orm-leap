@@ -36,8 +36,8 @@ namespace Leap\Plugins\DB\MySQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws \Leap\Core\Throwable\Database\Exception  indicates that there is problem with
-		 *                                                  opening the connection
+		 * @throws \Leap\Core\Throwable\Database\Exception          indicates that there is problem with
+		 *                                                          opening the connection
 		 *
 		 * @see http://www.php.net/manual/en/ref.pdo-mysql.connection.php
 		 */

@@ -36,7 +36,7 @@ namespace Leap\Plugins\DB\MySQL\Lock {
 		 *
 		 * @access public
 		 * @override
-		 * @return \Leap\Core\DB\SQL\Lock\Builder          a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
 		 */
 		public function acquire() {
 			$this->connection->execute('LOCK TABLES ' . implode(',', $this->data) . ';');
@@ -48,9 +48,9 @@ namespace Leap\Plugins\DB\MySQL\Lock {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                            the table to be locked
-		 * @param array $hints                             the hints to be applied
-		 * @return \Leap\Core\DB\SQL\Lock\Builder          a reference to the current instance
+		 * @param string $table                                     the table to be locked
+		 * @param array $hints                                      the hints to be applied
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
 		 */
 		public function add($table, Array $hints = NULL) {
 			$modes = array();
@@ -73,9 +73,9 @@ namespace Leap\Plugins\DB\MySQL\Lock {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $method                           the method to be used to release
-		 *                                                 the lock(s)
-		 * @return \Leap\Core\DB\SQL\Lock\Builder          a reference to the current instance
+		 * @param string $method                                    the method to be used to release
+		 *                                                          the lock(s)
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
 		 */
 		public function release($method = '') {
 			$this->connection->execute('UNLOCK TABLES;');

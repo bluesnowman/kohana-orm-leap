@@ -187,12 +187,12 @@ namespace Leap\Plugins\DB\MySQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $column                        the column to be sorted
-		 * @param string $ordering                      the ordering token that signals whether the
-		 *                                              column will sorted either in ascending or
-		 *                                              descending order
-		 * @param string $nulls                         the weight to be given to null values
-		 * @return string                               the prepared clause
+		 * @param string $column                                    the column to be sorted
+		 * @param string $ordering                                  the ordering token that signals whether the
+		 *                                                          column will sorted either in ascending or
+		 *                                                          descending order
+		 * @param string $nulls                                     the weight to be given to null values
+		 * @return string                                           the prepared clause
 		 *
 		 * @see http://forums.mysql.com/read.php?10,208709,208927
 		 */
@@ -225,9 +225,9 @@ namespace Leap\Plugins\DB\MySQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $expr                          the expression to be prepared
-		 * @param char $escape                          the escape character
-		 * @return string                               the prepared expression
+		 * @param string $expr                                      the expression to be prepared
+		 * @param char $escape                                      the escape character
+		 * @return string                                           the prepared expression
 		 */
 		public function prepare_value($expr, $escape = NULL) {
 			if ($expr === NULL) {
@@ -323,8 +323,8 @@ namespace Leap\Plugins\DB\MySQL {
 		 *
 		 * @access public
 		 * @static
-		 * @param string $token                         the token to be cross-referenced
-		 * @return boolean                              whether the token is a reserved keyword
+		 * @param string $token                                     the token to be cross-referenced
+		 * @return boolean                                          whether the token is a reserved keyword
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.6/en/reserved-words.html
 		 */

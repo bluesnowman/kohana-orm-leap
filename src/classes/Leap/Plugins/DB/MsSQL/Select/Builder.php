@@ -17,104 +17,107 @@
  * limitations under the License.
  */
 
-/**
- * This class builds a MS SQL select statement.
- *
- * @package Leap
- * @category MS SQL
- * @version 2013-02-27
- *
- * @see http://msdn.microsoft.com/en-us/library/aa260662%28v=sql.80%29.aspx
- *
- * @abstract
- */
-abstract class Base\DB\MsSQL\Select\Builder extends \Leap\Core\DB\SQL\Select\Builder {
+namespace Leap\Plugins\DB\MsSQL\Select {
 
 	/**
-	 * This method returns the SQL statement.
+	 * This class builds a MS SQL select statement.
 	 *
 	 * @access public
-	 * @override
-	 * @param boolean $terminated           whether to add a semi-colon to the end
-	 *                                      of the statement
-	 * @return string                       the SQL statement
+	 * @class
+	 * @package Leap\Plugins\DB\MsSQL\Select
+	 * @version 2014-04-19
 	 *
-	 * @see http://www.leghumped.com/blog/2007/12/09/limit-and-offset-clauses-in-mssql/
+	 * @see http://msdn.microsoft.com/en-us/library/aa260662%28v=sql.80%29.aspx
 	 */
-	public function statement($terminated = TRUE) {
-		$sql = 'SELECT ';
+	class Builder extends \Leap\Core\DB\SQL\Select\Builder {
 
-		if ($this->data['distinct']) {
-			$sql .= 'DISTINCT ';
-		}
+		/**
+		 * This method returns the SQL statement.
+		 *
+		 * @access public
+		 * @override
+		 * @param boolean $terminated           whether to add a semi-colon to the end
+		 *                                      of the statement
+		 * @return string                       the SQL statement
+		 *
+		 * @see http://www.leghumped.com/blog/2007/12/09/limit-and-offset-clauses-in-mssql/
+		 */
+		public function statement($terminated = TRUE) {
+			$sql = 'SELECT ';
 
-		if ($this->data['limit'] > 0) {
-			$sql .= "TOP {$this->data['limit']} ";
-		}
-
-		$sql .= ( ! empty($this->data['column']))
-			? implode(', ', $this->data['column'])
-			: $this->data['wildcard'];
-
-		if ($this->data['from'] !== NULL) {
-			$sql .= " FROM {$this->data['from']}";
-		}
-
-		foreach ($this->data['join'] as $join) {
-			$sql .= " {$join[0]}";
-			if ( ! empty($join[1])) {
-				$sql .= ' ON (' . implode(' AND ', $join[1]) . ')';
+			if ($this->data['distinct']) {
+				$sql .= 'DISTINCT ';
 			}
-			else if ( ! empty($join[2])) {
-				$sql .= ' USING (' . implode(', ', $join[2]) . ')';
-			}
-		}
 
-		if ( ! empty($this->data['where'])) {
-			$append = FALSE;
-			$sql .= ' WHERE ';
-			foreach ($this->data['where'] as $where) {
-				if ($append AND ($where[1] != \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
-					$sql .= " {$where[0]} ";
+			if ($this->data['limit'] > 0) {
+				$sql .= "TOP {$this->data['limit']} ";
+			}
+
+			$sql .= ( ! empty($this->data['column']))
+				? implode(', ', $this->data['column'])
+				: $this->data['wildcard'];
+
+			if ($this->data['from'] !== NULL) {
+				$sql .= " FROM {$this->data['from']}";
+			}
+
+			foreach ($this->data['join'] as $join) {
+				$sql .= " {$join[0]}";
+				if ( ! empty($join[1])) {
+					$sql .= ' ON (' . implode(' AND ', $join[1]) . ')';
 				}
-				$sql .= $where[1];
-				$append = ($where[1] != \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_);
-			}
-		}
-
-		if ( ! empty($this->data['group_by'])) {
-			$sql .= ' GROUP BY ' . implode(', ', $this->data['group_by']);
-		}
-
-		if ( ! empty($this->data['having'])) {
-			$append = FALSE;
-			$sql .= ' HAVING ';
-			foreach ($this->data['having'] as $having) {
-				if ($append AND ($having[1] != \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
-					$sql .= " {$having[0]} ";
+				else if ( ! empty($join[2])) {
+					$sql .= ' USING (' . implode(', ', $join[2]) . ')';
 				}
-				$sql .= $having[1];
-				$append = ($having[1] != \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_);
 			}
+
+			if ( ! empty($this->data['where'])) {
+				$append = FALSE;
+				$sql .= ' WHERE ';
+				foreach ($this->data['where'] as $where) {
+					if ($append AND ($where[1] != \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
+						$sql .= " {$where[0]} ";
+					}
+					$sql .= $where[1];
+					$append = ($where[1] != \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_);
+				}
+			}
+
+			if ( ! empty($this->data['group_by'])) {
+				$sql .= ' GROUP BY ' . implode(', ', $this->data['group_by']);
+			}
+
+			if ( ! empty($this->data['having'])) {
+				$append = FALSE;
+				$sql .= ' HAVING ';
+				foreach ($this->data['having'] as $having) {
+					if ($append AND ($having[1] != \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
+						$sql .= " {$having[0]} ";
+					}
+					$sql .= $having[1];
+					$append = ($having[1] != \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_);
+				}
+			}
+
+			if ( ! empty($this->data['order_by'])) {
+				$sql .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
+			}
+
+			//if ($this->data['offset'] > 0) {
+			//	$sql .= " OFFSET {$this->data['offset']}";
+			//}
+
+			foreach ($this->data['combine'] as $combine) {
+				$sql .= " {$combine}";
+			}
+
+			if ($terminated) {
+				$sql .= ';';
+			}
+
+			return $sql;
 		}
 
-		if ( ! empty($this->data['order_by'])) {
-			$sql .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
-		}
-
-		//if ($this->data['offset'] > 0) {
-		//	$sql .= " OFFSET {$this->data['offset']}";
-		//}
-
-		foreach ($this->data['combine'] as $combine) {
-			$sql .= " {$combine}";
-		}
-
-		if ($terminated) {
-			$sql .= ';';
-		}
-
-		return $sql;
 	}
 
 }

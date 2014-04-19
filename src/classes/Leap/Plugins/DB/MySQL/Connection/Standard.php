@@ -48,8 +48,8 @@ namespace Leap\Plugins\DB\MySQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.0/en/commit.html
 		 * @see http://php.net/manual/en/function.mysql-query.php
@@ -63,7 +63,7 @@ namespace Leap\Plugins\DB\MySQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @return boolean                              whether an open connection was closed
+		 * @return boolean                                          whether an open connection was closed
 		 */
 		public function close() {
 			if ($this->is_connected()) {
@@ -80,8 +80,8 @@ namespace Leap\Plugins\DB\MySQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.0/en/commit.html
 		 * @see http://php.net/manual/en/function.mysql-query.php
@@ -95,9 +95,9 @@ namespace Leap\Plugins\DB\MySQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                           the SQL statement
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
-		 *                                              statement failed
+		 * @param string $sql                                       the SQL statement
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 */
 		public function execute($sql) {
 			if ( ! $this->is_connected()) {
@@ -116,10 +116,10 @@ namespace Leap\Plugins\DB\MySQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                         the table to be queried
-		 * @param string $column                        the column representing the table's id
-		 * @return integer                              the last insert id
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the query failed
+		 * @param string $table                                     the table to be queried
+		 * @param string $column                                    the column representing the table's id
+		 * @return integer                                          the last insert id
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
 		public function get_last_insert_id($table = NULL, $column = 'id') {
 			if ( ! $this->is_connected()) {
@@ -148,8 +148,8 @@ namespace Leap\Plugins\DB\MySQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws \Leap\Core\Throwable\Database\Exception  indicates that there is problem with
-		 *                                                  opening the connection
+		 * @throws \Leap\Core\Throwable\Database\Exception          indicates that there is problem with
+		 *                                                          opening the connection
 		 */
 		public function open() {
 			if ( ! $this->is_connected()) {
@@ -178,11 +178,11 @@ namespace Leap\Plugins\DB\MySQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $string                        the string to be escaped
-		 * @param char $escape                          the escape character
-		 * @return string                               the quoted string
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that no connection could
-		 *                                              be found
+		 * @param string $string                                    the string to be escaped
+		 * @param char $escape                                      the escape character
+		 * @return string                                           the quoted string
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that no connection could
+		 *                                                          be found
 		 */
 		public function quote($string, $escape = NULL) {
 			if ( ! $this->is_connected()) {

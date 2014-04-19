@@ -17,58 +17,63 @@
  * limitations under the License.
  */
 
-/**
- * This class builds a MS SQL insert statement.
- *
- * @package Leap
- * @category MS SQL
- * @version 2012-12-05
- *
- * @see http://msdn.microsoft.com/en-us/library/aa933206%28v=sql.80%29.aspx
- */
-abstract class Base\DB\MsSQL\Insert\Builder extends \Leap\Core\DB\SQL\Insert\Builder {
+namespace Leap\Plugins\DB\MsSQL\Insert {
 
 	/**
-	 * This method returns the SQL statement.
+	 * This class builds a MS SQL insert statement.
 	 *
 	 * @access public
-	 * @override
-	 * @param boolean $terminated           whether to add a semi-colon to the end
-	 *                                      of the statement
-	 * @return string                       the SQL statement
+	 * @class
+	 * @package Leap\Plugins\DB\MsSQL\Insert
+	 * @version 2014-04-19
+	 *
+	 * @see http://msdn.microsoft.com/en-us/library/aa933206%28v=sql.80%29.aspx
 	 */
-	public function statement($terminated = TRUE) {
-		$sql = "INSERT INTO {$this->data['into']}";
+	class Builder extends \Leap\Core\DB\SQL\Insert\Builder {
 
-		if ( ! empty($this->data['columns'])) {
-			$rows = array_values($this->data['rows']);
-			$rowCt = 1;
-			$columns = array_keys($this->data['columns']);
-			$columnCt = count($columns);
-			$sql .= ' (' . implode(', ', $columns) . ') VALUES';
-			for ($r = 0; $r < $rowCt; $r++) {
-				if ($r > 0) {
-					$sql .= ',';
-				}
-				$sql .= ' (';
-				for ($c = 0; $c < $columnCt; $c++) {
-					if ($c > 0) {
-						$sql .= ', ';
+		/**
+		 * This method returns the SQL statement.
+		 *
+		 * @access public
+		 * @override
+		 * @param boolean $terminated           whether to add a semi-colon to the end
+		 *                                      of the statement
+		 * @return string                       the SQL statement
+		 */
+		public function statement($terminated = TRUE) {
+			$sql = "INSERT INTO {$this->data['into']}";
+
+			if ( ! empty($this->data['columns'])) {
+				$rows = array_values($this->data['rows']);
+				$rowCt = 1;
+				$columns = array_keys($this->data['columns']);
+				$columnCt = count($columns);
+				$sql .= ' (' . implode(', ', $columns) . ') VALUES';
+				for ($r = 0; $r < $rowCt; $r++) {
+					if ($r > 0) {
+						$sql .= ',';
 					}
-					$column = $columns[$c];
-					$sql .= (isset($rows[$r][$column]))
-						? $rows[$r][$column]
-						: 'NULL';
+					$sql .= ' (';
+					for ($c = 0; $c < $columnCt; $c++) {
+						if ($c > 0) {
+							$sql .= ', ';
+						}
+						$column = $columns[$c];
+						$sql .= (isset($rows[$r][$column]))
+							? $rows[$r][$column]
+							: 'NULL';
+					}
+					$sql .= ')';
 				}
-				$sql .= ')';
 			}
+
+			if ($terminated) {
+				$sql .= ';';
+			}
+
+			return $sql;
 		}
 
-		if ($terminated) {
-			$sql .= ';';
-		}
-
-		return $sql;
 	}
 
 }

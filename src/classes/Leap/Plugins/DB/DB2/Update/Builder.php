@@ -36,9 +36,9 @@ namespace Leap\Plugins\DB\DB2\Update {
 		 *
 		 * @access public
 		 * @override
-		 * @param boolean $terminated           whether to add a semi-colon to the end
-		 *                                      of the statement
-		 * @return string                       the SQL statement
+		 * @param boolean $terminated                               whether to add a semi-colon to the end
+		 *                                                          of the statement
+		 * @return string                                           the SQL statement
 		 */
 		public function statement($terminated = TRUE) {
 			$sql = "UPDATE {$this->data['table']}";

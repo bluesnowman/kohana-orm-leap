@@ -35,9 +35,9 @@ namespace Leap\Plugins\DB\MySQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $type                   the SQL data type
-		 * @return array                         an associated array of default properties
-		 *                                       for the specified data type
+		 * @param string $type                                      the SQL data type
+		 * @return array                                            an associated array of default properties
+		 *                                                          for the specified data type
 		 *
 		 * @license http://kohanaframework.org/license
 		 *
@@ -107,10 +107,10 @@ namespace Leap\Plugins\DB\MySQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                 the table to evaluated
-		 * @param string $like                  a like constraint on the query
-		 * @return \Leap\Core\DB\ResultSet      an array of fields within the specified
-		 *                                      table
+		 * @param string $table                                     the table to evaluated
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          an array of fields within the specified
+		 *                                                          table
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.5/en/show-columns.html
 		 */
@@ -181,10 +181,10 @@ namespace Leap\Plugins\DB\MySQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                 the table to evaluated
-		 * @param string $like                  a like constraint on the query
-		 * @return \Leap\Core\DB\ResultSet      a result set of indexes for the specified
-		 *                                      table
+		 * @param string $table                                     the table to evaluated
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of indexes for the specified
+		 *                                                          table
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.6/en/show-index.html
 		 */
@@ -241,8 +241,8 @@ namespace Leap\Plugins\DB\MySQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $like                  a like constraint on the query
-		 * @return \Leap\Core\DB\ResultSet      a result set of database tables
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of database tables
 		 *
 		 * @see http://www.geeksww.com/tutorials/database_management_systems/mysql/tips_and_tricks/mysql_query_to_find_all_views_in_a_database.php
 		 */
@@ -283,10 +283,10 @@ namespace Leap\Plugins\DB\MySQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                 the table to evaluated
-		 * @param string $like                  a like constraint on the query
-		 * @return \Leap\Core\DB\ResultSet      a result set of triggers for the specified
-		 *                                      table
+		 * @param string $table                                     the table to evaluated
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of triggers for the specified
+		 *                                                          table
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.6/en/triggers-table.html
 		 * @see http://dev.mysql.com/doc/refman/5.6/en/show-triggers.html
@@ -330,8 +330,8 @@ namespace Leap\Plugins\DB\MySQL {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $like                  a like constraint on the query
-		 * @return \Leap\Core\DB\ResultSet      a result set of database views
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of database views
 		 *
 		 * @see http://www.geeksww.com/tutorials/database_management_systems/mysql/tips_and_tricks/mysql_query_to_find_all_views_in_a_database.php
 		 */
