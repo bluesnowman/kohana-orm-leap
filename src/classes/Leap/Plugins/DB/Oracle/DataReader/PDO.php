@@ -17,14 +17,17 @@
  * limitations under the License.
  */
 
-/**
- * This class is used to read data from an Oracle database using the PDO
- * driver.
- *
- * @package Leap
- * @category Oracle
- * @version 2012-12-04
- *
- * @abstract
- */
-abstract class Base\DB\Oracle\DataReader\PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
+namespace Leap\Plugins\DB\Oracle\DataReader {
+
+	/**
+	 * This class is used to read data from an Oracle database using the PDO
+	 * driver.
+	 *
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\Oracle\DataReader
+	 * @version 2014-04-19
+	 */
+	class PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
+
+}
