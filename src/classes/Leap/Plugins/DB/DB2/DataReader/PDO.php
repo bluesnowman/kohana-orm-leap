@@ -23,12 +23,11 @@ namespace Leap\Plugins\DB\DB2\DataReader {
 	 * This class is used to read data from a DB2 database using the PDO
 	 * driver.
 	 *
-	 * @package Leap
-	 * @category DB2
-	 * @version 2012-12-04
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\DB2\DataReader
+	 * @version 2014-04-17
 	 */
-	abstract class PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
+	class PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
 
 }

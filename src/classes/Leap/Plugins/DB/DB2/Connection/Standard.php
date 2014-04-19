@@ -22,15 +22,14 @@ namespace Leap\Plugins\DB\DB2\Connection {
 	/**
 	 * This class handles a standard DB2 connection.
 	 *
-	 * @package Leap
-	 * @category DB2
-	 * @version 2013-01-27
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\DB2\Connection
+	 * @version 2014-04-17
 	 *
 	 * @see http://php.net/manual/en/ref.ibm-db2.php
-	 *
-	 * @abstract
 	 */
-	abstract class Standard extends \Leap\Core\DB\SQL\Connection\Standard {
+	class Standard extends \Leap\Core\DB\SQL\Connection\Standard {
 
 		/**
 		 * This destructor ensures that the connection is closed.
@@ -51,18 +50,18 @@ namespace Leap\Plugins\DB\DB2\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\SQL\Exception              indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://www.php.net/manual/en/function.db2-autocommit.php
 		 */
 		public function begin_transaction() {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: Unable to find connection.');
 			}
 			$command = @db2_autocommit($this->resource, DB2_AUTOCOMMIT_OFF);
 			if ($command === FALSE) {
-				throw new Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: :reason', array(':reason' => @db2_conn_error($this->resource)));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: :reason', array(':reason' => @db2_conn_error($this->resource)));
 			}
 			$this->sql = 'BEGIN TRANSACTION;';
 		}
@@ -72,7 +71,7 @@ namespace Leap\Plugins\DB\DB2\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @return boolean                              whether an open connection was closed
+		 * @return boolean                                          whether an open connection was closed
 		 *
 		 * @see http://www.php.net/manual/en/function.db2-close.php
 		 */
@@ -91,18 +90,18 @@ namespace Leap\Plugins\DB\DB2\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\SQL\Exception              indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://www.php.net/manual/en/function.db2-commit.php
 		 */
 		public function commit() {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: Unable to find connection.');
 			}
 			$command = @db2_commit($this->resource);
 			if ($command === FALSE) {
-				throw new Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: :reason', array(':reason' => @db2_conn_error($this->resource)));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: :reason', array(':reason' => @db2_conn_error($this->resource)));
 			}
 			@db2_autocommit($this->resource, DB2_AUTOCOMMIT_ON);
 			$this->sql = 'COMMIT;';
@@ -113,20 +112,20 @@ namespace Leap\Plugins\DB\DB2\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                           the SQL statement
-		 * @throws Throwable\SQL\Exception              indicates that the executed
-		 *                                              statement failed
+		 * @param string $sql                                       the SQL statement
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://www.php.net/manual/en/function.db2-exec.php
 		 * @see http://www.php.net/manual/en/function.db2-free-result.php
 		 */
 		public function execute($sql) {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
 			$command = @db2_exec($this->resource, $sql);
 			if ($command === FALSE) {
-				throw new Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @db2_stmt_errormsg($command)));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @db2_stmt_errormsg($command)));
 			}
 			$this->sql = $sql;
 			@db2_free_result($command);
@@ -137,16 +136,16 @@ namespace Leap\Plugins\DB\DB2\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                         the table to be queried
-		 * @param string $column                        the column representing the table's id
-		 * @return integer                              the last insert id
-		 * @throws Throwable\SQL\Exception              indicates that the query failed
+		 * @param string $table                                     the table to be queried
+		 * @param string $column                                    the column representing the table's id
+		 * @return integer                                          the last insert id
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 *
 		 * @see http://www.php.net/manual/en/function.db2-last-insert-id.php
 		 */
 		public function get_last_insert_id($table = NULL, $column = 'id') {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: Unable to find connection.');
 			}
 			if (is_string($table)) {
 				$sql = $this->sql;
@@ -160,7 +159,7 @@ namespace Leap\Plugins\DB\DB2\Connection {
 			else {
 				$id = @db2_last_insert_id($this->resource);
 				if ($id === FALSE) {
-					throw new Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: :reason', array(':reason' => @db2_conn_error($this->resource)));
+					throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: :reason', array(':reason' => @db2_conn_error($this->resource)));
 				}
 				settype($id, 'integer');
 				return $id;
@@ -172,8 +171,8 @@ namespace Leap\Plugins\DB\DB2\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\Database\Exception         indicates that there is problem with
-		 *                                              opening the connection
+		 * @throws \Leap\Core\Throwable\Database\Exception          indicates that there is problem with
+		 *                                                          opening the connection
 		 *
 		 * @see http://www.php.net/manual/en/function.db2-connect.php
 		 * @see http://www.php.net/manual/en/function.db2-conn-error.php
@@ -193,7 +192,7 @@ namespace Leap\Plugins\DB\DB2\Connection {
 					? @db2_pconnect($connection_string, '', '')
 					: @db2_connect($connection_string, '', '');
 				if ($this->resource === FALSE) {
-					throw new Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => @db2_conn_error()));
+					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => @db2_conn_error()));
 				}
 				// "To use UTF-8 when talking to a DB2 instance, use the following command from the DB2 home at the command prompt: db2set DB2CODEPAGE=1208"
 			}
@@ -204,11 +203,11 @@ namespace Leap\Plugins\DB\DB2\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $string                        the string to be escaped
-		 * @param char $escape                          the escape character
-		 * @return string                               the quoted string
-		 * @throws Throwable\SQL\Exception              indicates that no connection could
-		 *                                              be found
+		 * @param string $string                                    the string to be escaped
+		 * @param char $escape                                      the escape character
+		 * @return string                                           the quoted string
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that no connection could
+		 *                                                          be found
 		 *
 		 * @see http://www.php.net/manual/en/function.db2-escape-string.php
 		 * @see http://publib.boulder.ibm.com/infocenter/db2luw/v8/index.jsp?topic=/com.ibm.db2.udb.doc/admin/c0010966.htm
@@ -216,7 +215,7 @@ namespace Leap\Plugins\DB\DB2\Connection {
 		 */
 		public function quote($string, $escape = NULL) {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to quote/escape string. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to quote/escape string. Reason: Unable to find connection.');
 			}
 
 			$string = "'" . db2_escape_string($string) . "'";
@@ -233,18 +232,18 @@ namespace Leap\Plugins\DB\DB2\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\SQL\Exception              indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://www.php.net/manual/en/function.db2-rollback.php
 		 */
 		public function rollback() {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: Unable to find connection.');
 			}
 			$command = @db2_rollback($this->resource);
 			if ($command === FALSE) {
-				throw new Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: :reason', array(':reason' => @db2_conn_error($this->resource)));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: :reason', array(':reason' => @db2_conn_error($this->resource)));
 			}
 			@db2_autocommit($this->resource, DB2_AUTOCOMMIT_ON);
 			$this->sql = 'ROLLBACK;';

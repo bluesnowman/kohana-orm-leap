@@ -22,13 +22,12 @@ namespace Leap\Plugins\DB\DB2 {
 	/**
 	 * This class provides a way to access the scheme for a DB2 database.
 	 *
-	 * @package Leap
-	 * @category DB2
-	 * @version 2013-01-30
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\DB2
+	 * @version 2014-04-19
 	 */
-	abstract class Schema extends DB\Schema {
+	class Schema extends \Leap\Core\DB\Schema {
 
 		/**
 		 * This method returns an associated array which describes the properties
@@ -36,9 +35,9 @@ namespace Leap\Plugins\DB\DB2 {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $type                   the SQL data type
-		 * @return array                         an associated array which describes the properties
-		 *                                       for the specified data type
+		 * @param string $type                                      the SQL data type
+		 * @return array                                            an associated array which describes the properties
+		 *                                                          for the specified data type
 		 *
 		 * @license http://kohanaframework.org/license
 		 *
@@ -113,10 +112,10 @@ namespace Leap\Plugins\DB\DB2 {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                 the table to evaluated
-		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 an array of fields within the specified
-		 *                                      table
+		 * @param string $table                                     the table to evaluated
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          an array of fields within the specified
+		 *                                                          table
 		 */
 		public function fields($table, $like = '') {
 			/*
@@ -210,10 +209,10 @@ namespace Leap\Plugins\DB\DB2 {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                 the table to evaluated
-		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of indexes for the specified
-		 *                                      table
+		 * @param string $table                                     the table to evaluated
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of indexes for the specified
+		 *                                                          table
 		 *
 		 * @see http://www.devx.com/dbzone/Article/29585/0/page/4
 		 * @see http://publib.boulder.ibm.com/infocenter/db2luw/v9/topic/com.ibm.db2.udb.admin.doc/doc/r0001047.htm
@@ -228,18 +227,18 @@ namespace Leap\Plugins\DB\DB2 {
 				->column('t1.INDNAME', 'index')
 				->column('t0.COLNAME', 'column')
 				->column('t0.COLSEQ', 'seq_index')
-				->column(DB\SQL::expr("CASE \"t0\".\"COLORDER\" WHEN 'A' THEN 'ASC' WHEN 'D' THEN 'DESC' ELSE NULL END"), 'ordering')
-				->column(DB\SQL::expr("CASE \"t1\".\"UNIQUERULE\" WHEN 'D' THEN 0 ELSE 1 END"), 'unique')
-				->column(DB\SQL::expr("CASE \"t1\".\"UNIQUERULE\" WHEN 'P' THEN 1 ELSE 0 END"), 'primary')
+				->column(\Leap\Core\DB\SQL::expr("CASE \"t0\".\"COLORDER\" WHEN 'A' THEN 'ASC' WHEN 'D' THEN 'DESC' ELSE NULL END"), 'ordering')
+				->column(\Leap\Core\DB\SQL::expr("CASE \"t1\".\"UNIQUERULE\" WHEN 'D' THEN 0 ELSE 1 END"), 'unique')
+				->column(\Leap\Core\DB\SQL::expr("CASE \"t1\".\"UNIQUERULE\" WHEN 'P' THEN 1 ELSE 0 END"), 'primary')
 				->from('SYSCAT.INDEXCOLUSE', 't0')
-				->join(DB\SQL\JoinType::_LEFT_, 'SYSCAT.INDEXES', 't1')
+				->join(\Leap\Core\DB\SQL\JoinType::_LEFT_, 'SYSCAT.INDEXES', 't1')
 				->on('t1.INDSCHEMA', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't0.INDSCHEMA')
 				->on('t1.INDNAME', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 't0.INDNAME')
 				->where('t1.TABSCHEMA', \Leap\Core\DB\SQL\Operator::_NOT_LIKE_, 'SYS%')
 				->where('t1.TABNAME', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
-				->order_by(DB\SQL::expr('UPPER("t1"."TABSCHEMA")'))
-				->order_by(DB\SQL::expr('UPPER("t1"."TABNAME")'))
-				->order_by(DB\SQL::expr('UPPER("t1"."INDNAME")'))
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER("t1"."TABSCHEMA")'))
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER("t1"."TABNAME")'))
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER("t1"."INDNAME")'))
 				->order_by('t0.COLSEQ');
 
 			if ( ! empty($like)) {
@@ -262,8 +261,8 @@ namespace Leap\Plugins\DB\DB2 {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of database tables
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of database tables
 		 *
 		 * @see http://www.devx.com/dbzone/Article/29585/0/page/4
 		 * @see http://www.ibm.com/developerworks/data/library/techarticle/dm-0411melnyk/
@@ -274,12 +273,12 @@ namespace Leap\Plugins\DB\DB2 {
 			$builder = \Leap\Core\DB\SQL::select($this->data_source)
 				->column('TABSCHEMA', 'schema')
 				->column('TABNAME', 'table')
-				->column(DB\SQL::expr("'BASE'"), 'type')
+				->column(\Leap\Core\DB\SQL::expr("'BASE'"), 'type')
 				->from('SYSCAT.TABLES')
 				->where('TABSCHEMA', \Leap\Core\DB\SQL\Operator::_NOT_LIKE_, 'SYS%')
 				->where('TYPE', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'T')
-				->order_by(DB\SQL::expr('UPPER("TABSCHEMA")'))
-				->order_by(DB\SQL::expr('UPPER("TABNAME")'));
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER("TABSCHEMA")'))
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER("TABNAME")'));
 
 			if ( ! empty($like)) {
 				$builder->where('TABNAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
@@ -307,10 +306,10 @@ namespace Leap\Plugins\DB\DB2 {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                 the table to evaluated
-		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of triggers for the specified
-		 *                                      table
+		 * @param string $table                                     the table to evaluated
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of triggers for the specified
+		 *                                                          table
 		 *
 		 * @see http://www.devx.com/dbzone/Article/29585/0/page/4
 		 * @see http://publib.boulder.ibm.com/infocenter/db2luw/v9/topic/com.ibm.db2.udb.admin.doc/doc/r0001066.htm
@@ -322,17 +321,17 @@ namespace Leap\Plugins\DB\DB2 {
 				->column('TRIGNAME', 'trigger')
 				->column('TRIGEVENT', 'event')
 				->column('TRIGTIME', 'timing')
-				->column(DB\SQL::expr("CASE GRANULARITY WHEN 'S' THEN 'STATEMENT' ELSE 'ROW' END"), 'per')
+				->column(\Leap\Core\DB\SQL::expr("CASE GRANULARITY WHEN 'S' THEN 'STATEMENT' ELSE 'ROW' END"), 'per')
 				->column('TEXT', 'action')
-				->column(DB\SQL::expr('0'), 'seq_index')
+				->column(\Leap\Core\DB\SQL::expr('0'), 'seq_index')
 				->column('CREATE_TIME', 'created')
 				->from('SYSCAT.TRIGGERS')
 				->where('TABSCHEMA', \Leap\Core\DB\SQL\Operator::_NOT_LIKE_, 'SYS%')
 				->where('TABNAME', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
 				->where('VALID', \Leap\Core\DB\SQL\Operator::_NOT_EQUIVALENT_, 'Y')
-				->order_by(DB\SQL::expr('UPPER("TABSCHEMA")'))
-				->order_by(DB\SQL::expr('UPPER("TABNAME")'))
-				->order_by(DB\SQL::expr('UPPER("TRIGNAME")'));
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER("TABSCHEMA")'))
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER("TABNAME")'))
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER("TRIGNAME")'));
 
 			if ( ! empty($like)) {
 				$builder->where('TRIGNAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
@@ -354,8 +353,8 @@ namespace Leap\Plugins\DB\DB2 {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of database views
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of database views
 		 *
 		 * @see http://www.devx.com/dbzone/Article/29585/0/page/4
 		 * @see http://lpetr.org/blog/archives/find-a-list-of-views-marked-inoperative
@@ -365,12 +364,12 @@ namespace Leap\Plugins\DB\DB2 {
 			$builder = \Leap\Core\DB\SQL::select($this->data_source)
 				->column('VIEWSCHEMA', 'schema')
 				->column('VIEWNAME', 'table')
-				->column(DB\SQL::expr("'VIEW'"), 'type')
+				->column(\Leap\Core\DB\SQL::expr("'VIEW'"), 'type')
 				->from('SYSCAT.VIEWS')
 				->where('VIEWSCHEMA', \Leap\Core\DB\SQL\Operator::_NOT_LIKE_, 'SYS%')
 				->where('VALID', \Leap\Core\DB\SQL\Operator::_NOT_EQUIVALENT_, 'Y')
-				->order_by(DB\SQL::expr('UPPER("VIEWSCHEMA")'))
-				->order_by(DB\SQL::expr('UPPER("VIEWNAME")'));
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER("VIEWSCHEMA")'))
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER("VIEWNAME")'));
 
 			if ( ! empty($like)) {
 				$builder->where('VIEWNAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);

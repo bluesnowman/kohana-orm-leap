@@ -22,15 +22,14 @@ namespace Leap\Plugins\DB\DB2\Insert {
 	/**
 	 * This class builds a DB2 insert statement.
 	 *
-	 * @package Leap
-	 * @category DB2
-	 * @version 2012-12-04
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\DB2\Insert
+	 * @version 2014-04-19
 	 *
 	 * @see http://publib.boulder.ibm.com/infocenter/db2luw/v8/index.jsp?topic=/com.ibm.db2.udb.doc/admin/r0000970.htm
-	 *
-	 * @abstract
 	 */
-	abstract class Builder extends \Leap\Core\DB\SQL\Insert\Builder {
+	class Builder extends \Leap\Core\DB\SQL\Insert\Builder {
 
 		/**
 		 * This method returns the SQL statement.

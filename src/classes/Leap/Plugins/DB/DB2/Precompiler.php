@@ -22,13 +22,12 @@ namespace Leap\Plugins\DB\DB2 {
 	/**
 	 * This class provides a set of functions for preparing DB2 expressions.
 	 *
-	 * @package Leap
-	 * @category DB2
-	 * @version 2013-01-28
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\DB2
+	 * @version 2014-04-19
 	 */
-	abstract class Precompiler extends \Leap\Core\DB\SQL\Precompiler {
+	class Precompiler extends \Leap\Core\DB\SQL\Precompiler {
 
 		/**
 		 * This constant represents a closing identifier quote character.
@@ -51,16 +50,16 @@ namespace Leap\Plugins\DB\DB2 {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $expr                          the expression to be prepared
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 *
 		 * @see http://publib.boulder.ibm.com/infocenter/db2luw/v9/index.jsp?topic=/com.ibm.db2.udb.admin.doc/doc/r0000720.htm
 		 * @see http://en.wikibooks.org/wiki/SQL_Dialects_Reference/Data_structure_definition/Delimited_identifiers
 		 */
 		public function prepare_alias($expr) {
 			if ( ! is_string($expr)) {
-				throw new Throwable\InvalidArgument\Exception('Message: Invalid alias token specified. Reason: Token must be a string.', array(':expr' => $expr));
+				throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid alias token specified. Reason: Token must be a string.', array(':expr' => $expr));
 			}
 			return static::_OPENING_QUOTE_CHARACTER_ . trim(preg_replace('/[^a-z0-9$_ ]/i', '', $expr)) . static::_CLOSING_QUOTE_CHARACTER_;
 		}
@@ -70,25 +69,22 @@ namespace Leap\Plugins\DB\DB2 {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $expr                          the expression to be prepared
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 *
 		 * @see http://publib.boulder.ibm.com/infocenter/db2luw/v9/index.jsp?topic=/com.ibm.db2.udb.admin.doc/doc/r0000720.htm
 		 * @see http://en.wikibooks.org/wiki/SQL_Dialects_Reference/Data_structure_definition/Delimited_identifiers
 		 */
 		public function prepare_identifier($expr) {
-			if ($expr instanceof DB\DB2\Select\Builder) {
+			if ($expr instanceof \Leap\Plugins\DB\DB2\Select\Builder) {
 				return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 			}
 			else if ($expr instanceof \Leap\Core\DB\SQL\Expression) {
 				return $expr->value($this);
 			}
-			else if (class_exists('\\Database\\Expression') AND ($expr instanceof \Database\Expression)) {
-				return $expr->value();
-			}
 			else if ( ! is_string($expr)) {
-				throw new Throwable\InvalidArgument\Exception('Message: Invalid identifier expression specified. Reason: Token must be a string.', array(':expr' => $expr));
+				throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid identifier expression specified. Reason: Token must be a string.', array(':expr' => $expr));
 			}
 			else if (preg_match('/^SELECT.*$/i', $expr)) {
 				$expr = rtrim($expr, "; \t\n\r\0\x0B");
@@ -107,9 +103,9 @@ namespace Leap\Plugins\DB\DB2 {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $expr                          the expression to be prepared
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 *
 		 * @see http://publib.boulder.ibm.com/infocenter/iseries/v5r4/topic/sqlp/rbafyjoin.htm
 		 * @see http://www.craigsmullins.com/outer-j.htm
@@ -131,7 +127,7 @@ namespace Leap\Plugins\DB\DB2 {
 					break;
 				}
 			}
-			throw new Throwable\InvalidArgument\Exception('Message: Invalid join type token specified. Reason: Token must exist in the enumerated set.', array(':expr' => $expr));
+			throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid join type token specified. Reason: Token must exist in the enumerated set.', array(':expr' => $expr));
 		}
 
 		/**
@@ -139,10 +135,10 @@ namespace Leap\Plugins\DB\DB2 {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $expr                          the expression to be prepared
-		 * @param string $group                         the operator grouping
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @param string $group                                     the operator grouping
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 *
 		 * @see http://publib.boulder.ibm.com/infocenter/iseries/v5r4/topic/sqlp/rbafyexcept.htm
 		 * @see http://publib.boulder.ibm.com/infocenter/iseries/v5r4/topic/sqlp/rbafyintersect.htm
@@ -186,7 +182,7 @@ namespace Leap\Plugins\DB\DB2 {
 					}
 				}
 			}
-			throw new Throwable\InvalidArgument\Exception('Message: Invalid operator token specified. Reason: Token must exist in the enumerated set.', array(':group' => $group, ':expr' => $expr));
+			throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid operator token specified. Reason: Token must exist in the enumerated set.', array(':group' => $group, ':expr' => $expr));
 		}
 
 		/**
@@ -194,12 +190,12 @@ namespace Leap\Plugins\DB\DB2 {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $column                        the column to be sorted
-		 * @param string $ordering                      the ordering token that signals whether the
-		 *                                              column will sorted either in ascending or
-		 *                                              descending order
-		 * @param string $nulls                         the weight to be given to null values
-		 * @return string                               the prepared clause
+		 * @param string $column                                    the column to be sorted
+		 * @param string $ordering                                  the ordering token that signals whether the
+		 *                                                          column will sorted either in ascending or
+		 *                                                          descending order
+		 * @param string $nulls                                     the weight to be given to null values
+		 * @return string                                           the prepared clause
 		 *
 		 * @see http://stackoverflow.com/questions/4067309/whats-the-equivalent-of-oracles-nulls-first-in-db2
 		 */
@@ -232,9 +228,9 @@ namespace Leap\Plugins\DB\DB2 {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $expr                          the expression to be prepared
-		 * @param char $escape                          the escape character
-		 * @return string                               the prepared expression
+		 * @param string $expr                                      the expression to be prepared
+		 * @param char $escape                                      the escape character
+		 * @return string                                           the prepared expression
 		 */
 		public function prepare_value($expr, $escape = NULL) {
 			if ($expr === NULL) {
@@ -254,19 +250,16 @@ namespace Leap\Plugins\DB\DB2 {
 				return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . implode(', ', $buffer) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 			}
 			else if (is_object($expr)) {
-				if ($expr instanceof DB\DB2\Select\Builder) {
+				if ($expr instanceof \Leap\Plugins\DB\DB2\Select\Builder) {
 					return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 				}
 				else if ($expr instanceof \Leap\Core\DB\SQL\Expression) {
 					return $expr->value($this);
 				}
-				else if (class_exists('\\Database\\Expression') AND ($expr instanceof \Database\Expression)) {
-					return $expr->value();
-				}
-				else if ($expr instanceof Core\Data\ByteString) {
+				else if ($expr instanceof \Leap\Core\Data\ByteString) {
 					return $expr->as_hexcode("x'%s'");
 				}
-				else if ($expr instanceof Core\Data\BitField) {
+				else if ($expr instanceof \Leap\Core\Data\BitField) {
 					return $expr->as_binary("b'%s'");
 				}
 				else {
@@ -286,7 +279,7 @@ namespace Leap\Plugins\DB\DB2 {
 				return "''";
 			}
 			else {
-				return DB\Connection\Pool::instance()->get_connection($this->data_source)->quote($expr, $escape);
+				return \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source)->quote($expr, $escape);
 			}
 		}
 
@@ -295,13 +288,13 @@ namespace Leap\Plugins\DB\DB2 {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $expr                          the expression to be prepared
-		 * @return string                               the prepared expression
-		 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+		 * @param string $expr                                      the expression to be prepared
+		 * @return string                                           the prepared expression
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates a data type mismatch
 		 */
 		public function prepare_wildcard($expr) {
 			if ( ! is_string($expr)) {
-				throw new Throwable\InvalidArgument\Exception('Message: Invalid wildcard token specified. Reason: Token must be a string.', array(':expr' => $expr));
+				throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid wildcard token specified. Reason: Token must be a string.', array(':expr' => $expr));
 			}
 			$parts = explode('.', $expr);
 			$count = count($parts);
@@ -324,7 +317,7 @@ namespace Leap\Plugins\DB\DB2 {
 		 *
 		 * @access protected
 		 * @static
-		 * @var Core\Data\Serialization\XML
+		 * @var \Leap\Core\Data\Serialization\XML
 		 */
 		protected static $xml = NULL;
 
@@ -333,14 +326,14 @@ namespace Leap\Plugins\DB\DB2 {
 		 *
 		 * @access public
 		 * @static
-		 * @param string $token                         the token to be cross-referenced
-		 * @return boolean                              whether the token is a reserved keyword
+		 * @param string $token                                     the token to be cross-referenced
+		 * @return boolean                                          whether the token is a reserved keyword
 		 *
 		 * @see http://publib.boulder.ibm.com/infocenter/dzichelp/v2r2/index.jsp?topic=%2Fcom.ibm.db2z10.doc.sqlref%2Fsrc%2Ftpc%2Fdb2z_reservedwords.htm
 		 */
 		public static function is_keyword($token) {
 			if (static::$xml === NULL) {
-				static::$xml = Core\Data\Serialization\XML::load('config/sql/db2.xml');
+				static::$xml = \Leap\Core\Data\Serialization\XML::load('config/sql/db2.xml');
 			}
 			$token = strtoupper($token);
 			$nodes = static::$xml->xpath("/sql/dialect[@name='db2' and @version='10']/keywords[keyword = '{$token}']");

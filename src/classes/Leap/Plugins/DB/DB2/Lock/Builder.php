@@ -22,16 +22,15 @@ namespace Leap\Plugins\DB\DB2\Lock {
 	/**
 	 * This class builds a DB2 lock statement.
 	 *
-	 * @package Leap
-	 * @category DB2
-	 * @version 2013-01-13
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\DB2\Lock
+	 * @version 2014-04-19
 	 *
 	 * @see http://publib.boulder.ibm.com/infocenter/dzichelp/v2r2/topic/com.ibm.db2.doc.sqlref/rlktb.htm
 	 * @see http://publib.boulder.ibm.com/infocenter/db2luw/v8/topic/com.ibm.db2.udb.doc/admin/r0000972.htm
-	 *
-	 * @abstract
 	 */
-	abstract class Builder extends \Leap\Core\DB\SQL\Lock\Builder {
+	class Builder extends \Leap\Core\DB\SQL\Lock\Builder {
 
 		/**
 		 * This method acquires the required locks.

@@ -18,6 +18,7 @@
  */
 
 namespace Leap\Plugins\DB\MySQL\Connection {
+
 	/**
 	 * This class handles a PDO MySQL connection.
 	 *

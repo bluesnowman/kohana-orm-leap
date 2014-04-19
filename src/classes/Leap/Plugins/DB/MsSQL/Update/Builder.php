@@ -77,7 +77,26 @@ abstract class Base\DB\MsSQL\Update\Builder extends \Leap\Core\DB\SQL\Update\Bui
 		$sql .= ") UPDATE {$alias}";
 
 		if ( ! empty($this->data['column'])) {
-			$sql .= ' SET ' . implode(', ', array_values($this->data['column']));
+			$column = $this->data['column'];
+
+			$table = $this->data['table'];
+			$table = str_replace(\Leap\Plugins\DB\MsSQL\Precompiler::_OPENING_QUOTE_CHARACTER_, '', $table);
+			$table = str_replace(\Leap\Plugins\DB\MsSQL\Precompiler::_CLOSING_QUOTE_CHARACTER_, '', $table);
+
+			$identity = \Leap\Core\DB\SQL::select('default')
+				->from('INFORMATION_SCHEMA.COLUMNS')
+				->column('COLUMN_NAME')
+				->where('TABLE_SCHEMA', '=', 'dbo')
+				->where(\Leap\Core\DB\SQL::expr('COLUMNPROPERTY(object_id(TABLE_NAME), COLUMN_NAME, \'IsIdentity\')'), '=', 1)
+				->where('TABLE_NAME', '=', $table)
+				->query()
+				->get('COLUMN_NAME');
+
+			if ( ! empty($identity)) {
+				unset($column[\Leap\Plugins\DB\MsSQL\Precompiler::_OPENING_QUOTE_CHARACTER_ . strtolower($identity) . \Leap\Plugins\DB\MsSQL\Precompiler::_CLOSING_QUOTE_CHARACTER_]);
+			}
+
+			$sql .= ' SET ' . implode(', ', array_values($column));
 		}
 
 		if ($terminated) {

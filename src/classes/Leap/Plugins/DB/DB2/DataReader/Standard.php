@@ -23,38 +23,37 @@ namespace Leap\Plugins\DB\DB2\DataReader {
 	 * This class is used to read data from a DB2 database using the standard
 	 * driver.
 	 *
-	 * @package Leap
-	 * @category DB2
-	 * @version 2013-03-19
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\DB2\DataReader
+	 * @version 2014-04-17
 	 *
 	 * @see http://php.net/manual/en/ref.ibm-db2.php
-	 *
-	 * @abstract
 	 */
-	abstract class Standard extends \Leap\Core\DB\SQL\DataReader\Standard {
+	class Standard extends \Leap\Core\DB\SQL\DataReader\Standard {
 
 		/**
 		 * This method initializes the class.
 		 *
 		 * @access public
 		 * @override
-		 * @param DB\Connection\Driver $connection  the connection to be used
-		 * @param string $sql                       the SQL statement to be queried
-		 * @param integer $mode                     the execution mode to be used
-		 * @throws Throwable\SQL\Exception          indicates that the query failed
+		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be used
+		 * @param string $sql                                       the SQL statement to be queried
+		 * @param integer $mode                                     the execution mode to be used
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 *
 		 * @see http://www.php.net/manual/en/function.db2-prepare.php
 		 * @see http://www.php.net/manual/en/function.db2-execute.php
 		 * @see http://www.php.net/manual/en/function.db2-stmt-error.php
 		 */
-		public function __construct(DB\Connection\Driver $connection, $sql, $mode = NULL) {
+		public function __construct(\Leap\Core\DB\Connection\Driver $connection, $sql, $mode = NULL) {
 			$resource = $connection->get_resource();
 			$command = @db2_prepare($resource, $sql);
 			if ($command === FALSE) {
-				throw new Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: :reason', array(':reason' => @db2_conn_errormsg($resource)));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: :reason', array(':reason' => @db2_conn_errormsg($resource)));
 			}
 			if ( ! @db2_execute($command)) {
-				throw new Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: :reason', array(':reason' => @db2_stmt_errormsg($command)));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: :reason', array(':reason' => @db2_stmt_errormsg($command)));
 			}
 			$this->command = $command;
 			$this->record = FALSE;
@@ -81,7 +80,7 @@ namespace Leap\Plugins\DB\DB2\DataReader {
 		 *
 		 * @access public
 		 * @override
-		 * @return boolean                          whether another record was fetched
+		 * @return boolean                                          whether another record was fetched
 		 *
 		 * @see http://www.php.net/manual/en/function.db2-fetch-assoc.php
 		 */

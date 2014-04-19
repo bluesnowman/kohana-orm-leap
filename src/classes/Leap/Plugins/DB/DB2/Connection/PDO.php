@@ -22,23 +22,22 @@ namespace Leap\Plugins\DB\DB2\Connection {
 	/**
 	 * This class handles a PDO DB2 connection.
 	 *
-	 * @package Leap
-	 * @category DB2
-	 * @version 2012-12-11
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\DB2\Connection
+	 * @version 2014-04-17
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-ibm.connection.php
-	 *
-	 * @abstract
 	 */
-	abstract class PDO extends \Leap\Core\DB\SQL\Connection\PDO {
+	class PDO extends \Leap\Core\DB\SQL\Connection\PDO {
 
 		/**
 		 * This method opens a connection using the data source provided.
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\Database\Exception     indicates that there is problem with
-		 *                                          opening the connection
+		 * @throws \Leap\Core\Throwable\Database\Exception          indicates that there is problem with
+		 *                                                          opening the connection
 		 *
 		 * @see http://www.php.net/manual/en/ref.pdo-ibm.connection.php
 		 * @see http://www.zinox.com/node/132
@@ -61,7 +60,7 @@ namespace Leap\Plugins\DB\DB2\Connection {
 				}
 				catch (\PDOException $ex) {
 					$this->resource = NULL;
-					throw new Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => $ex->getMessage()));
+					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => $ex->getMessage()));
 				}
 				// "To use UTF-8 when talking to a DB2 instance, use the following command from the DB2 home at the command prompt: db2set DB2CODEPAGE=1208"
 			}
