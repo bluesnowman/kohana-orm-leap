@@ -22,15 +22,14 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 	/**
 	 * This class handles a standard Drizzle connection.
 	 *
-	 * @package Leap
-	 * @category Drizzle
-	 * @version 2013-01-27
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\Drizzle\Connection
+	 * @version 2014-04-21
 	 *
 	 * @see http://www.php.net/manual/en/book.mysql.php
-	 *
-	 * @abstract
 	 */
-	abstract class Standard extends \Leap\Core\DB\SQL\Connection\Standard {
+	class Standard extends \Leap\Core\DB\SQL\Connection\Standard {
 
 		/**
 		 * This destructor ensures that the connection is closed.
@@ -49,8 +48,8 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\SQL\Exception              indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.0/en/commit.html
 		 * @see http://php.net/manual/en/function.mysql-query.php
@@ -64,7 +63,7 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @return boolean                              whether an open connection was closed
+		 * @return boolean                                          whether an open connection was closed
 		 */
 		public function close() {
 			if ($this->is_connected()) {
@@ -81,8 +80,8 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\SQL\Exception              indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.0/en/commit.html
 		 * @see http://php.net/manual/en/function.mysql-query.php
@@ -96,17 +95,17 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                           the SQL statement
-		 * @throws Throwable\SQL\Exception              indicates that the executed
-		 *                                              statement failed
+		 * @param string $sql                                       the SQL statement
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 */
 		public function execute($sql) {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
 			$command = @mysql_query($sql, $this->resource);
 			if ($command === FALSE) {
-				throw new Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @mysql_error($this->resource)));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @mysql_error($this->resource)));
 			}
 			$this->sql = $sql;
 			@mysql_free_result($command);
@@ -117,14 +116,14 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                         the table to be queried
-		 * @param string $column                        the column representing the table's id
-		 * @return integer                              the last insert id
-		 * @throws Throwable\SQL\Exception              indicates that the query failed
+		 * @param string $table                                     the table to be queried
+		 * @param string $column                                    the column representing the table's id
+		 * @return integer                                          the last insert id
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
 		public function get_last_insert_id($table = NULL, $column = 'id') {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: Unable to find connection.');
 			}
 			if (is_string($table)) {
 				$sql = $this->sql;
@@ -138,7 +137,7 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 			else {
 				$id = @mysql_insert_id($this->resource);
 				if ($id === FALSE) {
-					throw new Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: :reason', array(':reason' => @mysql_error($this->resource)));
+					throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: :reason', array(':reason' => @mysql_error($this->resource)));
 				}
 				return $id;
 			}
@@ -149,8 +148,8 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\Database\Exception         indicates that there is problem with
-		 *                                              opening the connection
+		 * @throws \Leap\Core\Throwable\Database\Exception          indicates that there is problem with
+		 *                                                          opening the connection
 		 */
 		public function open() {
 			if ( ! $this->is_connected()) {
@@ -161,10 +160,10 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 					? @mysql_pconnect($host, $username, $password)
 					: @mysql_connect($host, $username, $password, TRUE);
 				if ($this->resource === FALSE) {
-					throw new Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => @mysql_error()));
+					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => @mysql_error()));
 				}
 				if ( ! @mysql_select_db($this->data_source->database, $this->resource)) {
-					throw new Throwable\Database\Exception('Message: Failed to connect to database. Reason: :reason', array(':reason' => @mysql_error($this->resource)));
+					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to connect to database. Reason: :reason', array(':reason' => @mysql_error($this->resource)));
 				}
 				// "There is no CHARSET or CHARACTER SET commands, everything defaults to UTF-8."
 			}
@@ -175,15 +174,15 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $string                        the string to be escaped
-		 * @param char $escape                          the escape character
-		 * @return string                               the quoted string
-		 * @throws Throwable\SQL\Exception              indicates that no connection could
-		 *                                              be found
+		 * @param string $string                                    the string to be escaped
+		 * @param char $escape                                      the escape character
+		 * @return string                                           the quoted string
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that no connection could
+		 *                                                          be found
 		 */
 		public function quote($string, $escape = NULL) {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to quote/escape string. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to quote/escape string. Reason: Unable to find connection.');
 			}
 
 			$string = "'" . mysql_real_escape_string($string, $this->resource) . "'";
@@ -200,8 +199,8 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\SQL\Exception              indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://php.net/manual/en/function.mysql-query.php
 		 */

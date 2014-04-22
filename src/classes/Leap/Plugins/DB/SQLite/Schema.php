@@ -26,7 +26,7 @@
  *
  * @abstract
  */
-abstract class Base\DB\SQLite\Schema extends DB\Schema {
+abstract class Base\DB\SQLite\Schema extends \Leap\Core\DB\Schema {
 
 	/**
 	 * This method returns a result set of fields for the specified table.
@@ -50,7 +50,7 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 	 * @override
 	 * @param string $table                 the table to evaluated
 	 * @param string $like                  a like constraint on the query
-	 * @return DB\ResultSet                 an array of fields within the specified
+	 * @return \Leap\Core\DB\ResultSet                 an array of fields within the specified
 	 *                                      table
 	 */
 	public function fields($table, $like = '') {
@@ -142,7 +142,7 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 	 * @override
 	 * @param string $table                 the table to evaluated
 	 * @param string $like                  a like constraint on the query
-	 * @return DB\ResultSet                 a result set of indexes for the specified
+	 * @return \Leap\Core\DB\ResultSet                 a result set of indexes for the specified
 	 *                                      table
 	 *
 	 * @see http://stackoverflow.com/questions/157392/how-do-i-find-out-if-a-sqlite-index-is-unique-with-sql
@@ -151,7 +151,7 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 	 * @see http://my.safaribooksonline.com/book/databases/sql/9781449394592/sqlite-pragmas/id3054537
 	 */
 	public function indexes($table, $like = '') {
-		$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
+		$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
 
 		$path_info = pathinfo($this->data_source->database);
 		$schema = $path_info['filename'];
@@ -165,7 +165,7 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 		$records = array();
 
 		foreach ($indexes as $index) {
-			if (empty($like) OR preg_match(DB\ToolKit::regex($like), $index['name'])) {
+			if (empty($like) OR preg_match(\Leap\Core\DB\ToolKit::regex($like), $index['name'])) {
 				$reader = $connection->reader("PRAGMA INDEX_INFO('{$index['name']}');");
 				while ($reader->read()) {
 					$column = $reader->row('array');
@@ -185,7 +185,7 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 			}
 		}
 
-		$results = new DB\ResultSet($records);
+		$results = new \Leap\Core\DB\ResultSet($records);
 
 		return $results;
 	}
@@ -204,7 +204,7 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 	 * @access public
 	 * @override
 	 * @param string $like                  a like constraint on the query
-	 * @return DB\ResultSet                 a result set of database tables
+	 * @return \Leap\Core\DB\ResultSet                 a result set of database tables
 	 *
 	 * @see http://www.sqlite.org/faq.html#q7
 	 */
@@ -213,13 +213,13 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 		$schema = $path_info['filename'];
 
 		$builder = \Leap\Core\DB\SQL::select($this->data_source)
-			->column(DB\SQL::expr("'{$schema}'"), 'schema')
+			->column(\Leap\Core\DB\SQL::expr("'{$schema}'"), 'schema')
 			->column('name', 'table')
-			->column(DB\SQL::expr("'BASE'"), 'type')
-			->from(DB\SQL::expr('(SELECT * FROM [sqlite_master] UNION ALL SELECT * FROM [sqlite_temp_master])'))
+			->column(\Leap\Core\DB\SQL::expr("'BASE'"), 'type')
+			->from(\Leap\Core\DB\SQL::expr('(SELECT * FROM [sqlite_master] UNION ALL SELECT * FROM [sqlite_temp_master])'))
 			->where('type', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'table')
 			->where('name', \Leap\Core\DB\SQL\Operator::_NOT_LIKE_, 'sqlite_%')
-			->order_by(DB\SQL::expr('UPPER([name])'));
+			->order_by(\Leap\Core\DB\SQL::expr('UPPER([name])'));
 
 		if ( ! empty($like)) {
 			$builder->where('name', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
@@ -249,7 +249,7 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 	 * @override
 	 * @param string $table                 the table to evaluated
 	 * @param string $like                  a like constraint on the query
-	 * @return DB\ResultSet                 a result set of triggers for the specified
+	 * @return \Leap\Core\DB\ResultSet                 a result set of triggers for the specified
 	 *                                      table
 	 *
 	 * @see http://www.sqlite.org/lang_createtrigger.html
@@ -260,20 +260,20 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 		$schema = $path_info['filename'];
 
 		$builder = \Leap\Core\DB\SQL::select($this->data_source)
-			->column(DB\SQL::expr("'{$schema}'"), 'schema')
+			->column(\Leap\Core\DB\SQL::expr("'{$schema}'"), 'schema')
 			->column('tbl_name', 'table')
 			->column('name', 'trigger')
-			->column(DB\SQL::expr('NULL'), 'event')
-			->column(DB\SQL::expr('NULL'), 'timing')
-			->column(DB\SQL::expr("'ROW'"), 'per')
+			->column(\Leap\Core\DB\SQL::expr('NULL'), 'event')
+			->column(\Leap\Core\DB\SQL::expr('NULL'), 'timing')
+			->column(\Leap\Core\DB\SQL::expr("'ROW'"), 'per')
 			->column('sql', 'action')
-			->column(DB\SQL::expr('0'), 'seq_index')
-			->column(DB\SQL::expr('NULL'), 'created')
-			->from(DB\SQL::expr('(SELECT * FROM [sqlite_master] UNION ALL SELECT * FROM [sqlite_temp_master])'))
+			->column(\Leap\Core\DB\SQL::expr('0'), 'seq_index')
+			->column(\Leap\Core\DB\SQL::expr('NULL'), 'created')
+			->from(\Leap\Core\DB\SQL::expr('(SELECT * FROM [sqlite_master] UNION ALL SELECT * FROM [sqlite_temp_master])'))
 			->where('type', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'trigger')
 			->where('tbl_name', \Leap\Core\DB\SQL\Operator::_NOT_LIKE_, 'sqlite_%')
-			->order_by(DB\SQL::expr('UPPER([tbl_name])'))
-			->order_by(DB\SQL::expr('UPPER([name])'));
+			->order_by(\Leap\Core\DB\SQL::expr('UPPER([tbl_name])'))
+			->order_by(\Leap\Core\DB\SQL::expr('UPPER([name])'));
 
 		if ( ! empty($like)) {
 			$builder->where('[name]', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
@@ -308,7 +308,7 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 					$record['timing'] = 'INSTEAD OF';
 				}
 
-				$offest = stripos($sql, 'BEGIN') + 5;
+				$offset = stripos($sql, 'BEGIN') + 5;
 				$length = (strlen($sql) - $offset) - 3;
 				$record['action'] = trim(substr($sql, $offset, $length), "; \t\n\r\0\x0B");
 			}
@@ -317,7 +317,7 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 
 		$reader->free();
 
-		$results = new DB\ResultSet($records);
+		$results = new \Leap\Core\DB\ResultSet($records);
 
 		return $results;
 	}
@@ -336,7 +336,7 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 	 * @access public
 	 * @override
 	 * @param string $like                  a like constraint on the query
-	 * @return DB\ResultSet                 a result set of database views
+	 * @return \Leap\Core\DB\ResultSet                 a result set of database views
 	 *
 	 * @see http://www.sqlite.org/faq.html#q7
 	 */
@@ -345,13 +345,13 @@ abstract class Base\DB\SQLite\Schema extends DB\Schema {
 		$schema = $path_info['filename'];
 
 		$builder = \Leap\Core\DB\SQL::select($this->data_source)
-			->column(DB\SQL::expr("'{$schema}'"), 'schema')
+			->column(\Leap\Core\DB\SQL::expr("'{$schema}'"), 'schema')
 			->column('name', 'table')
-			->column(DB\SQL::expr("'VIEW'"), 'type')
-			->from(DB\SQL::expr('(SELECT * FROM [sqlite_master] UNION ALL SELECT * FROM [sqlite_temp_master])'))
+			->column(\Leap\Core\DB\SQL::expr("'VIEW'"), 'type')
+			->from(\Leap\Core\DB\SQL::expr('(SELECT * FROM [sqlite_master] UNION ALL SELECT * FROM [sqlite_temp_master])'))
 			->where('type', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'view')
 			->where('name', \Leap\Core\DB\SQL\Operator::_NOT_LIKE_, 'sqlite_%')
-			->order_by(DB\SQL::expr('UPPER([name])'));
+			->order_by(\Leap\Core\DB\SQL::expr('UPPER([name])'));
 
 		if ( ! empty($like)) {
 			$builder->where('name', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);

@@ -22,24 +22,23 @@ namespace Leap\Plugins\DB\Drizzle\Delete {
 	/**
 	 * This class builds a Drizzle delete statement.
 	 *
-	 * @package Leap
-	 * @category Drizzle
-	 * @version 2012-12-04
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\Drizzle\Delete
+	 * @version 2014-04-21
 	 *
 	 * @see http://dev.mysql.com/doc/refman/5.0/en/delete.html
-	 *
-	 * @abstract
 	 */
-	abstract class Builder extends \Leap\Core\DB\SQL\Delete\Builder {
+	class Builder extends \Leap\Core\DB\SQL\Delete\Builder {
 
 		/**
 		 * This method returns the SQL statement.
 		 *
 		 * @access public
 		 * @override
-		 * @param boolean $terminated           whether to add a semi-colon to the end
-		 *                                      of the statement
-		 * @return string                       the SQL statement
+		 * @param boolean $terminated                               whether to add a semi-colon to the end
+		 *                                                          of the statement
+		 * @return string                                           the SQL statement
 		 */
 		public function statement($terminated = TRUE) {
 			$sql = "DELETE FROM {$this->data['from']}";

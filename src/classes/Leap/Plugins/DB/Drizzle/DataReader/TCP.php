@@ -23,28 +23,28 @@ namespace Leap\Plugins\DB\Drizzle\DataReader {
 	 * This class is used to read data from a Drizzle database using the TCP
 	 * driver.
 	 *
-	 * @package Leap
-	 * @category Drizzle
-	 * @version 2013-01-22
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\Drizzle\DataReader
+	 * @version 2014-04-21
 	 */
-	abstract class TCP extends \Leap\Core\DB\SQL\DataReader\Standard {
+	class TCP extends \Leap\Core\DB\SQL\DataReader\Standard {
 
 		/**
 		 * This method initializes the class.
 		 *
 		 * @access public
 		 * @override
-		 * @param DB\Connection\Driver $connection  the connection to be used
-		 * @param string $sql                       the SQL statement to be queried
-		 * @param integer $mode                     the execution mode to be used
+		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be used
+		 * @param string $sql                                       the SQL statement to be queried
+		 * @param integer $mode                                     the execution mode to be used
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function __construct(DB\Connection\Driver $connection, $sql, $mode = NULL) {
+		public function __construct(\Leap\Core\DB\Connection\Driver $connection, $sql, $mode = NULL) {
 			$resource = $connection->get_resource();
 			$command = @drizzle_query($resource, $sql);
 			if (($command === FALSE) OR ! @drizzle_result_buffer($command)) {
-				throw new Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: :reason', array(':reason' => @drizzle_con_error($resource)));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: :reason', array(':reason' => @drizzle_con_error($resource)));
 			}
 			$this->command = $command;
 			$this->record = FALSE;
@@ -69,7 +69,7 @@ namespace Leap\Plugins\DB\Drizzle\DataReader {
 		 *
 		 * @access public
 		 * @override
-		 * @return boolean                          whether another record was fetched
+		 * @return boolean                                          whether another record was fetched
 		 */
 		public function read() {
 			$this->record = @drizzle_row_next($this->command);

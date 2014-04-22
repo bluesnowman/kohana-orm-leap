@@ -22,23 +22,22 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 	/**
 	 * This class handles a PDO Drizzle connection.
 	 *
-	 * @package Leap
-	 * @category Drizzle
-	 * @version 2013-01-06
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\Drizzle\Connection
+	 * @version 2014-04-21
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-mysql.connection.php
-	 *
-	 * @abstract
 	 */
-	abstract class PDO extends \Leap\Core\DB\SQL\Connection\PDO {
+	class PDO extends \Leap\Core\DB\SQL\Connection\PDO {
 
 		/**
 		 * This method opens a connection using the data source provided.
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\Database\Exception        indicates that there is problem with
-		 *                                             opening the connection
+		 * @throws \Leap\Core\Throwable\Database\Exception          indicates that there is problem with
+		 *                                                          opening the connection
 		 *
 		 * @see http://www.php.net/manual/en/ref.pdo-mysql.connection.php
 		 */
@@ -62,7 +61,7 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 				}
 				catch (\PDOException $ex) {
 					$this->resource = NULL;
-					throw new Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => $ex->getMessage()));
+					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => $ex->getMessage()));
 				}
 				// "There is no CHARSET or CHARACTER SET commands, everything defaults to UTF-8."
 			}

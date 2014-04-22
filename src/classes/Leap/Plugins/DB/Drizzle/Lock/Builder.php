@@ -22,22 +22,21 @@ namespace Leap\Plugins\DB\Drizzle\Lock {
 	/**
 	 * This class builds a Drizzle lock statement.
 	 *
-	 * @package Leap
-	 * @category Drizzle
-	 * @version 2013-01-12
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\Drizzle\Lock
+	 * @version 2014-04-21
 	 *
 	 * @see http://dev.mysql.com/doc/refman/5.6/en/lock-tables.html
-	 *
-	 * @abstract
 	 */
-	abstract class Builder extends \Leap\Core\DB\SQL\Lock\Builder {
+	class Builder extends \Leap\Core\DB\SQL\Lock\Builder {
 
 		/**
 		 * This method acquires the required locks.
 		 *
 		 * @access public
 		 * @override
-		 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
 		 */
 		public function acquire() {
 			$this->connection->execute('LOCK TABLES ' . implode(',', $this->data) . ';');
@@ -49,9 +48,9 @@ namespace Leap\Plugins\DB\Drizzle\Lock {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                            the table to be locked
-		 * @param array $hints                             the hints to be applied
-		 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
+		 * @param string $table                                     the table to be locked
+		 * @param array $hints                                      the hints to be applied
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
 		 */
 		public function add($table, Array $hints = NULL) {
 			$modes = array();
@@ -74,9 +73,9 @@ namespace Leap\Plugins\DB\Drizzle\Lock {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $method                           the method to be used to release
-		 *                                                 the lock(s)
-		 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
+		 * @param string $method                                    the method to be used to release
+		 *                                                          the lock(s)
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
 		 */
 		public function release($method = '') {
 			$this->connection->execute('UNLOCK TABLES;');

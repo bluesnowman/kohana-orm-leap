@@ -22,13 +22,12 @@ namespace Leap\Plugins\DB\Drizzle {
 	/**
 	 * This class provides a way to access the scheme for a Drizzle database.
 	 *
-	 * @package Leap
-	 * @category Drizzle
-	 * @version 2013-02-01
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\Drizzle
+	 * @version 2014-04-20
 	 */
-	abstract class Schema extends DB\Schema {
+	class Schema extends \Leap\Core\DB\Schema {
 
 		/**
 		 * This method returns an associated array of default properties for the specified
@@ -36,9 +35,9 @@ namespace Leap\Plugins\DB\Drizzle {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $type                   the SQL data type
-		 * @return array                         an associated array of default properties
-		 *                                       for the specified data type
+		 * @param string $type                                      the SQL data type
+		 * @return array                                            an associated array of default properties
+		 *                                                          for the specified data type
 		 *
 		 * @license http://kohanaframework.org/license
 		 *
@@ -108,15 +107,15 @@ namespace Leap\Plugins\DB\Drizzle {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                 the table to evaluated
-		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 an array of fields within the specified
-		 *                                      table
+		 * @param string $table                                     the table to evaluated
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          an array of fields within the specified
+		 *                                                          table
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.5/en/show-columns.html
 		 */
 		public function fields($table, $like = '') {
-			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
+			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
 
 			$schema = $this->precompiler->prepare_identifier($this->data_source->database);
 			$table = $this->precompiler->prepare_identifier($table);
@@ -159,7 +158,7 @@ namespace Leap\Plugins\DB\Drizzle {
 
 			$reader->free();
 
-			$results = new DB\ResultSet($records);
+			$results = new \Leap\Core\DB\ResultSet($records);
 
 			return $results;
 		}
@@ -182,15 +181,15 @@ namespace Leap\Plugins\DB\Drizzle {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                 the table to evaluated
-		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of indexes for the specified
-		 *                                      table
+		 * @param string $table                                     the table to evaluated
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of indexes for the specified
+		 *                                                          table
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.6/en/show-index.html
 		 */
 		public function indexes($table, $like = '') {
-			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
+			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
 
 			$schema = $this->precompiler->prepare_identifier($this->data_source->database);
 			$table = $this->precompiler->prepare_identifier($table);
@@ -224,7 +223,7 @@ namespace Leap\Plugins\DB\Drizzle {
 
 			$reader->free();
 
-			$results = new DB\ResultSet($records);
+			$results = new \Leap\Core\DB\ResultSet($records);
 
 			return $results;
 		}
@@ -242,8 +241,8 @@ namespace Leap\Plugins\DB\Drizzle {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of database tables
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of database tables
 		 *
 		 * @see http://www.geeksww.com/tutorials/database_management_systems/mysql/tips_and_tricks/mysql_query_to_find_all_views_in_a_database.php
 		 */
@@ -251,12 +250,12 @@ namespace Leap\Plugins\DB\Drizzle {
 			$builder = \Leap\Core\DB\SQL::select($this->data_source)
 				->column('TABLE_SCHEMA', 'schema')
 				->column('TABLE_NAME', 'table')
-				->column(DB\SQL::expr("'BASE'"), 'type')
+				->column(\Leap\Core\DB\SQL::expr("'BASE'"), 'type')
 				->from('INFORMATION_SCHEMA.TABLES')
 				//->where('TABLE_SCHEMA', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
-				->where(DB\SQL::expr('UPPER(`TABLE_TYPE`)'), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'BASE_TABLE')
-				->order_by(DB\SQL::expr('UPPER(`TABLE_SCHEMA`)'))
-				->order_by(DB\SQL::expr('UPPER(`TABLE_NAME`)'));
+				->where(\Leap\Core\DB\SQL::expr('UPPER(`TABLE_TYPE`)'), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'BASE_TABLE')
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`TABLE_SCHEMA`)'))
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`TABLE_NAME`)'));
 
 			if ( ! empty($like)) {
 				$builder->where('TABLE_NAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);
@@ -284,10 +283,10 @@ namespace Leap\Plugins\DB\Drizzle {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                 the table to evaluated
-		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of triggers for the specified
-		 *                                      table
+		 * @param string $table                                     the table to evaluated
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of triggers for the specified
+		 *                                                          table
 		 *
 		 * @see http://dev.mysql.com/doc/refman/5.6/en/triggers-table.html
 		 * @see http://dev.mysql.com/doc/refman/5.6/en/show-triggers.html
@@ -305,10 +304,10 @@ namespace Leap\Plugins\DB\Drizzle {
 				->column('CREATED', 'created')
 				->from('INFORMATION_SCHEMA.TRIGGERS')
 				//->where('EVENT_OBJECT_SCHEMA', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
-				->where(DB\SQL::expr('UPPER(`EVENT_OBJECT_TABLE`)'), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
-				->order_by(DB\SQL::expr('UPPER(`EVENT_OBJECT_SCHEMA`)'))
-				->order_by(DB\SQL::expr('UPPER(`EVENT_OBJECT_TABLE`)'))
-				->order_by(DB\SQL::expr('UPPER(`TRIGGER_NAME`)'))
+				->where(\Leap\Core\DB\SQL::expr('UPPER(`EVENT_OBJECT_TABLE`)'), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $table)
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`EVENT_OBJECT_SCHEMA`)'))
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`EVENT_OBJECT_TABLE`)'))
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`TRIGGER_NAME`)'))
 				->order_by('ACTION_ORDER');
 
 			if ( ! empty($like)) {
@@ -331,8 +330,8 @@ namespace Leap\Plugins\DB\Drizzle {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $like                  a like constraint on the query
-		 * @return DB\ResultSet                 a result set of database views
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of database views
 		 *
 		 * @see http://www.geeksww.com/tutorials/database_management_systems/mysql/tips_and_tricks/mysql_query_to_find_all_views_in_a_database.php
 		 */
@@ -340,12 +339,12 @@ namespace Leap\Plugins\DB\Drizzle {
 			$builder = \Leap\Core\DB\SQL::select($this->data_source)
 				->column('TABLE_SCHEMA', 'schema')
 				->column('TABLE_NAME', 'table')
-				->column(DB\SQL::expr("'VIEW'"), 'type')
+				->column(\Leap\Core\DB\SQL::expr("'VIEW'"), 'type')
 				->from('INFORMATION_SCHEMA.TABLES')
 				//->where('TABLE_SCHEMA', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->data_source->database)
-				->where(DB\SQL::expr('UPPER(`TABLE_TYPE`)'), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'VIEW')
-				->order_by(DB\SQL::expr('UPPER(`TABLE_SCHEMA`)'))
-				->order_by(DB\SQL::expr('UPPER(`TABLE_NAME`)'));
+				->where(\Leap\Core\DB\SQL::expr('UPPER(`TABLE_TYPE`)'), \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, 'VIEW')
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`TABLE_SCHEMA`)'))
+				->order_by(\Leap\Core\DB\SQL::expr('UPPER(`TABLE_NAME`)'));
 
 			if ( ! empty($like)) {
 				$builder->where('TABLE_NAME', \Leap\Core\DB\SQL\Operator::_LIKE_, $like);

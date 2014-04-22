@@ -22,15 +22,14 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 	/**
 	 * This class handles an improved Drizzle connection.
 	 *
-	 * @package Leap
-	 * @category Drizzle
-	 * @version 2013-01-22
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\Drizzle\Connection
+	 * @version 2014-04-21
 	 *
 	 * @see http://www.php.net/manual/en/book.mysqli.php
-	 *
-	 * @abstract
 	 */
-	abstract class Improved extends \Leap\Core\DB\SQL\Connection\Standard {
+	class Improved extends \Leap\Core\DB\SQL\Connection\Standard {
 
 		/**
 		 * This destructor ensures that the connection is closed.
@@ -49,18 +48,18 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\SQL\Exception              indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://www.php.net/manual/en/mysqli.autocommit.php
 		 */
 		public function begin_transaction() {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: Unable to find connection.');
 			}
 			$command = @mysqli_autocommit($this->resource, FALSE);
 			if ($command === FALSE) {
-				throw new Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: :reason', array(':reason' => @mysqli_error($this->resource)));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: :reason', array(':reason' => @mysqli_error($this->resource)));
 			}
 			$this->sql = 'START TRANSACTION;';
 		}
@@ -70,7 +69,7 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @return boolean                              whether an open connection was closed
+		 * @return boolean                                          whether an open connection was closed
 		 */
 		public function close() {
 			if ($this->is_connected()) {
@@ -87,18 +86,18 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\SQL\Exception              indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://www.php.net/manual/en/mysqli.commit.php
 		 */
 		public function commit() {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: Unable to find connection.');
 			}
 			$command = @mysqli_commit($this->resource);
 			if ($command === FALSE) {
-				throw new Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: :reason', array(':reason' => @mysqli_error($this->resource)));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: :reason', array(':reason' => @mysqli_error($this->resource)));
 			}
 			@mysqli_autocommit($this->resource, TRUE);
 			$this->sql = 'COMMIT;';
@@ -109,17 +108,17 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                           the SQL statement
-		 * @throws Throwable\SQL\Exception              indicates that the executed
-		 *                                              statement failed
+		 * @param string $sql                                       the SQL statement
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 */
 		public function execute($sql) {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
 			$command = @mysqli_query($this->resource, $sql);
 			if ($command === FALSE) {
-				throw new Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @mysqli_error($this->resource)));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @mysqli_error($this->resource)));
 			}
 			$this->sql = $sql;
 			@mysqli_free_result($command);
@@ -130,14 +129,14 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                         the table to be queried
-		 * @param string $column                        the column representing the table's id
-		 * @return integer                              the last insert id
-		 * @throws Throwable\SQL\Exception              indicates that the query failed
+		 * @param string $table                                     the table to be queried
+		 * @param string $column                                    the column representing the table's id
+		 * @return integer                                          the last insert id
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
 		public function get_last_insert_id($table = NULL, $column = 'id') {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: Unable to find connection.');
 			}
 			if (is_string($table)) {
 				$sql = $this->sql;
@@ -151,7 +150,7 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 			else {
 				$id = @mysqli_insert_id($this->resource);
 				if ($id === FALSE) {
-					throw new Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: :reason', array(':reason' => @mysqli_error($this->resource)));
+					throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: :reason', array(':reason' => @mysqli_error($this->resource)));
 				}
 				return $id;
 			}
@@ -162,7 +161,7 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @return boolean                              whether a connection is established
+		 * @return boolean                                          whether a connection is established
 		 */
 		public function is_connected() {
 			return ! empty($this->resource);
@@ -173,8 +172,8 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\Database\Exception         indicates that there is problem with
-		 *                                              opening the connection
+		 * @throws \Leap\Core\Throwable\Database\Exception          indicates that there is problem with
+		 *                                                          opening the connection
 		 */
 		public function open() {
 			if ( ! $this->is_connected()) {
@@ -187,7 +186,7 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 				$database = $this->data_source->database;
 				$this->resource = @mysqli_connect($host, $username, $password, $database);
 				if ($this->resource === FALSE) {
-					throw new Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => @mysqli_connect_error()));
+					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => @mysqli_connect_error()));
 				}
 				// "There is no CHARSET or CHARACTER SET commands, everything defaults to UTF-8."
 			}
@@ -198,15 +197,15 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $string                        the string to be escaped
-		 * @param char $escape                          the escape character
-		 * @return string                               the quoted string
-		 * @throws Throwable\SQL\Exception              indicates that no connection could
-		 *                                              be found
+		 * @param string $string                                    the string to be escaped
+		 * @param char $escape                                      the escape character
+		 * @return string                                           the quoted string
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that no connection could
+		 *                                                          be found
 		 */
 		public function quote($string, $escape = NULL) {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to quote/escape string. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to quote/escape string. Reason: Unable to find connection.');
 			}
 
 			$string = "'" . mysqli_real_escape_string($this->resource, $string) . "'";
@@ -223,18 +222,18 @@ namespace Leap\Plugins\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws Throwable\SQL\Exception              indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://www.php.net/manual/en/mysqli.rollback.php
 		 */
 		public function rollback() {
 			if ( ! $this->is_connected()) {
-				throw new Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: Unable to find connection.');
 			}
 			$command = @mysqli_rollback($this->resource);
 			if ($command === FALSE) {
-				throw new Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: :reason', array(':reason' => @mysqli_error($this->resource)));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: :reason', array(':reason' => @mysqli_error($this->resource)));
 			}
 			@mysqli_autocommit($this->resource, TRUE);
 			$this->sql = 'ROLLBACK;';

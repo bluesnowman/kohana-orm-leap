@@ -22,24 +22,23 @@ namespace Leap\Plugins\DB\Drizzle\Update {
 	/**
 	 * This class builds a Drizzle update statement.
 	 *
-	 * @package Leap
-	 * @category Drizzle
-	 * @version 2012-12-04
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\Drizzle\Update
+	 * @version 2014-04-21
 	 *
 	 * @see http://dev.mysql.com/doc/refman/5.0/en/update.html
-	 *
-	 * @abstract
 	 */
-	abstract class Builder extends \Leap\Core\DB\SQL\Update\Builder {
+	class Builder extends \Leap\Core\DB\SQL\Update\Builder {
 
 		/**
 		 * This method returns the SQL statement.
 		 *
 		 * @access public
 		 * @override
-		 * @param boolean $terminated           whether to add a semi-colon to the end
-		 *                                      of the statement
-		 * @return string                       the SQL statement
+		 * @param boolean $terminated                               whether to add a semi-colon to the end
+		 *                                                          of the statement
+		 * @return string                                           the SQL statement
 		 */
 		public function statement($terminated = TRUE) {
 			$sql = "UPDATE {$this->data['table']}";

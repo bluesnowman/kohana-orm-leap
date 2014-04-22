@@ -23,31 +23,30 @@ namespace Leap\Plugins\DB\Drizzle\DataReader {
 	 * This class is used to read data from a Drizzle database using the standard
 	 * driver.
 	 *
-	 * @package Leap
-	 * @category Drizzle
-	 * @version 2013-03-19
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\Drizzle\DataReader
+	 * @version 2014-04-21
 	 *
 	 * @see http://www.php.net/manual/en/book.mysql.php
-	 *
-	 * @abstract
 	 */
-	abstract class Standard extends \Leap\Core\DB\SQL\DataReader\Standard {
+	class Standard extends \Leap\Core\DB\SQL\DataReader\Standard {
 
 		/**
 		 * This method initializes the class.
 		 *
 		 * @access public
 		 * @override
-		 * @param DB\Connection\Driver $connection  the connection to be used
-		 * @param string $sql                       the SQL statement to be queried
-		 * @param integer $mode                     the execution mode to be used
-		 * @throws Throwable\SQL\Exception          indicates that the query failed
+		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be used
+		 * @param string $sql                                       the SQL statement to be queried
+		 * @param integer $mode                                     the execution mode to be used
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function __construct(DB\Connection\Driver $connection, $sql, $mode = NULL) {
+		public function __construct(\Leap\Core\DB\Connection\Driver $connection, $sql, $mode = NULL) {
 			$resource = $connection->get_resource();
 			$command = @mysql_query($sql, $resource);
 			if ($command === FALSE) {
-				throw new Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: :reason', array(':reason' => @mysql_error($resource)));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: :reason', array(':reason' => @mysql_error($resource)));
 			}
 			$this->command = $command;
 			$this->record = FALSE;
@@ -72,7 +71,7 @@ namespace Leap\Plugins\DB\Drizzle\DataReader {
 		 *
 		 * @access public
 		 * @override
-		 * @return boolean                          whether another record was fetched
+		 * @return boolean                                          whether another record was fetched
 		 */
 		public function read() {
 			$this->record = @mysql_fetch_assoc($this->command);

@@ -53,11 +53,11 @@ abstract class Base\DB\SQLite\Precompiler extends \Leap\Core\DB\SQL\Precompiler 
 	 * @override
 	 * @param string $expr                          the expression to be prepared
 	 * @return string                               the prepared expression
-	 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+	 * @throws \Leap\Core\Throwable\InvalidArgument\Exception  indicates a data type mismatch
 	 */
 	public function prepare_alias($expr) {
 		if ( ! is_string($expr)) {
-			throw new Throwable\InvalidArgument\Exception('Message: Invalid alias token specified. Reason: Token must be a string.', array(':expr' => $expr));
+			throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid alias token specified. Reason: Token must be a string.', array(':expr' => $expr));
 		}
 		return static::_OPENING_QUOTE_CHARACTER_ . trim(preg_replace('/[^a-z0-9$_ ]/i', '', $expr)) . static::_CLOSING_QUOTE_CHARACTER_;
 	}
@@ -69,23 +69,20 @@ abstract class Base\DB\SQLite\Precompiler extends \Leap\Core\DB\SQL\Precompiler 
 	 * @override
 	 * @param string $expr                          the expression to be prepared
 	 * @return string                               the prepared expression
-	 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+	 * @throws \Leap\Core\Throwable\InvalidArgument\Exception  indicates a data type mismatch
 	 *
 	 * @see http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
 	 * @see http://www.ispirer.com/wiki/sqlways/mysql/identifiers
 	 */
 	public function prepare_identifier($expr) {
-		if ($expr instanceof \Leap\Core\DB\SQLite\Select\Builder) {
+		if ($expr instanceof \Leap\Plugins\DB\SQLite\Select\Builder) {
 			return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 		}
 		else if ($expr instanceof \Leap\Core\DB\SQL\Expression) {
 			return $expr->value($this);
 		}
-		else if (class_exists('\\Database\\Expression') AND ($expr instanceof \Database\Expression)) {
-			return $expr->value();
-		}
 		else if ( ! is_string($expr)) {
-			throw new Throwable\InvalidArgument\Exception('Message: Invalid identifier expression specified. Reason: Token must be a string.', array(':expr' => $expr));
+			throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid identifier expression specified. Reason: Token must be a string.', array(':expr' => $expr));
 		}
 		else if (preg_match('/^SELECT.*$/i', $expr)) {
 			$expr = rtrim($expr, "; \t\n\r\0\x0B");
@@ -106,7 +103,7 @@ abstract class Base\DB\SQLite\Precompiler extends \Leap\Core\DB\SQL\Precompiler 
 	 * @override
 	 * @param string $expr                          the expression to be prepared
 	 * @return string                               the prepared expression
-	 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+	 * @throws \Leap\Core\Throwable\InvalidArgument\Exception  indicates a data type mismatch
 	 *
 	 * @see http://dev.mysql.com/doc/refman/5.0/en/join.html
 	 */
@@ -127,7 +124,7 @@ abstract class Base\DB\SQLite\Precompiler extends \Leap\Core\DB\SQL\Precompiler 
 				break;
 			}
 		}
-		throw new Throwable\InvalidArgument\Exception('Message: Invalid join type token specified. Reason: Token must exist in the enumerated set.', array(':expr' => $expr));
+		throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid join type token specified. Reason: Token must exist in the enumerated set.', array(':expr' => $expr));
 	}
 
 	/**
@@ -138,7 +135,7 @@ abstract class Base\DB\SQLite\Precompiler extends \Leap\Core\DB\SQL\Precompiler 
 	 * @param string $expr                          the expression to be prepared
 	 * @param string $group                         the operator grouping
 	 * @return string                               the prepared expression
-	 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+	 * @throws \Leap\Core\Throwable\InvalidArgument\Exception  indicates a data type mismatch
 	 *
 	 * @see http://www.sqlite.org/lang_select.html
 	 */
@@ -192,7 +189,7 @@ abstract class Base\DB\SQLite\Precompiler extends \Leap\Core\DB\SQL\Precompiler 
 				}
 			}
 		}
-		throw new Throwable\InvalidArgument\Exception('Message: Invalid operator token specified. Reason: Token must exist in the enumerated set.', array(':group' => $group, ':expr' => $expr));
+		throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid operator token specified. Reason: Token must exist in the enumerated set.', array(':group' => $group, ':expr' => $expr));
 	}
 
 	/**
@@ -258,19 +255,16 @@ abstract class Base\DB\SQLite\Precompiler extends \Leap\Core\DB\SQL\Precompiler 
 			return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . implode(', ', $buffer) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 		}
 		else if (is_object($expr)) {
-			if ($expr instanceof \Leap\Core\DB\SQLite\Select\Builder) {
+			if ($expr instanceof \Leap\Plugins\DB\SQLite\Select\Builder) {
 				return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 			}
 			else if ($expr instanceof \Leap\Core\DB\SQL\Expression) {
 				return $expr->value($this);
 			}
-			else if (class_exists('\\Database\\Expression') AND ($expr instanceof \Database\Expression)) {
-				return $expr->value();
-			}
-			else if ($expr instanceof Core\Data\ByteString) {
+			else if ($expr instanceof \Leap\Core\Data\ByteString) {
 				return $expr->as_hexcode("x'%s'");
 			}
-			else if ($expr instanceof Core\Data\BitField) {
+			else if ($expr instanceof \Leap\Core\Data\BitField) {
 				return $expr->as_binary("b'%s'");
 			}
 			else {
@@ -290,7 +284,7 @@ abstract class Base\DB\SQLite\Precompiler extends \Leap\Core\DB\SQL\Precompiler 
 			return "''";
 		}
 		else {
-			return DB\Connection\Pool::instance()->get_connection($this->data_source)->quote($expr, $escape);
+			return \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source)->quote($expr, $escape);
 		}
 	}
 
@@ -301,11 +295,11 @@ abstract class Base\DB\SQLite\Precompiler extends \Leap\Core\DB\SQL\Precompiler 
 	 * @override
 	 * @param string $expr                          the expression to be prepared
 	 * @return string                               the prepared expression
-	 * @throws Throwable\InvalidArgument\Exception  indicates a data type mismatch
+	 * @throws \Leap\Core\Throwable\InvalidArgument\Exception  indicates a data type mismatch
 	 */
 	public function prepare_wildcard($expr) {
 		if ( ! is_string($expr)) {
-			throw new Throwable\InvalidArgument\Exception('Message: Invalid wildcard token specified. Reason: Token must be a string.', array(':expr' => $expr));
+			throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid wildcard token specified. Reason: Token must be a string.', array(':expr' => $expr));
 		}
 		$parts = explode('.', $expr);
 		$count = count($parts);
@@ -328,7 +322,7 @@ abstract class Base\DB\SQLite\Precompiler extends \Leap\Core\DB\SQL\Precompiler 
 	 *
 	 * @access protected
 	 * @static
-	 * @var Core\Data\Serialization\XML
+	 * @var \Leap\Core\Data\Serialization\XML
 	 */
 	protected static $xml = NULL;
 
@@ -344,7 +338,7 @@ abstract class Base\DB\SQLite\Precompiler extends \Leap\Core\DB\SQL\Precompiler 
 	 */
 	public static function is_keyword($token) {
 		if (static::$xml === NULL) {
-			static::$xml = Core\Data\Serialization\XML::load('config/sql/sqlite.xml');
+			static::$xml = \Leap\Core\Data\Serialization\XML::load('config/sql/sqlite.xml');
 		}
 		$token = strtoupper($token);
 		$nodes = static::$xml->xpath("/sql/dialect[@name='sqlite' and @version='3.0']/keywords[keyword = '{$token}']");

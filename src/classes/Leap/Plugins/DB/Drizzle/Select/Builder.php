@@ -22,24 +22,23 @@ namespace Leap\Plugins\DB\Drizzle\Select {
 	/**
 	 * This class builds a Drizzle select statement.
 	 *
-	 * @package Leap
-	 * @category Drizzle
-	 * @version 2013-02-27
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\Drizzle\Select
+	 * @version 2014-04-21
 	 *
 	 * @see http://dev.mysql.com/doc/refman/5.0/en/select.html
-	 *
-	 * @abstract
 	 */
-	abstract class Builder extends \Leap\Core\DB\SQL\Select\Builder {
+	class Builder extends \Leap\Core\DB\SQL\Select\Builder {
 
 		/**
 		 * This method returns the SQL statement.
 		 *
 		 * @access public
 		 * @override
-		 * @param boolean $terminated           whether to add a semi-colon to the end
-		 *                                      of the statement
-		 * @return string                       the SQL statement
+		 * @param boolean $terminated                               whether to add a semi-colon to the end
+		 *                                                          of the statement
+		 * @return string                                           the SQL statement
 		 */
 		public function statement($terminated = TRUE) {
 			$sql = 'SELECT ';

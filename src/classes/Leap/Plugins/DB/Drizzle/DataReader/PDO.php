@@ -23,12 +23,11 @@ namespace Leap\Plugins\DB\Drizzle\DataReader {
 	 * This class is used to read data from a Drizzle database using the PDO
 	 * driver.
 	 *
-	 * @package Leap
-	 * @category Drizzle
-	 * @version 2013-01-06
-	 *
-	 * @abstract
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\Drizzle\DataReader
+	 * @version 2014-04-21
 	 */
-	abstract class PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
+	class PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
 
 }
