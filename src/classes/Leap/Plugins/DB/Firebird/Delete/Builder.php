@@ -17,60 +17,63 @@
  * limitations under the License.
  */
 
-/**
- * This class builds a Firebird SQL delete statement.
- *
- * @package Leap
- * @category Firebird
- * @version 2012-12-04
- *
- * @see http://www.firebirdsql.org/refdocs/langrefupd21-delete.html
- *
- * @abstract
- */
-abstract class Base\DB\Firebird\Delete\Builder extends \Leap\Core\DB\SQL\Delete\Builder {
+namespace Leap\Plugins\DB\Firebird\Delete {
 
 	/**
-	 * This method returns the SQL statement.
+	 * This class builds a Firebird SQL delete statement.
 	 *
 	 * @access public
-	 * @override
-	 * @param boolean $terminated           whether to add a semi-colon to the end
-	 *                                      of the statement
-	 * @return string                       the SQL statement
+	 * @class
+	 * @package Leap\Plugins\DB\Firebird\Delete
+	 * @version 2014-04-24
+	 *
+	 * @see http://www.firebirdsql.org/refdocs/langrefupd21-delete.html
 	 */
-	public function statement($terminated = TRUE) {
-		$sql = "DELETE FROM {$this->data['from']}";
+	class Builder extends \Leap\Core\DB\SQL\Delete\Builder {
 
-		if ( ! empty($this->data['where'])) {
-			$append = FALSE;
-			$sql .= ' WHERE ';
-			foreach ($this->data['where'] as $where) {
-				if ($append AND ($where[1] != \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
-					$sql .= " {$where[0]} ";
+		/**
+		 * This method returns the SQL statement.
+		 *
+		 * @access public
+		 * @override
+		 * @param boolean $terminated                               whether to add a semi-colon to the end
+		 *                                                          of the statement
+		 * @return string                                           the SQL statement
+		 */
+		public function statement($terminated = TRUE) {
+			$sql = "DELETE FROM {$this->data['from']}";
+
+			if ( ! empty($this->data['where'])) {
+				$append = FALSE;
+				$sql .= ' WHERE ';
+				foreach ($this->data['where'] as $where) {
+					if ($append AND ($where[1] != \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
+						$sql .= " {$where[0]} ";
+					}
+					$sql .= $where[1];
+					$append = ($where[1] != \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_);
 				}
-				$sql .= $where[1];
-				$append = ($where[1] != \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_);
 			}
+
+			if ( ! empty($this->data['order_by'])) {
+				$sql .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
+			}
+
+			if ($this->data['limit'] > 0) {
+				$sql .= " ROWS {$this->data['limit']}";
+			}
+
+			//if ($this->data['offset'] > 0) {
+			//    $sql .= " OFFSET {$this->data['offset']}";
+			//}
+
+			if ($terminated) {
+				$sql .= ';';
+			}
+
+			return $sql;
 		}
 
-		if ( ! empty($this->data['order_by'])) {
-			$sql .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
-		}
-
-		if ($this->data['limit'] > 0) {
-			$sql .= " ROWS {$this->data['limit']}";
-		}
-
-		//if ($this->data['offset'] > 0) {
-		//    $sql .= " OFFSET {$this->data['offset']}";
-		//}
-
-		if ($terminated) {
-			$sql .= ';';
-		}
-
-		return $sql;
 	}
 
 }

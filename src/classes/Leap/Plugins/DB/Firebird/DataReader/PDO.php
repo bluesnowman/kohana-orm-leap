@@ -17,14 +17,17 @@
  * limitations under the License.
  */
 
-/**
- * This class is used to read data from a Firebird database using the PDO
- * driver.
- *
- * @package Leap
- * @category Firebird
- * @version 2012-12-04
- *
- * @abstract
- */
-abstract class Base\DB\Firebird\DataReader\PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
+namespace Leap\Plugins\DB\Firebird\DataReader {
+
+	/**
+	 * This class is used to read data from a Firebird database using the PDO
+	 * driver.
+	 *
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\Firebird\DataReader
+	 * @version 2014-04-24
+	 */
+	class PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
+
+}

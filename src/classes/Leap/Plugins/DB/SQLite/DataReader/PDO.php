@@ -17,14 +17,17 @@
  * limitations under the License.
  */
 
-/**
- * This class is used to read data from an SQLite database using the PDO
- * driver.
- *
- * @package Leap
- * @category SQLite
- * @version 2012-12-04
- *
- * @abstract
- */
-abstract class Base\DB\SQLite\DataReader\PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
+namespace Leap\Plugins\DB\SQLite\DataReader {
+
+	/**
+	 * This class is used to read data from an SQLite database using the PDO
+	 * driver.
+	 *
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\SQLite\DataReader
+	 * @version 2014-04-22
+	 */
+	class PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
+
+}
