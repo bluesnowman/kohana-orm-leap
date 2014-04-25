@@ -17,57 +17,60 @@
  * limitations under the License.
  */
 
-/**
- * This class handles a PDO MariaDB connection.
- *
- * @package Leap
- * @category MariaDB
- * @version 2012-12-11
- *
- * @see http://www.php.net/manual/en/ref.pdo-mysql.connection.php
- * @see http://programmers.stackexchange.com/questions/120178/whats-the-difference-between-mariadb-and-mysql
- *
- * @abstract
- */
-abstract class Base\DB\MariaDB\Connection\PDO extends \Leap\Core\DB\SQL\Connection\PDO {
+namespace Leap\Plugins\DB\MariaDB\Connection {
 
 	/**
-	 * This method opens a connection using the data source provided.
+	 * This class handles a PDO MariaDB connection.
 	 *
 	 * @access public
-	 * @override
-	 * @throws Throwable\Database\Exception     indicates that there is problem with
-	 *                                          opening the connection
+	 * @class
+	 * @package Leap\Plugins\DB\MariaDB\Connection
+	 * @version 2014-04-24
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-mysql.connection.php
-	 * @see http://kb.askmonty.org/en/character-sets-and-collations
+	 * @see http://programmers.stackexchange.com/questions/120178/whats-the-difference-between-mariadb-and-mysql
 	 */
-	public function open() {
-		if ( ! $this->is_connected()) {
-			try {
-				$connection_string  = 'mysql:';
-				$connection_string .= 'host=' . $this->data_source->host . ';';
-				$port = $this->data_source->port;
-				if ( ! empty($port)) {
-					$connection_string .= 'port=' . $port . ';';
+	class PDO extends \Leap\Core\DB\SQL\Connection\PDO {
+
+		/**
+		 * This method opens a connection using the data source provided.
+		 *
+		 * @access public
+		 * @override
+		 * @throws \Leap\Core\Throwable\Database\Exception          indicates that there is problem with
+		 *                                                          opening the connection
+		 *
+		 * @see http://www.php.net/manual/en/ref.pdo-mysql.connection.php
+		 * @see http://kb.askmonty.org/en/character-sets-and-collations
+		 */
+		public function open() {
+			if ( ! $this->is_connected()) {
+				try {
+					$connection_string  = 'mysql:';
+					$connection_string .= 'host=' . $this->data_source->host . ';';
+					$port = $this->data_source->port;
+					if ( ! empty($port)) {
+						$connection_string .= 'port=' . $port . ';';
+					}
+					$connection_string .= 'dbname=' . $this->data_source->database;
+					$username = $this->data_source->username;
+					$password = $this->data_source->password;
+					$attributes = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);
+					if ($this->data_source->is_persistent()) {
+						$attributes[\PDO::ATTR_PERSISTENT] = TRUE;
+					}
+					$this->resource = new \PDO($connection_string, $username, $password, $attributes);
 				}
-				$connection_string .= 'dbname=' . $this->data_source->database;
-				$username = $this->data_source->username;
-				$password = $this->data_source->password;
-				$attributes = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);
-				if ($this->data_source->is_persistent()) {
-					$attributes[\PDO::ATTR_PERSISTENT] = TRUE;
+				catch (\PDOException $ex) {
+					$this->resource = NULL;
+					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => $ex->getMessage()));
 				}
-				$this->resource = new \PDO($connection_string, $username, $password, $attributes);
-			}
-			catch (\PDOException $ex) {
-				$this->resource = NULL;
-				throw new Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => $ex->getMessage()));
-			}
-			if ( ! empty($this->data_source->charset)) {
-				$this->execute('SET NAMES ' . $this->quote(strtolower($this->data_source->charset)));
+				if ( ! empty($this->data_source->charset)) {
+					$this->execute('SET NAMES ' . $this->quote(strtolower($this->data_source->charset)));
+				}
 			}
 		}
+
 	}
 
 }

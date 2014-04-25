@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\ORM {
 
-	use Leap\Core;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class represents a relation in a database table.
 	 *
@@ -31,7 +28,7 @@ namespace Leap\Core\DB\ORM {
 	 * @package Leap\Core\DB\ORM
 	 * @version 2014-01-28
 	 */
-	abstract class Relation extends Core\Object {
+	abstract class Relation extends \Leap\Core\Object {
 
 		/**
 		 * This variable stores the relation's corresponding model(s).
@@ -53,7 +50,7 @@ namespace Leap\Core\DB\ORM {
 		 * This variable stores a reference to the implementing model.
 		 *
 		 * @access protected
-		 * @var Core\DB\ORM\Model
+		 * @var \Leap\Core\DB\ORM\Model
 		 */
 		protected $model;
 
@@ -61,10 +58,10 @@ namespace Leap\Core\DB\ORM {
 		 * This constructor initializes the class.
 		 *
 		 * @access public
-		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
-		 * @param string $type                          the type of relationship
+		 * @param \Leap\Core\DB\ORM\Model $model                    a reference to the implementing model
+		 * @param string $type                                      the type of relationship
 		 */
-		public function __construct(Core\DB\ORM\Model $model, $type) {
+		public function __construct(\Leap\Core\DB\ORM\Model $model, $type) {
 			$this->model = $model;
 			$this->metadata = array();
 			$this->metadata['type'] = $type;
@@ -87,10 +84,10 @@ namespace Leap\Core\DB\ORM {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                           the name of the property
-		 * @return mixed                                the value of the property
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @return mixed                                            the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __get($key) {
 			switch ($key) {
@@ -104,7 +101,7 @@ namespace Leap\Core\DB\ORM {
 					if (isset($this->metadata[$key])) { return $this->metadata[$key]; }
 				break;
 			}
-			throw new Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
+			throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
 		}
 
 		/**
@@ -112,7 +109,7 @@ namespace Leap\Core\DB\ORM {
 		 *
 		 * @access protected
 		 * @abstract
-		 * @return mixed								the corresponding model(s)
+		 * @return mixed								            the corresponding model(s)
 		 */
 		protected abstract function load();
 

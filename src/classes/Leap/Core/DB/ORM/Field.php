@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\ORM {
 
-	use Leap\Core;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class represents a field in a database table.
 	 *
@@ -29,13 +26,13 @@ namespace Leap\Core\DB\ORM {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM
-	 * @version 2014-01-28
+	 * @version 2014-04-24
 	 *
 	 * @see http://www.firebirdsql.org/manual/migration-mssql-data-types.html
 	 * @see http://msdn.microsoft.com/en-us/library/aa258271%28v=sql.80%29.aspx
 	 * @see http://kimbriggs.com/computers/computer-notes/mysql-notes/mysql-data-types-50.file
 	 */
-	abstract class Field extends Core\Object {
+	abstract class Field extends \Leap\Core\Object {
 
 		/**
 		 * This variable stores the field's metadata.
@@ -49,7 +46,7 @@ namespace Leap\Core\DB\ORM {
 		 * This variable stores a reference to the implementing model.
 		 *
 		 * @access protected
-		 * @var Core\DB\ORM\Model
+		 * @var \Leap\Core\DB\ORM\Model
 		 */
 		protected $model;
 
@@ -65,12 +62,12 @@ namespace Leap\Core\DB\ORM {
 		 * This constructor initializes the class.
 		 *
 		 * @access public
-		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
-		 * @param string $type                          the equivalent PHP data type
+		 * @param \Leap\Core\DB\ORM\Model $model                    a reference to the implementing model
+		 * @param string $type                                      the equivalent PHP data type
 		 *
 		 * @see http://php.net/manual/en/function.gettype.php
 		 */
-		public function __construct(Core\DB\ORM\Model $model, $type) {
+		public function __construct(\Leap\Core\DB\ORM\Model $model, $type) {
 			$this->model = $model;
 			$this->metadata = array();
 			$this->metadata['control'] = 'auto';
@@ -98,10 +95,10 @@ namespace Leap\Core\DB\ORM {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                           the name of the property
-		 * @return mixed                                the value of the property
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @return mixed                                            the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __get($key) {
 			switch ($key) {
@@ -114,7 +111,7 @@ namespace Leap\Core\DB\ORM {
 					}
 				break;
 			}
-			throw new Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
+			throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
 		}
 
 		/**
@@ -122,21 +119,21 @@ namespace Leap\Core\DB\ORM {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                           the name of the property
-		 * @param mixed $value                          the value of the property
-		 * @throws Throwable\Validation\Exception       indicates that the specified value does
-		 *                                              not validate
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @param mixed $value                                      the value of the property
+		 * @throws \Leap\Core\Throwable\Validation\Exception        indicates that the specified value does
+		 *                                                          not validate
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __set($key, $value) {
 			switch ($key) {
 				case 'value':
-					if ( ! ($value instanceof Core\DB\SQL\Expression)) {
+					if ( ! ($value instanceof \Leap\Core\DB\SQL\Expression)) {
 						if ($value !== NULL) {
 							settype($value, $this->metadata['type']);
 							if ( ! $this->validate($value)) {
-								throw new Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
+								throw new \Leap\Core\Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
 							}
 						}
 						else if ( ! $this->metadata['nullable']) {
@@ -144,7 +141,7 @@ namespace Leap\Core\DB\ORM {
 						}
 					}
 					if (isset($this->metadata['callback']) AND ! $this->model->{$this->metadata['callback']}($value)) {
-						throw new Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
+						throw new \Leap\Core\Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
 					}
 					$this->metadata['modified'] = TRUE;
 					$this->value = $value;
@@ -153,7 +150,7 @@ namespace Leap\Core\DB\ORM {
 					$this->metadata['modified'] = (bool) $value;
 				break;
 				default:
-					throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
 				break;
 			}
 		}
@@ -162,11 +159,11 @@ namespace Leap\Core\DB\ORM {
 		 * This method generates an HTML form control using the field's metadata.
 		 *
 		 * @access public
-		 * @param string $name                          the name of the field
-		 * @param array $attributes                     the HTML form tag's attributes
-		 * @return string                               the HTML form control
-		 * @throws Throwable\Runtime\Exception          indicates that form control could not
-		 *                                              be created
+		 * @param string $name                                      the name of the field
+		 * @param array $attributes                                 the HTML form tag's attributes
+		 * @return string                                           the HTML form control
+		 * @throws \Leap\Core\Throwable\Runtime\Exception           indicates that form control could not
+		 *                                                          be created
 		 */
 		public function control($name, Array $attributes) {
 			if ( ! $this->metadata['savable'] AND ($this->metadata['control'] != 'label')) {
@@ -202,7 +199,7 @@ namespace Leap\Core\DB\ORM {
 				case 'text':
 					return \Form::input($name, $this->value, $attributes);
 				default:
-					throw new Throwable\Runtime\Exception('Message: Unable to create HTML form control. Reason: Invalid type of HTML form control.', array(':control' => $this->metadata['control'], ':field' => $name));
+					throw new \Leap\Core\Throwable\Runtime\Exception('Message: Unable to create HTML form control. Reason: Invalid type of HTML form control.', array(':control' => $this->metadata['control'], ':field' => $name));
 				break;
 			}
 		}
@@ -211,9 +208,9 @@ namespace Leap\Core\DB\ORM {
 		 * This method generates an HTML form control using the field's metadata.
 		 *
 		 * @access public
-		 * @param string $name                          the name of the field/alias
-		 * @param array $attributes                     the HTML form tag's attributes
-		 * @return string                               the HTML form label
+		 * @param string $name                                      the name of the field/alias
+		 * @param array $attributes                                 the HTML form tag's attributes
+		 * @return string                                           the HTML form label
 		 */
 		public function label($name, Array $attributes) {
 			$text = (isset($this->metadata['label']))
@@ -236,8 +233,8 @@ namespace Leap\Core\DB\ORM {
 		 * This method validates the specified value against any constraints.
 		 *
 		 * @access protected
-		 * @param mixed $value                          the value to be validated
-		 * @return boolean                              whether the specified value validates
+		 * @param mixed $value                                      the value to be validated
+		 * @return boolean                                          whether the specified value validates
 		 */
 		protected function validate($value) {
 			if (isset($this->metadata['enum']) AND ! in_array($value, $this->metadata['enum'])) {

@@ -17,14 +17,17 @@
  * limitations under the License.
  */
 
-/**
- * This class is used to read data from a MariaDB database using the PDO
- * driver.
- *
- * @package Leap
- * @category MariaDB
- * @version 2012-12-04
- *
- * @abstract
- */
-abstract class Base\DB\MariaDB\DataReader\PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
+namespace Leap\Plugins\DB\MariaDB\DataReader {
+
+	/**
+	 * This class is used to read data from a MariaDB database using the PDO
+	 * driver.
+	 *
+	 * @access public
+	 * @class
+	 * @package Leap\Plugins\DB\MariaDB\DataReader
+	 * @version 2014-04-24
+	 */
+	class PDO extends \Leap\Core\DB\SQL\DataReader\PDO {}
+
+}

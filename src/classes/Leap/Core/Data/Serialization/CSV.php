@@ -197,7 +197,7 @@ namespace Leap\Core\Data\Serialization {
 		}
 
 		/**
-		 * This method is an alias for Core\Data\Serialization\CSV::render() and will renders the data as a string when
+		 * This method is an alias for \Leap\Core\Data\Serialization\CSV::render() and will renders the data as a string when
 		 * the object is treated like a string, e.g. with PHP's echo and print commands.
 		 *
 		 * @access public

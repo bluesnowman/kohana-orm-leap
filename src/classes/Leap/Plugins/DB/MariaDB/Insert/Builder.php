@@ -17,60 +17,63 @@
  * limitations under the License.
  */
 
-/**
- * This class builds a MariaDB insert statement.
- *
- * @package Leap
- * @category MariaDB
- * @version 2012-12-04
- *
- * @see http://dev.mysql.com/doc/refman/5.5/en/insert.html
- *
- * @abstract
- */
-abstract class Base\DB\MariaDB\Insert\Builder extends \Leap\Core\DB\SQL\Insert\Builder {
+namespace Leap\Plugins\DB\MariaDB\Insert {
 
 	/**
-	 * This method returns the SQL statement.
+	 * This class builds a MariaDB insert statement.
 	 *
 	 * @access public
-	 * @override
-	 * @param boolean $terminated           whether to add a semi-colon to the end
-	 *                                      of the statement
-	 * @return string                       the SQL statement
+	 * @class
+	 * @package Leap\Plugins\DB\MariaDB\Insert
+	 * @version 2014-04-24
+	 *
+	 * @see http://dev.mysql.com/doc/refman/5.5/en/insert.html
 	 */
-	public function statement($terminated = TRUE) {
-		$sql = "INSERT INTO {$this->data['into']}";
+	class Builder extends \Leap\Core\DB\SQL\Insert\Builder {
 
-		if ( ! empty($this->data['columns'])) {
-			$rows = array_values($this->data['rows']);
-			$rowCt = 1;
-			$columns = array_keys($this->data['columns']);
-			$columnCt = count($columns);
-			$sql .= ' (' . implode(', ', $columns) . ') VALUES';
-			for ($r = 0; $r < $rowCt; $r++) {
-				if ($r > 0) {
-					$sql .= ',';
-				}
-				$sql .= ' (';
-				for ($c = 0; $c < $columnCt; $c++) {
-					if ($c > 0) {
-						$sql .= ', ';
+		/**
+		 * This method returns the SQL statement.
+		 *
+		 * @access public
+		 * @override
+		 * @param boolean $terminated                               whether to add a semi-colon to the end
+		 *                                                          of the statement
+		 * @return string                                           the SQL statement
+		 */
+		public function statement($terminated = TRUE) {
+			$sql = "INSERT INTO {$this->data['into']}";
+
+			if ( ! empty($this->data['columns'])) {
+				$rows = array_values($this->data['rows']);
+				$rowCt = 1;
+				$columns = array_keys($this->data['columns']);
+				$columnCt = count($columns);
+				$sql .= ' (' . implode(', ', $columns) . ') VALUES';
+				for ($r = 0; $r < $rowCt; $r++) {
+					if ($r > 0) {
+						$sql .= ',';
 					}
-					$column = $columns[$c];
-					$sql .= (isset($rows[$r][$column]))
-						? $rows[$r][$column]
-						: 'NULL';
+					$sql .= ' (';
+					for ($c = 0; $c < $columnCt; $c++) {
+						if ($c > 0) {
+							$sql .= ', ';
+						}
+						$column = $columns[$c];
+						$sql .= (isset($rows[$r][$column]))
+							? $rows[$r][$column]
+							: 'NULL';
+					}
+					$sql .= ')';
 				}
-				$sql .= ')';
 			}
+
+			if ($terminated) {
+				$sql .= ';';
+			}
+
+			return $sql;
 		}
 
-		if ($terminated) {
-			$sql .= ';';
-		}
-
-		return $sql;
 	}
 
 }
