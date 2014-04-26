@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\ORM\Field {
 
-	use Leap\Core;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class represents an alias for a field in a database table.
 	 *
@@ -30,7 +27,7 @@ namespace Leap\Core\DB\ORM\Field {
 	 * @package Leap\Core\DB\ORM\Field
 	 * @version 2014-01-26
 	 */
-	class Alias extends Core\Object {
+	class Alias extends \Leap\Core\Object {
 
 		/**
 		 * This variable stores the alias's metadata.
@@ -44,7 +41,7 @@ namespace Leap\Core\DB\ORM\Field {
 		 * This variable stores a reference to the implementing model.
 		 *
 		 * @access protected
-		 * @var Core\DB\ORM\Model
+		 * @var \Leap\Core\DB\ORM\Model
 		 */
 		protected $model;
 
@@ -52,14 +49,14 @@ namespace Leap\Core\DB\ORM\Field {
 		 * This constructor initializes the class.
 		 *
 		 * @access public
-		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
-		 * @param string $field                         the name of field in the database table
-		 * @throws Throwable\InvalidArgument\Exception  indicates that an invalid field name
-		 *                                              was specified
+		 * @param \Leap\Core\DB\ORM\Model $model                    a reference to the implementing model
+		 * @param string $field                                     the name of field in the database table
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates that an invalid field name
+		 *                                                          was specified
 		 */
-		public function __construct(Core\DB\ORM\Model $model, $field) {
+		public function __construct(\Leap\Core\DB\ORM\Model $model, $field) {
 			if ( ! is_string($field) OR $model->is_adaptor($field) OR $model->is_alias($field) OR ! $model->is_field($field) OR $model->is_relation($field)) {
-				throw new Throwable\InvalidArgument\Exception('Message: Invalid field name defined. Reason: Field name either is not a field or is already defined.', array(':field' => $field));
+				throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Invalid field name defined. Reason: Field name either is not a field or is already defined.', array(':field' => $field));
 			}
 			$this->model = $model;
 			$this->metadata['field'] = $field;
@@ -80,10 +77,10 @@ namespace Leap\Core\DB\ORM\Field {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                           the name of the property
-		 * @return mixed                                the value of the property
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @return mixed                                            the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __get($key) {
 			switch ($key) {
@@ -94,7 +91,7 @@ namespace Leap\Core\DB\ORM\Field {
 					if (isset($this->metadata[$key])) { return $this->metadata[$key]; }
 				break;
 			}
-			throw new Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
+			throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
 		}
 
 		/**
@@ -102,10 +99,10 @@ namespace Leap\Core\DB\ORM\Field {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                           the name of the property
-		 * @param mixed $value                          the value of the property
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @param mixed $value                                      the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __set($key, $value) {
 			switch ($key) {
@@ -113,7 +110,7 @@ namespace Leap\Core\DB\ORM\Field {
 					$this->model->{$this->metadata['field']} = $value;
 				break;
 				default:
-					throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
 				break;
 			}
 		}

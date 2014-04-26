@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\ORM\Field {
 
-	use Leap\Core;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class represents a "time" field in a database table.
 	 *
@@ -30,18 +27,18 @@ namespace Leap\Core\DB\ORM\Field {
 	 * @package Leap\Core\DB\ORM\Field
 	 * @version 2014-01-26
 	 */
-	class Time extends Core\DB\ORM\Field {
+	class Time extends \Leap\Core\DB\ORM\Field {
 
 		/**
 		 * This constructor initializes the class.
 		 *
 		 * @access public
-		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
-		 * @param array $metadata                       the field's metadata
-		 * @throws Throwable\Validation\Exception       indicates that the specified value does
-		 *                                              not validate
+		 * @param \Leap\Core\DB\ORM\Model $model                    a reference to the implementing model
+		 * @param array $metadata                                   the field's metadata
+		 * @throws \Leap\Core\Throwable\Validation\Exception        indicates that the specified value does
+		 *                                                          not validate
 		 */
-		public function __construct(Core\DB\ORM\Model $model, Array $metadata = array()) {
+		public function __construct(\Leap\Core\DB\ORM\Model $model, Array $metadata = array()) {
 			parent::__construct($model, 'string');
 
 			if (isset($metadata['savable'])) {
@@ -86,7 +83,7 @@ namespace Leap\Core\DB\ORM\Field {
 					: NULL;
 			}
 
-			if ( ! ($default instanceof Core\DB\SQL\Expression)) {
+			if ( ! ($default instanceof \Leap\Core\DB\SQL\Expression)) {
 				if ($default !== NULL) {
 					if (is_integer($default)) {
 						$default = date('H:i:s', $default);
@@ -97,7 +94,7 @@ namespace Leap\Core\DB\ORM\Field {
 					}
 				}
 				if ( ! $this->validate($default)) {
-					throw new Throwable\Validation\Exception('Message: Unable to set default value for field. Reason: Value :value failed to pass validation constraints.', array(':value' => $default));
+					throw new \Leap\Core\Throwable\Validation\Exception('Message: Unable to set default value for field. Reason: Value :value failed to pass validation constraints.', array(':value' => $default));
 				}
 			}
 
@@ -110,17 +107,17 @@ namespace Leap\Core\DB\ORM\Field {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                           the name of the property
-		 * @param mixed $value                          the value of the property
-		 * @throws Throwable\Validation\Exception       indicates that the specified value does
-		 *                                              not validate
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @param mixed $value                                      the value of the property
+		 * @throws \Leap\Core\Throwable\Validation\Exception        indicates that the specified value does
+		 *                                                          not validate
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __set($key, $value) {
 			switch ($key) {
 				case 'value':
-					if ( ! ($value instanceof Core\DB\SQL\Expression)) {
+					if ( ! ($value instanceof \Leap\Core\DB\SQL\Expression)) {
 						if ($value !== NULL) {
 							if (is_integer($value)) {
 								$value = date('H:i:s', $value);
@@ -130,7 +127,7 @@ namespace Leap\Core\DB\ORM\Field {
 								$value = date('H:i:s', mktime($date['hour'], $date['minute'], $date['second'], $date['month'], $date['day'], $date['year']));
 							}
 							if ( ! $this->validate($value)) {
-								throw new Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
+								throw new \Leap\Core\Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
 							}
 						}
 						else if ( ! $this->metadata['nullable']) {
@@ -138,7 +135,7 @@ namespace Leap\Core\DB\ORM\Field {
 						}
 					}
 					if (isset($this->metadata['callback']) AND ! $this->model->{$this->metadata['callback']}($value)) {
-						throw new Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
+						throw new \Leap\Core\Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
 					}
 					$this->metadata['modified'] = TRUE;
 					$this->value = $value;
@@ -147,7 +144,7 @@ namespace Leap\Core\DB\ORM\Field {
 					$this->metadata['modified'] = (bool) $value;
 					break;
 				default:
-					throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
 					break;
 			}
 		}

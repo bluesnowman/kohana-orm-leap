@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\ORM\Field {
 
-	use Leap\Core;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class represents a "binary" field in a database table.
 	 *
@@ -30,18 +27,18 @@ namespace Leap\Core\DB\ORM\Field {
 	 * @package Leap\Core\DB\ORM\Field
 	 * @version 2014-01-26
 	 */
-	class Binary extends Core\DB\ORM\Field {
+	class Binary extends \Leap\Core\DB\ORM\Field {
 
 		/**
 		 * This constructor initializes the class.
 		 *
 		 * @access public
-		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
-		 * @param array $metadata                       the field's metadata
-		 * @throws Throwable\Validation\Exception       indicates that the specified value does
-		 *                                              not validate
+		 * @param \Leap\Core\DB\ORM\Model $model                    a reference to the implementing model
+		 * @param array $metadata                                   the field's metadata
+		 * @throws \Leap\Core\Throwable\Validation\Exception        indicates that the specified value does
+		 *                                                          not validate
 		 */
-		public function __construct(Core\DB\ORM\Model $model, Array $metadata = array()) {
+		public function __construct(\Leap\Core\DB\ORM\Model $model, Array $metadata = array()) {
 			parent::__construct($model, 'string');
 
 			$this->metadata['max_length'] = (int) $metadata['max_length'];
@@ -78,12 +75,12 @@ namespace Leap\Core\DB\ORM\Field {
 				$default = NULL;
 			}
 
-			if ( ! ($default instanceof Core\DB\SQL\Expression)) {
+			if ( ! ($default instanceof \Leap\Core\DB\SQL\Expression)) {
 				if ($default !== NULL) {
 					settype($default, $this->metadata['type']);
 				}
 				if ( ! $this->validate($default)) {
-					throw new Throwable\Validation\Exception('Message: Unable to set default value for field. Reason: Value :value failed to pass validation constraints.', array(':value' => $default));
+					throw new \Leap\Core\Throwable\Validation\Exception('Message: Unable to set default value for field. Reason: Value :value failed to pass validation constraints.', array(':value' => $default));
 				}
 			}
 
@@ -96,8 +93,8 @@ namespace Leap\Core\DB\ORM\Field {
 		 *
 		 * @access protected
 		 * @override
-		 * @param mixed $value                          the value to be validated
-		 * @return boolean                              whether the specified value validates
+		 * @param mixed $value                                      the value to be validated
+		 * @return boolean                                          whether the specified value validates
 		 */
 		protected function validate($value) {
 			if ($value !== NULL) {

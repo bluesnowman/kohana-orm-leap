@@ -43,9 +43,9 @@ namespace Leap\Core\Throwable\InvalidArgument {
 		 *     throw new Throwable\Runtime\Exception('Unable to find :uri', array(':uri' => $uri));
 		 *
 		 * @access public
-		 * @param string $message               the error message
-		 * @param array $variables              translation variables
-		 * @param integer $code                 the exception code
+		 * @param string $message                                   the error message
+		 * @param array $variables                                  translation variables
+		 * @param integer $code                                     the exception code
 		 */
 		public function __construct($message, array $variables = null, $code = 0) {
 			parent::__construct(
@@ -59,8 +59,8 @@ namespace Leap\Core\Throwable\InvalidArgument {
 		 * This method returns a copy this object.
 		 *
 		 * @access public
-		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception   indicates the method has not be
-		 *                                                              implemented
+		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception  indicates the method has not be
+		 *                                                             implemented
 		 */
 		public function __clone() {
 			throw new \Leap\Core\Throwable\UnimplementedMethod\Exception('Method ":method" has not been implemented in class ":class."', array(':class' => get_called_class(), ':method' => __FUNCTION__));
@@ -79,9 +79,9 @@ namespace Leap\Core\Throwable\InvalidArgument {
 		 * This method returns whether the specified object is equal to the called object.
 		 *
 		 * @access public
-		 * @param \Leap\Core\IObject $object            the object to be evaluated
-		 * @return boolean                              whether the specified object is equal
-		 *                                              to the called object
+		 * @param \Leap\Core\IObject $object                        the object to be evaluated
+		 * @return boolean                                          whether the specified object is equal
+		 *                                                          to the called object
 		 */
 		public function __equals($object) {
 			return (($object !== NULL) && ($object instanceof \Leap\Core\Throwable\InvalidArgument\Exception) && ($object->__hashCode() == $this->__hashCode()));
@@ -91,7 +91,7 @@ namespace Leap\Core\Throwable\InvalidArgument {
 		 * This method returns the name of the runtime class of this object.
 		 *
 		 * @access public
-		 * @return string                               the name of the runtime class
+		 * @return string                                           the name of the runtime class
 		 */
 		public function __getClass() {
 			return get_called_class();
@@ -100,7 +100,7 @@ namespace Leap\Core\Throwable\InvalidArgument {
 		/**
 		 * This method returns the current object's hash code.
 		 *
-		 * @return string                               the current object's hash code
+		 * @return string                                           the current object's hash code
 		 */
 		public function __hashCode() {
 			return spl_object_hash($this);
@@ -110,7 +110,7 @@ namespace Leap\Core\Throwable\InvalidArgument {
 		 * This method returns the exception as a string.
 		 *
 		 * @access public
-		 * @return string                               a string representing the exception
+		 * @return string                                           a string representing the exception
 		 */
 		public function __toString() {
 			return \Leap\Core\Throwable\Runtime\Exception::text($this);

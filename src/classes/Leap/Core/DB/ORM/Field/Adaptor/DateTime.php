@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\ORM\Field\Adaptor {
 
-	use Leap\Core;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class represents an "date/time" adaptor for an integer field in a database
 	 * table.
@@ -31,18 +28,18 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 	 * @package Leap\Core\DB\ORM\Field\Adaptor
 	 * @version 2014-01-26
 	 */
-	class DateTime extends Core\DB\ORM\Field\Adaptor {
+	class DateTime extends \Leap\Core\DB\ORM\Field\Adaptor {
 
 		/**
 		 * This constructor initializes the class.
 		 *
 		 * @access public
-		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
-		 * @param array $metadata                       the adaptor's metadata
-		 * @throws Throwable\InvalidArgument\Exception  indicates that an invalid field name
-		 *                                              was specified
+		 * @param \Leap\Core\DB\ORM\Model $model                    a reference to the implementing model
+		 * @param array $metadata                                   the adaptor's metadata
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates that an invalid field name
+		 *                                                          was specified
 		 */
-		public function __construct(Core\DB\ORM\Model $model, Array $metadata = array()) {
+		public function __construct(\Leap\Core\DB\ORM\Model $model, Array $metadata = array()) {
 			parent::__construct($model, $metadata['field']);
 
 			$this->metadata['format'] = (isset($metadata['format']))
@@ -55,16 +52,16 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                           the name of the property
-		 * @return mixed                                the value of the property
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @return mixed                                            the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __get($key) {
 			switch ($key) {
 				case 'value':
 					$value = $this->model->{$this->metadata['field']};
-					if (($value !== NULL) AND ! ($value instanceof Core\DB\SQL\Expression)) {
+					if (($value !== NULL) AND ! ($value instanceof \Leap\Core\DB\SQL\Expression)) {
 						$value = date($this->metadata['format'], (int) $value);
 					}
 					return $value;
@@ -73,7 +70,7 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 					if (isset($this->metadata[$key])) { return $this->metadata[$key]; }
 				break;
 			}
-			throw new Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
+			throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
 		}
 
 		/**
@@ -81,10 +78,10 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                           the name of the property
-		 * @param mixed $value                          the value of the property
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @param mixed $value                                      the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __set($key, $value) {
 			switch ($key) {
@@ -95,7 +92,7 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 					$this->model->{$this->metadata['field']} = $value;
 				break;
 				default:
-					throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
 				break;
 			}
 		}

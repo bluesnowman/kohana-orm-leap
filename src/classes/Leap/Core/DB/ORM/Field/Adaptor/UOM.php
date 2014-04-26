@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\ORM\Field\Adaptor {
 
-	use Leap\Core;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class represents a "number" adaptor for a handling UOM conversions.
 	 *
@@ -30,20 +27,20 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 	 * @package Leap\Core\DB\ORM\Field\Adaptor
 	 * @version 2014-01-26
 	 */
-	class UOM extends Core\DB\ORM\Field\Adaptor {
+	class UOM extends \Leap\Core\DB\ORM\Field\Adaptor {
 
 		/**
 		 * This constructor initializes the class.
 		 *
 		 * @access public
-		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
-		 * @param array $metadata                       the adaptor's metadata
-		 * @throws Throwable\Runtime\Exception          indicates that error occurred when loading
-		 *                                              a configuration
-		 * @throws Throwable\InvalidArgument\Exception  indicates that an invalid field name
-		 *                                              was specified
+		 * @param \Leap\Core\DB\ORM\Model $model                    a reference to the implementing model
+		 * @param array $metadata                                   the adaptor's metadata
+		 * @throws \Leap\Core\Throwable\Runtime\Exception           indicates that error occurred when loading
+		 *                                                          a configuration
+		 * @throws \Leap\Core\Throwable\InvalidArgument\Exception   indicates that an invalid field name
+		 *                                                          was specified
 		 */
-		public function __construct(Core\DB\ORM\Model $model, Array $metadata = array()) {
+		public function __construct(\Leap\Core\DB\ORM\Model $model, Array $metadata = array()) {
 			parent::__construct($model, $metadata['field']);
 
 			$this->metadata['units'] = array();
@@ -51,7 +48,7 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 			$group = strtolower('uom.' . $metadata['measurement'] . '.' . $metadata['units'][0]);
 
 			if (($unit = static::config($group)) === NULL) {
-				throw new Throwable\Runtime\Exception('Message: Unable to load configuration. Reason: Configuration group :group is undefined.', array(':group' => $group));
+				throw new \Leap\Core\Throwable\Runtime\Exception('Message: Unable to load configuration. Reason: Configuration group :group is undefined.', array(':group' => $group));
 			}
 
 			$this->metadata['units'][0] = $unit; // field's unit
@@ -59,7 +56,7 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 			$group = strtolower('uom.' . $metadata['measurement'] . '.' . $metadata['units'][1]);
 
 			if (($unit = static::config($group)) === NULL) {
-				throw new Throwable\Runtime\Exception('Message: Unable to load configuration. Reason: Configuration group :group is undefined.', array(':group' => $group));
+				throw new \Leap\Core\Throwable\Runtime\Exception('Message: Unable to load configuration. Reason: Configuration group :group is undefined.', array(':group' => $group));
 			}
 
 			$this->metadata['units'][1] = $unit; // adaptor's unit
@@ -70,16 +67,16 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                           the name of the property
-		 * @return mixed                                the value of the property
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @return mixed                                            the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __get($key) {
 			switch ($key) {
 				case 'value':
 					$value = $this->model->{$this->metadata['field']};
-					if (($value !== NULL) AND ! ($value instanceof Core\DB\SQL\Expression)) {
+					if (($value !== NULL) AND ! ($value instanceof \Leap\Core\DB\SQL\Expression)) {
 						$value = static::convert($value, $this->metadata['units'][0], $this->metadata['units'][1]);
 					}
 					return $value;
@@ -88,7 +85,7 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 					if (isset($this->metadata[$key])) { return $this->metadata[$key]; }
 				break;
 			}
-			throw new Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
+			throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
 		}
 
 		/**
@@ -96,10 +93,10 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                           the name of the property
-		 * @param mixed $value                          the value of the property
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @param mixed $value                                      the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __set($key, $value) {
 			switch ($key) {
@@ -110,7 +107,7 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 					$this->model->{$this->metadata['field']} = $value;
 				break;
 				default:
-					throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
 				break;
 			}
 		}
@@ -122,9 +119,9 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 		 *
 		 * @access public
 		 * @static
-		 * @param string $path                      the path to be used
-		 * @return mixed                            the configuration settings for the
-		 *                                          specified path
+		 * @param string $path                                      the path to be used
+		 * @return mixed                                            the configuration settings for the
+		 *                                                          specified path
 		 */
 		public static function config($path) {
 			return \Kohana::$config->load($path);
@@ -135,10 +132,10 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 		 *
 		 * @access protected
 		 * @static
-		 * @param double $value                     the value to converted
-		 * @param string $units0                    the value's starting units
-		 * @param string $units1                    the value's ending units
-		 * @return double                           the new value
+		 * @param double $value                                     the value to converted
+		 * @param string $units0                                    the value's starting units
+		 * @param string $units1                                    the value's ending units
+		 * @return double                                           the new value
 		 */
 		protected static function convert($value, $units0, $units1) {
 			return ($value * static::parse($units0)) / static::parse($units1);
@@ -149,8 +146,8 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 		 *
 		 * @access protected
 		 * @static
-		 * @param string $expr                      the expression to be evaluated
-		 * @return double                           the value
+		 * @param string $expr                                      the expression to be evaluated
+		 * @return double                                           the value
 		 *
 		 * @see http://de.php.net/eval
 		 */

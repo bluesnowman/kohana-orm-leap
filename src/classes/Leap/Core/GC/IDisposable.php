@@ -37,8 +37,8 @@ namespace Leap\Core\GC {
 		 * resources.
 		 *
 		 * @access public
-		 * @param boolean $disposing                    whether managed resources can be disposed
-		 *                                              in addition to unmanaged resources
+		 * @param boolean $disposing                                whether managed resources can be disposed
+		 *                                                          in addition to unmanaged resources
 		 *
 		 * @see http://paul-m-jones.com/archives/262
 		 * @see http://www.alexatnet.com/articles/optimize-php-memory-usage-eliminate-circular-references

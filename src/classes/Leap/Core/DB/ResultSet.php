@@ -66,8 +66,8 @@ namespace Leap\Core\DB {
 		 * result sets are accessible alike.
 		 *
 		 * @access public
-		 * @param mixed $buffer                             either an array of records or a data reader
-		 * @param string $type                              the return type being used
+		 * @param mixed $buffer                                     either an array of records or a data reader
+		 * @param string $type                                      the return type being used
 		 */
 		public function __construct($buffer, $type = 'array') {
 			if (is_array($buffer)) {
@@ -93,7 +93,7 @@ namespace Leap\Core\DB {
 		 * This method returns an array of records of the desired object type.
 		 *
 		 * @access public
-		 * @return array                                    an array of records
+		 * @return array                                            an array of records
 		 */
 		public function as_array() {
 			return $this->records;
@@ -104,8 +104,8 @@ namespace Leap\Core\DB {
 		 * in the result set.
 		 *
 		 * @access public
-		 * @param array $config                             the configuration array
-		 * @return \Leap\Core\Data\Serialization\CSV        an instance of the CSV class
+		 * @param array $config                                     the configuration array
+		 * @return \Leap\Core\Data\Serialization\CSV                an instance of the CSV class
 		 */
 		public function as_csv(Array $config = array()) {
 			$csv = new \Leap\Core\Data\Serialization\CSV($config);
@@ -150,7 +150,7 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @return integer                                  the total number of records
+		 * @return integer                                          the total number of records
 		 */
 		public function count() {
 			return $this->size;
@@ -161,7 +161,7 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @return mixed                                    the current record
+		 * @return mixed                                            the current record
 		 */
 		public function current() {
 			return $this->records[$this->position];
@@ -172,8 +172,8 @@ namespace Leap\Core\DB {
 		 * the specified position.
 		 *
 		 * @access public
-		 * @param integer $index                            the record's index
-		 * @return mixed                                    the record
+		 * @param integer $index                                    the record's index
+		 * @return mixed                                            the record
 		 */
 		public function fetch($index = -1) {
 			settype($index, 'integer');
@@ -207,10 +207,10 @@ namespace Leap\Core\DB {
 		 *     $id = $results->get('id');
 		 *
 		 * @access public
-		 * @param string $name                              the name of the column
-		 * @param mixed $default                            the default value should the column
-		 *                                                  does not exist
-		 * @return mixed                                    the value for the named column
+		 * @param string $name                                      the name of the column
+		 * @param mixed $default                                    the default value should the column
+		 *                                                          does not exist
+		 * @return mixed                                            the value for the named column
 		 */
 		public function get($name, $default = NULL) {
 			$record = $this->current();
@@ -235,7 +235,7 @@ namespace Leap\Core\DB {
 		 * This method returns whether any records were loaded.
 		 *
 		 * @access public
-		 * @return boolean                                  whether any records were loaded
+		 * @return boolean                                          whether any records were loaded
 		 */
 		public function is_loaded() {
 			return ($this->size > 0);
@@ -246,7 +246,7 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @return integer                                  the position of the current record
+		 * @return integer                                          the position of the current record
 		 */
 		public function key() {
 			return $this->position;
@@ -268,8 +268,8 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $offset                           the offset to be evaluated
-		 * @return boolean                                  whether the requested offset exists
+		 * @param integer $offset                                   the offset to be evaluated
+		 * @return boolean                                          whether the requested offset exists
 		 */
 		public function offsetExists($offset) {
 			return isset($this->records[$offset]);
@@ -280,8 +280,8 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $offset                           the offset to be fetched
-		 * @return mixed                                    the value at the specified offset
+		 * @param integer $offset                                   the offset to be fetched
+		 * @return mixed                                            the value at the specified offset
 		 */
 		public function offsetGet($offset) {
 			return isset($this->records[$offset]) ? $this->records[$offset] : NULL;
@@ -292,9 +292,9 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $offset                                       the offset to be set
-		 * @param mixed $value                                          the value to be set
-		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception   indicates the result cannot be modified
+		 * @param integer $offset                                   the offset to be set
+		 * @param mixed $value                                      the value to be set
+		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception  indicates the result cannot be modified
 		 */
 		public function offsetSet($offset, $value) {
 			throw new \Leap\Core\Throwable\UnimplementedMethod\Exception('Message: Invalid call to member function. Reason: Result set cannot be modified.', array(':offset' => $offset, ':value' => $value));
@@ -305,8 +305,8 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $offset                                       the offset to be unset
-		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception   indicates the result cannot be modified
+		 * @param integer $offset                                   the offset to be unset
+		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception  indicates the result cannot be modified
 		 */
 		public function offsetUnset($offset) {
 			throw new \Leap\Core\Throwable\UnimplementedMethod\Exception('Message: Invalid call to member function. Reason: Result set cannot be modified.', array(':offset' => $offset));
@@ -317,7 +317,7 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @return integer                                  the current iterator position
+		 * @return integer                                          the current iterator position
 		 */
 		public function position() {
 			return $this->position;
@@ -338,9 +338,9 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $position                             the seeked position
-		 * @throws \Leap\Core\Throwable\OutOfBounds\Exception   indicates that the seeked position
-		 *                                                      is out of bounds
+		 * @param integer $position                                 the seeked position
+		 * @throws \Leap\Core\Throwable\OutOfBounds\Exception       indicates that the seeked position
+		 *                                                          is out of bounds
 		 */
 		public function seek($position) {
 			if ( ! isset($this->records[$position])) {
@@ -354,7 +354,7 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @return boolean                                  whether the current iterator position is valid
+		 * @return boolean                                          whether the current iterator position is valid
 		 */
 		public function valid() {
 			return isset($this->records[$this->position]);

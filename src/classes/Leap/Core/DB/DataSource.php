@@ -122,9 +122,9 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $name                          the name of the property
-		 * @return boolean                              indicates whether the specified property
-		 *                                              has been set
+		 * @param string $name                                      the name of the property
+		 * @return boolean                                          indicates whether the specified property
+		 *                                                          has been set
 		 */
 		public function __isset($name) {
 			if (isset($this->settings[$name]) AND ($name != 'persistent')) {
@@ -137,8 +137,8 @@ namespace Leap\Core\DB {
 		 * This method handles the initialization of the data source's settings.
 		 *
 		 * @access protected
-		 * @param array $settings                       the settings to be used
-		 * @param string $id                            the data source's id
+		 * @param array $settings                                   the settings to be used
+		 * @param string $id                                        the data source's id
 		 */
 		protected function init($settings, $id = NULL) {
 			$this->settings = array();
@@ -214,7 +214,7 @@ namespace Leap\Core\DB {
 		 * This method determines whether the connection is persistent.
 		 *
 		 * @access public
-		 * @return boolean                              whether the connection is persistent
+		 * @return boolean                                          whether the connection is persistent
 		 */
 		public function is_persistent() {
 			return $this->settings['persistent'];
@@ -236,9 +236,9 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @static
-		 * @param string $path                          the path to be used
-		 * @return mixed                                the configuration settings for the
-		 *                                              specified path
+		 * @param string $path                                      the path to be used
+		 * @return mixed                                            the configuration settings for the
+		 *                                                          specified path
 		 */
 		public static function config($path) {
 			return \Kohana::$config->load($path);
@@ -249,8 +249,8 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @static
-		 * @param mixed $config                         the data source configurations
-		 * @return \Leap\Core\DB\DataSource             a singleton instance of this class
+		 * @param mixed $config                                     the data source configurations
+		 * @return \Leap\Core\DB\DataSource                         a singleton instance of this class
 		 */
 		public static function instance($config = 'default') {
 			if (is_string($config)) {

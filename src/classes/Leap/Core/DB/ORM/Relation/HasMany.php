@@ -19,8 +19,6 @@
 
 namespace Leap\Core\DB\ORM\Relation {
 
-	use Leap\Core;
-
 	/**
 	 * This class represents a "has many" relation in a database table.
 	 *
@@ -29,17 +27,17 @@ namespace Leap\Core\DB\ORM\Relation {
 	 * @package Leap\Core\DB\ORM\Relation
 	 * @version 2014-01-28
 	 */
-	class HasMany extends Core\DB\ORM\Relation {
+	class HasMany extends \Leap\Core\DB\ORM\Relation {
 
 		/**
 		 * This constructor initializes the class.
 		 *
 		 * @access public
 		 * @override
-		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
-		 * @param array $metadata                       the relation's metadata
+		 * @param \Leap\Core\DB\ORM\Model $model                    a reference to the implementing model
+		 * @param array $metadata                                   the relation's metadata
 		 */
-		public function __construct(Core\DB\ORM\Model $model, Array $metadata = array()) {
+		public function __construct(\Leap\Core\DB\ORM\Model $model, Array $metadata = array()) {
 			parent::__construct($model, 'has_many');
 
 			// the parent model is the referenced table
@@ -56,7 +54,7 @@ namespace Leap\Core\DB\ORM\Relation {
 
 			// the through model is the pivot table
 			if (isset($metadata['through_model'])) {
-				$this->metadata['through_model'] = Core\DB\ORM\Model::model_name($metadata['through_model']);
+				$this->metadata['through_model'] = \Leap\Core\DB\ORM\Model::model_name($metadata['through_model']);
 			}
 
 			// the through keys is an array of two ordered lists of fields names: [0] matches with parent key and [1] matches with child key
@@ -65,7 +63,7 @@ namespace Leap\Core\DB\ORM\Relation {
 			}
 
 			// the child model is the referencing table
-			$this->metadata['child_model'] = Core\DB\ORM\Model::model_name($metadata['child_model']);
+			$this->metadata['child_model'] = \Leap\Core\DB\ORM\Model::model_name($metadata['child_model']);
 
 			// the child key (i.e. foreign key) is an ordered list of field names in the child model
 			$this->metadata['child_key'] = (array) $metadata['child_key'];
@@ -81,7 +79,7 @@ namespace Leap\Core\DB\ORM\Relation {
 		 *
 		 * @access protected
 		 * @override
-		 * @return Core\DB\ResultSet                     the corresponding model(s)
+		 * @return \Leap\Core\DB\ResultSet                          the corresponding model(s)
 		 */
 		protected function load() {
 			$parent_key = $this->metadata['parent_key'];
@@ -89,16 +87,16 @@ namespace Leap\Core\DB\ORM\Relation {
 			$child_model = $this->metadata['child_model'];
 			$child_table = $child_model::table();
 			$child_key = $this->metadata['child_key'];
-			$child_source = $child_model::data_source(Core\DB\DataSource::SLAVE_INSTANCE);
+			$child_source = $child_model::data_source(\Leap\Core\DB\DataSource::SLAVE_INSTANCE);
 
 			if (isset($this->metadata['through_model']) AND isset($this->metadata['through_keys'])) {
 				$through_model = $this->metadata['through_model'];
 				$through_table = $through_model::table();
 				$through_keys = $this->metadata['through_keys'];
-				$through_source = $through_model::data_source(Core\DB\DataSource::SLAVE_INSTANCE);
+				$through_source = $through_model::data_source(\Leap\Core\DB\DataSource::SLAVE_INSTANCE);
 
 				if ($through_source != $child_source) {
-					$builder = Core\DB\SQL::select($through_source)
+					$builder = \Leap\Core\DB\SQL::select($through_source)
 						->from($through_table);
 
 					$field_count = count($through_keys[1]);
@@ -108,22 +106,22 @@ namespace Leap\Core\DB\ORM\Relation {
 
 					$field_count = count($through_keys[0]);
 					for ($i = 0; $i < $field_count; $i++) {
-						$builder->where("{$through_table}.{$through_keys[0][$i]}", Core\DB\SQL\Operator::_EQUAL_TO_, $this->model->{$parent_key[$i]});
+						$builder->where("{$through_table}.{$through_keys[0][$i]}", \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->model->{$parent_key[$i]});
 					}
 
 					$records = $builder->query('array');
 
-					$builder = Core\DB\SQL::select($child_source)
+					$builder = \Leap\Core\DB\SQL::select($child_source)
 						->all("{$child_table}.*")
 						->from($child_table);
 
 					$field_count = count($child_key);
 					foreach ($records as $record) {
-						$builder->where_block(Core\DB\SQL\Builder::_OPENING_PARENTHESIS_, Core\DB\SQL\Connector::_OR_);
+						$builder->where_block(\Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_, \Leap\Core\DB\SQL\Connector::_OR_);
 						for ($i = 0; $i < $field_count; $i++) {
-							$builder->where("{$child_table}.{$child_key[$i]}", Core\DB\SQL\Operator::_EQUAL_TO_, $this->model->{$record[$through_keys[1][$i]]});
+							$builder->where("{$child_table}.{$child_key[$i]}", \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->model->{$record[$through_keys[1][$i]]});
 						}
-						$builder->where_block(Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_);
+						$builder->where_block(\Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_);
 					}
 
 					foreach ($this->metadata['options'] as $option) {
@@ -133,19 +131,19 @@ namespace Leap\Core\DB\ORM\Relation {
 					$result = $builder->query($child_model);
 				}
 				else {
-					$builder = Core\DB\SQL::select($child_source)
+					$builder = \Leap\Core\DB\SQL::select($child_source)
 						->all("{$child_table}.*")
 						->from($through_table)
-						->join(Core\DB\SQL\JoinType::_INNER_, $child_table);
+						->join(\Leap\Core\DB\SQL\JoinType::_INNER_, $child_table);
 
 					$field_count = count($child_key);
 					for ($i = 0; $i < $field_count; $i++) {
-						$builder->on("{$child_table}.{$child_key[$i]}", Core\DB\SQL\Operator::_EQUAL_TO_, "{$through_table}.{$through_keys[1][$i]}");
+						$builder->on("{$child_table}.{$child_key[$i]}", \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, "{$through_table}.{$through_keys[1][$i]}");
 					}
 
 					$field_count = count($through_keys[0]);
 					for ($i = 0; $i < $field_count; $i++) {
-						$builder->where("{$through_table}.{$through_keys[0][$i]}", Core\DB\SQL\Operator::_EQUAL_TO_, $this->model->{$parent_key[$i]});
+						$builder->where("{$through_table}.{$through_keys[0][$i]}", \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->model->{$parent_key[$i]});
 					}
 
 					foreach ($this->metadata['options'] as $option) {
@@ -156,13 +154,13 @@ namespace Leap\Core\DB\ORM\Relation {
 				}
 			}
 			else {
-				$builder = Core\DB\SQL::select($child_source)
+				$builder = \Leap\Core\DB\SQL::select($child_source)
 					->all("{$child_table}.*")
 					->from($child_table);
 
 				$field_count = count($child_key);
 				for ($i = 0; $i < $field_count; $i++) {
-					$builder->where("{$child_table}.{$child_key[$i]}", Core\DB\SQL\Operator::_EQUAL_TO_, $this->model->{$parent_key[$i]});
+					$builder->where("{$child_table}.{$child_key[$i]}", \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->model->{$parent_key[$i]});
 				}
 
 				foreach ($this->metadata['options'] as $option) {

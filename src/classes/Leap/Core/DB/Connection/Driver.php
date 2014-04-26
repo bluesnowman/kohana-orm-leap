@@ -74,7 +74,7 @@ namespace Leap\Core\DB\Connection {
 		 * This method initializes the class with the specified data source.
 		 *
 		 * @access public
-		 * @param \Leap\Core\DB\DataSource $data_source       the data source to be used
+		 * @param \Leap\Core\DB\DataSource $data_source             the data source to be used
 		 */
 		public function __construct(\Leap\Core\DB\DataSource $data_source) {
 			$this->cache_key = NULL;
@@ -120,8 +120,8 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @abstract
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 */
 		public abstract function begin_transaction();
 
@@ -129,10 +129,10 @@ namespace Leap\Core\DB\Connection {
 		 * This method manages query caching.
 		 *
 		 * @access protected
-		 * @param string $sql                           the SQL statement being queried
-		 * @param string $type                          the return type that is being used
-		 * @param \Leap\Core\DB\ResultSet $results      the result set
-		 * @return \Leap\Core\DB\ResultSet              the result set for the specified
+		 * @param string $sql                                       the SQL statement being queried
+		 * @param string $type                                      the return type that is being used
+		 * @param \Leap\Core\DB\ResultSet $results                  the result set
+		 * @return \Leap\Core\DB\ResultSet                          the result set for the specified
 		 */
 		protected function cache($sql, $type, $results = NULL) {
 			if ($this->data_source->cache->enabled) {
@@ -158,7 +158,7 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @abstract
-		 * @return boolean                              whether an open connection was closed
+		 * @return boolean                                          whether an open connection was closed
 		 */
 		public abstract function close();
 
@@ -167,8 +167,8 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @abstract
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 */
 		public abstract function commit();
 
@@ -177,9 +177,9 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $sql                           the SQL statement
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
-		 *                                              statement failed
+		 * @param string $sql                                       the SQL statement
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 */
 		public abstract function execute($sql);
 
@@ -188,10 +188,10 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $table                         the table to be queried
-		 * @param string $column                        the column representing the table's id
-		 * @return integer                              the last insert id
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the query failed
+		 * @param string $table                                     the table to be queried
+		 * @param string $column                                    the column representing the table's id
+		 * @return integer                                          the last insert id
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
 		public abstract function get_last_insert_id($table = NULL, $column = 'id');
 
@@ -199,9 +199,9 @@ namespace Leap\Core\DB\Connection {
 		 * This method returns the connection's resource.
 		 *
 		 * @access public
-		 * @return mixed                                    the resource being used
-		 * @throws \Leap\Core\Throwable\Database\Exception  indicates that no connection has been
-		 *                                                  established
+		 * @return mixed                                            the resource being used
+		 * @throws \Leap\Core\Throwable\Database\Exception          indicates that no connection has been
+		 *                                                          established
 		 */
 		public function get_resource() {
 			if ( ! $this->is_connected()) {
@@ -215,7 +215,7 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @abstract
-		 * @return boolean                              whether a connection is established
+		 * @return boolean                                          whether a connection is established
 		 */
 		public abstract function is_connected();
 
@@ -223,8 +223,8 @@ namespace Leap\Core\DB\Connection {
 		 * This method opens a connection using the data source provided.
 		 *
 		 * @access public
-		 * @throws \Leap\Core\Throwable\Database\Exception  indicates that there is problem with
-		 *                                                  opening the connection
+		 * @throws \Leap\Core\Throwable\Database\Exception          indicates that there is problem with
+		 *                                                          opening the connection
 		 */
 		public abstract function open();
 
@@ -232,10 +232,10 @@ namespace Leap\Core\DB\Connection {
 		 * This method processes an SQL statement that will return data.
 		 *
 		 * @access public
-		 * @param string $sql                           the SQL statement
-		 * @param string $type                          the return type to be used
-		 * @return \Leap\Core\DB\ResultSet              the result set
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the query failed
+		 * @param string $sql                                       the SQL statement
+		 * @param string $type                                      the return type to be used
+		 * @return \Leap\Core\DB\ResultSet                          the result set
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
 		public function query($sql, $type = 'array') {
 			if ( ! $this->is_connected()) {
@@ -256,11 +256,11 @@ namespace Leap\Core\DB\Connection {
 		 * This method escapes a string to be used in an SQL statement.
 		 *
 		 * @access public
-		 * @param string $string                        the string to be escaped
-		 * @param char $escape                          the escape character
-		 * @return string                               the quoted string
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that no connection could
-		 *                                              be found
+		 * @param string $string                                    the string to be escaped
+		 * @param char $escape                                      the escape character
+		 * @return string                                           the quoted string
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that no connection could
+		 *                                                          be found
 		 *
 		 * @license http://codeigniter.com/user_guide/license.html
 		 *
@@ -295,9 +295,9 @@ namespace Leap\Core\DB\Connection {
 		 * This method creates a data reader for query the specified SQL statement.
 		 *
 		 * @access public
-		 * @param string $sql                           the SQL statement
-		 * @return \Leap\Core\DB\SQL\DataReader         the SQL data reader
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the query failed
+		 * @param string $sql                                       the SQL statement
+		 * @return \Leap\Core\DB\SQL\DataReader                     the SQL data reader
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
 		public function reader($sql) {
 			if ( ! $this->is_connected()) {
@@ -313,8 +313,8 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @abstract
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 */
 		public abstract function rollback();
 
@@ -326,8 +326,8 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @static
-		 * @param mixed $config                         the data source configurations
-		 * @return \Leap\Core\DB\Connection\Driver      the database connection
+		 * @param mixed $config                                     the data source configurations
+		 * @return \Leap\Core\DB\Connection\Driver                  the database connection
 		 */
 		public static function factory($config = 'default') {
 			$data_source = \Leap\Core\DB\DataSource::instance($config);

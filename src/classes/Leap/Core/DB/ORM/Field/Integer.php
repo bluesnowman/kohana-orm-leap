@@ -19,9 +19,6 @@
 
 namespace Leap\Core\DB\ORM\Field {
 
-	use Leap\Core;
-	use Leap\Core\Throwable;
-
 	/**
 	 * This class represents an "integer" field in a database table.
 	 *
@@ -30,18 +27,18 @@ namespace Leap\Core\DB\ORM\Field {
 	 * @package Leap\Core\DB\ORM\Field
 	 * @version 2014-01-26
 	 */
-	class Integer extends Core\DB\ORM\Field {
+	class Integer extends \Leap\Core\DB\ORM\Field {
 
 		/**
 		 * This constructor initializes the class.
 		 *
 		 * @access public
-		 * @param Core\DB\ORM\Model $model              a reference to the implementing model
-		 * @param array $metadata                       the field's metadata
-		 * @throws Throwable\Validation\Exception       indicates that the specified value does
-		 *                                              not validate
+		 * @param \Leap\Core\DB\ORM\Model $model                    a reference to the implementing model
+		 * @param array $metadata                                   the field's metadata
+		 * @throws \Leap\Core\Throwable\Validation\Exception        indicates that the specified value does
+		 *                                                          not validate
 		 */
-		public function __construct(Core\DB\ORM\Model $model, Array $metadata = array()) {
+		public function __construct(\Leap\Core\DB\ORM\Model $model, Array $metadata = array()) {
 			parent::__construct($model, 'integer');
 
 			if (isset($metadata['max_length'])) {
@@ -128,14 +125,14 @@ namespace Leap\Core\DB\ORM\Field {
 					: NULL;
 			}
 
-			if ( ! ($default instanceof Core\DB\SQL\Expression)) {
+			if ( ! ($default instanceof \Leap\Core\DB\SQL\Expression)) {
 				if ($default !== NULL) {
 					if ((PHP_INT_SIZE !== 4) OR ! is_string($default) OR ! preg_match('/^-?[0-9]+$/D', $default) OR ((bccomp($default, '-2147483648') !== -1) AND (bccomp($default, '2147483647') !== 1))) {
 						settype($default, $this->metadata['type']);
 					}
 				}
 				if ( ! $this->validate($default)) {
-					throw new Throwable\Validation\Exception('Message: Unable to set default value for field. Reason: Value :value failed to pass validation constraints.', array(':value' => $default));
+					throw new \Leap\Core\Throwable\Validation\Exception('Message: Unable to set default value for field. Reason: Value :value failed to pass validation constraints.', array(':value' => $default));
 				}
 			}
 
@@ -148,23 +145,23 @@ namespace Leap\Core\DB\ORM\Field {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $key                           the name of the property
-		 * @param mixed $value                          the value of the property
-		 * @throws Throwable\Validation\Exception       indicates that the specified value does
-		 *                                              not validate
-		 * @throws Throwable\InvalidProperty\Exception  indicates that the specified property is
-		 *                                              either inaccessible or undefined
+		 * @param string $key                                       the name of the property
+		 * @param mixed $value                                      the value of the property
+		 * @throws \Leap\Core\Throwable\Validation\Exception        indicates that the specified value does
+		 *                                                          not validate
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
 		 */
 		public function __set($key, $value) {
 			switch ($key) {
 				case 'value':
-					if ( ! ($value instanceof Core\DB\SQL\Expression)) {
+					if ( ! ($value instanceof \Leap\Core\DB\SQL\Expression)) {
 						if ($value !== NULL) {
 							if ( ! isset($this->metadata['int8fix']) OR is_int($value) OR ! preg_match('/^-?[0-9]+$/D', (string) $value) OR (bccomp( (string) $value, '-2147483648') !== -1 AND bccomp( (string) $value, '2147483647') !== 1)) {
 								settype($value, $this->metadata['type']);
 							}
 							if ( ! $this->validate($value)) {
-								throw new Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
+								throw new \Leap\Core\Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
 							}
 						}
 						else if ( ! $this->metadata['nullable']) {
@@ -172,7 +169,7 @@ namespace Leap\Core\DB\ORM\Field {
 						}
 					}
 					if (isset($this->metadata['callback']) AND ! $this->model->{$this->metadata['callback']}($value)) {
-						throw new Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
+						throw new \Leap\Core\Throwable\Validation\Exception('Message: Unable to set the specified property. Reason: Value :value failed to pass validation constraints.', array(':value' => $value));
 					}
 					$this->metadata['modified'] = TRUE;
 					$this->value = $value;
@@ -181,7 +178,7 @@ namespace Leap\Core\DB\ORM\Field {
 					$this->metadata['modified'] = (bool) $value;
 				break;
 				default:
-					throw new Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key, ':value' => $value));
 				break;
 			}
 		}
@@ -191,8 +188,8 @@ namespace Leap\Core\DB\ORM\Field {
 		 *
 		 * @access protected
 		 * @override
-		 * @param mixed $value                          the value to be validated
-		 * @return boolean                              whether the specified value validates
+		 * @param mixed $value                                      the value to be validated
+		 * @return boolean                                          whether the specified value validates
 		 */
 		protected function validate($value) {
 			if ($value !== NULL) {

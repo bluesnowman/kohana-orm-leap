@@ -72,9 +72,9 @@ namespace Leap\Core\Web\HTTP {
 		 * This constructor initializes the class using the specified config information.
 		 *
 		 * @access public
-		 * @param mixed $config                                 the config information to be used
-		 * @throws \Leap\Core\Throwable\Runtime\Exception       indicates that error occurred when loading
-		 *                                                      a configuration
+		 * @param mixed $config                                     the config information to be used
+		 * @throws \Leap\Core\Throwable\Runtime\Exception           indicates that error occurred when loading
+		 *                                                          a configuration
 		 */
 		public function __construct($config = NULL) {
 			parent::__construct($config);
@@ -121,7 +121,7 @@ namespace Leap\Core\Web\HTTP {
 		 * This method attempts to log the user in based on the "authautologin" cookie.
 		 *
 		 * @access public
-		 * @return mixed                            either a user object or false
+		 * @return mixed                                            either a user object or false
 		 */
 		public function auto_login() {
 			if ($token = \Cookie::get('authautologin')) {
@@ -158,8 +158,8 @@ namespace Leap\Core\Web\HTTP {
 		 * password.
 		 *
 		 * @access public
-		 * @param string $password                  the user's password
-		 * @return boolean                          whether the password is valid
+		 * @param string $password                                  the user's password
+		 * @return boolean                                          whether the password is valid
 		 */
 		public function check_password($password) {
 			$user = $this->get_user();
@@ -176,8 +176,8 @@ namespace Leap\Core\Web\HTTP {
 		 * session data: user_id, username, roles.
 		 *
 		 * @access protected
-		 * @param mixed $user                       the user's name or object
-		 * @return boolean                          whether the login was completed
+		 * @param mixed $user                                       the user's name or object
+		 * @return boolean                                          whether the login was completed
 		 */
 		protected function complete_login($user) {
 			$user->complete_login();
@@ -188,10 +188,10 @@ namespace Leap\Core\Web\HTTP {
 		 * This method forces a user to be logged in without a password.
 		 *
 		 * @access public
-		 * @param mixed $user                       the user's name or object
-		 * @param boolean $mark_session_as_forced   whether to mark the session as
-		 *                                          forced
-		 * @return boolean                          whether the login was successful
+		 * @param mixed $user                                       the user's name or object
+		 * @param boolean $mark_session_as_forced                   whether to mark the session as
+		 *                                                          forced
+		 * @return boolean                                          whether the login was successful
 		 */
 		public function force_login($user, $mark_session_as_forced = TRUE) {
 			if ( ! is_object($user)) {
@@ -214,8 +214,8 @@ namespace Leap\Core\Web\HTTP {
 		 * process.
 		 *
 		 * @access public
-		 * @return array                            an array of errors encountered during
-		 *                                          the authentication process
+		 * @return array                                            an array of errors encountered during
+		 *                                                          the authentication process
 		 */
 		public function get_errors() {
 			return $this->errors;
@@ -225,10 +225,10 @@ namespace Leap\Core\Web\HTTP {
 		 * This method gets the current user's object.
 		 *
 		 * @access public
-		 * @param mixed $default                    the default value should no user
-		 *                                          be logged in
-		 * @return mixed                            either the current user's object
-		 *                                          or the specified default value
+		 * @param mixed $default                                    the default value should no user
+		 *                                                          be logged in
+		 * @return mixed                                            either the current user's object
+		 *                                                          or the specified default value
 		 */
 		public function get_user($default = NULL) {
 			$user = parent::get_user($default);
@@ -245,8 +245,8 @@ namespace Leap\Core\Web\HTTP {
 		 * This method gets a user matching the login configuration information.
 		 *
 		 * @access protected
-		 * @param string $user                          the user's name
-		 * @return \Leap\Core\Web\HTTP\Auth\Model\User  the user's object
+		 * @param string $user                                      the user's name
+		 * @return \Leap\Core\Web\HTTP\Auth\Model\User              the user's object
 		 */
 		protected function get_user_by_login($user) {
 			$builder = \Leap\Core\DB\ORM::select($this->models['user']);
@@ -268,10 +268,10 @@ namespace Leap\Core\Web\HTTP {
 		 * This method determines whether the session is active.
 		 *
 		 * @access public
-		 * @param mixed $roles                      either an ORM role object or an
-		 *                                          array of roles
-		 * @param boolean $all_required             whether all roles are required
-		 * @return boolean                          whether the session is active
+		 * @param mixed $roles                                      either an ORM role object or an
+		 *                                                          array of roles
+		 * @param boolean $all_required                             whether all roles are required
+		 * @return boolean                                          whether the session is active
 		 */
 		public function logged_in($roles = NULL, $all_required = TRUE) {
 			$user = $this->get_user();
@@ -347,10 +347,10 @@ namespace Leap\Core\Web\HTTP {
 		 * This method attempts to log a user in.
 		 *
 		 * @access protected
-		 * @param mixed $user                       the user's name or object
-		 * @param string $password                  the user's password
-		 * @param boolean $remember                 enables auto-login
-		 * @return boolean                          whether the login was successful
+		 * @param mixed $user                                       the user's name or object
+		 * @param string $password                                  the user's password
+		 * @param boolean $remember                                 enables auto-login
+		 * @return boolean                                          whether the login was successful
 		 */
 		protected function _login($user, $password, $remember) {
 			if ( ! is_object($user)) {
@@ -398,10 +398,10 @@ namespace Leap\Core\Web\HTTP {
 		 * This method logs the current user out.
 		 *
 		 * @access public
-		 * @param boolean $destroy                  whether the session is to be to completely
-		 *                                          destroyed
-		 * @param boolean $logout_all               whether all tokens for user are to be removed
-		 * @param boolean                           whether the logout was successful
+		 * @param boolean $destroy                                  whether the session is to be to completely
+		 *                                                          destroyed
+		 * @param boolean $logout_all                               whether all tokens for user are to be removed
+		 * @return boolean                                          whether the logout was successful
 		 */
 		public function logout($destroy = FALSE, $logout_all = FALSE) {
 			// Set by force_login()
@@ -435,8 +435,8 @@ namespace Leap\Core\Web\HTTP {
 		 * This method gets the user's password.
 		 *
 		 * @access public
-		 * @param mixed $user                       the user's name or object
-		 * @return string                           the user's password
+		 * @param mixed $user                                       the user's name or object
+		 * @return string                                           the user's password
 		 */
 		public function password($user) {
 			if ( ! is_object($user)) {

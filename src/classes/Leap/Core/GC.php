@@ -57,9 +57,9 @@ namespace Leap\Core {
 		 *
 		 * @access public
 		 * @static
-		 * @param mixed $object                             the object to be evaluated
-		 * @return integer                                  the reference count for the specified
-		 *                                                  object
+		 * @param mixed $object                                     the object to be evaluated
+		 * @return integer                                          the reference count for the specified
+		 *                                                          object
 		 *
 		 *
 		 * @see http://us3.php.net/manual/en/language.references.php

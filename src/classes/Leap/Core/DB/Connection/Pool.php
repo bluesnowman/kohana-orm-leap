@@ -113,10 +113,10 @@ namespace Leap\Core\DB\Connection {
 		 * This method adds an existing connection to the connection pool.
 		 *
 		 * @access public
-		 * @param \Leap\Core\DB\Connection\Driver $connection     the connection to be added
-		 * @return boolean                                        whether the connection was added
-		 * @throws \Leap\Core\Throwable\Database\Exception        indicates that no new connections
-		 *                                                        can be added
+		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be added
+		 * @return boolean                                          whether the connection was added
+		 * @throws \Leap\Core\Throwable\Database\Exception          indicates that no new connections
+		 *                                                          can be added
 		 */
 		public function add_connection(\Leap\Core\DB\Connection\Driver $connection) {
 			if ($connection !== NULL) {
@@ -139,8 +139,8 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @return integer                              the number of connections in the
-		 *                                              connection pool
+		 * @return integer                                          the number of connections in the
+		 *                                                          connection pool
 		 */
 		public function count() {
 			return count($this->lookup);
@@ -152,11 +152,11 @@ namespace Leap\Core\DB\Connection {
 		 * will be returned when $new is set to "FALSE."
 		 *
 		 * @access public
-		 * @param mixed $config                              the data source configurations
-		 * @param boolean $new                               whether to create a new connection
-		 * @return \Leap\Core\DB\Connection\Driver           the appropriate connection
-		 * @throws \Leap\Core\Throwable\Database\Exception   indicates that no new connections
-		 *                                                   can be added
+		 * @param mixed $config                                     the data source configurations
+		 * @param boolean $new                                      whether to create a new connection
+		 * @return \Leap\Core\DB\Connection\Driver                  the appropriate connection
+		 * @throws \Leap\Core\Throwable\Database\Exception          indicates that no new connections
+		 *                                                          can be added
 		 */
 		public function get_connection($config = 'default', $new = FALSE) {
 			$data_source = \Leap\Core\DB\DataSource::instance($config);
@@ -200,7 +200,7 @@ namespace Leap\Core\DB\Connection {
 		 * connection will then be allowed to close via its destructor when completely unset.
 		 *
 		 * @access public
-		 * @param \Leap\Core\DB\Connection\Driver $connection the connection to be released
+		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be released
 		 */
 		public function release(\Leap\Core\DB\Connection\Driver $connection) {
 			if ($connection !== NULL) {
@@ -242,7 +242,7 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @static
-		 * @return \Leap\Core\DB\Connection\Pool               a singleton instance of this class
+		 * @return \Leap\Core\DB\Connection\Pool                    a singleton instance of this class
 		 */
 		public static function instance() {
 			if (static::$instance === NULL) {

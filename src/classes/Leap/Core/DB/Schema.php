@@ -51,7 +51,7 @@ namespace Leap\Core\DB {
 		 * This constructor instantiates this class using the specified data source.
 		 *
 		 * @access public
-		 * @param mixed $config                  the data source configurations
+		 * @param mixed $config                                     the data source configurations
 		 */
 		public function __construct($config) {
 			$this->data_source = \Leap\Core\DB\DataSource::instance($config);
@@ -64,9 +64,9 @@ namespace Leap\Core\DB {
 		 * SQL data type.
 		 *
 		 * @access public
-		 * @param string $type                   the SQL data type
-		 * @return array                         an associated array of default properties
-		 *                                       for the specified data type
+		 * @param string $type                                      the SQL data type
+		 * @return array                                            an associated array of default properties
+		 *                                                          for the specified data type
 		 *
 		 * @license http://kohanaframework.org/license
 		 *
@@ -165,10 +165,10 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $table                 the table to evaluated
-		 * @param string $like                  a like constraint on the query
-		 * @return \Leap\Core\DB\ResultSet      an array of fields within the specified
-		 *                                      table
+		 * @param string $table                                     the table to evaluated
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          an array of fields within the specified
+		 *                                                          table
 		 */
 		public abstract function fields($table, $like = '');
 
@@ -190,10 +190,10 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $table                 the table to evaluated
-		 * @param string $like                  a like constraint on the query
-		 * @return \Leap\Core\DB\ResultSet      a result set of indexes for the specified
-		 *                                      table
+		 * @param string $table                                     the table to evaluated
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of indexes for the specified
+		 *                                                          table
 		 */
 		public abstract function indexes($table, $like = '');
 
@@ -205,9 +205,9 @@ namespace Leap\Core\DB {
 		 *     'DECIMAL(10, 5)' becomes array('DECIMAL', 10, 5)
 		 *
 		 * @access protected
-		 * @param string $type                  the data type to be parsed
-		 * @return array                        an array with the field's type
-		 *                                      information
+		 * @param string $type                                      the data type to be parsed
+		 * @return array                                            an array with the field's type
+		 *                                                          information
 		 *
 		 * @license http://kohanaframework.org/license
 		 *
@@ -244,8 +244,8 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $like                  a like constraint on the query
-		 * @return \Leap\Core\DB\ResultSet      a result set of database tables
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of database tables
 		 */
 		public abstract function tables($like = '');
 
@@ -268,10 +268,10 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $table                 the table to evaluated
-		 * @param string $like                  a like constraint on the query
-		 * @return \Leap\Core\DB\ResultSet      a result set of triggers for the specified
-		 *                                      table
+		 * @param string $table                                     the table to evaluated
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of triggers for the specified
+		 *                                                          table
 		 */
 		public abstract function triggers($table, $like = '');
 
@@ -288,8 +288,8 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $like                  a like constraint on the query
-		 * @return \Leap\Core\DB\ResultSet      a result set of database views
+		 * @param string $like                                      a like constraint on the query
+		 * @return \Leap\Core\DB\ResultSet                          a result set of database views
 		 */
 		public abstract function views($like = '');
 

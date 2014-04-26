@@ -47,9 +47,9 @@ namespace Leap\Core {
 		 * This method returns whether the specified object is equal to the called object.
 		 *
 		 * @access public
-		 * @param \Leap\Core\IObject $object            the object to be evaluated
-		 * @return boolean                              whether the specified object is equal
-		 *                                              to the called object
+		 * @param \Leap\Core\IObject $object                        the object to be evaluated
+		 * @return boolean                                          whether the specified object is equal
+		 *                                                          to the called object
 		 */
 		public function __equals($object);
 
@@ -57,7 +57,7 @@ namespace Leap\Core {
 		 * This method returns the name of the runtime class of this object.
 		 *
 		 * @access public
-		 * @return string                               the name of the runtime class
+		 * @return string                                           the name of the runtime class
 		 */
 		public function __getClass();
 
@@ -65,7 +65,7 @@ namespace Leap\Core {
 		 * This method returns the hash code for the object.
 		 *
 		 * @access public
-		 * @return string                               the hash code for the object
+		 * @return string                                           the hash code for the object
 		 */
 		public function __hashCode();
 
@@ -73,7 +73,7 @@ namespace Leap\Core {
 		 * This method returns a string that represents the object.
 		 *
 		 * @access public
-		 * @return string                               a string that represents the object
+		 * @return string                                           a string that represents the object
 		 */
 		public function __toString();
 

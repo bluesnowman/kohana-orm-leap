@@ -34,8 +34,8 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @static
-		 * @param string $model                         the model's name
-		 * @return \Leap\Core\DB\ORM\Delete\Proxy       an instance of the class
+		 * @param string $model                                     the model's name
+		 * @return \Leap\Core\DB\ORM\Delete\Proxy                   an instance of the class
 		 */
 		public static function delete($model) {
 			$proxy = new \Leap\Core\DB\ORM\Delete\Proxy($model);
@@ -48,10 +48,10 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @static
-		 * @param string $expr                          the raw SQL expression
-		 * @param array $params                         an associated array of parameter
-		 *                                              key/values pairs
-		 * @return \Leap\Core\DB\SQL\Expression         the wrapped expression
+		 * @param string $expr                                      the raw SQL expression
+		 * @param array $params                                     an associated array of parameter
+		 *                                                          key/values pairs
+		 * @return \Leap\Core\DB\SQL\Expression                     the wrapped expression
 		 */
 		public static function expr($expr, Array $params = array()) {
 			$expression = new \Leap\Core\DB\SQL\Expression($expr, $params);
@@ -63,8 +63,8 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @static
-		 * @param string $model                         the model's name
-		 * @return \Leap\Core\DB\ORM\Insert\Proxy       an instance of the class
+		 * @param string $model                                     the model's name
+		 * @return \Leap\Core\DB\ORM\Insert\Proxy                   an instance of the class
 		 */
 		public static function insert($model) {
 			$proxy = new \Leap\Core\DB\ORM\Insert\Proxy($model);
@@ -76,10 +76,10 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @static
-		 * @param string $model                         the model's name
-		 * @param array $primary_key                    the column values of the primary key
-		 *                                              that will be used to load the model
-		 * @return mixed                                an instance of the specified model
+		 * @param string $model                                     the model's name
+		 * @param array $primary_key                                the column values of the primary key
+		 *                                                          that will be used to load the model
+		 * @return mixed                                            an instance of the specified model
 		 */
 		public static function model($model, $primary_key = array()) {
 			$model = \Leap\Core\DB\ORM\Model::factory($model);
@@ -104,8 +104,8 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @static
-		 * @param string $model                         the model's name
-		 * @return \Leap\Core\DB\SQL\Precompiler        an instance of the pre-compiler
+		 * @param string $model                                     the model's name
+		 * @return \Leap\Core\DB\SQL\Precompiler                    an instance of the pre-compiler
 		 */
 		public static function precompiler($model) {
 			$model = \Leap\Core\DB\ORM\Model::model_name($model);
@@ -120,9 +120,9 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @static
-		 * @param string $model                         the model's name
-		 * @param array $columns                        the columns to be selected
-		 * @return \Leap\Core\DB\ORM\Select\Proxy       an instance of the class
+		 * @param string $model                                     the model's name
+		 * @param array $columns                                    the columns to be selected
+		 * @return \Leap\Core\DB\ORM\Select\Proxy                   an instance of the class
 		 */
 		public static function select($model, Array $columns = array()) {
 			$proxy = new \Leap\Core\DB\ORM\Select\Proxy($model, $columns);
@@ -134,8 +134,8 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @static
-		 * @param string $model                         the model's name
-		 * @return \Leap\Core\DB\ORM\Update\Proxy       an instance of the class
+		 * @param string $model                                     the model's name
+		 * @return \Leap\Core\DB\ORM\Update\Proxy                   an instance of the class
 		 */
 		public static function update($model) {
 			$proxy = new \Leap\Core\DB\ORM\Update\Proxy($model);
