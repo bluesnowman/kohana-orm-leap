@@ -25,7 +25,7 @@ namespace Leap\Core\Web\HTTP {
 	 * @abstract
 	 * @access public
 	 * @class
-	 * @package Leap\Core
+	 * @package Leap\Core\Web\HTTP
 	 * @version 2014-04-26
 	 *
 	 * @see http://msdn.microsoft.com/en-us/library/system.net.mime.contentdisposition%28v=vs.110%29.aspx
@@ -155,7 +155,13 @@ namespace Leap\Core\Web\HTTP {
 						$buffer .= '; filename="' . $value . '"';
 					}
 					else if (!empty($this->parameters[$name])) {
-						$buffer .= '; ' . str_replace('_', '-', $name) . '="' . $value . '"';
+						if ($name == 'size') {
+							$buffer .= '; ' . $name . '=' . $value;
+						}
+						else {
+							$buffer .= '; ' . str_replace('_', '-', $name) . '="' . $value . '"';
+						}
+
 					}
 				}
 				return $buffer;
