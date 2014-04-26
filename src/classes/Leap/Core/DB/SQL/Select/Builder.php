@@ -39,7 +39,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 */
 		public function __construct(\Leap\Core\DB\DataSource $data_source, Array $columns = array()) {
 			$this->dialect = $data_source->dialect;
-			$precompiler = '\\Leap\\Plugins\\DB\\' . $this->dialect . '\\Precompiler';
+			$precompiler = '\\Leap\\Plugin\\DB\\' . $this->dialect . '\\Precompiler';
 			$this->precompiler = new $precompiler($data_source);
 			$this->reset();
 			foreach ($columns as $column) {
@@ -89,7 +89,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates an invalid SQL build instruction
 		 */
 		public function combine($operator, $statement) {
-			$builder = '\\Leap\\Plugins\\DB\\' . $this->dialect . '\\Select\\Builder';
+			$builder = '\\Leap\\Plugin\\DB\\' . $this->dialect . '\\Select\\Builder';
 			if (is_object($statement) AND ($statement instanceof $builder)) {
 				$statement = $statement->statement(FALSE);
 			}

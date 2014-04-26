@@ -139,7 +139,7 @@ namespace Leap\Core\DB\SQL {
 		 *                                                      SQL data reader
 		 */
 		public static function factory(\Leap\Core\DB\Connection\Driver $connection, $sql, $mode = NULL) {
-			$class = '\\Leap\\Plugins\\DB\\' . $connection->data_source->dialect . '\\DataReader\\' . $connection->data_source->driver;
+			$class = '\\Leap\\Plugin\\DB\\' . $connection->data_source->dialect . '\\DataReader\\' . $connection->data_source->driver;
 			$reader = new $class($connection, $sql, $mode);
 			return $reader;
 		}

@@ -120,7 +120,7 @@ namespace Leap\Core\DB\SQL\Lock {
 		 *                                                      SQL lock builder
 		 */
 		public static function factory(\Leap\Core\DB\Connection\Driver $connection) {
-			$class = '\\Leap\\Plugins\\DB\\' . $connection->data_source->dialect . '\\Lock\\Builder';
+			$class = '\\Leap\\Plugin\\DB\\' . $connection->data_source->dialect . '\\Lock\\Builder';
 			$builder = new $class($connection);
 			return $builder;
 		}

@@ -71,7 +71,7 @@ namespace Leap\Core\DB\ORM\Insert {
 			$name = $model;
 			$model = \Leap\Core\DB\ORM\Model::model_name($name);
 			$this->data_source = \Leap\Core\DB\DataSource::instance($model::data_source(\Leap\Core\DB\DataSource::MASTER_INSTANCE));
-			$builder = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Insert\\Builder';
+			$builder = '\\Leap\\Plugin\\DB\\' . $this->data_source->dialect . '\\Insert\\Builder';
 			$this->builder = new $builder($this->data_source);
 			$extension = \Leap\Core\DB\ORM\Model::builder_name($name);
 			if (class_exists($extension)) {

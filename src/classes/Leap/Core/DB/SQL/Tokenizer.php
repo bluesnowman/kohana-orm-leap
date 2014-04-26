@@ -677,7 +677,7 @@ namespace Leap\Core\DB\SQL {
 		 * @see http://drupal.org/node/141051
 		 */
 		public static function is_keyword($token, $dialect) {
-			$precompiler = '\\Leap\\Plugins\\DB\\' . $dialect . '\\Precompiler';
+			$precompiler = '\\Leap\\Plugin\\DB\\' . $dialect . '\\Precompiler';
 			$result = $precompiler::is_keyword($token);
 			return $result;
 		}

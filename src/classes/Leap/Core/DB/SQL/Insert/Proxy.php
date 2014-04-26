@@ -54,7 +54,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		 */
 		public function __construct($config) {
 			$this->data_source = \Leap\Core\DB\DataSource::instance($config);
-			$builder = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Insert\\Builder';
+			$builder = '\\Leap\\Plugin\\DB\\' . $this->data_source->dialect . '\\Insert\\Builder';
 			$this->builder = new $builder($this->data_source);
 		}
 

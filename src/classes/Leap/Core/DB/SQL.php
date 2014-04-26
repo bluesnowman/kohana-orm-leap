@@ -82,7 +82,7 @@ namespace Leap\Core\DB {
 		 */
 		public static function precompiler($config = 'default') {
 			$data_source = \Leap\Core\DB\DataSource::instance($config);
-			$precompiler = '\\Leap\\Plugins\\DB\\' . $data_source->dialect . '\\Precompiler';
+			$precompiler = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Precompiler';
 			$object = new $precompiler($data_source);
 			return $object;
 		}

@@ -53,7 +53,7 @@ namespace Leap\Core\DB\SQL\Delete {
 		 */
 		public function __construct($config) {
 			$this->data_source = \Leap\Core\DB\DataSource::instance($config);
-			$builder = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Delete\\Builder';
+			$builder = '\\Leap\\Plugin\\DB\\' . $this->data_source->dialect . '\\Delete\\Builder';
 			$this->builder = new $builder($this->data_source);
 		}
 

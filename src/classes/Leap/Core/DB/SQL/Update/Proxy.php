@@ -53,7 +53,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 */
 		public function __construct($config) {
 			$this->data_source = \Leap\Core\DB\DataSource::instance($config);
-			$builder = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Update\\Builder';
+			$builder = '\\Leap\\Plugin\\DB\\' . $this->data_source->dialect . '\\Update\\Builder';
 			$this->builder = new $builder($this->data_source);
 		}
 

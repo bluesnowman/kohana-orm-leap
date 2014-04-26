@@ -88,7 +88,7 @@ namespace Leap\Core\DB\ORM\Update {
 			$name = $model;
 			$model = \Leap\Core\DB\ORM\Model::model_name($name);
 			$this->data_source = \Leap\Core\DB\DataSource::instance($model::data_source(\Leap\Core\DB\DataSource::MASTER_INSTANCE));
-			$builder = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Update\\Builder';
+			$builder = '\\Leap\\Plugin\\DB\\' . $this->data_source->dialect . '\\Update\\Builder';
 			$this->builder = new $builder($this->data_source);
 			$extension = \Leap\Core\DB\ORM\Model::builder_name($name);
 			if (class_exists($extension)) {

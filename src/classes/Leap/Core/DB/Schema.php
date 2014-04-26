@@ -55,7 +55,7 @@ namespace Leap\Core\DB {
 		 */
 		public function __construct($config) {
 			$this->data_source = \Leap\Core\DB\DataSource::instance($config);
-			$precompiler = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Precompiler';
+			$precompiler = '\\Leap\\Plugin\\DB\\' . $this->data_source->dialect . '\\Precompiler';
 			$this->precompiler = new $precompiler();
 		}
 

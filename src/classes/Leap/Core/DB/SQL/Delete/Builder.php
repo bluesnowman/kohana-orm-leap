@@ -38,7 +38,7 @@ namespace Leap\Core\DB\SQL\Delete {
 		 */
 		public function __construct(\Leap\Core\DB\DataSource $data_source) {
 			$this->dialect = $data_source->dialect;
-			$precompiler = '\\Leap\\Plugins\\DB\\' . $this->dialect . '\\Precompiler';
+			$precompiler = '\\Leap\\Plugin\\DB\\' . $this->dialect . '\\Precompiler';
 			$this->precompiler = new $precompiler($data_source);
 			$this->reset();
 		}

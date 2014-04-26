@@ -105,7 +105,7 @@ namespace Leap\Core\DB\ORM\Select {
 			$name = $model;
 			$model = \Leap\Core\DB\ORM\Model::model_name($name);
 			$this->data_source = \Leap\Core\DB\DataSource::instance($model::data_source(\Leap\Core\DB\DataSource::SLAVE_INSTANCE));
-			$builder = '\\Leap\\Plugins\\DB\\' . $this->data_source->dialect . '\\Select\\Builder';
+			$builder = '\\Leap\\Plugin\\DB\\' . $this->data_source->dialect . '\\Select\\Builder';
 			$this->table = $model::table();
 			$this->builder = new $builder($this->data_source, $columns);
 			if (empty($columns)) {
