@@ -376,12 +376,12 @@ namespace Leap\Core\Data\Serialization {
 		 * This method outputs the CVS file.
 		 *
 		 * @access public
-		 * @param \Leap\Core\ContentDisposition $disposition        the content disposition used in
-		 *                                                          the header
+		 * @param \Leap\Core\Web\HTTP\ContentDisposition $disposition  the content disposition used in
+		 *                                                             the header
 		 *
 		 * @see http://www.rfc-editor.org/rfc/rfc4180.txt
 		 */
-		public function output(\Leap\Core\ContentDisposition $disposition = null) {
+		public function output(\Leap\Core\Web\HTTP\ContentDisposition $disposition = null) {
 			$buffer = $this->render();
 			if ($disposition !== NULL) {
 				if ( ! $disposition->inline && ! isset($disposition->file_name)) {

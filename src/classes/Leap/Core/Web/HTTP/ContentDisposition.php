@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-namespace Leap\Core {
+namespace Leap\Core\Web\HTTP {
 
 	/**
 	 * This class represents a "Content-Disposition" header string.
@@ -31,7 +31,7 @@ namespace Leap\Core {
 	 * @see http://msdn.microsoft.com/en-us/library/system.net.mime.contentdisposition%28v=vs.110%29.aspx
 	 * @see http://tools.ietf.org/html/rfc2183
 	 */
-	class ContentDisposition extends Object {
+	class ContentDisposition extends \Leap\Core\Object {
 
 		/**
 		 * This variable stores whether the disposition is inline.

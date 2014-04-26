@@ -215,10 +215,10 @@ namespace Leap\Core\Data\Serialization {
 		 * This method outputs the XML document as a file.
 		 *
 		 * @access public
-		 * @param \Leap\Core\ContentDisposition $disposition        the content disposition used in
-		 *                                                          the header
+		 * @param \Leap\Core\Web\HTTP\ContentDisposition $disposition  the content disposition used in
+		 *                                                             the header
 		 */
-		public function output(\Leap\Core\ContentDisposition $disposition = null) {
+		public function output(\Leap\Core\Web\HTTP\ContentDisposition $disposition = null) {
 			$buffer = $this->asXML();
 			if ($disposition !== NULL) {
 				if ( ! $disposition->inline && ! isset($disposition->file_name)) {
