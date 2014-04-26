@@ -75,7 +75,7 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @override
-		 * @return string                           the raw SQL statement
+		 * @return string                                           the raw SQL statement
 		 */
 		public function __toString() {
 			return $this->statement(TRUE);
@@ -88,8 +88,8 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @static
-		 * @param \Leap\Core\DB\DataSource $data_source     the data source to be used
-		 * @return \Leap\Core\DB\SQL\Builder                a new instance of the calling class
+		 * @param \Leap\Core\DB\DataSource $data_source             the data source to be used
+		 * @return \Leap\Core\DB\SQL\Builder                        a new instance of the calling class
 		 */
 		public static function factory(\Leap\Core\DB\DataSource $data_source) {
 			$class = get_called_class();

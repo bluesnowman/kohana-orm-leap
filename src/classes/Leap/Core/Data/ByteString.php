@@ -75,8 +75,8 @@ namespace Leap\Core\Data {
 		 * This constructor initializes the class.
 		 *
 		 * @access public
-		 * @param string $data                          the data
-		 * @param integer $type                         the current type of data
+		 * @param string $data                                      the data
+		 * @param integer $type                                     the current type of data
 		 */
 		public function __construct($data, $type = 1) {
 			$this->hexcode = static::unpack($data, $type);
@@ -88,7 +88,7 @@ namespace Leap\Core\Data {
 		 *
 		 * @access public
 		 * @override
-		 * @return string                               the data as a hexadecimal
+		 * @return string                                           the data as a hexadecimal
 		 */
 		public function __toString() {
 			return $this->hexcode;
@@ -98,8 +98,8 @@ namespace Leap\Core\Data {
 		 * This method returns the data as a binary string.
 		 *
 		 * @access public
-		 * @param string $format                        the string formatting to be used
-		 * @return string                               the data as a binary string
+		 * @param string $format                                    the string formatting to be used
+		 * @return string                                           the data as a binary string
 		 */
 		public function as_binary($format = '%s') {
 			$binary = base_convert($this->hexcode, 16, 2);
@@ -113,8 +113,8 @@ namespace Leap\Core\Data {
 		 * This method returns the data as a hexadecimal.
 		 *
 		 * @access public
-		 * @param string $format                        the string formatting to be used
-		 * @return string                               the data as a hexadecimal
+		 * @param string $format                                    the string formatting to be used
+		 * @return string                                           the data as a hexadecimal
 		 */
 		public function as_hexcode($format = '%s') {
 			if ($format != '%s') {
@@ -127,9 +127,9 @@ namespace Leap\Core\Data {
 		 * This method returns the data as a string.
 		 *
 		 * @access public
-		 * @param string $format                        the string formatting to be used
-		 * @param boolean $pack                         whether to pack the hexcode as a string
-		 * @return string                               the data as a string
+		 * @param string $format                                    the string formatting to be used
+		 * @param boolean $pack                                     whether to pack the hexcode as a string
+		 * @return string                                           the data as a string
 		 */
 		public function as_string($format = '%s', $pack = TRUE) {
 			$string = ($pack) ? static::pack($this->hexcode) : $this->hexcode;
@@ -144,8 +144,8 @@ namespace Leap\Core\Data {
 		 *
 		 * @access public
 		 * @override
-		 * @return integer                              the length of the data as a byte
-		 *                                              string
+		 * @return integer                                          the length of the data as a byte
+		 *                                                          string
 		 */
 		public function count() {
 			if ($this->length < 0) {
@@ -161,8 +161,8 @@ namespace Leap\Core\Data {
 		 *
 		 * @access protected
 		 * @static
-		 * @param string $hexcode                       the data to be converted
-		 * @return string                               a string
+		 * @param string $hexcode                                   the data to be converted
+		 * @return string                                           a string
 		 */
 		protected static function pack($hexcode) {
 			if (is_string($hexcode)) {
@@ -176,9 +176,9 @@ namespace Leap\Core\Data {
 		 *
 		 * @access protected
 		 * @static
-		 * @param string $data                          the data to be converted
-		 * @param integer $type                         the type of data to be converted
-		 * @return string                               a hexadecimal string
+		 * @param string $data                                      the data to be converted
+		 * @param integer $type                                     the type of data to be converted
+		 * @return string                                           a hexadecimal string
 		 */
 		protected static function unpack($data, $type) {
 			if (is_string($data)) {

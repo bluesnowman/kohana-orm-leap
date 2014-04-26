@@ -121,7 +121,7 @@ namespace Leap\Core\DB\ORM {
 				return $this->relations[$name]->result;
 			}
 			else {
-				throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $name));
+				throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :name is either inaccessible or undefined.', array(':name' => $name));
 			}
 		}
 
@@ -159,7 +159,7 @@ namespace Leap\Core\DB\ORM {
 				$this->adaptors[$name]->value = $value;
 			}
 			else {
-				throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $name, ':value' => $value));
+				throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :name is either inaccessible or undefined.', array(':name' => $name));
 			}
 		}
 

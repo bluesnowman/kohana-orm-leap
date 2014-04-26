@@ -34,7 +34,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * This constructor instantiates this class using the specified data source.
 		 *
 		 * @access public
-		 * @param \Leap\Core\DB\DataSource $data_source    the data source to be used
+		 * @param \Leap\Core\DB\DataSource $data_source             the data source to be used
 		 */
 		public function __construct(\Leap\Core\DB\DataSource $data_source) {
 			$this->dialect = $data_source->dialect;
@@ -47,10 +47,10 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * This method sets the associated value with the specified column.
 		 *
 		 * @access public
-		 * @param string $column                            the column to be set
-		 * @param string $value                             the value to be set
-		 * @param integer $row                              the index of the row
-		 * @return \Leap\Core\DB\SQL\Insert\Builder         a reference to the current instance
+		 * @param string $column                                    the column to be set
+		 * @param string $value                                     the value to be set
+		 * @param integer $row                                      the index of the row
+		 * @return \Leap\Core\DB\SQL\Insert\Builder                 a reference to the current instance
 		 */
 		public function column($column, $value, $row = 0) {
 			$column = $this->precompiler->prepare_identifier($column);
@@ -65,8 +65,8 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * This method sets which table will be modified.
 		 *
 		 * @access public
-		 * @param string $table                             the database table to be modified
-		 * @return \Leap\Core\DB\SQL\Insert\Builder         a reference to the current instance
+		 * @param string $table                                     the database table to be modified
+		 * @return \Leap\Core\DB\SQL\Insert\Builder                 a reference to the current instance
 		 */
 		public function into($table) {
 			$table = $this->precompiler->prepare_identifier($table);
@@ -78,7 +78,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * This method resets the current builder.
 		 *
 		 * @access public
-		 * @return \Leap\Core\DB\SQL\Insert\Builder         a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Insert\Builder                 a reference to the current instance
 		 */
 		public function reset() {
 			$this->data = array(
@@ -93,9 +93,9 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * This method sets a row of columns/values pairs.
 		 *
 		 * @access public
-		 * @param array $values                             the columns/values pairs to be set
-		 * @param integer $row                              the index of the row
-		 * @return \Leap\Core\DB\SQL\Insert\Builder         a reference to the current instance
+		 * @param array $values                                     the columns/values pairs to be set
+		 * @param integer $row                                      the index of the row
+		 * @return \Leap\Core\DB\SQL\Insert\Builder                 a reference to the current instance
 		 */
 		public function row(Array $values, $row = 0) {
 			foreach ($values as $column => $value) {

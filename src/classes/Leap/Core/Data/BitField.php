@@ -70,8 +70,8 @@ namespace Leap\Core\Data {
 		 * This constructor initializes the class.
 		 *
 		 * @access public
-		 * @param array $pattern                        the pattern to be used
-		 * @param mixed $value                          the value of the field
+		 * @param array $pattern                                    the pattern to be used
+		 * @param mixed $value                                      the value of the field
 		 */
 		public function __construct(Array $pattern, $value = '0') {
 			$this->boundary = (PHP_INT_SIZE == 8) ? 64 : 32;
@@ -101,8 +101,8 @@ namespace Leap\Core\Data {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $field                         the name of the property
-		 * @return boolean                              whether the property is set
+		 * @param string $field                                     the name of the property
+		 * @return boolean                                          whether the property is set
 		 */
 		public function __isset($field) {
 			return array_key_exists($field, $this->values);
@@ -131,7 +131,7 @@ namespace Leap\Core\Data {
 		 *
 		 * @access public
 		 * @override
-		 * @return string                               the value as a binary string
+		 * @return string                                           the value as a binary string
 		 */
 		public function __toString() {
 			return $this->as_binary();
@@ -141,8 +141,8 @@ namespace Leap\Core\Data {
 		 * This method returns the value as a binary string.
 		 *
 		 * @access public
-		 * @param string $format                        the string formatting to be used
-		 * @return string                               the value as a binary string
+		 * @param string $format                                    the string formatting to be used
+		 * @return string                                           the value as a binary string
 		 */
 		public function as_binary($format = '%s') {
 			$binary = '';
@@ -160,8 +160,8 @@ namespace Leap\Core\Data {
 		 * This method returns the bit-field as a hexadecimal.
 		 *
 		 * @access public
-		 * @param string $format                        the string formatting to be used
-		 * @return string                               the value as a hexadecimal
+		 * @param string $format                                    the string formatting to be used
+		 * @return string                                           the value as a hexadecimal
 		 */
 		public function as_hexcode($format = '%s') {
 			$hexcode = dechex(static::pack($this->as_binary()));
@@ -175,7 +175,7 @@ namespace Leap\Core\Data {
 		 * This method returns the bit-field as an integer.
 		 *
 		 * @access public
-		 * @return integer                              the value as an integer
+		 * @return integer                                          the value as an integer
 		 */
 		public function as_integer() {
 			return static::pack($this->as_binary());
@@ -185,8 +185,8 @@ namespace Leap\Core\Data {
 		 * This method returns the value as a binary string.
 		 *
 		 * @access public
-		 * @param string $format                        the string formatting to be used
-		 * @return string                               the value as a binary string
+		 * @param string $format                                    the string formatting to be used
+		 * @return string                                           the value as a binary string
 		 */
 		public function as_string($format = '%s') {
 			return $this->as_binary($format);
@@ -198,7 +198,7 @@ namespace Leap\Core\Data {
 		 *
 		 * @access public
 		 * @override
-		 * @return integer                              the size of the bit-field
+		 * @return integer                                          the size of the bit-field
 		 */
 		public function count() {
 			return $this->boundary;
@@ -209,8 +209,8 @@ namespace Leap\Core\Data {
 		 * pattern.
 		 *
 		 * @access public
-		 * @param array $pattern                        the pattern to be evaluated
-		 * @return boolean                              whether the pattern matches
+		 * @param array $pattern                                    the pattern to be evaluated
+		 * @return boolean                                          whether the pattern matches
 		 */
 		public function has_pattern(Array $pattern) {
 			return ( (string) serialize($pattern) === (string) serialize($this->pattern)); // order matters
@@ -220,8 +220,8 @@ namespace Leap\Core\Data {
 		 * This method maps the specified value using the bit-field pattern.
 		 *
 		 * @access public
-		 * @param mixed $value                              the value to be mapped
-		 * @throws \Leap\Core\Throwable\Runtime\Exception   indicates an invalid pattern
+		 * @param mixed $value                                      the value to be mapped
+		 * @throws \Leap\Core\Throwable\Runtime\Exception           indicates an invalid pattern
 		 */
 		public function map($value) {
 			$this->values = array();
@@ -246,8 +246,8 @@ namespace Leap\Core\Data {
 		 *
 		 * @access protected
 		 * @static
-		 * @param string $binary                        the binary string to be packed
-		 * @return integer                              an integer value
+		 * @param string $binary                                    the binary string to be packed
+		 * @return integer                                          an integer value
 		 */
 		protected static function pack($binary) {
 			return bindec($binary);
@@ -258,10 +258,10 @@ namespace Leap\Core\Data {
 		 *
 		 * @access protected
 		 * @static
-		 * @param mixed $value                          the value to be unpacked
-		 * @param integer $boundary                     the size/boundary of the bit-field,
-		 *                                              which will be either 32 or 64 bits
-		 * @return string                               a binary string
+		 * @param mixed $value                                      the value to be unpacked
+		 * @param integer $boundary                                 the size/boundary of the bit-field,
+		 *                                                          which will be either 32 or 64 bits
+		 * @return string                                           a binary string
 		 */
 		protected static function unpack($value, $boundary) {
 			if (is_numeric($value)) {

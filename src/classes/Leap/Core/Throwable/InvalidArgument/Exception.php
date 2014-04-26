@@ -84,7 +84,7 @@ namespace Leap\Core\Throwable\InvalidArgument {
 		 *                                                          to the called object
 		 */
 		public function __equals($object) {
-			return (($object !== NULL) && ($object instanceof \Leap\Core\Throwable\InvalidArgument\Exception) && ($object->__hashCode() == $this->__hashCode()));
+			return (($object !== NULL) && ($object instanceof \Leap\Core\Throwable\InvalidArgument\Exception) && ((string) serialize($object) == (string) serialize($this)));
 		}
 
 		/**

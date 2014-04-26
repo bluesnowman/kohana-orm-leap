@@ -34,7 +34,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 * This constructor instantiates this class using the specified data source.
 		 *
 		 * @access public
-		 * @param \Leap\Core\DB\DataSource $data_source    the data source to be used
+		 * @param \Leap\Core\DB\DataSource $data_source             the data source to be used
 		 */
 		public function __construct(\Leap\Core\DB\DataSource $data_source) {
 			$this->dialect = $data_source->dialect;
@@ -47,8 +47,8 @@ namespace Leap\Core\DB\SQL\Update {
 		 * This method sets a "limit" constraint on the statement.
 		 *
 		 * @access public
-		 * @param integer $limit                            the "limit" constraint
-		 * @return \Leap\Core\DB\SQL\Update\Builder         a reference to the current instance
+		 * @param integer $limit                                    the "limit" constraint
+		 * @return \Leap\Core\DB\SQL\Update\Builder                 a reference to the current instance
 		 */
 		public function limit($limit) {
 			$this->data['limit'] = $this->precompiler->prepare_natural($limit);
@@ -59,8 +59,8 @@ namespace Leap\Core\DB\SQL\Update {
 		 * This method sets an "offset" constraint on the statement.
 		 *
 		 * @access public
-		 * @param integer $offset                           the "offset" constraint
-		 * @return \Leap\Core\DB\SQL\Update\Builder         a reference to the current instance
+		 * @param integer $offset                                   the "offset" constraint
+		 * @return \Leap\Core\DB\SQL\Update\Builder                 a reference to the current instance
 		 */
 		public function offset($offset) {
 			$this->data['offset'] = $this->precompiler->prepare_natural($offset);
@@ -71,12 +71,12 @@ namespace Leap\Core\DB\SQL\Update {
 		 * This method sets how a column will be sorted.
 		 *
 		 * @access public
-		 * @param string $column                            the column to be sorted
-		 * @param string $ordering                          the ordering token that signals whether the
-		 *                                                  column will sorted either in ascending or
-		 *                                                  descending order
-		 * @param string $nulls                             the weight to be given to null values
-		 * @return \Leap\Core\DB\SQL\Update\Builder         a reference to the current instance
+		 * @param string $column                                    the column to be sorted
+		 * @param string $ordering                                  the ordering token that signals whether the
+		 *                                                          column will sorted either in ascending or
+		 *                                                          descending order
+		 * @param string $nulls                                     the weight to be given to null values
+		 * @return \Leap\Core\DB\SQL\Update\Builder                 a reference to the current instance
 		 */
 		public function order_by($column, $ordering = 'ASC', $nulls = 'DEFAULT') {
 			$this->data['order_by'][] = $this->precompiler->prepare_ordering($column, $ordering, $nulls);
@@ -87,7 +87,7 @@ namespace Leap\Core\DB\SQL\Update {
 		 * This method resets the current builder.
 		 *
 		 * @access public
-		 * @return \Leap\Core\DB\SQL\Update\Builder                    a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Update\Builder                 a reference to the current instance
 		 */
 		public function reset() {
 			$this->data = array(
@@ -105,9 +105,9 @@ namespace Leap\Core\DB\SQL\Update {
 		 * This method sets the associated value with the specified column.
 		 *
 		 * @access public
-		 * @param string $column                            the column to be set
-		 * @param string $value                             the value to be set
-		 * @return \Leap\Core\DB\SQL\Update\Builder         a reference to the current instance
+		 * @param string $column                                    the column to be set
+		 * @param string $value                                     the value to be set
+		 * @return \Leap\Core\DB\SQL\Update\Builder                 a reference to the current instance
 		 */
 		public function set($column, $value) {
 			$column = $this->precompiler->prepare_identifier($column);
@@ -120,9 +120,9 @@ namespace Leap\Core\DB\SQL\Update {
 		 * This method sets which table will be modified.
 		 *
 		 * @access public
-		 * @param string $table                             the database table to be modified
-		 * @param string $alias                             the alias to be used for the specified table
-		 * @return \Leap\Core\DB\SQL\Update\Builder         a reference to the current instance
+		 * @param string $table                                     the database table to be modified
+		 * @param string $alias                                     the alias to be used for the specified table
+		 * @return \Leap\Core\DB\SQL\Update\Builder                 a reference to the current instance
 		 */
 		public function table($table, $alias = NULL) {
 			$table = $this->precompiler->prepare_identifier($table);
@@ -138,12 +138,12 @@ namespace Leap\Core\DB\SQL\Update {
 		 * This method adds a "where" constraint.
 		 *
 		 * @access public
-		 * @param string $column                            the column to be constrained
-		 * @param string $operator                          the operator to be used
-		 * @param string $value                             the value the column is constrained with
-		 * @param string $connector                         the connector to be used
-		 * @return \Leap\Core\DB\SQL\Update\Builder         a reference to the current instance
-		 * @throws \Leap\Core\Throwable\SQL\Exception       indicates an invalid SQL build instruction
+		 * @param string $column                                    the column to be constrained
+		 * @param string $operator                                  the operator to be used
+		 * @param string $value                                     the value the column is constrained with
+		 * @param string $connector                                 the connector to be used
+		 * @return \Leap\Core\DB\SQL\Update\Builder                 a reference to the current instance
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates an invalid SQL build instruction
 		 */
 		public function where($column, $operator, $value, $connector = 'AND') {
 			$operator = $this->precompiler->prepare_operator($operator, 'COMPARISON');
@@ -186,9 +186,9 @@ namespace Leap\Core\DB\SQL\Update {
 		 * This method either opens or closes a "where" group.
 		 *
 		 * @access public
-		 * @param string $parenthesis                       the parenthesis to be used
-		 * @param string $connector                         the connector to be used
-		 * @return \Leap\Core\DB\SQL\Update\Builder         a reference to the current instance
+		 * @param string $parenthesis                               the parenthesis to be used
+		 * @param string $connector                                 the connector to be used
+		 * @return \Leap\Core\DB\SQL\Update\Builder                 a reference to the current instance
 		 */
 		public function where_block($parenthesis, $connector = 'AND') {
 			$parenthesis = $this->precompiler->prepare_parenthesis($parenthesis);

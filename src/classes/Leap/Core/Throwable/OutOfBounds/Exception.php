@@ -84,7 +84,7 @@ namespace Leap\Core\Throwable\OutOfBounds {
 		 *                                                          to the called object
 		 */
 		public function __equals($object) {
-			return (($object !== NULL) && ($object instanceof \Leap\Core\Throwable\OutOfBounds\Exception) && ($object->__hashCode() == $this->__hashCode()));
+			return (($object !== NULL) && ($object instanceof \Leap\Core\Throwable\OutOfBounds\Exception) && ((string) serialize($object) == (string) serialize($this)));
 		}
 
 		/**

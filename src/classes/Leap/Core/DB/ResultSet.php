@@ -292,8 +292,8 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $offset                                   the offset to be set
-		 * @param mixed $value                                      the value to be set
+		 * @param integer $offset                                      the offset to be set
+		 * @param mixed $value                                         the value to be set
 		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception  indicates the result cannot be modified
 		 */
 		public function offsetSet($offset, $value) {
@@ -305,7 +305,7 @@ namespace Leap\Core\DB {
 		 *
 		 * @access public
 		 * @override
-		 * @param integer $offset                                   the offset to be unset
+		 * @param integer $offset                                      the offset to be unset
 		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception  indicates the result cannot be modified
 		 */
 		public function offsetUnset($offset) {

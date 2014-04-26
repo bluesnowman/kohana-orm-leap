@@ -59,7 +59,7 @@ namespace Leap\Core {
 		 *                                                          to the called object
 		 */
 		public function __equals($object) {
-			return (($object !== NULL) && ($object instanceof \Leap\Core\IObject) && ($object->__hashCode() == $this->__hashCode()));
+			return (($object !== null) && ($object instanceof \Leap\Core\IObject) && ((string) serialize($object) == (string) serialize($this)));
 		}
 
 		/**

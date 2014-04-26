@@ -35,7 +35,7 @@ namespace Leap\Core\DB\SQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @return boolean                              whether a connection is established
+		 * @return boolean                                          whether a connection is established
 		 */
 		public function is_connected() {
 			return is_resource($this->resource);

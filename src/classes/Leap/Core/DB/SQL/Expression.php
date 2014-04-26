@@ -50,9 +50,9 @@ namespace Leap\Core\DB\SQL {
 		 * and parameter values.
 		 *
 		 * @access public
-		 * @param string $expr                          the raw SQL expression
-		 * @param array $params                         an associated array of parameter
-		 *                                              key/values pairs
+		 * @param string $expr                                      the raw SQL expression
+		 * @param array $params                                     an associated array of parameter
+		 *                                                          key/values pairs
 		 */
 		public function __construct($expr, Array $params = array()) {
 			$this->expr = (string) $expr;
@@ -64,7 +64,7 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @override
-		 * @return string                               the raw SQL expression
+		 * @return string                                           the raw SQL expression
 		 */
 		public function __toString() {
 			return $this->expr;
@@ -74,9 +74,9 @@ namespace Leap\Core\DB\SQL {
 		 * This method binds a value to a parameter.
 		 *
 		 * @access public
-		 * @param string $key                           the parameter key
-		 * @param mixed &$value                         the parameter value
-		 * @return \Leap\Core\DB\SQL\Expression         a reference to the current instance
+		 * @param string $key                                       the parameter key
+		 * @param mixed &$value                                     the parameter value
+		 * @return \Leap\Core\DB\SQL\Expression                     a reference to the current instance
 		 */
 		public function bind($key, &$value) {
 			$this->params[$key] = &$value;
@@ -87,9 +87,9 @@ namespace Leap\Core\DB\SQL {
 		 * This method sets the value of a parameter.
 		 *
 		 * @access public
-		 * @param string $key                           the parameter key
-		 * @param mixed $value                          the parameter value
-		 * @return \Leap\Core\DB\SQL\Expression         a reference to the current instance
+		 * @param string $key                                       the parameter key
+		 * @param mixed $value                                      the parameter value
+		 * @return \Leap\Core\DB\SQL\Expression                     a reference to the current instance
 		 */
 		public function param($key, $value) {
 			$this->params[$key] = $value;
@@ -100,9 +100,9 @@ namespace Leap\Core\DB\SQL {
 		 * This method adds multiple parameter values.
 		 *
 		 * @access public
-		 * @param array $params                         an associated array of parameter
-		 *                                              key/values pairs
-		 * @return \Leap\Core\DB\SQL\Expression         a reference to the current instance
+		 * @param array $params                                     an associated array of parameter
+		 *                                                          key/values pairs
+		 * @return \Leap\Core\DB\SQL\Expression                     a reference to the current instance
 		 */
 		public function parameters(Array $params) {
 			$this->params = $params + $this->params;
@@ -113,9 +113,9 @@ namespace Leap\Core\DB\SQL {
 		 * This method returns the compiled SQL expression as a string.
 		 *
 		 * @access public
-		 * @param mixed $object                         an instance of the pre-compiler or
-		 *                                              data source to be used
-		 * @return string                               the compiled SQL expression
+		 * @param mixed $object                                     an instance of the pre-compiler or
+		 *                                                          data source to be used
+		 * @return string                                           the compiled SQL expression
 		 */
 		public function value($object = NULL) {
 			if (is_string($object) OR is_array($object) OR ($object instanceof \Leap\Core\DB\DataSource)) {

@@ -58,7 +58,7 @@ namespace Leap\Core\DB\SQL\Lock {
 		 * This constructor instantiates this class using the specified data source.
 		 *
 		 * @access public
-		 * @param \Leap\Core\DB\Connection\Driver $connection   the connection to be used
+		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be used
 		 */
 		public function __construct(\Leap\Core\DB\Connection\Driver $connection) {
 			$this->connection = $connection;
@@ -71,7 +71,7 @@ namespace Leap\Core\DB\SQL\Lock {
 		 *
 		 * @access public
 		 * @abstract
-		 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
 		 */
 		public abstract function acquire();
 
@@ -80,9 +80,9 @@ namespace Leap\Core\DB\SQL\Lock {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $table                            the table to be locked
-		 * @param array $hints                             the hints to be applied
-		 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
+		 * @param string $table                                     the table to be locked
+		 * @param array $hints                                      the hints to be applied
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
 		 */
 		public abstract function add($table, Array $hints = NULL);
 
@@ -91,9 +91,9 @@ namespace Leap\Core\DB\SQL\Lock {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $method                           the method to be used to release
-		 *                                                 the lock(s)
-		 * @return \Leap\Core\DB\SQL\Lock\Builder                     a reference to the current instance
+		 * @param string $method                                    the method to be used to release
+		 *                                                          the lock(s)
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
 		 */
 		public abstract function release($method = '');
 
@@ -101,7 +101,7 @@ namespace Leap\Core\DB\SQL\Lock {
 		 * This method resets the current builder.
 		 *
 		 * @access public
-		 * @return \Leap\Core\DB\SQL\Lock\Builder                      a reference to the current instance
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
 		 */
 		public function reset() {
 			$this->data = array();
@@ -115,9 +115,9 @@ namespace Leap\Core\DB\SQL\Lock {
 		 *
 		 * @access public
 		 * @static
-		 * @param \Leap\Core\DB\Connection\Driver $connection   the connection to be used
-		 * @return \Leap\Core\DB\SQL\Lock\Builder               an instance of the appropriate
-		 *                                                      SQL lock builder
+		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be used
+		 * @return \Leap\Core\DB\SQL\Lock\Builder                   an instance of the appropriate
+		 *                                                          SQL lock builder
 		 */
 		public static function factory(\Leap\Core\DB\Connection\Driver $connection) {
 			$class = '\\Leap\\Plugin\\DB\\' . $connection->data_source->dialect . '\\Lock\\Builder';

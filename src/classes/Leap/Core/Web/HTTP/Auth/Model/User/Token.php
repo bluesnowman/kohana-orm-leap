@@ -86,7 +86,7 @@ namespace Leap\Core\Web\HTTP\Auth\Model\User {
 		 * This method returns a new token.
 		 *
 		 * @access public
-		 * @return string                               a new token
+		 * @return string                                           a new token
 		 */
 		public function create_token() {
 			do {
@@ -102,9 +102,9 @@ namespace Leap\Core\Web\HTTP\Auth\Model\User {
 		 * @access public
 		 * @override
 		 * @static
-		 * @param integer $instance                     the data source instance to be used (e.g.
-		 *                                              0 = master, 1 = slave, 2 = slave, etc.)
-		 * @return string                               the data source name
+		 * @param integer $instance                                 the data source instance to be used (e.g.
+		 *                                                          0 = master, 1 = slave, 2 = slave, etc.)
+		 * @return string                                           the data source name
 		 */
 		public static function data_source($instance = 0) {
 			return 'default';
@@ -116,7 +116,7 @@ namespace Leap\Core\Web\HTTP\Auth\Model\User {
 		 * @access public
 		 * @override
 		 * @static
-		 * @return array                                the primary key
+		 * @return array                                            the primary key
 		 */
 		public static function primary_key() {
 			return array('id');	
@@ -127,9 +127,9 @@ namespace Leap\Core\Web\HTTP\Auth\Model\User {
 		 *
 		 * @access public
 		 * @override
-		 * @param boolean $reload                       whether the model should be reloaded
-		 *                                              after the save is done
-		 * @param boolean $mode                         TRUE=save, FALSE=update, NULL=automatic
+		 * @param boolean $reload                                   whether the model should be reloaded
+		 *                                                          after the save is done
+		 * @param boolean $mode                                     TRUE=save, FALSE=update, NULL=automatic
 		 */
 		public function save($reload = FALSE, $mode = NULL) {
 			$this->token = $this->create_token();
@@ -142,7 +142,7 @@ namespace Leap\Core\Web\HTTP\Auth\Model\User {
 		 * @access public
 		 * @override
 		 * @static
-		 * @return string                               the database table's name
+		 * @return string                                           the database table's name
 		 */
 		public static function table() {
 			return 'user_tokens';

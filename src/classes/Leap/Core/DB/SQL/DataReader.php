@@ -51,10 +51,10 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param \Leap\Core\DB\Connection\Driver $connection   the connection to be used
-		 * @param string $sql                                   the SQL statement to be queried
-		 * @param integer $mode                                 the execution mode to be used
-		 * @throws \Leap\Core\Throwable\SQL\Exception           indicates that the query failed
+		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be used
+		 * @param string $sql                                       the SQL statement to be queried
+		 * @param integer $mode                                     the execution mode to be used
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
 		public abstract function __construct(\Leap\Core\DB\Connection\Driver $connection, $sql, $mode = NULL);
 
@@ -80,7 +80,7 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @abstract
-		 * @return boolean                          whether another record was fetched
+		 * @return boolean                                          whether another record was fetched
 		 */
 		public abstract function read();
 
@@ -88,8 +88,8 @@ namespace Leap\Core\DB\SQL {
 		 * This method returns the last record fetched.
 		 *
 		 * @access public
-		 * @param string $type                      the data type to be used
-		 * @return array                            the last record fetched
+		 * @param string $type                                      the data type to be used
+		 * @return array                                            the last record fetched
 		 *
 		 * @see http://www.richardcastera.com/blog/php-convert-array-to-object-with-stdclass
 		 * @see http://codeigniter.com/forums/viewthread/103493/
@@ -132,11 +132,11 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @static
-		 * @param \Leap\Core\DB\Connection\Driver $connection   the connection to be used
-		 * @param string $sql                                   the SQL statement to be queried
-		 * @param integer $mode                                 the execution mode to be used
-		 * @return \Leap\Core\DB\SQL\DataReader                 an instance of the appropriate
-		 *                                                      SQL data reader
+		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be used
+		 * @param string $sql                                       the SQL statement to be queried
+		 * @param integer $mode                                     the execution mode to be used
+		 * @return \Leap\Core\DB\SQL\DataReader                     an instance of the appropriate
+		 *                                                          SQL data reader
 		 */
 		public static function factory(\Leap\Core\DB\Connection\Driver $connection, $sql, $mode = NULL) {
 			$class = '\\Leap\\Plugin\\DB\\' . $connection->data_source->dialect . '\\DataReader\\' . $connection->data_source->driver;

@@ -81,8 +81,8 @@ namespace Leap\Core\Web\HTTP\Auth {
 		 *
 		 * @access public
 		 * @override
-		 * @param mixed $config                     the config information to be used
-		 * @param string $id                        the session id
+		 * @param mixed $config                                     the config information to be used
+		 * @param string $id                                        the session id
 		 */
 		public function __construct(Array $config = NULL, $id = NULL) {
 			// Set the table name
@@ -114,8 +114,8 @@ namespace Leap\Core\Web\HTTP\Auth {
 		 *
 		 * @access protected
 		 * @override
-		 * @return boolean                          whether the current session was
-		 *                                          successfully destroyed
+		 * @return boolean                                          whether the current session was
+		 *                                                          successfully destroyed
 		 */
 		protected function _destroy() {
 			// Session has not been created yet
@@ -147,8 +147,8 @@ namespace Leap\Core\Web\HTTP\Auth {
 		 */
 		protected function gc() {
 			$expires = ($this->_lifetime)
-				? $this->_lifetime	// Expire sessions when their lifetime is up
-				: \Date::MONTH; 		// Expire sessions after one month
+				? $this->_lifetime // Expire sessions when their lifetime is up
+				: \Date::MONTH;    // Expire sessions after one month
 
 			// Delete all sessions that have expired
 			\Leap\Core\DB\ORM::delete($this->table)
@@ -161,7 +161,7 @@ namespace Leap\Core\Web\HTTP\Auth {
 		 *
 		 * @access public
 		 * @override
-		 * @return string                           the current session id
+		 * @return string                                           the current session id
 		 */
 		public function id() {
 			return $this->session_id;
@@ -172,8 +172,8 @@ namespace Leap\Core\Web\HTTP\Auth {
 		 *
 		 * @access protected
 		 * @override
-		 * @param string $id                        the session id
-		 * @return string                           the raw session data string
+		 * @param string $id                                        the session id
+		 * @return string                                           the raw session data string
 		 */
 		protected function _read($id = NULL) {
 			if ($id OR ($id = \Cookie::get($this->_name))) {
@@ -210,7 +210,7 @@ namespace Leap\Core\Web\HTTP\Auth {
 		 *
 		 * @access protected
 		 * @override
-		 * @return string                           the new session id
+		 * @return string                                           the new session id
 		 */
 		protected function _regenerate() {
 			do {
@@ -231,8 +231,8 @@ namespace Leap\Core\Web\HTTP\Auth {
 		 *
 		 * @access protected
 		 * @override
-		 * @return boolean                          whether the current session was
-		 *                                          successfully restarted
+		 * @return boolean                                          whether the current session was
+		 *                                                          successfully restarted
 		 */
 		protected function _restart() {
 			$this->_regenerate();
@@ -244,8 +244,8 @@ namespace Leap\Core\Web\HTTP\Auth {
 		 *
 		 * @access protected
 		 * @override
-		 * @return boolean                          whether the current session was
-		 *                                          successfully saved
+		 * @return boolean                                          whether the current session was
+		 *                                                          successfully saved
 		 */
 		protected function _write() {
 			if ($this->update_id === NULL) {

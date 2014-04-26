@@ -33,9 +33,9 @@ namespace Leap\Core\DB\SQL {
 		 * This method returns the SQL statement.
 		 *
 		 * @access public
-		 * @param boolean $terminated           whether to add a semi-colon to the end
-		 *                                      of the statement
-		 * @return string                       the SQL statement
+		 * @param boolean $terminated                               whether to add a semi-colon to the end
+		 *                                                          of the statement
+		 * @return string                                           the SQL statement
 		 */
 		public function statement($terminated = TRUE);
 

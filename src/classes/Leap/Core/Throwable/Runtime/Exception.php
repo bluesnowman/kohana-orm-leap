@@ -84,7 +84,7 @@ namespace Leap\Core\Throwable\Runtime {
 		 *                                                          to the called object
 		 */
 		public function __equals($object) {
-			return (($object !== NULL) && ($object instanceof \Leap\Core\Throwable\Runtime\Exception) && ($object->__hashCode() == $this->__hashCode()));
+			return (($object !== NULL) && ($object instanceof \Leap\Core\Throwable\Runtime\Exception) && ((string) serialize($object) == (string) serialize($this)));
 		}
 
 		/**

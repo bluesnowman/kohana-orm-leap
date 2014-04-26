@@ -44,7 +44,7 @@ namespace Leap\Core\DB\SQL {
 		 * This method initializes the class with the specified data source.
 		 *
 		 * @access public
-		 * @param mixed $data_source                    the data source to be used
+		 * @param mixed $data_source                                the data source to be used
 		 */
 		public function __construct($data_source) {
 			$this->data_source = $data_source;
@@ -65,8 +65,8 @@ namespace Leap\Core\DB\SQL {
 		 * This method prepares the specified expression as a boolean.
 		 *
 		 * @access public
-		 * @param mixed $expr                           the expression to be prepared
-		 * @return boolean                              the prepared boolean value
+		 * @param mixed $expr                                       the expression to be prepared
+		 * @return boolean                                          the prepared boolean value
 		 */
 		public function prepare_boolean($expr) {
 			return (bool) $expr;
@@ -119,8 +119,8 @@ namespace Leap\Core\DB\SQL {
 		 * This method prepares the specified expression as a natural number.
 		 *
 		 * @access public
-		 * @param mixed $expr                           the expression to be prepared
-		 * @return integer                              the prepared natural
+		 * @param mixed $expr                                       the expression to be prepared
+		 * @return integer                                          the prepared natural
 		 */
 		public function prepare_natural($expr) {
 			return (is_numeric($expr)) ? (int) abs($expr) : 0;
@@ -143,12 +143,12 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $column                        the column to be sorted
-		 * @param string $ordering                      the ordering token that signals whether the
-		 *                                              column will sorted either in ascending or
-		 *                                              descending order
-		 * @param string $nulls                         the weight to be given to null values
-		 * @return string                               the prepared clause
+		 * @param string $column                                    the column to be sorted
+		 * @param string $ordering                                  the ordering token that signals whether the
+		 *                                                          column will sorted either in ascending or
+		 *                                                          descending order
+		 * @param string $nulls                                     the weight to be given to null values
+		 * @return string                                           the prepared clause
 		 */
 		public abstract function prepare_ordering($column, $ordering, $nulls);
 
@@ -177,9 +177,9 @@ namespace Leap\Core\DB\SQL {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $expr                          the expression to be prepared
-		 * @param char $escape                          the escape character
-		 * @return string                               the prepared expression
+		 * @param string $expr                                      the expression to be prepared
+		 * @param char $escape                                      the escape character
+		 * @return string                                           the prepared expression
 		 */
 		public abstract function prepare_value($expr, $escape = NULL);
 

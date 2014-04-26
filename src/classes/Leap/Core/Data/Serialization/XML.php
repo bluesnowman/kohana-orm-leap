@@ -31,6 +31,19 @@ namespace Leap\Core\Data\Serialization {
 	class XML extends \SimpleXMLElement implements \Leap\Core\IObject {
 
 		/**
+		 * This method adds a CDATA section as a child node.
+		 *
+		 * @access public
+		 * @param string $value                                     the value to be wrapped as CDATA
+		 * @return \DOMNode                                         the newly created CDATA node
+		 */
+		public function addCData($value) {
+			$node = dom_import_simplexml($this);
+			$child = $node->appendChild($node->ownerDocument->createCDATASection($value));
+			return $child;
+		}
+
+		/**
 		 * This method returns a copy this object.
 		 *
 		 * @access public
@@ -46,10 +59,10 @@ namespace Leap\Core\Data\Serialization {
 		 *
 		 * @access protected
 		 * @static
-		 * @param array $array                          the associated array to be converted
-		 * @param \DOMElement $domElement               the XML DOM element
-		 * @param \DOMDocument $document                the XML DOM document
-		 * @return string                               a string formatted with XML
+		 * @param array $array                                      the associated array to be converted
+		 * @param \DOMElement $domElement                           the XML DOM element
+		 * @param \DOMDocument $document                            the XML DOM document
+		 * @return string                                           a string formatted with XML
 		 *
 		 * @see http://darklaunch.com/2009/05/23/php-xml-encode-using-domdocument-convert-array-to-xml-json-encode
 		 */
@@ -86,6 +99,7 @@ namespace Leap\Core\Data\Serialization {
 					}
 				}
 			}
+			return '';
 		}
 
 		/**
@@ -103,10 +117,10 @@ namespace Leap\Core\Data\Serialization {
 		 *
 		 * @access public
 		 * @static
-		 * @param array $array                          the associated array to be converted
-		 * @param boolean $as_string                    whether to return a string
-		 * @return mixed                                either a \SimpleXMLElement or an XML
-		 *                                              formatted string
+		 * @param array $array                                      the associated array to be converted
+		 * @param boolean $as_string                                whether to return a string
+		 * @return mixed                                            either a \SimpleXMLElement or an XML
+		 *                                                          formatted string
 		 */
 		public static function encode(Array $array, $as_string = FALSE) {
 			$contents = static::convert_to_xml($array);
@@ -121,29 +135,51 @@ namespace Leap\Core\Data\Serialization {
 		 * This method returns whether the specified object is equal to the called object.
 		 *
 		 * @access public
-		 * @param \Leap\Core\\IObject $object           the object to be evaluated
-		 * @return boolean                              whether the specified object is equal
-		 *                                              to the called object
+		 * @param \Leap\Core\\IObject $object                       the object to be evaluated
+		 * @return boolean                                          whether the specified object is equal
+		 *                                                          to the called object
 		 */
 		public function __equals($object) {
-			return (($object !== NULL) && ($object instanceof \Leap\Core\IObject) && ($object->__hashCode() == $this->__hashCode()));
+			return (($object !== NULL) && ($object instanceof \Leap\Core\Data\Serialization\XML) && ((string) serialize($object) == (string) serialize($this)));
 		}
 
 		/**
 		 * This method returns the name of the runtime class of this object.
 		 *
 		 * @access public
-		 * @return string                               the name of the runtime class
+		 * @return string                                           the name of the runtime class
 		 */
 		public function __getClass() {
 			return get_called_class();
 		}
 
 		/**
+		 * This method returns the specified processing instruction.
+		 *
+		 * @access public
+		 * @param string $target                                    the target name of the processing
+		 *                                                          instruction
+		 * @param integer $index                                    the index of the processing instruction
+		 * @return string                                           the data associated with the target
+		 *
+		 * @see http://msdn.microsoft.com/en-us/library/ms256173%28v=vs.110%29.aspx
+		 * @see http://www.w3schools.com/xsl/el_processing-instruction.asp
+		 * @see http://pastebin.com/x25seJPS
+		 * @see https://github.com/petertornstrand/tornstrand.com/blob/master/_posts/2008-10-21-reading-xml-processing-instruction-with-php.html
+		 * @see http://java2s.com/Tutorials/PHP/XML_Functions/PHP_xml_set_processing_instruction_handler_Function.htm
+		 * @see http://www.xml.com/pub/a/2000/09/13/xslt/
+		 */
+		public function getProcessingInstruction($target, $index = 1) {
+			$document = dom_import_simplexml($this)->ownerDocument;
+			$xpath = new \DOMXPath($document);
+			return trim($xpath->evaluate("string(//processing-instruction(\"{$target}\")[{$index}])"));
+		}
+
+		/**
 		 * This method returns the hash code for the object.
 		 *
 		 * @access public
-		 * @return string                               the hash code for the object
+		 * @return string                                           the hash code for the object
 		 */
 		public function __hashCode() {
 			return spl_object_hash($this);
@@ -165,7 +201,7 @@ namespace Leap\Core\Data\Serialization {
 				throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Wrong data type specified. Reason: Argument must be a string.', array(':type', gettype($uri)));
 			}
 
-			if ( ! file_exists($uri)) {
+			if ( ! (($uri == 'php://stdin') || file_exists($uri))) {
 				throw new \Leap\Core\Throwable\FileNotFound\Exception("Message: Unable to locate file. Reason: File ':file' does not exist.", array(':file', $uri));
 			}
 
@@ -176,10 +212,43 @@ namespace Leap\Core\Data\Serialization {
 		}
 
 		/**
+		 * This method outputs the XML document as a file.
+		 *
+		 * @access public
+		 * @param \Leap\Core\ContentDisposition $disposition        the content disposition used in
+		 *                                                          the header
+		 */
+		public function output(\Leap\Core\ContentDisposition $disposition = null) {
+			$buffer = $this->asXML();
+			if ($disposition !== NULL) {
+				if ( ! $disposition->inline && ! isset($disposition->file_name)) {
+					$disposition->file_name = date('YmdHis') . '.xml';
+				}
+				header($disposition->__toString());
+			}
+			header('Content-Type: text/xml');
+			header('Content-Type: application/xml; charset=utf-8');
+			header('Cache-Control: no-store, no-cache');
+			header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+			echo $buffer;
+			exit();
+		}
+
+		/**
+		 * This method will remove the current node from its parent.
+		 *
+		 * @access public
+		 */
+		public function removeFromParent() {
+	       $child = dom_import_simplexml($this);
+    	   $child->parentNode->removeChild($child);
+		}
+
+		/**
 		 * This method returns a string that represents the object.
 		 *
 		 * @access public
-		 * @return string                               a string that represents the object
+		 * @return string                                           a string that represents the object
 		 */
 		public function __toString() {
 			return (string) serialize($this);

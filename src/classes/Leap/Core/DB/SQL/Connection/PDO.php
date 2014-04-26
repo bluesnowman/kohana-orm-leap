@@ -50,8 +50,8 @@ namespace Leap\Core\DB\SQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://www.php.net/manual/en/pdo.begintransaction.php
 		 */
@@ -69,7 +69,7 @@ namespace Leap\Core\DB\SQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @return boolean                              whether an open connection was closed
+		 * @return boolean                                          whether an open connection was closed
 		 */
 		public function close() {
 			if ($this->is_connected()) {
@@ -84,8 +84,8 @@ namespace Leap\Core\DB\SQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://www.php.net/manual/en/pdo.commit.php
 		 */
@@ -104,9 +104,9 @@ namespace Leap\Core\DB\SQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                           the SQL statement
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
-		 *                                              statement failed
+		 * @param string $sql                                       the SQL statement
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 */
 		public function execute($sql) {
 			if ( ! $this->is_connected()) {
@@ -124,10 +124,10 @@ namespace Leap\Core\DB\SQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $table                         the table to be queried
-		 * @param string $column                        the column representing the table's id
-		 * @return integer                              the last insert id
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the query failed
+		 * @param string $table                                     the table to be queried
+		 * @param string $column                                    the column representing the table's id
+		 * @return integer                                          the last insert id
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 *
 		 * @see http://www.php.net/manual/en/pdo.lastinsertid.php
 		 */
@@ -158,7 +158,7 @@ namespace Leap\Core\DB\SQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @return boolean                              whether a connection is established
+		 * @return boolean                                          whether a connection is established
 		 */
 		public function is_connected() {
 			return ! empty($this->resource);
@@ -169,11 +169,11 @@ namespace Leap\Core\DB\SQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $string                        the string to be escaped
-		 * @param char $escape                          the escape character
-		 * @return string                               the quoted string
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that no connection could
-		 *                                              be found
+		 * @param string $string                                    the string to be escaped
+		 * @param char $escape                                      the escape character
+		 * @return string                                           the quoted string
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that no connection could
+		 *                                                          be found
 		 */
 		public function quote($string, $escape = NULL) {
 			if ( ! $this->is_connected()) {
@@ -198,8 +198,8 @@ namespace Leap\Core\DB\SQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @throws \Leap\Core\Throwable\SQL\Exception   indicates that the executed
-		 *                                              statement failed
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://www.php.net/manual/en/pdo.rollback.php
 		 */

@@ -71,9 +71,9 @@ namespace Leap\Core\Web\HTTP\Auth\Model\User {
 		 * @access public
 		 * @override
 		 * @static
-		 * @param integer $instance                     the data source instance to be used (e.g.
-		 *                                              0 = master, 1 = slave, 2 = slave, etc.)
-		 * @return string                               the data source name
+		 * @param integer $instance                                 the data source instance to be used (e.g.
+		 *                                                          0 = master, 1 = slave, 2 = slave, etc.)
+		 * @return string                                           the data source name
 		 */
 		public static function data_source($instance = 0) {
 			return 'default';
@@ -85,7 +85,7 @@ namespace Leap\Core\Web\HTTP\Auth\Model\User {
 		 * @access public
 		 * @override
 		 * @static
-		 * @return boolean                              whether the primary key auto increments
+		 * @return boolean                                          whether the primary key auto increments
 		 */
 		public static function is_auto_incremented() {
 			return FALSE;	
@@ -97,7 +97,7 @@ namespace Leap\Core\Web\HTTP\Auth\Model\User {
 		 * @access public
 		 * @override
 		 * @static
-		 * @return array                                the primary key
+		 * @return array                                            the primary key
 		 */
 		public static function primary_key() {
 			return array('user_id', 'role_id');	
@@ -109,7 +109,7 @@ namespace Leap\Core\Web\HTTP\Auth\Model\User {
 		 * @access public
 		 * @override
 		 * @static
-		 * @return string                               the database table's name
+		 * @return string                                           the database table's name
 		 */
 		public static function table() {
 			return 'user_roles';
