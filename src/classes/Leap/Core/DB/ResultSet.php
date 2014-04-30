@@ -164,7 +164,7 @@ namespace Leap\Core\DB {
 		 * @return mixed                                            the current record
 		 */
 		public function current() {
-			return $this->records[$this->position];
+			return isset($this->records[$this->position]) ? $this->records[$this->position] : NULL;
 		}
 
 		/**
