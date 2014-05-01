@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MariaDB\Lock {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MariaDB\Lock
-	 * @version 2014-04-24
+	 * @version 2014-04-30
 	 *
 	 * @see http://dev.mysql.com/doc/refman/5.6/en/lock-tables.html
 	 */
@@ -39,7 +39,7 @@ namespace Leap\Plugin\DB\MariaDB\Lock {
 		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
 		 */
 		public function acquire() {
-			$this->connection->execute('LOCK TABLES ' . implode(',', $this->data) . ';');
+			$this->connection->execute(new \Leap\Core\DB\SQL\Command('LOCK TABLES ' . implode(',', $this->data) . ';'));
 			return $this;
 		}
 
@@ -78,7 +78,7 @@ namespace Leap\Plugin\DB\MariaDB\Lock {
 		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
 		 */
 		public function release($method = '') {
-			$this->connection->execute('UNLOCK TABLES;');
+			$this->connection->execute(new \Leap\Core\DB\SQL\Command('UNLOCK TABLES;'));
 			return $this;
 		}
 

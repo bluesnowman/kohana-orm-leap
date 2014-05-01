@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\DB2\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\DB2\Connection
-	 * @version 2014-04-17
+	 * @version 2014-04-30
 	 *
 	 * @see http://php.net/manual/en/ref.ibm-db2.php
 	 */
@@ -63,7 +63,7 @@ namespace Leap\Plugin\DB\DB2\Connection {
 			if ($command === FALSE) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: :reason', array(':reason' => @db2_conn_error($this->resource)));
 			}
-			$this->sql = 'BEGIN TRANSACTION;';
+			$this->sql = new \Leap\Core\DB\SQL\Command('BEGIN TRANSACTION;');
 		}
 
 		/**
@@ -104,7 +104,7 @@ namespace Leap\Plugin\DB\DB2\Connection {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: :reason', array(':reason' => @db2_conn_error($this->resource)));
 			}
 			@db2_autocommit($this->resource, DB2_AUTOCOMMIT_ON);
-			$this->sql = 'COMMIT;';
+			$this->sql = new \Leap\Core\DB\SQL\Command('COMMIT;');
 		}
 
 		/**
@@ -112,18 +112,18 @@ namespace Leap\Plugin\DB\DB2\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                                       the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 *
 		 * @see http://www.php.net/manual/en/function.db2-exec.php
 		 * @see http://www.php.net/manual/en/function.db2-free-result.php
 		 */
-		public function execute($sql) {
+		public function execute(\Leap\Core\DB\SQL\Command $sql) {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
-			$command = @db2_exec($this->resource, $sql);
+			$command = @db2_exec($this->resource, $sql->text);
 			if ($command === FALSE) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @db2_stmt_errormsg($command)));
 			}
@@ -152,7 +152,7 @@ namespace Leap\Plugin\DB\DB2\Connection {
 				$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 				$table = $precompiler->prepare_identifier($table);
 				$column = $precompiler->prepare_identifier($column);
-				$id = (int) $this->query("SELECT MAX({$column}) AS \"id\" FROM {$table};")->get('id', 0);
+				$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS \"id\" FROM {$table};"))->get('id', 0);
 				$this->sql = $sql;
 				return $id;
 			}
@@ -246,7 +246,7 @@ namespace Leap\Plugin\DB\DB2\Connection {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: :reason', array(':reason' => @db2_conn_error($this->resource)));
 			}
 			@db2_autocommit($this->resource, DB2_AUTOCOMMIT_ON);
-			$this->sql = 'ROLLBACK;';
+			$this->sql = new \Leap\Core\DB\SQL\Command('ROLLBACK;');
 		}
 
 	}

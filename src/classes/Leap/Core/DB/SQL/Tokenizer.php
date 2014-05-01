@@ -25,7 +25,7 @@ namespace Leap\Core\DB\SQL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-01-26
+	 * @version 2014-04-30
 	 *
 	 * @see http://www.sqlite.org/c3ref/complete.html
 	 * @see http://www.opensource.apple.com/source/SQLite/SQLite-74/public_source/src/complete.c
@@ -507,7 +507,7 @@ namespace Leap\Core\DB\SQL {
 		 * @return array                                            the current tuple
 		 */
 		public function current() {
-			return $this->tuples[$this->position];
+			return (isset($this->tuples[$this->position])) ? $this->tuples[$this->position] : NULL;
 		}
 
 		/**

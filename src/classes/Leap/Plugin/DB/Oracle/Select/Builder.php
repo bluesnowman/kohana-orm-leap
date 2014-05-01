@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Oracle\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\Select
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://download.oracle.com/docs/cd/B14117_01/server.101/b10759/statements_10002.htm
 	 */
@@ -62,7 +62,7 @@ namespace Leap\Plugin\DB\Oracle\Select {
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return string                                           the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
 		 *
 		 * @see http://www.oracle.com/technetwork/issue-archive/2006/06-sep/o56asktom-086197.html
 		 * @see http://stackoverflow.com/questions/470542/how-do-i-limit-the-number-of-rows-returned-by-an-oracle-query
@@ -144,7 +144,8 @@ namespace Leap\Plugin\DB\Oracle\Select {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}

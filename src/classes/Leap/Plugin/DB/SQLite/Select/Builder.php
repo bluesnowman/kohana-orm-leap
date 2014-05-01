@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\SQLite\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\SQLite\Select
-	 * @version 2014-04-22
+	 * @version 2014-04-30
 	 *
 	 * @see http://www.sqlite.org/lang_select.html
 	 */
@@ -38,7 +38,7 @@ namespace Leap\Plugin\DB\SQLite\Select {
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return string                                           the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
 		 */
 		public function statement($terminated = TRUE) {
 			$sql = 'SELECT ';
@@ -113,7 +113,8 @@ namespace Leap\Plugin\DB\SQLite\Select {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}

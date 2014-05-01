@@ -25,7 +25,7 @@ namespace Leap\Core\DB\SQL\Insert {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Insert
-	 * @version 2014-01-26
+	 * @version 2014-04-30
 	 */
 	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
@@ -66,7 +66,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * @return string                                           the raw SQL statement
 		 */
 		public function __toString() {
-			return $this->builder->statement(TRUE);
+			return $this->builder->statement(TRUE)->__toString();
 		}
 
 		/**

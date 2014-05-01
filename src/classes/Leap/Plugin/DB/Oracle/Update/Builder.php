@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Oracle\Update {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\Update
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://download.oracle.com/docs/cd/B19306_01/server.102/b14200/statements_10007.htm#i2067715
 	 * @see http://psoug.org/reference/update.html
@@ -39,7 +39,7 @@ namespace Leap\Plugin\DB\Oracle\Update {
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return string                                           the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
 		 *
 		 * @see http://www.oracle.com/technetwork/issue-archive/2006/06-sep/o56asktom-086197.html
 		 * @see http://geekswithblogs.net/WillSmith/archive/2008/06/18/oracle-update-with-join-again.aspx
@@ -106,7 +106,8 @@ namespace Leap\Plugin\DB\Oracle\Update {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}

@@ -26,7 +26,7 @@ namespace Leap\Plugin\DB\PostgreSQL\DataReader {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\PostgreSQL\DataReader
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://php.net/manual/en/ref.pgsql.php
 	 */
@@ -38,13 +38,13 @@ namespace Leap\Plugin\DB\PostgreSQL\DataReader {
 		 * @access public
 		 * @override
 		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be used
-		 * @param string $sql                                       the SQL statement to be queried
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement to be queried
 		 * @param integer $mode                                     the execution mode to be used
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
 		public function __construct(\Leap\Core\DB\Connection\Driver $connection, $sql, $mode = NULL) {
 			$resource = $connection->get_resource();
-			$command = @pg_query($resource, $sql);
+			$command = @pg_query($resource, $sql->text);
 			if ($command === FALSE) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: :reason', array(':reason' => @pg_last_error($resource)));
 			}

@@ -25,7 +25,7 @@ namespace Leap\Core\DB\SQL {
 	 * @access public
 	 * @interface
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-01-26
+	 * @version 2014-04-30
 	 */
 	interface Statement {
 
@@ -35,7 +35,7 @@ namespace Leap\Core\DB\SQL {
 		 * @access public
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return string                                           the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
 		 */
 		public function statement($terminated = TRUE);
 

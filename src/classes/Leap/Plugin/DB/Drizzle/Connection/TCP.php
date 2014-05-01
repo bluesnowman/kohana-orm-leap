@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Drizzle\Connection
-	 * @version 2014-04-21
+	 * @version 2014-04-30
 	 *
 	 * @see http://devzone.zend.com/1504/getting-started-with-drizzle-and-php/
 	 * @see https://github.com/barce/partition_benchmarks/blob/master/db.php
@@ -65,7 +65,7 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 		 * @see http://docs.drizzle.org/start_transaction.html
 		 */
 		public function begin_transaction() {
-			$this->execute('START TRANSACTION;');
+			$this->execute(new \Leap\Core\DB\SQL\Command('START TRANSACTION;'));
 		}
 
 		/**
@@ -96,7 +96,7 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 		 * @see http://docs.drizzle.org/commit.html
 		 */
 		public function commit() {
-			$this->execute('COMMIT;');
+			$this->execute(new \Leap\Core\DB\SQL\Command('COMMIT;'));
 		}
 
 		/**
@@ -104,19 +104,19 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                                       the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 */
-		public function execute($sql) {
+		public function execute(\Leap\Core\DB\SQL\Command $sql) {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
-			$command = @drizzle_query($this->resource, $sql);
+			$command = @drizzle_query($this->resource, $sql->text);
 			if ($command === FALSE) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @drizzle_con_error($this->resource)));
 			}
-			$this->insert_id = (preg_match("/^\\s*(insert|replace)\\s+/i", $sql))
+			$this->insert_id = (preg_match("/^\\s*(insert|replace)\\s+/i", $sql->text))
 				? @drizzle_result_insert_id($command)
 				: FALSE;
 			$this->sql = $sql;
@@ -142,7 +142,7 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 				$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 				$table = $precompiler->prepare_identifier($table);
 				$column = $precompiler->prepare_identifier($column);
-				$id = (int) $this->query("SELECT MAX({$column}) AS `id` FROM {$table};")->get('id', 0);
+				$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS `id` FROM {$table};"))->get('id', 0);
 				$this->sql = $sql;
 				return $id;
 			}
@@ -185,12 +185,12 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                                       the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
 		 * @param string $type                                      the return type to be used
 		 * @return \Leap\Core\DB\ResultSet                          the result set
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function query($sql, $type = 'array') {
+		public function query(\Leap\Core\DB\SQL\Command $sql, $type = 'array') {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: Unable to find connection.');
 			}
@@ -243,7 +243,7 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 		 * @see http://docs.drizzle.org/rollback.html
 		 */
 		public function rollback() {
-			$this->execute('ROLLBACK;');
+			$this->execute(new \Leap\Core\DB\SQL\Command('ROLLBACK;'));
 		}
 
 	}

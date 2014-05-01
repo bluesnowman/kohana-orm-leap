@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\PostgreSQL\Select
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://www.postgresql.org/docs/9.0/static/sql-select.html
 	 */
@@ -38,7 +38,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Select {
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return string                                           the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
 		 */
 		public function statement($terminated = TRUE) {
 			$sql = 'SELECT ';
@@ -113,7 +113,8 @@ namespace Leap\Plugin\DB\PostgreSQL\Select {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}

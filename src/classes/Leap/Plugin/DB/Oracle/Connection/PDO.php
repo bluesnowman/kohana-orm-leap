@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\Connection
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-oci.php
 	 */
@@ -36,12 +36,12 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql						                the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql					the SQL statement
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 */
-		public function execute($sql) {
-			parent::execute($this->trim($sql));
+		public function execute(\Leap\Core\DB\SQL\Command $sql) {
+			parent::execute($sql);
 		}
 
 		/**
@@ -92,13 +92,13 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql						                the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql					the SQL statement
 		 * @param string $type						                the return type to be used
 		 * @return \Leap\Core\DB\ResultSet                          the result set
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function query($sql, $type = 'array') {
-			return parent::query($this->trim($sql), $type);
+		public function query(\Leap\Core\DB\SQL\Command $sql, $type = 'array') {
+			return parent::query($sql, $type);
 		}
 
 		/**
@@ -106,23 +106,12 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql						                the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql					the SQL statement
 		 * @return \Leap\Core\DB\SQL\DataReader                     the SQL data reader
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function reader($sql) {
-			return parent::reader($this->trim($sql));
-		}
-
-		/**
-		 * This method trims the semicolon off an SQL statement.
-		 *
-		 * @access protected
-		 * @param string $sql						                the SQL statement
-		 * @return string                                           the SQL statement after being trimmed
-		 */
-		protected function trim($sql) {
-			return trim($sql, "; \t\n\r\0\x0B");
+		public function reader(\Leap\Core\DB\SQL\Command $sql) {
+			return parent::reader($sql);
 		}
 
 	}

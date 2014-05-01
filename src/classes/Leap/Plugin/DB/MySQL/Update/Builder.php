@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MySQL\Update {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MySQL\Update
-	 * @version 2014-01-30
+	 * @version 2014-04-30
 	 *
 	 * @see http://dev.mysql.com/doc/refman/5.0/en/update.html
 	 */
@@ -38,7 +38,7 @@ namespace Leap\Plugin\DB\MySQL\Update {
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return string                                           the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
 		 */
 		public function statement($terminated = TRUE) {
 			$sql = "UPDATE {$this->data['table']}";
@@ -75,7 +75,8 @@ namespace Leap\Plugin\DB\MySQL\Update {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}

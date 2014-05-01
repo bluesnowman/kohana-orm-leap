@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\DB2\Insert {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\DB2\Insert
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://publib.boulder.ibm.com/infocenter/db2luw/v8/index.jsp?topic=/com.ibm.db2.udb.doc/admin/r0000970.htm
 	 */
@@ -38,7 +38,7 @@ namespace Leap\Plugin\DB\DB2\Insert {
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return string                                           the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
 		 */
 		public function statement($terminated = TRUE) {
 			$sql = "INSERT INTO {$this->data['into']}";
@@ -71,7 +71,8 @@ namespace Leap\Plugin\DB\DB2\Insert {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}

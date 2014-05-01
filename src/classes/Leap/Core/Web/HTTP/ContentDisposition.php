@@ -26,7 +26,7 @@ namespace Leap\Core\Web\HTTP {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\Web\HTTP
-	 * @version 2014-04-26
+	 * @version 2014-04-30
 	 *
 	 * @see http://msdn.microsoft.com/en-us/library/system.net.mime.contentdisposition%28v=vs.110%29.aspx
 	 * @see http://tools.ietf.org/html/rfc2183
@@ -60,6 +60,7 @@ namespace Leap\Core\Web\HTTP {
 				'file_name' => null
 			);
 		}
+
 		/**
 		 * This method returns the value associated with the specified property.
 		 *
@@ -83,7 +84,7 @@ namespace Leap\Core\Web\HTTP {
 				case 'type':
 					return ($this->type) ? 'inline' : 'attachment';
 				default:
-					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $name));
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :name is either inaccessible or undefined.', array(':name' => $name));
 			}
 		}
 

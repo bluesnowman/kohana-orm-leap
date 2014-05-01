@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\SQLite {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\SQLite
-	 * @version 2014-04-22
+	 * @version 2014-04-30
 	 */
 	class Schema extends \Leap\Core\DB\Schema {
 
@@ -62,7 +62,7 @@ namespace Leap\Plugin\DB\SQLite {
 			$sql = "PRAGMA table_info({$table});";
 
 			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
-			$records = $connection->query($sql);
+			$records = $connection->query(new \Leap\Core\DB\SQL\Command($sql));
 
 			$fields = array();
 			foreach ($records as $record) {
@@ -161,7 +161,7 @@ namespace Leap\Plugin\DB\SQLite {
 
 			$sql = "PRAGMA INDEX_LIST('{$table}');";
 
-			$indexes = $connection->query($sql);
+			$indexes = $connection->query(new \Leap\Core\DB\SQL\Command($sql));
 
 			$records = array();
 

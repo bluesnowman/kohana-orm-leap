@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MsSQL\Delete {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\Delete
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://msdn.microsoft.com/en-us/library/ms189835.aspx
 	 */
@@ -81,7 +81,8 @@ namespace Leap\Plugin\DB\MsSQL\Delete {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}

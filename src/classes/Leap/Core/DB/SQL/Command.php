@@ -25,17 +25,17 @@ namespace Leap\Core\DB\SQL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-04-26
+	 * @version 2014-04-30
 	 */
 	class Command extends \Leap\Core\Object {
 
 		/**
-		 * This variable stores the text.
+		 * This variable stores the data associated with the command.
 		 *
 		 * @access protected
 		 * @var string
 		 */
-		protected $text;
+		protected $data;
 
 		/**
 		 * This constructor initializes the class with the specified text.
@@ -43,8 +43,48 @@ namespace Leap\Core\DB\SQL {
 		 * @access public
 		 * @param string $text                                      the text of the command
 		 */
-		public function __construct($text) {
-			$this->text = $text;
+		public function __construct($text = '') {
+			$this->data = array();
+			$this->data['text'] = $text;
+		}
+
+		/**
+		 * This method returns the value associated with the specified property.
+		 *
+		 * @access public
+		 * @override
+		 * @param string $name                                      the name of the property
+		 * @return mixed                                            the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
+		 */
+		public function __get($name) {
+			switch ($name) {
+				case 'text':
+					return $this->data[$name];
+				default:
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :name is either inaccessible or undefined.', array(':name' => $name));
+			}
+		}
+
+		/**
+		 * This method sets the value for the specified key.
+		 *
+		 * @access public
+		 * @override
+		 * @param string $name                                      the name of the property
+		 * @param mixed $value                                      the value of the property
+		 * @throws \Leap\Core\Throwable\InvalidProperty\Exception   indicates that the specified property is
+		 *                                                          either inaccessible or undefined
+		 */
+		public function __set($name, $value) {
+			switch ($name) {
+				case 'text':
+					$this->data[$name] = (string) $value;
+					break;
+				default:
+					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to set the specified property. Reason: Property :name is either inaccessible or undefined.', array(':name' => $name));
+			}
 		}
 
 		/**
@@ -54,7 +94,18 @@ namespace Leap\Core\DB\SQL {
 		 * @return string                                           a string that represents the object
 		 */
 		public function __toString() {
-			return $this->text;
+			return $this->data['text'];
+		}
+
+		/**
+		 * This method trims the semicolon off an SQL statement.
+		 *
+		 * @access protected
+		 * @param string $text					                    the SQL statement
+		 * @return string                                           the SQL statement after being trimmed
+		 */
+		protected function trim($text) {
+			return trim($text, "; \t\n\r\0\x0B");
 		}
 
 	}

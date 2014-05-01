@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MsSQL\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\Select
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://msdn.microsoft.com/en-us/library/aa260662%28v=sql.80%29.aspx
 	 */
@@ -115,7 +115,8 @@ namespace Leap\Plugin\DB\MsSQL\Select {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}

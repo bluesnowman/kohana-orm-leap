@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Update {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\PostgreSQL\Update
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://www.postgresql.org/docs/8.2/interactive/sql-update.html
 	 */
@@ -38,7 +38,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Update {
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return string                                           the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
 		 */
 		public function statement($terminated = TRUE) {
 			$sql = '';
@@ -83,7 +83,8 @@ namespace Leap\Plugin\DB\PostgreSQL\Update {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}

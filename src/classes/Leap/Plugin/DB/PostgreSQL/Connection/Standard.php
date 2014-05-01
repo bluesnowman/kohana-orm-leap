@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\PostgreSQL\Connection
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://php.net/manual/en/ref.pgsql.php
 	 */
@@ -56,7 +56,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 		 * @see http://www.postgresql.org/docs/8.3/static/sql-start-transaction.html
 		 */
 		public function begin_transaction() {
-			$this->execute('START TRANSACTION;');
+			$this->execute(new \Leap\Core\DB\SQL\Command('START TRANSACTION;'));
 		}
 
 		/**
@@ -87,7 +87,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 		 *                                                          statement failed
 		 */
 		public function commit() {
-			$this->execute('COMMIT;');
+			$this->execute(new \Leap\Core\DB\SQL\Command('COMMIT;'));
 		}
 
 		/**
@@ -96,17 +96,17 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                                       the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 *
 		 * @see http://www.php.net/manual/en/function.pg-insert.php
 		 */
-		public function execute($sql) {
+		public function execute(\Leap\Core\DB\SQL\Command $sql) {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
-			$command = @pg_query($this->resource, $sql);
+			$command = @pg_query($this->resource, $sql->text);
 			if ($command === FALSE) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @pg_last_error($this->resource)));
 			}
@@ -136,7 +136,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 				$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 				$table = $precompiler->prepare_identifier($table);
 				$column = $precompiler->prepare_identifier($column);
-				$id = (int) $this->query("SELECT MAX({$column}) AS \"id\" FROM {$table};")->get('id', 0);
+				$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS \"id\" FROM {$table};"))->get('id', 0);
 				$this->sql = $sql;
 				return $id;
 			}
@@ -240,7 +240,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 		 *                                                          statement failed
 		 */
 		public function rollback() {
-			$this->execute('ROLLBACK;');
+			$this->execute(new \Leap\Core\DB\SQL\Command('ROLLBACK;'));
 		}
 
 	}

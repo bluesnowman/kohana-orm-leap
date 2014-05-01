@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-01-26
+	 * @version 2014-04-30
 	 */
 	abstract class Builder extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
@@ -78,7 +78,7 @@ namespace Leap\Core\DB\SQL {
 		 * @return string                                           the raw SQL statement
 		 */
 		public function __toString() {
-			return $this->statement(TRUE);
+			return $this->statement(TRUE)->__toString();
 		}
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

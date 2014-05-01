@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\Connection
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://php.net/manual/en/book.oci8.php
 	 */
@@ -72,7 +72,7 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 			$this->execution_mode = (PHP_VERSION_ID > 50301)
 				? OCI_NO_AUTO_COMMIT // Use with PHP > 5.3.1
 				: OCI_DEFAULT;       // Use with PHP <= 5.3.1
-			$this->sql = 'BEGIN TRANSACTION;';
+			$this->sql = new \Leap\Core\DB\SQL\Command('BEGIN TRANSACTION;');
 		}
 
 		/**
@@ -117,7 +117,7 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 					: 'Unable to perform command.';
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: :reason', array(':reason' => $reason));
 			}
-			$this->sql = 'COMMIT;';
+			$this->sql = new \Leap\Core\DB\SQL\Command('COMMIT;');
 		}
 
 		/**
@@ -125,15 +125,15 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                                       the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 */
-		public function execute($sql) {
+		public function execute(\Leap\Core\DB\SQL\Command $sql) {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
-			$command = @oci_parse($this->resource, trim($sql, "; \t\n\r\0\x0B"));
+			$command = @oci_parse($this->resource, trim($sql->text, "; \t\n\r\0\x0B"));
 			if ($command === FALSE) {
 				$error = @oci_error($this->resource);
 				$reason = (is_array($error) AND isset($error['message']))
@@ -175,7 +175,7 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 					$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 					$table = $precompiler->prepare_identifier($table);
 					$column = $precompiler->prepare_identifier($column);
-					$id = (int) $this->query("SELECT MAX({$column}) AS \"id\" FROM {$table};")->get('id', 0);
+					$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS \"id\" FROM {$table};"))->get('id', 0);
 					$this->sql = $sql;
 					return $id;
 				}
@@ -184,7 +184,7 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 					if (preg_match('/^INSERT\s+INTO\s+(.*?)\s+/i', $sql, $matches)) {
 						if (isset($matches[1])) {
 							$table = $matches[1];
-							$id = (int) $this->query("SELECT MAX(ID) AS \"id\" FROM {$table};")->get('id', 0);
+							$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX(ID) AS \"id\" FROM {$table};"))->get('id', 0);
 							$this->sql = $sql;
 							return $id;
 						}
@@ -256,12 +256,12 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                                       the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
 		 * @param string $type						                the return type to be used
 		 * @return \Leap\Core\DB\ResultSet                          the result set
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function query($sql, $type = 'array') {
+		public function query(\Leap\Core\DB\SQL\Command $sql, $type = 'array') {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: Unable to find connection.');
 			}
@@ -280,11 +280,11 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 		 * This method creates a data reader for query the specified SQL statement.
 		 *
 		 * @access public
-		 * @param string $sql						                the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql					the SQL statement
 		 * @return \Leap\Core\DB\SQL\DataReader                     the SQL data reader
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function reader($sql) {
+		public function reader(\Leap\Core\DB\SQL\Command $sql) {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to create SQL data reader. Reason: Unable to find connection.');
 			}
@@ -316,7 +316,7 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 					: 'Unable to perform command.';
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: :reason', array(':reason' => $reason));
 			}
-			$this->sql = 'ROLLBACK;';
+			$this->sql = new \Leap\Core\DB\SQL\Command('ROLLBACK;');
 		}
 
 	}

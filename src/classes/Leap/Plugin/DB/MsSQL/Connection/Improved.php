@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\Connection
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://php.net/manual/en/ref.sqlsrv.php
 	 * @see http://blogs.msdn.com/b/brian_swan/archive/2010/03/08/mssql-vs-sqlsrv-what-s-the-difference-part-1.aspx
@@ -68,7 +68,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 					: 'Unable to perform command.';
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to begin the transaction. Reason: :reason', array(':reason' => $reason));
 			}
-			$this->sql = 'BEGIN TRAN;';
+			$this->sql = new \Leap\Core\DB\SQL\Command('BEGIN TRAN;');
 		}
 
 		/**
@@ -111,7 +111,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 					: 'Unable to perform command.';
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: :reason', array(':reason' => $reason));
 			}
-			$this->sql = 'COMMIT;';
+			$this->sql = new \Leap\Core\DB\SQL\Command('COMMIT;');
 		}
 
 		/**
@@ -119,18 +119,18 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                                      the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql                   the SQL statement
 		 * @throws \Leap\Core\Throwable\SQL\Exception              indicates that the executed
 		 *                                                         statement failed
 		 *
 		 * @see http://php.net/manual/en/function.sqlsrv-query.php
 		 * @see http://php.net/manual/en/function.sqlsrv-free-stmt.php
 		 */
-		public function execute($sql) {
+		public function execute(\Leap\Core\DB\SQL\Command $sql) {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
-			$command = @sqlsrv_query($this->resource, $sql);
+			$command = @sqlsrv_query($this->resource, $sql->text);
 			if ($command === FALSE) {
 				$errors = @sqlsrv_errors(SQLSRV_ERR_ALL);
 				$reason = (is_array($errors) AND isset($errors[0]['message']))
@@ -162,7 +162,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 					$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 					$table = $precompiler->prepare_identifier($table);
 					$column = $precompiler->prepare_identifier($column);
-					$id = (int) $this->query("SELECT MAX({$column}) AS [id] FROM {$table};")->get('id', 0);
+					$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS [id] FROM {$table};"))->get('id', 0);
 					$this->sql = $sql;
 					return $id;
 				}
@@ -171,7 +171,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 					if (preg_match('/^INSERT\s+(TOP.+\s+)?INTO\s+(.*?)\s+/i', $sql, $matches)) {
 						$table = isset($matches[2]) ? $matches[2] : NULL;
 						$query = ( ! empty($table)) ? "SELECT IDENT_CURRENT('{$table}') AS [id];" : 'SELECT SCOPE_IDENTITY() AS [id];';
-						$id = (int) $this->query($query)->get('id', 0);
+						$id = (int) $this->query(new \Leap\Core\DB\SQL\Command($query))->get('id', 0);
 						$this->sql = $sql;
 						return $id;
 					}
@@ -250,7 +250,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 					: 'Unable to perform command.';
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: :reason', array(':reason' => $reason));
 			}
-			$this->sql = 'ROLLBACK;';
+			$this->sql = new \Leap\Core\DB\SQL\Command('ROLLBACK;');
 		}
 
 	}

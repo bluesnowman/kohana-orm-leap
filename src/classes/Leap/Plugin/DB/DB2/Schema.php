@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\DB2 {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\DB2
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 */
 	class Schema extends \Leap\Core\DB\Schema {
 
@@ -131,7 +131,7 @@ namespace Leap\Plugin\DB\DB2 {
 			$sql .= ';';
 
 			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
-			$records = $connection->query($sql);
+			$records = $connection->query(new \Leap\Core\DB\SQL\Command($sql));
 
 			$fields = array();
 

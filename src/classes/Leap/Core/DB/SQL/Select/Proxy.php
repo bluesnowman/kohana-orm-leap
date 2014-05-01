@@ -25,7 +25,7 @@ namespace Leap\Core\DB\SQL\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Select
-	 * @version 2014-01-26
+	 * @version 2014-04-30
 	 */
 	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
@@ -66,7 +66,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @return string                                           the raw SQL statement
 		 */
 		public function __toString() {
-			return $this->builder->statement(TRUE);
+			return $this->builder->statement(TRUE)->__toString();
 		}
 
 		/**
@@ -314,7 +314,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return string                                           the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
 		 */
 		public function statement($terminated = TRUE) {
 			return $this->builder->statement($terminated);

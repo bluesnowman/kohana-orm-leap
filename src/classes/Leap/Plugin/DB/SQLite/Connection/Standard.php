@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\SQLite\Connection
-	 * @version 2014-04-21
+	 * @version 2014-04-30
 	 *
 	 * @see http://www.php.net/manual/en/ref.sqlite.php
 	 */
@@ -55,7 +55,7 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 		 * @see http://en.wikibooks.org/wiki/SQL_Dialects_Reference/Transactions
 		 */
 		public function begin_transaction() {
-			$this->execute('BEGIN IMMEDIATE TRANSACTION;');
+			$this->execute(new \Leap\Core\DB\SQL\Command('BEGIN IMMEDIATE TRANSACTION;'));
 		}
 
 		/**
@@ -87,7 +87,7 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 		 * @see http://en.wikibooks.org/wiki/SQL_Dialects_Reference/Transactions
 		 */
 		public function commit() {
-			$this->execute('COMMIT TRANSACTION;');
+			$this->execute(new \Leap\Core\DB\SQL\Command('COMMIT TRANSACTION;'));
 		}
 
 		/**
@@ -95,11 +95,11 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                                       the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 */
-		public function execute($sql) {
+		public function execute(\Leap\Core\DB\SQL\Command $sql) {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
@@ -130,7 +130,7 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 				$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 				$table = $precompiler->prepare_identifier($table);
 				$column = $precompiler->prepare_identifier($column);
-				$id = (int) $this->query("SELECT MAX({$column}) AS \"id\" FROM {$table};")->get('id', 0);
+				$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS \"id\" FROM {$table};"))->get('id', 0);
 				$this->sql = $sql;
 				return $id;
 			}
@@ -207,7 +207,7 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 		 * @see http://en.wikibooks.org/wiki/SQL_Dialects_Reference/Transactions
 		 */
 		public function rollback() {
-			$this->execute('ROLLBACK TRANSACTION;');
+			$this->execute(new \Leap\Core\DB\SQL\Command('ROLLBACK TRANSACTION;'));
 		}
 
 	}

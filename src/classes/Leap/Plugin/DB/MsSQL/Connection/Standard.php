@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\Connection
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://www.php.net/manual/en/ref.mssql.php
 	 * @see http://blogs.msdn.com/b/brian_swan/archive/2010/03/08/mssql-vs-sqlsrv-what-s-the-difference-part-1.aspx
@@ -56,7 +56,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 		 * @see http://msdn.microsoft.com/en-us/library/ms188929.aspx
 		 */
 		public function begin_transaction() {
-			$this->execute('BEGIN TRAN;');
+			$this->execute(new \Leap\Core\DB\SQL\Command('BEGIN TRAN;'));
 		}
 
 		/**
@@ -87,7 +87,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 		 * @see http://msdn.microsoft.com/en-us/library/ms190295.aspx
 		 */
 		public function commit() {
-			$this->execute('COMMIT;');
+			$this->execute(new \Leap\Core\DB\SQL\Command('COMMIT;'));
 		}
 
 		/**
@@ -95,15 +95,15 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                                       the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 */
-		public function execute($sql) {
+		public function execute(\Leap\Core\DB\SQL\Command $sql) {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
-			$command = @mssql_query($sql, $this->resource);
+			$command = @mssql_query($sql->text, $this->resource);
 			if ($command === FALSE) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @mssql_get_last_message()));
 			}
@@ -131,7 +131,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 					$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 					$table = $precompiler->prepare_identifier($table);
 					$column = $precompiler->prepare_identifier($column);
-					$id = (int) $this->query("SELECT MAX({$column}) AS [id] FROM {$table};")->get('id', 0);
+					$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS [id] FROM {$table};"))->get('id', 0);
 					$this->sql = $sql;
 					return $id;
 				}
@@ -140,7 +140,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 					if (preg_match('/^INSERT\s+(TOP.+\s+)?INTO\s+(.*?)\s+/i', $sql, $matches)) {
 						$table = isset($matches[2]) ? $matches[2] : NULL;
 						$query = ( ! empty($table)) ? "SELECT IDENT_CURRENT('{$table}') AS [id];" : 'SELECT SCOPE_IDENTITY() AS [id];';
-						$id = (int) $this->query($query)->get('id', 0);
+						$id = (int) $this->query(new \Leap\Core\DB\SQL\Command($query))->get('id', 0);
 						$this->sql = $sql;
 						return $id;
 					}
@@ -198,7 +198,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 		 *                                                          statement failed
 		 */
 		public function rollback() {
-			$this->execute('ROLLBACK;');
+			$this->execute(new \Leap\Core\DB\SQL\Command('ROLLBACK;'));
 		}
 
 	}

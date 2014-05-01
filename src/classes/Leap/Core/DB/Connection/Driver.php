@@ -26,7 +26,7 @@ namespace Leap\Core\DB\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\Connection
-	 * @version 2014-01-28
+	 * @version 2014-04-30
 	 */
 	abstract class Driver extends \Leap\Core\Object {
 
@@ -66,7 +66,7 @@ namespace Leap\Core\DB\Connection {
 		 * This variable stores the last SQL statement executed.
 		 *
 		 * @access protected
-		 * @var string
+		 * @var \Leap\Core\DB\SQL\Command
 		 */
 		protected $sql;
 
@@ -81,7 +81,7 @@ namespace Leap\Core\DB\Connection {
 			$this->data_source = $data_source;
 			$this->lock = \Leap\Core\DB\SQL\Lock\Builder::factory($this);
 			$this->resource = NULL;
-			$this->sql = '';
+			$this->sql = new \Leap\Core\DB\SQL\Command();
 		}
 
 		/**
@@ -129,12 +129,12 @@ namespace Leap\Core\DB\Connection {
 		 * This method manages query caching.
 		 *
 		 * @access protected
-		 * @param string $sql                                       the SQL statement being queried
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement being queried
 		 * @param string $type                                      the return type that is being used
 		 * @param \Leap\Core\DB\ResultSet $results                  the result set
 		 * @return \Leap\Core\DB\ResultSet                          the result set for the specified
 		 */
-		protected function cache($sql, $type, $results = NULL) {
+		protected function cache(\Leap\Core\DB\SQL\Command $sql, $type, $results = NULL) {
 			if ($this->data_source->cache->enabled) {
 				if ($results !== NULL) {
 					if ($this->data_source->cache->lifetime > 0) {
@@ -143,7 +143,7 @@ namespace Leap\Core\DB\Connection {
 					return $results;
 				}
 				else if ($this->data_source->cache->lifetime !== NULL) {
-					$this->cache_key = 'Leap\\Plugin\\DB\\Connection\\Driver::query("' . $this->data_source->id . '", "' . $type . '", "' . $sql . '")';
+					$this->cache_key = 'Leap\\Plugin\\DB\\Connection\\Driver::query("' . $this->data_source->id . '", "' . $type . '", "' . $sql->text . '")';
 					$results = \Kohana::cache($this->cache_key, NULL, $this->data_source->cache->lifetime);
 					if (($results !== NULL) AND ! $this->data_source->cache->force) {
 						return $results;
@@ -177,11 +177,11 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @abstract
-		 * @param string $sql                                       the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 */
-		public abstract function execute($sql);
+		public abstract function execute(\Leap\Core\DB\SQL\Command $sql);
 
 		/**
 		 * This method returns the last insert id.
@@ -232,12 +232,12 @@ namespace Leap\Core\DB\Connection {
 		 * This method processes an SQL statement that will return data.
 		 *
 		 * @access public
-		 * @param string $sql                                       the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
 		 * @param string $type                                      the return type to be used
 		 * @return \Leap\Core\DB\ResultSet                          the result set
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function query($sql, $type = 'array') {
+		public function query(\Leap\Core\DB\SQL\Command $sql, $type = 'array') {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: Unable to find connection.');
 			}
@@ -295,11 +295,11 @@ namespace Leap\Core\DB\Connection {
 		 * This method creates a data reader for query the specified SQL statement.
 		 *
 		 * @access public
-		 * @param string $sql                                       the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
 		 * @return \Leap\Core\DB\SQL\DataReader                     the SQL data reader
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function reader($sql) {
+		public function reader(\Leap\Core\DB\SQL\Command $sql) {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to create SQL data reader. Reason: Unable to find connection.');
 			}

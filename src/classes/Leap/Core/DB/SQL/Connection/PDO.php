@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Connection
-	 * @version 2014-01-26
+	 * @version 2014-04-30
 	 *
 	 * @see http://www.php.net/manual/en/book.pdo.php
 	 * @see http://www.electrictoolbox.com/php-pdo-dsn-connection-string/
@@ -58,7 +58,7 @@ namespace Leap\Core\DB\SQL\Connection {
 		public function begin_transaction() {
 			try {
 				$this->resource->beginTransaction();
-				$this->sql = 'BEGIN TRANSACTION;';
+				$this->sql = new \Leap\Core\DB\SQL\Command('BEGIN TRANSACTION;');
 			}
 			catch (\Exception $ex) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: :reason', array(':reason' => $ex->getMessage()));
@@ -92,7 +92,7 @@ namespace Leap\Core\DB\SQL\Connection {
 		public function commit() {
 			try {
 				$this->resource->commit();
-				$this->sql = 'COMMIT;';
+				$this->sql = new \Leap\Core\DB\SQL\Command('COMMIT;');
 			}
 			catch (\Exception $ex) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: :reason', array(':reason' => $ex->getMessage()));
@@ -104,15 +104,15 @@ namespace Leap\Core\DB\SQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                                       the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 */
-		public function execute($sql) {
+		public function execute(\Leap\Core\DB\SQL\Command $sql) {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
-			$command = @$this->resource->exec($sql);
+			$command = @$this->resource->exec($sql->text);
 			if ($command === FALSE) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => $this->resource->errorInfo()));
 			}
@@ -142,7 +142,7 @@ namespace Leap\Core\DB\SQL\Connection {
 					$table = $precompiler->prepare_identifier($table);
 					$column = $precompiler->prepare_identifier($column);
 					$alias = $precompiler->prepare_alias('id');
-					$id = (int) $this->query("SELECT MAX({$column}) AS {$alias} FROM {$table};")->get('id', 0);
+					$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS {$alias} FROM {$table};"))->get('id', 0);
 					$this->sql = $sql;
 					return $id;
 				}
@@ -206,7 +206,7 @@ namespace Leap\Core\DB\SQL\Connection {
 		public function rollback() {
 			try {
 				$this->resource->rollBack();
-				$this->sql = 'ROLLBACK;';
+				$this->sql = new \Leap\Core\DB\SQL\Command('ROLLBACK;');
 			}
 			catch (\Exception $ex) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: :reason', array(':reason' => $ex->getMessage()));

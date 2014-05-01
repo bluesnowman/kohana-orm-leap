@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Firebird\Update {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Firebird\Update
-	 * @version 2014-04-24
+	 * @version 2014-04-30
 	 *
 	 * @see http://www.firebirdsql.org/refdocs/langrefupd21-update.html
 	 */
@@ -48,7 +48,7 @@ namespace Leap\Plugin\DB\Firebird\Update {
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return string                                           the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
 		 */
 		public function statement($terminated = TRUE) {
 			$sql = "UPDATE {$this->data['table']}";
@@ -85,7 +85,8 @@ namespace Leap\Plugin\DB\Firebird\Update {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}

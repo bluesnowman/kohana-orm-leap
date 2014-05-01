@@ -26,7 +26,7 @@ namespace Leap\Plugin\DB\Oracle\DataReader {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\DataReader
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://php.net/manual/en/book.oci8.php
 	 */
@@ -38,13 +38,13 @@ namespace Leap\Plugin\DB\Oracle\DataReader {
 		 * @access public
 		 * @override
 		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be used
-		 * @param string $sql                                       the SQL statement to be queried
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement to be queried
 		 * @param integer $mode                                     the execution mode to be used
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function __construct(\Leap\Core\DB\Connection\Driver $connection, $sql, $mode = NULL) {
+		public function __construct(\Leap\Core\DB\Connection\Driver $connection, \Leap\Core\DB\SQL\Command $sql, $mode = NULL) {
 			$resource = $connection->get_resource();
-			$command = @oci_parse($resource, trim($sql, "; \t\n\r\0\x0B"));
+			$command = @oci_parse($resource, trim($sql->text, "; \t\n\r\0\x0B"));
 			if ($command === FALSE) {
 				$error = @oci_error($resource);
 				$reason = (is_array($error) AND isset($error['message']))

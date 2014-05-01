@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MariaDB\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MariaDB\Connection
-	 * @version 2014-04-24
+	 * @version 2014-04-30
 	 *
 	 * @see http://www.php.net/manual/en/book.mysqli.php
 	 * @see http://programmers.stackexchange.com/questions/120178/whats-the-difference-between-mariadb-and-mysql
@@ -62,7 +62,7 @@ namespace Leap\Plugin\DB\MariaDB\Connection {
 			if ($command === FALSE) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: :reason', array(':reason' => @mysqli_error($this->resource)));
 			}
-			$this->sql = 'START TRANSACTION;';
+			$this->sql = new \Leap\Core\DB\SQL\Command('START TRANSACTION;');
 		}
 
 		/**
@@ -101,7 +101,7 @@ namespace Leap\Plugin\DB\MariaDB\Connection {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: :reason', array(':reason' => @mysqli_error($this->resource)));
 			}
 			@mysqli_autocommit($this->resource, TRUE);
-			$this->sql = 'COMMIT;';
+			$this->sql = new \Leap\Core\DB\SQL\Command('COMMIT;');
 		}
 
 		/**
@@ -109,15 +109,15 @@ namespace Leap\Plugin\DB\MariaDB\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                                       the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 */
-		public function execute($sql) {
+		public function execute(\Leap\Core\DB\SQL\Command $sql) {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
-			$command = @mysqli_query($this->resource, $sql);
+			$command = @mysqli_query($this->resource, $sql->text);
 			if ($command === FALSE) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @mysqli_error($this->resource)));
 			}
@@ -144,7 +144,7 @@ namespace Leap\Plugin\DB\MariaDB\Connection {
 				$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 				$table = $precompiler->prepare_identifier($table);
 				$column = $precompiler->prepare_identifier($column);
-				$id = (int) $this->query("SELECT MAX({$column}) AS `id` FROM {$table};")->get('id', 0);
+				$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS `id` FROM {$table};"))->get('id', 0);
 				$this->sql = $sql;
 				return $id;
 			}
@@ -242,7 +242,7 @@ namespace Leap\Plugin\DB\MariaDB\Connection {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: :reason', array(':reason' => @mysqli_error($this->resource)));
 			}
 			@mysqli_autocommit($this->resource, TRUE);
-			$this->sql = 'ROLLBACK;';
+			$this->sql = new \Leap\Core\DB\SQL\Command('ROLLBACK;');
 		}
 
 	}

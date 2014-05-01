@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MsSQL\Insert {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\Insert
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://msdn.microsoft.com/en-us/library/aa933206%28v=sql.80%29.aspx
 	 */
@@ -71,7 +71,8 @@ namespace Leap\Plugin\DB\MsSQL\Insert {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}

@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Delete {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\PostgreSQL\Delete
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://www.postgresql.org/docs/9.0/static/sql-delete.html
 	 * @see http://www.pgsql.cz/index.php/PostgreSQL_SQL_Tricks
@@ -41,7 +41,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Delete {
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return string                                           the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
 		 */
 		public function statement($terminated = TRUE) {
 			$sql = '';
@@ -80,7 +80,8 @@ namespace Leap\Plugin\DB\PostgreSQL\Delete {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}

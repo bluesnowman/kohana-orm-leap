@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Firebird\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Firebird\Select
-	 * @version 2014-04-24
+	 * @version 2014-04-30
 	 *
 	 * @see http://www.firebirdsql.org/refdocs/langrefupd20-select.html
 	 */
@@ -38,7 +38,7 @@ namespace Leap\Plugin\DB\Firebird\Select {
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return string                                           the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
 		 */
 		public function statement($terminated = TRUE) {
 			$sql = 'SELECT ';
@@ -113,7 +113,8 @@ namespace Leap\Plugin\DB\Firebird\Select {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}

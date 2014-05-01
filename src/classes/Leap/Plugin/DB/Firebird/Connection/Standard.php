@@ -35,7 +35,7 @@ namespace Leap\Plugin\DB\Firebird\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Firebird\Connection
-	 * @version 2014-04-22
+	 * @version 2014-04-30
 	 *
 	 * @see http://us3.php.net/manual/en/book.ibase.php
 	 * @see http://us2.php.net/manual/en/ibase.installation.php
@@ -72,7 +72,7 @@ namespace Leap\Plugin\DB\Firebird\Connection {
 			if ($command === FALSE) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: :reason', array(':reason' => @ibase_errmsg()));
 			}
-			$this->sql = 'BEGIN TRANSACTION;';
+			$this->sql = new \Leap\Core\DB\SQL\Command('BEGIN TRANSACTION;');
 		}
 
 		/**
@@ -108,7 +108,7 @@ namespace Leap\Plugin\DB\Firebird\Connection {
 			if ($command === FALSE) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: :reason', array(':reason' => @ibase_errmsg()));
 			}
-			$this->sql = 'COMMIT;';
+			$this->sql = new \Leap\Core\DB\SQL\Command('COMMIT;');
 		}
 
 		/**
@@ -116,15 +116,15 @@ namespace Leap\Plugin\DB\Firebird\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param string $sql                                       the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 */
-		public function execute($sql) {
+		public function execute(\Leap\Core\DB\SQL\Command $sql) {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
-			$statement = @ibase_prepare($this->resource, $sql);
+			$statement = @ibase_prepare($this->resource, $sql->text);
 			$command = @ibase_execute($statement);
 			if ($command === FALSE) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @ibase_errmsg()));
@@ -154,7 +154,7 @@ namespace Leap\Plugin\DB\Firebird\Connection {
 					$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 					$table = $precompiler->prepare_identifier($table);
 					$column = $precompiler->prepare_identifier($column);
-					$id = (int) $this->query("SELECT MAX({$column}) AS \"id\" FROM {$table};")->get('id', 0);
+					$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS \"id\" FROM {$table};"))->get('id', 0);
 					$this->sql = $sql;
 					return $id;
 				}
@@ -163,7 +163,7 @@ namespace Leap\Plugin\DB\Firebird\Connection {
 					if (preg_match('/^INSERT\s+INTO\s+(.*?)\s+/i', $sql, $matches)) {
 						if (isset($matches[1])) {
 							$table = $matches[1];
-							$id = (int) $this->query("SELECT \"ID\" AS \"id\" FROM {$table} ORDER BY \"ID\" DESC ROWS 1;")->get('id', 0);
+							$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT \"ID\" AS \"id\" FROM {$table} ORDER BY \"ID\" DESC ROWS 1;"))->get('id', 0);
 							$this->sql = $sql;
 							return $id;
 						}
@@ -230,7 +230,7 @@ namespace Leap\Plugin\DB\Firebird\Connection {
 			if ($command === FALSE) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: :reason', array(':reason' => @ibase_errmsg()));
 			}
-			$this->sql = 'ROLLBACK;';
+			$this->sql = new \Leap\Core\DB\SQL\Command('ROLLBACK;');
 		}
 
 	}

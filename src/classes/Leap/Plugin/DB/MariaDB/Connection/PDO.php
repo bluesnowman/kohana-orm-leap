@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MariaDB\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MariaDB\Connection
-	 * @version 2014-04-24
+	 * @version 2014-04-30
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-mysql.connection.php
 	 * @see http://programmers.stackexchange.com/questions/120178/whats-the-difference-between-mariadb-and-mysql
@@ -66,7 +66,7 @@ namespace Leap\Plugin\DB\MariaDB\Connection {
 					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => $ex->getMessage()));
 				}
 				if ( ! empty($this->data_source->charset)) {
-					$this->execute('SET NAMES ' . $this->quote(strtolower($this->data_source->charset)));
+					$this->execute(new \Leap\Core\DB\SQL\Command('SET NAMES ' . $this->quote(strtolower($this->data_source->charset))));
 				}
 			}
 		}

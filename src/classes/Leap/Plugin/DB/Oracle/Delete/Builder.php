@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Oracle\Delete {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\Delete
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://download.oracle.com/docs/cd/B19306_01/server.102/b14200/statements_8005.htm
 	 * @see http://download.oracle.com/docs/cd/B12037_01/appdev.101/b10807/13_elems014.htm
@@ -39,7 +39,7 @@ namespace Leap\Plugin\DB\Oracle\Delete {
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return string                                           the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
 		 *
 		 * @see http://www.oracle.com/technetwork/issue-archive/2006/06-sep/o56asktom-086197.html
 		 * @see http://docs.oracle.com/cd/B12037_01/appdev.101/b10807/13_elems014.htm
@@ -98,7 +98,8 @@ namespace Leap\Plugin\DB\Oracle\Delete {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}

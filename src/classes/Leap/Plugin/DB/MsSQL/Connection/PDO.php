@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\Connection
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-dblib.php
 	 */
@@ -54,11 +54,11 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 					$table = $precompiler->prepare_identifier($table);
 					$column = $precompiler->prepare_identifier($column);
 					$alias = $precompiler->prepare_alias('id');
-					$id = (int) $this->query("SELECT MAX({$column}) AS {$alias} FROM {$table};")->get('id', 0);
+					$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS {$alias} FROM {$table};"))->get('id', 0);
 					$this->sql = $sql;
 					return $id;
 				}
-				return (int) $this->query('SELECT SCOPE_IDENTITY() AS [id];')->get('id', 0);
+				return (int) $this->query(new \Leap\Core\DB\SQL\Command('SELECT SCOPE_IDENTITY() AS [id];'))->get('id', 0);
 			}
 			catch (\Exception $ex) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: :reason', array(':reason' => $ex->getMessage()));

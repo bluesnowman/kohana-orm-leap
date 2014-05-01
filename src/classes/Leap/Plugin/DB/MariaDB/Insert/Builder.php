@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MariaDB\Insert {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MariaDB\Insert
-	 * @version 2014-04-24
+	 * @version 2014-04-30
 	 *
 	 * @see http://dev.mysql.com/doc/refman/5.5/en/insert.html
 	 */
@@ -38,7 +38,7 @@ namespace Leap\Plugin\DB\MariaDB\Insert {
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return string                                           the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
 		 */
 		public function statement($terminated = TRUE) {
 			$sql = "INSERT INTO {$this->data['into']}";
@@ -71,7 +71,8 @@ namespace Leap\Plugin\DB\MariaDB\Insert {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}

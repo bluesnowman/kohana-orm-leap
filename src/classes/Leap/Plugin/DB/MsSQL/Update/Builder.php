@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MsSQL\Update {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\Update
-	 * @version 2014-04-19
+	 * @version 2014-04-30
 	 *
 	 * @see http://msdn.microsoft.com/en-us/library/aa260662%28v=sql.80%29.aspx
 	 */
@@ -38,7 +38,7 @@ namespace Leap\Plugin\DB\MsSQL\Update {
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return string                                           the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
 		 *
 		 * @see http://stackoverflow.com/questions/655010/how-to-update-and-order-by-using-ms-sql
 		 */
@@ -104,7 +104,8 @@ namespace Leap\Plugin\DB\MsSQL\Update {
 				$sql .= ';';
 			}
 
-			return $sql;
+			$command = new \Leap\Core\DB\SQL\Command($sql);
+			return $command;
 		}
 
 	}
