@@ -42,7 +42,7 @@ namespace Leap\Plugin\DB\PostgreSQL\DataReader {
 		 * @param integer $mode                                     the execution mode to be used
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function __construct(\Leap\Core\DB\Connection\Driver $connection, $sql, $mode = NULL) {
+		public function __construct(\Leap\Core\DB\Connection\Driver $connection, \Leap\Core\DB\SQL\Command $sql, $mode = NULL) {
 			$resource = $connection->get_resource();
 			$command = @pg_query($resource, $sql->text);
 			if ($command === FALSE) {
