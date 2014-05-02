@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\Connection
-	 * @version 2014-04-30
+	 * @version 2014-05-01
 	 *
 	 * @see http://php.net/manual/en/book.oci8.php
 	 */
@@ -133,7 +133,7 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
-			$command = @oci_parse($this->resource, trim($sql->text, "; \t\n\r\0\x0B"));
+			$command = @oci_parse($this->resource, \Leap\Core\DB\SQL\Command::trim($sql->text));
 			if ($command === FALSE) {
 				$error = @oci_error($this->resource);
 				$reason = (is_array($error) AND isset($error['message']))

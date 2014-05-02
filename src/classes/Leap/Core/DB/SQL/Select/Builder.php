@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Select
-	 * @version 2014-01-26
+	 * @version 2014-05-01
 	 */
 	abstract class Builder extends \Leap\Core\DB\SQL\Builder {
 
@@ -89,14 +89,15 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates an invalid SQL build instruction
 		 */
 		public function combine($operator, $statement) {
-			$builder = '\\Leap\\Plugin\\DB\\' . $this->dialect . '\\Select\\Builder';
-			if (is_object($statement) AND ($statement instanceof $builder)) {
-				$statement = $statement->statement(FALSE);
+			if ($statement instanceof \Leap\Core\DB\SQL\Select\Builder) {
+				$statement = $statement->statement(FALSE)->text;
 			}
-			else if ( ! preg_match('/^SELECT.*$/i', $statement)) {
+			else if ($statement instanceof \Leap\Core\DB\SQL\Command) {
+				$statement = \Leap\Core\DB\SQL\Command::trim($statement->text);
+			}
+			else {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Invalid SQL build instruction. Reason: May only combine a SELECT statement.', array(':operator' => $operator, ':statement' => $statement));
 			}
-			$statement = trim($statement, "; \t\n\r\0\x0B");
 			$operator = $this->precompiler->prepare_operator($operator, 'SET');
 			$this->data['combine'][] = "{$operator} {$statement}";
 			return $this;

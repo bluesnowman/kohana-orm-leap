@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\SQLite {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\SQLite
-	 * @version 2014-04-30
+	 * @version 2014-05-01
 	 */
 	class Schema extends \Leap\Core\DB\Schema {
 
@@ -287,7 +287,7 @@ namespace Leap\Plugin\DB\SQLite {
 			while ($reader->read()) {
 				$record = $reader->row('array');
 				if (isset($record['action'])) {
-					$sql = trim($record['action'], "; \t\n\r\0\x0B");
+					$sql = \Leap\Core\DB\SQL\Command::trim($record['action']);
 
 					if (preg_match('/\s+INSERT\s+/i', $sql)) {
 						$record['event'] = 'INSERT';
@@ -311,7 +311,7 @@ namespace Leap\Plugin\DB\SQLite {
 
 					$offset = stripos($sql, 'BEGIN') + 5;
 					$length = (strlen($sql) - $offset) - 3;
-					$record['action'] = trim(substr($sql, $offset, $length), "; \t\n\r\0\x0B");
+					$record['action'] = \Leap\Core\DB\SQL\Command::trim(substr($sql, $offset, $length));
 				}
 				$records[] = $record;
 			}

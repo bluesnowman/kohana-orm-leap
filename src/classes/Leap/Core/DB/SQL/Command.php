@@ -25,7 +25,7 @@ namespace Leap\Core\DB\SQL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-04-30
+	 * @version 2014-05-01
 	 */
 	class Command extends \Leap\Core\Object {
 
@@ -101,10 +101,11 @@ namespace Leap\Core\DB\SQL {
 		 * This method trims the semicolon off an SQL statement.
 		 *
 		 * @access protected
+		 * @static
 		 * @param string $text					                    the SQL statement
 		 * @return string                                           the SQL statement after being trimmed
 		 */
-		protected function trim($text) {
+		public static function trim($text) {
 			return trim($text, "; \t\n\r\0\x0B");
 		}
 

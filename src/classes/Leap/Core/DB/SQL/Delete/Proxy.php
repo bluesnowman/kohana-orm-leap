@@ -25,7 +25,7 @@ namespace Leap\Core\DB\SQL\Delete {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Delete
-	 * @version 2014-04-30
+	 * @version 2014-05-01
 	 */
 	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
@@ -65,7 +65,7 @@ namespace Leap\Core\DB\SQL\Delete {
 		 * @return string                                           the raw SQL statement
 		 */
 		public function __toString() {
-			return $this->builder->statement(TRUE)->__toString();
+			return $this->builder->statement()->__toString();
 		}
 
 		/**
@@ -75,7 +75,7 @@ namespace Leap\Core\DB\SQL\Delete {
 		 */
 		public function execute() {
 			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
-			$connection->execute($this->statement(TRUE));
+			$connection->execute($this->statement());
 		}
 
 		/**

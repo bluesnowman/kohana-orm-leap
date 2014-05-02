@@ -25,7 +25,7 @@ namespace Leap\Core\DB\SQL\Insert {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Insert
-	 * @version 2014-04-30
+	 * @version 2014-05-01
 	 */
 	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
@@ -66,7 +66,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * @return string                                           the raw SQL statement
 		 */
 		public function __toString() {
-			return $this->builder->statement(TRUE)->__toString();
+			return $this->builder->statement()->__toString();
 		}
 
 		/**
@@ -93,7 +93,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		public function execute() {
 			$auto_increment = ((func_num_args() > 0) AND (func_get_arg(0) === TRUE));
 			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
-			$connection->execute($this->statement(TRUE));
+			$connection->execute($this->statement());
 			$primary_key = ($auto_increment) ? $connection->get_last_insert_id() : 0;
 			return $primary_key;
 		}

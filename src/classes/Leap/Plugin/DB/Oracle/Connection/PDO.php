@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\Connection
-	 * @version 2014-04-30
+	 * @version 2014-05-01
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-oci.php
 	 */
@@ -41,7 +41,14 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 		 *                                                          statement failed
 		 */
 		public function execute(\Leap\Core\DB\SQL\Command $sql) {
-			parent::execute($sql);
+			if ( ! $this->is_connected()) {
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
+			}
+			$command = @$this->resource->exec(\Leap\Core\DB\SQL\Command::trim($sql->text));
+			if ($command === FALSE) {
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => $this->resource->errorInfo()));
+			}
+			$this->sql = $sql;
 		}
 
 		/**

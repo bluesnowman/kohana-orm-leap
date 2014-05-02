@@ -25,7 +25,7 @@ namespace Leap\Core\DB\SQL\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Select
-	 * @version 2014-04-30
+	 * @version 2014-05-01
 	 */
 	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
@@ -66,7 +66,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @return string                                           the raw SQL statement
 		 */
 		public function __toString() {
-			return $this->builder->statement(TRUE)->__toString();
+			return $this->builder->statement()->__toString();
 		}
 
 		/**
@@ -279,7 +279,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 */
 		public function query($type = 'array') {
 			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
-			$result_set = $connection->query($this->statement(TRUE), $type);
+			$result_set = $connection->query($this->statement(), $type);
 			return $result_set;
 		}
 
@@ -292,7 +292,7 @@ namespace Leap\Core\DB\SQL\Select {
 		 */
 		public function reader() {
 			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
-			$reader = $connection->reader($this->statement(TRUE));
+			$reader = $connection->reader($this->statement());
 			return $reader;
 		}
 
