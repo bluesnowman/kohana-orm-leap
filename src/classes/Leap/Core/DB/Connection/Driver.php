@@ -143,7 +143,7 @@ namespace Leap\Core\DB\Connection {
 					return $results;
 				}
 				else if ($this->data_source->cache->lifetime !== NULL) {
-					$this->cache_key = 'Leap\\Plugin\\DB\\Connection\\Driver::query("' . $this->data_source->id . '", "' . $type . '", "' . $sql->text . '")';
+					$this->cache_key = '\\Leap\\Core\\DB\\Connection\\Driver::query("' . $this->data_source->id . '", "' . $type . '", "' . $sql->text . '")';
 					$results = \Kohana::cache($this->cache_key, NULL, $this->data_source->cache->lifetime);
 					if (($results !== NULL) AND ! $this->data_source->cache->force) {
 						return $results;
