@@ -22,10 +22,11 @@ namespace Leap\Core\DB\SQL {
 	/**
 	 * This class allows an application to tokenize an SQL statement.
 	 *
+	 * @abstract
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-04-30
+	 * @version 2014-05-11
 	 *
 	 * @see http://www.sqlite.org/c3ref/complete.html
 	 * @see http://www.opensource.apple.com/source/SQLite/SQLite-74/public_source/src/complete.c
@@ -182,7 +183,7 @@ namespace Leap\Core\DB\SQL {
 							'token' => $token,
 						);
 						$this->size++;
-						// echo Debug::vars($token);
+						// var_dump($token);
 					}
 					else {
 						$this->tuples[] = array(
@@ -190,7 +191,7 @@ namespace Leap\Core\DB\SQL {
 							'token' => $char,
 						);
 						$this->size++;
-						// echo Debug::vars($char);
+						// var_dump($char);
 					}
 					$position = $lookahead;
 				}
@@ -206,7 +207,7 @@ namespace Leap\Core\DB\SQL {
 							'token' => $token,
 						);
 						$this->size++;
-						// echo Debug::vars($token);
+						// var_dump($token);
 					}
 					else {
 						$this->tuples[] = array(
@@ -214,7 +215,7 @@ namespace Leap\Core\DB\SQL {
 							'token' => $char,
 						);
 						$this->size++;
-						// echo Debug::vars($char);
+						// var_dump($char);
 					}
 					$position = $lookahead;
 				}
@@ -230,7 +231,7 @@ namespace Leap\Core\DB\SQL {
 							'token' => $token,
 						);
 						$this->size++;
-						// echo Debug::vars($token);
+						// var_dump($token);
 					}
 					else {
 						$this->tuples[] = array(
@@ -238,7 +239,7 @@ namespace Leap\Core\DB\SQL {
 							'token' => $char,
 						);
 						$this->size++;
-						// echo Debug::vars($char);
+						// var_dump($char);
 					}
 					$position = $lookahead;
 				}
@@ -256,7 +257,7 @@ namespace Leap\Core\DB\SQL {
 						'token' => $token,
 					);
 					$this->size++;
-					// echo Debug::vars($token);
+					// var_dump($token);
 				}
 				else if ($char == '#') { // "whitespace" token (i.e. MySQL-style comment)
 					$start = $position;
@@ -271,7 +272,7 @@ namespace Leap\Core\DB\SQL {
 						'token' => $token,
 					);
 					$this->size++;
-					// echo Debug::vars($token);
+					// var_dump($token);
 				}
 				else if ($char == '-') { // "whitespace" token (i.e. SQL-style comment) or "operator" token
 					$lookahead = $position + 1;
@@ -281,7 +282,7 @@ namespace Leap\Core\DB\SQL {
 							'token' => $char,
 						);
 						$this->size++;
-						// echo Debug::vars($char);
+						// var_dump($char);
 					}
 					else {
 						while ( ! in_array(static::char_at($statement, $lookahead, $strlen), $eol)) {
@@ -295,7 +296,7 @@ namespace Leap\Core\DB\SQL {
 							'token' => $token,
 						);
 						$this->size++;
-						// echo Debug::vars($token);
+						// var_dump($token);
 					}
 					$position = $lookahead;
 				}
@@ -308,7 +309,7 @@ namespace Leap\Core\DB\SQL {
 							'token' => $char,
 						);
 						$this->size++;
-						// echo Debug::vars($char);
+						// var_dump($char);
 					}
 					else {
 						$lookahead += 2;
@@ -323,7 +324,7 @@ namespace Leap\Core\DB\SQL {
 							'token' => $token,
 						);
 						$this->size++;
-						// echo Debug::vars($token);
+						// var_dump($token);
 					}
 					$position = $lookahead;
 				}
@@ -340,7 +341,7 @@ namespace Leap\Core\DB\SQL {
 						'token' => $token,
 					);
 					$this->size++;
-					// echo Debug::vars($token);
+					// var_dump($token);
 				}
 				else if (in_array($char, $quote)) { // "identifier" token (SQL-style)
 					$start = $position;
@@ -355,7 +356,7 @@ namespace Leap\Core\DB\SQL {
 						'token' => $token,
 					);
 					$this->size++;
-					// echo Debug::vars($token);
+					// var_dump($token);
 				}
 				else if ($char == '\'') { // "literal" token
 					$lookahead = $position + 1;
@@ -376,7 +377,7 @@ namespace Leap\Core\DB\SQL {
 						'token' => $token,
 					);
 					$this->size++;
-					// echo Debug::vars($token);
+					// var_dump($token);
 					$position = $lookahead;
 				}
 				else if (($char >= '0') AND ($char <= '9')) { // "integer" token, "real" token, or "hexadecimal" token
@@ -427,7 +428,7 @@ namespace Leap\Core\DB\SQL {
 						'token' => $token,
 					);
 					$this->size++;
-					// echo Debug::vars($token);
+					// var_dump($token);
 				}
 				else if ((($char >= 'a') AND ($char <= 'z')) OR (($char >= 'A') AND ($char <= 'Z')) OR ($char == '_')) { // "keyword" token or "identifier" token
 					$start = $position;
@@ -444,7 +445,7 @@ namespace Leap\Core\DB\SQL {
 						'token' => $token,
 					);
 					$this->size++;
-					// echo Debug::vars($token);
+					// var_dump($token);
 				}
 				else { // miscellaneous token
 					$token = $char;
@@ -472,7 +473,7 @@ namespace Leap\Core\DB\SQL {
 						'token' => $token,
 					);
 					$this->size++;
-					// echo Debug::vars($token);
+					// var_dump($token);
 					$position++;
 				}
 			}
