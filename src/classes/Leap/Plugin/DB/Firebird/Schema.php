@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Firebird {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Firebird
-	 * @version 2014-04-24
+	 * @version 2014-05-16
 	 */
 	class Schema extends \Leap\Core\DB\Schema {
 
@@ -216,7 +216,7 @@ namespace Leap\Plugin\DB\Firebird {
 				$records[] = $record;
 			}
 
-			$reader->free();
+			$reader->dispose();
 
 			$results = new \Leap\Core\DB\ResultSet($records);
 

@@ -26,7 +26,7 @@ namespace Leap\Plugin\DB\MsSQL\DataReader {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\DataReader
-	 * @version 2014-04-30
+	 * @version 2014-05-16
 	 *
 	 * @see http://www.php.net/manual/en/ref.mssql.php
 	 */
@@ -53,12 +53,13 @@ namespace Leap\Plugin\DB\MsSQL\DataReader {
 		}
 
 		/**
-		 * This method frees the command reference.
+		 * This method assists with freeing, releasing, and resetting un-managed resources.
 		 *
 		 * @access public
-		 * @override
+		 * @param boolean $disposing                                whether managed resources can be disposed
+		 *                                                          in addition to un-managed resources
 		 */
-		public function free() {
+		public function dispose($disposing = TRUE) {
 			if ($this->command !== NULL) {
 				@mssql_free_result($this->command);
 				$this->command = NULL;
@@ -71,7 +72,7 @@ namespace Leap\Plugin\DB\MsSQL\DataReader {
 		 *
 		 * @access public
 		 * @override
-		 * @return boolean                          whether another record was fetched
+		 * @return boolean                                          whether another record was fetched
 		 */
 		public function read() {
 			$this->record = @mssql_fetch_assoc($this->command);

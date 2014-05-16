@@ -25,7 +25,7 @@ namespace Leap\Core\GC {
 	 * @access public
 	 * @interface
 	 * @package Leap\Core\GC
-	 * @version 2014-01-25
+	 * @version 2014-05-16
 	 *
 	 * @see http://msdn.microsoft.com/en-us/library/system.idisposable.aspx
 	 * @see http://www.codeproject.com/Articles/15360/Implementing-IDisposable-and-the-Dispose-Pattern-P
@@ -33,12 +33,11 @@ namespace Leap\Core\GC {
 	interface IDisposable {
 
 		/**
-		 * This method assists with freeing, releasing, and resetting unmanaged
-		 * resources.
+		 * This method assists with freeing, releasing, and resetting un-managed resources.
 		 *
 		 * @access public
 		 * @param boolean $disposing                                whether managed resources can be disposed
-		 *                                                          in addition to unmanaged resources
+		 *                                                          in addition to un-managed resources
 		 *
 		 * @see http://paul-m-jones.com/archives/262
 		 * @see http://www.alexatnet.com/articles/optimize-php-memory-usage-eliminate-circular-references

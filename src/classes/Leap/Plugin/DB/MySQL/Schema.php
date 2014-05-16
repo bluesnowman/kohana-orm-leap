@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MySQL {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MySQL
-	 * @version 2014-01-30
+	 * @version 2014-05-16
 	 */
 	class Schema extends \Leap\Core\DB\Schema {
 
@@ -156,7 +156,7 @@ namespace Leap\Plugin\DB\MySQL {
 				$records[] = $record;
 			}
 
-			$reader->free();
+			$reader->dispose();
 
 			$results = new \Leap\Core\DB\ResultSet($records);
 
@@ -221,7 +221,7 @@ namespace Leap\Plugin\DB\MySQL {
 				$records[] = $record;
 			}
 
-			$reader->free();
+			$reader->dispose();
 
 			$results = new \Leap\Core\DB\ResultSet($records);
 

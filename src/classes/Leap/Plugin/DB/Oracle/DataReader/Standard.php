@@ -26,7 +26,7 @@ namespace Leap\Plugin\DB\Oracle\DataReader {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\DataReader
-	 * @version 2014-05-01
+	 * @version 2014-05-16
 	 *
 	 * @see http://php.net/manual/en/book.oci8.php
 	 */
@@ -67,12 +67,13 @@ namespace Leap\Plugin\DB\Oracle\DataReader {
 		}
 
 		/**
-		 * This method frees the command reference.
+		 * This method assists with freeing, releasing, and resetting un-managed resources.
 		 *
 		 * @access public
-		 * @override
+		 * @param boolean $disposing                                whether managed resources can be disposed
+		 *                                                          in addition to un-managed resources
 		 */
-		public function free() {
+		public function dispose($disposing = TRUE) {
 			if ($this->command !== NULL) {
 				@oci_free_statement($this->command);
 				$this->command = NULL;

@@ -26,7 +26,7 @@ namespace Leap\Plugin\DB\MsSQL\DataReader {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\DataReader
-	 * @version 2014-04-30
+	 * @version 2014-05-16
 	 *
 	 * @see http://php.net/manual/en/ref.sqlsrv.php
 	 */
@@ -59,14 +59,15 @@ namespace Leap\Plugin\DB\MsSQL\DataReader {
 		}
 
 		/**
-		 * This method frees the command reference.
+		 * This method assists with freeing, releasing, and resetting un-managed resources.
 		 *
 		 * @access public
-		 * @override
+		 * @param boolean $disposing                                whether managed resources can be disposed
+		 *                                                          in addition to un-managed resources
 		 *
 		 * @see http://php.net/manual/en/function.sqlsrv-free-stmt.php
 		 */
-		public function free() {
+		public function dispose($disposing = TRUE) {
 			if ($this->command !== NULL) {
 				@sqlsrv_free_stmt($this->command);
 				$this->command = NULL;

@@ -17,60 +17,64 @@
  * limitations under the License.
  */
 
-/**
- * This class tests DB\ResultSet.
- *
- * @package Leap
- * @category DB
- * @version 2013-01-06
- *
- * @group spadefoot.leap
- */
-class DB\ResultSetTest extends Unittest_Testcase {
+namespace Leap\Core\DB {
 
 	/**
-	 * This method provides the test data for test_constructor().
+	 * This class tests \Leap\Core\DB\ResultSet.
 	 *
-	 * @access public
+	 * @package Leap
+	 * @category DB
+	 * @version 2014-05-16
+	 *
+	 * @group spadefoot.leap
 	 */
-	public function provider_constructor() {
-		return array(
-			array(array()),
-			array(array(array('ID' => 1, 'Name' => 'A'), array('ID' => 1, 'Name' => 'B'), array('ID' => 1, 'Name' => 'C'))),
-		);
-	}
+	class ResultSetTest extends \Leap\Core\UnitTest\TestCase {
 
-	/**
-	 * This method tests DB\ResultSet::__construct().
-	 *
-	 * @access public
-	 * @param mixed $test_data                          the test data
-	 *
-	 * @dataProvider provider_constructor
-	 */
-	public function test_constructor($test_data) {
-		// Initialization
-		$test_size = count($test_data);
-		$results = new DB\ResultSet($test_data, 'array');
-		// Assertions
-		$this->assertInternalType('array', $results->as_array(), 'Failed when testing as_array().');
-		$this->assertCount($test_size, $results, 'Failed when testing count().');
-		$this->assertEquals(($test_size > 0), $results->is_loaded(), 'Failed when testing is_loaded().');
-		for ($i = 0; $i < $test_size; $i++) {
-			$this->assertEquals($i, $results->key(), 'Failed when testing key().');
-			$this->assertEquals($i, $results->position(), 'Failed when testing position().');
-			$this->assertTrue($results->offsetExists($i), 'Failed when testing offsetExists($offset).');
-			$this->assertTrue($results->valid(), 'Failed when testing valid().');
-			$this->assertInternalType('array', $results->current(), 'Failed when testing current().');
-			$this->assertInternalType('array', $results->offsetGet($i), 'Failed when testing offsetGet($offset).');
-			$this->assertInternalType('array', $results[$i], 'Failed when testing array index.');
-			$this->assertInternalType('array', $results->fetch($i), 'Failed when testing fetch($index).');
-			$this->assertInternalType('array', $results->fetch(), 'Failed when testing fetch().');
+		/**
+		 * This method provides the test data for \Leap\Core\DB\ResultSetTest::test_constructor().
+		 *
+		 * @access public
+		 */
+		public function provider_constructor() {
+			return array(
+				array(array()),
+				array(array(array('ID' => 1, 'Name' => 'A'), array('ID' => 1, 'Name' => 'B'), array('ID' => 1, 'Name' => 'C'))),
+			);
 		}
-		$results->free();
-		$this->assertCount(0, $results, 'Failed when testing free().');
-		$this->assertFalse($results->is_loaded(), 'Failed when testing is_loaded().');
-		$this->assertFalse($results->valid(), 'Failed when testing valid().');
+
+		/**
+		 * This method tests \Leap\Core\DB\ResultSet::__construct().
+		 *
+		 * @access public
+		 * @param mixed $test_data                          the test data
+		 *
+		 * @dataProvider provider_constructor
+		 */
+		public function test_constructor($test_data) {
+			// Initialization
+			$test_size = count($test_data);
+			$results = new \Leap\Core\DB\ResultSet($test_data, 'array');
+			// Assertions
+			$this->assertInternalType('array', $results->as_array(), 'Failed when testing as_array().');
+			$this->assertCount($test_size, $results, 'Failed when testing count().');
+			$this->assertEquals(($test_size > 0), $results->is_loaded(), 'Failed when testing is_loaded().');
+			for ($i = 0; $i < $test_size; $i++) {
+				$this->assertEquals($i, $results->key(), 'Failed when testing key().');
+				$this->assertEquals($i, $results->position(), 'Failed when testing position().');
+				$this->assertTrue($results->offsetExists($i), 'Failed when testing offsetExists($offset).');
+				$this->assertTrue($results->valid(), 'Failed when testing valid().');
+				$this->assertInternalType('array', $results->current(), 'Failed when testing current().');
+				$this->assertInternalType('array', $results->offsetGet($i), 'Failed when testing offsetGet($offset).');
+				$this->assertInternalType('array', $results[$i], 'Failed when testing array index.');
+				$this->assertInternalType('array', $results->fetch($i), 'Failed when testing fetch($index).');
+				$this->assertInternalType('array', $results->fetch(), 'Failed when testing fetch().');
+			}
+			$results->dispose();
+			$this->assertCount(0, $results, 'Failed when testing dispose().');
+			$this->assertFalse($results->is_loaded(), 'Failed when testing is_loaded().');
+			$this->assertFalse($results->valid(), 'Failed when testing valid().');
+		}
+
 	}
 
 }

@@ -25,9 +25,9 @@ namespace Leap\Core\DB {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-01-28
+	 * @version 2014-05-16
 	 */
-	class ResultSet extends \Leap\Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator {
+	class ResultSet extends \Leap\Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator, \Leap\Core\GC\IDisposable {
 
 		/**
 		 * This variable stores the current position in the records array.
@@ -82,7 +82,7 @@ namespace Leap\Core\DB {
 						$this->records[] = $buffer->row($type);
 						$this->size++;
 					}
-					$buffer->free();
+					$buffer->dispose();
 				}
 			}
 			$this->position = 0;
@@ -168,6 +168,19 @@ namespace Leap\Core\DB {
 		}
 
 		/**
+		 * This method assists with freeing, releasing, and resetting un-managed resources.
+		 *
+		 * @access public
+		 * @param boolean $disposing                                whether managed resources can be disposed
+		 *                                                          in addition to un-managed resources
+		 */
+		public function dispose($disposing = TRUE) {
+			$this->records = array();
+			$this->position = 0;
+			$this->size = 0;
+		}
+
+		/**
 		 * This method returns a record either at the current position or
 		 * the specified position.
 		 *
@@ -187,17 +200,6 @@ namespace Leap\Core\DB {
 			}
 
 			return FALSE;
-		}
-
-		/**
-		 * This method frees all data stored in the result set.
-		 *
-		 * @access public
-		 */
-		public function free() {
-			$this->records = array();
-			$this->position = 0;
-			$this->size = 0;
 		}
 
 		/**

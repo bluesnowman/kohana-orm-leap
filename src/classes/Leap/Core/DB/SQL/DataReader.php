@@ -26,9 +26,9 @@ namespace Leap\Core\DB\SQL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-04-30
+	 * @version 2014-05-16
 	 */
-	abstract class DataReader extends \Leap\Core\Object {
+	abstract class DataReader extends \Leap\Core\Object implements \Leap\Core\GC\IDisposable {
 
 		/**
 		 * This variable stores the command reference being utilized.
@@ -64,16 +64,8 @@ namespace Leap\Core\DB\SQL {
 		 * @access public
 		 */
 		public function __destruct() {
-			$this->free();
+			$this->dispose();
 		}
-
-		/**
-		 * This method frees the command reference.
-		 *
-		 * @access public
-		 * @abstract
-		 */
-		public abstract function free();
 
 		/**
 		 * This method advances the reader to the next record.

@@ -26,7 +26,7 @@ namespace Leap\Plugin\DB\DB2\DataReader {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\DB2\DataReader
-	 * @version 2014-04-30
+	 * @version 2014-05-16
 	 *
 	 * @see http://php.net/manual/en/ref.ibm-db2.php
 	 */
@@ -60,14 +60,15 @@ namespace Leap\Plugin\DB\DB2\DataReader {
 		}
 
 		/**
-		 * This method frees the command reference.
+		 * This method assists with freeing, releasing, and resetting un-managed resources.
 		 *
 		 * @access public
-		 * @override
+		 * @param boolean $disposing                                whether managed resources can be disposed
+		 *                                                          in addition to un-managed resources
 		 *
 		 * @see http://www.php.net/manual/en/function.db2-free-result.php
 		 */
-		public function free() {
+		public function dispose($disposing = TRUE) {
 			if ($this->command !== NULL) {
 				@db2_free_result($this->command);
 				$this->command = NULL;

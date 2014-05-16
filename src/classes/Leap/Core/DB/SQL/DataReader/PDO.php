@@ -27,7 +27,7 @@ namespace Leap\Core\DB\SQL\DataReader {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\DataReader
-	 * @version 2014-04-30
+	 * @version 2014-05-16
 	 */
 	abstract class PDO extends \Leap\Core\DB\SQL\DataReader {
 
@@ -52,12 +52,13 @@ namespace Leap\Core\DB\SQL\DataReader {
 		}
 
 		/**
-		 * This method frees the command reference.
+		 * This method assists with freeing, releasing, and resetting un-managed resources.
 		 *
 		 * @access public
-		 * @override
+		 * @param boolean $disposing                                whether managed resources can be disposed
+		 *                                                          in addition to un-managed resources
 		 */
-		public function free() {
+		public function dispose($disposing = TRUE) {
 			if ($this->command !== NULL) {
 				$this->command = NULL;
 				$this->record = FALSE;
