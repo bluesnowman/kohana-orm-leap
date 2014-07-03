@@ -84,7 +84,8 @@ namespace Leap\Core {
 		 * @access public
 		 * @static
 		 * @param string $selector                                  the URI to be loaded
-		 * @return \Leap\Core\Config                                an instance of this class
+		 * @return mixed                                            the queried value found using
+		 *                                                          the selector
 		 */
 		public static function query($selector) {
 			$index = strpos($selector, '.');
