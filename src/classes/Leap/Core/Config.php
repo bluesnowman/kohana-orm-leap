@@ -79,7 +79,7 @@ namespace Leap\Core {
 		 * This method return the value for the specified selector from the appropriate
 		 * config file.  A selector follows dot syntax, where the first segment represents
 		 * the name of the config file and the next segments represent the path to follow
-		 * with the collection.
+		 * within the collection.
 		 *
 		 * @access public
 		 * @static
