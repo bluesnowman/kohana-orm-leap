@@ -3,7 +3,7 @@
 $config = array();
 
 $config['default'] = array(
-	'type'          => 'SQL',       // string (e.g. LDAP, NoSQL, or SQL)
+	'type'          => 'SQL',       // string (e.g. SQL)
 	'dialect'       => 'MySQL',     // string (e.g. DB2, Drizzle, Firebird, MariaDB, MsSQL, MySQL, Oracle, PostgreSQL, or SQLite)
 	'driver'        => 'Standard',  // string (e.g. Improved, PDO, Standard, or TCP)
 	'connection'    => array(

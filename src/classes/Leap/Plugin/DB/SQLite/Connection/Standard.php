@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\SQLite\Connection
-	 * @version 2014-04-30
+	 * @version 2014-06-04
 	 *
 	 * @see http://www.php.net/manual/en/ref.sqlite.php
 	 */
@@ -104,7 +104,7 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
 			$error = NULL;
-			$command = @sqlite_exec($this->resource, $sql, $error);
+			$command = @sqlite_exec($this->resource, $sql->text, $error);
 			if ($command === FALSE) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => $error));
 			}
@@ -137,7 +137,7 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 			else {
 				$id = @sqlite_last_insert_rowid($this->resource);
 				if ($id === FALSE) {
-					throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: :reason', array(':sql' => sqlite_error_string(sqlite_last_error($this->resource))));
+					throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: :reason', array(':reason' => sqlite_error_string(sqlite_last_error($this->resource))));
 				}
 				return $id;
 			}
@@ -189,7 +189,7 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 			$string = "'" . sqlite_escape_string($string) . "'";
 
 			if (is_string($escape) OR ! empty($escape)) {
-				$string .= " ESCAPE '{$escape}'";
+				$string .= " ESCAPE '{$escape[0]}'";
 			}
 
 			return $string;

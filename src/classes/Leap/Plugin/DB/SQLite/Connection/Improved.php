@@ -17,19 +17,19 @@
  * limitations under the License.
  */
 
-namespace Leap\Plugin\DB\MySQL\Connection {
+namespace Leap\Plugin\DB\SQLite\Connection {
 
 	/**
-	 * This class handles a standard MySQL connection.
+	 * This class handles an improved SQLite connection.
 	 *
 	 * @access public
 	 * @class
-	 * @package Leap\Plugin\DB\MySQL\Connection
-	 * @version 2014-04-30
+	 * @package Leap\Plugin\DB\SQLite\Connection
+	 * @version 2014-06-04
 	 *
-	 * @see http://www.php.net/manual/en/book.mysql.php
+	 * @see http://www.php.net/manual/en/class.sqlite3.php
 	 */
-	class Standard extends \Leap\Core\DB\SQL\Connection\Standard {
+	class Improved extends \Leap\Core\DB\SQL\Connection\Standard {
 
 		/**
 		 * This destructor ensures that the connection is closed.
@@ -38,8 +38,9 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 		 * @override
 		 */
 		public function __destruct() {
-			if (is_resource($this->resource)) {
-				@mysql_close($this->resource);
+			if ($this->resource !== NULL) {
+				unset($this->resource);
+				$this->resource = NULL;
 			}
 		}
 
@@ -51,11 +52,11 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 *
-		 * @see http://dev.mysql.com/doc/refman/5.0/en/commit.html
-		 * @see http://php.net/manual/en/function.mysql-query.php
+		 * @see http://www.sqlite.org/lang_transaction.html
+		 * @see http://en.wikibooks.org/wiki/SQL_Dialects_Reference/Transactions
 		 */
 		public function begin_transaction() {
-			$this->execute(new \Leap\Core\DB\SQL\Command('START TRANSACTION;'));
+			$this->execute(new \Leap\Core\DB\SQL\Command('BEGIN IMMEDIATE TRANSACTION;'));
 		}
 
 		/**
@@ -67,9 +68,7 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 		 */
 		public function close() {
 			if ($this->is_connected()) {
-				if ( ! @mysql_close($this->resource)) {
-					return FALSE;
-				}
+				unset($this->resource);
 				$this->resource = NULL;
 			}
 			return TRUE;
@@ -83,11 +82,11 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 *
-		 * @see http://dev.mysql.com/doc/refman/5.0/en/commit.html
-		 * @see http://php.net/manual/en/function.mysql-query.php
+		 * @see http://www.sqlite.org/lang_transaction.html
+		 * @see http://en.wikibooks.org/wiki/SQL_Dialects_Reference/Transactions
 		 */
 		public function commit() {
-			$this->execute(new \Leap\Core\DB\SQL\Command('COMMIT;'));
+			$this->execute(new \Leap\Core\DB\SQL\Command('COMMIT TRANSACTION;'));
 		}
 
 		/**
@@ -103,12 +102,11 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
 			}
-			$command = @mysql_query($sql->text, $this->resource);
+			$command = @$this->resource->exec($sql->text);
 			if ($command === FALSE) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @mysql_error($this->resource)));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @$this->resource->lastErrorMsg()));
 			}
 			$this->sql = $sql;
-			@mysql_free_result($command);
 		}
 
 		/**
@@ -130,17 +128,28 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 				$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 				$table = $precompiler->prepare_identifier($table);
 				$column = $precompiler->prepare_identifier($column);
-				$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS `id` FROM {$table};"))->get('id', 0);
+				$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS \"id\" FROM {$table};"))->get('id', 0);
 				$this->sql = $sql;
 				return $id;
 			}
 			else {
-				$id = @mysql_insert_id($this->resource);
+				$id = @$this->resource->lastInsertRowID();
 				if ($id === FALSE) {
-					throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: :reason', array(':reason' => @mysql_error($this->resource)));
+					throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: :reason', array(':reason' => @$this->resource->lastErrorMsg()));
 				}
 				return $id;
 			}
+		}
+
+		/**
+		 * This method is for determining whether a connection is established.
+		 *
+		 * @access public
+		 * @override
+		 * @return boolean                                          whether a connection is established
+		 */
+		public function is_connected() {
+			return ! empty($this->resource);
 		}
 
 		/**
@@ -150,25 +159,20 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 		 * @override
 		 * @throws \Leap\Core\Throwable\Database\Exception          indicates that there is problem with
 		 *                                                          opening the connection
+		 *
+		 * @see http://www.sqlite.org/pragma.html#pragma_encoding
+		 * @see http://stackoverflow.com/questions/263056/how-to-change-character-encoding-of-a-pdo-sqlite-connection-in-php
 		 */
 		public function open() {
 			if ( ! $this->is_connected()) {
-				$host = $this->data_source->host;
-				$username = $this->data_source->username;
-				$password = $this->data_source->password;
-				$port = $this->data_source->port;
-				$host = ($port ? "{$host}:{$port}" : $host);
-				$this->resource = ($this->data_source->is_persistent())
-					? @mysql_pconnect($host, $username, $password)
-					: @mysql_connect($host, $username, $password, TRUE);
-				if ($this->resource === FALSE) {
-					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => @mysql_error()));
+				$connection_string = $this->data_source->database;
+				try {
+					$this->resource = new \SQLite3($connection_string, SQLITE3_OPEN_READWRITE);
+					// "Once an encoding has been set for a database, it cannot be changed."
 				}
-				if ( ! @mysql_select_db($this->data_source->database, $this->resource)) {
-					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to connect to database. Reason: :reason', array(':reason' => @mysql_error($this->resource)));
-				}
-				if ( ! empty($this->data_source->charset) AND ! @mysql_set_charset(strtolower($this->data_source->charset), $this->resource)) {
-					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to set character set. Reason: :reason', array(':reason' => @mysql_error($this->resource)));
+				catch (\Exception $ex) {
+					$this->resource = NULL;
+					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => $ex->getMessage()));
 				}
 			}
 		}
@@ -183,16 +187,18 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 		 * @return string                                           the quoted string
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that no connection could
 		 *                                                          be found
+		 *
+		 * @see http://www.php.net/manual/en/function.sqlite-escape-string.php
 		 */
 		public function quote($string, $escape = NULL) {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to quote/escape string. Reason: Unable to find connection.');
 			}
 
-			$string = "'" . mysql_real_escape_string($string, $this->resource) . "'";
+			$string = "'" . $this->resource->escapeString($string) . "'";
 
 			if (is_string($escape) OR ! empty($escape)) {
-				$string .= " ESCAPE '{$escape}'";
+				$string .= " ESCAPE '{$escape[0]}'";
 			}
 
 			return $string;
@@ -206,10 +212,11 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 *
-		 * @see http://php.net/manual/en/function.mysql-query.php
+		 * @see http://www.sqlite.org/lang_transaction.html
+		 * @see http://en.wikibooks.org/wiki/SQL_Dialects_Reference/Transactions
 		 */
 		public function rollback() {
-			$this->execute(new \Leap\Core\DB\SQL\Command('ROLLBACK;'));
+			$this->execute(new \Leap\Core\DB\SQL\Command('ROLLBACK TRANSACTION;'));
 		}
 
 	}

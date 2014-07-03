@@ -25,7 +25,7 @@ namespace Leap\Core\Throwable\InvalidArgument {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\Throwable
-	 * @version 2014-01-25
+	 * @version 2014-06-10
 	 */
 	class Exception extends \InvalidArgumentException implements \Leap\Core\IObject {
 
@@ -53,17 +53,6 @@ namespace Leap\Core\Throwable\InvalidArgument {
 				(int) $code
 			);
 			$this->code = (int) $code; // Known bug: http://bugs.php.net/39615
-		}
-
-		/**
-		 * This method returns a copy this object.
-		 *
-		 * @access public
-		 * @throws \Leap\Core\Throwable\UnimplementedMethod\Exception  indicates the method has not be
-		 *                                                             implemented
-		 */
-		public function __clone() {
-			throw new \Leap\Core\Throwable\UnimplementedMethod\Exception('Method ":method" has not been implemented in class ":class."', array(':class' => get_called_class(), ':method' => __FUNCTION__));
 		}
 
 		/**

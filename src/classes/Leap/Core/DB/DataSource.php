@@ -25,7 +25,7 @@ namespace Leap\Core\DB {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-01-28
+	 * @version 2014-06-04
 	 */
 	class DataSource extends \Leap\Core\Object {
 
@@ -63,15 +63,15 @@ namespace Leap\Core\DB {
 		 */
 		public function __construct($config) {
 			if (empty($config)) {
-				$id = 'database.default';
-				if (($config = static::config($id)) === NULL) {
+				$id = 'Database.default';
+				if (($config = \Leap\Core\Config::query($id)) === NULL) {
 					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to load data source. Reason: Database group :id is undefined.', array(':id' => $id));
 				}
 				$this->init($config, $id);
 			}
 			else if (is_string($config)) {
-				$id = 'database.' . $config;
-				if (($config = static::config($id)) === NULL) {
+				$id = 'Database.' . $config;
+				if (($config = \Leap\Core\Config::query($id)) === NULL) {
 					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to load data source. Reason: Database group :id is undefined.', array(':id' => $id));
 				}
 				$this->init($config, $id);
@@ -230,19 +230,6 @@ namespace Leap\Core\DB {
 		 * @var array
 		 */
 		protected static $instances = array();
-
-		/**
-		 * This method returns configurations settings for the specified path.
-		 *
-		 * @access public
-		 * @static
-		 * @param string $path                                      the path to be used
-		 * @return mixed                                            the configuration settings for the
-		 *                                                          specified path
-		 */
-		public static function config($path) {
-			return \Kohana::$config->load($path);
-		}
 
 		/**
 		 * This method returns a singleton instance of this class.

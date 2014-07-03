@@ -62,6 +62,35 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 			}
 		}
 
+		/**
+		 * This method escapes a string to be used in an SQL statement.
+		 *
+		 * @access public
+		 * @override
+		 * @param string $string                                    the string to be escaped
+		 * @param char $escape                                      the escape character
+		 * @return string                                           the quoted string
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that no connection could
+		 *                                                          be found
+		 */
+		public function quote($string, $escape = NULL) {
+			if ( ! $this->is_connected()) {
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to quote/escape string. Reason: Unable to find connection.');
+			}
+
+			$value = @$this->resource->quote($string);
+
+			if ( ! is_string($value)) { // check needed since ODBC does not support quoting
+				return parent::quote($string, $escape[0]);
+			}
+
+			if (is_string($escape) OR ! empty($escape)) {
+				$value .= " ESCAPE '{$escape[0]}'";
+			}
+
+			return $value;
+		}
+
 	}
 
 }

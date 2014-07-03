@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Connection
-	 * @version 2014-04-30
+	 * @version 2014-06-02
 	 *
 	 * @see http://www.php.net/manual/en/book.pdo.php
 	 * @see http://www.electrictoolbox.com/php-pdo-dsn-connection-string/
@@ -41,7 +41,8 @@ namespace Leap\Core\DB\SQL\Connection {
 		 */
 		public function __destruct() {
 			if ($this->resource !== NULL) {
-			   unset($this->resource);
+				unset($this->resource);
+				$this->resource = NULL;
 			}
 		}
 

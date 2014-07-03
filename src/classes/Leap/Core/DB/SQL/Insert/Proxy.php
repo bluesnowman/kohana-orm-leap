@@ -25,9 +25,27 @@ namespace Leap\Core\DB\SQL\Insert {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Insert
-	 * @version 2014-05-01
+	 * @version 2014-06-10
 	 */
 	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
+
+		/**
+		 * This variable stores the delegate that will be called after a connection
+		 * operation.
+		 *
+		 * @access protected
+		 * @var callable
+		 */
+		protected $after;
+
+		/**
+		 * This variable stores the delegate that will be called before a connection
+		 * operation.
+		 *
+		 * @access protected
+		 * @var callable
+		 */
+		protected $before;
 
 		/**
 		 * This variable stores an instance of the SQL statement builder of the preferred SQL
@@ -45,6 +63,34 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * @var \Leap\Core\DB\DataSource
 		 */
 		protected $data_source;
+
+		/**
+		 * This method sets the delegate that will be called after the connection
+		 * operation.
+		 *
+		 * @access public
+		 * @unsafe
+		 * @param callable $delegate
+		 * @return \Leap\Core\DB\SQL\Insert\Proxy                   a reference to the current instance
+		 */
+		public function after(callable $delegate) {
+			$this->after = $delegate;
+			return $this;
+		}
+
+		/**
+		 * This method sets the delegate that will be called before the connection
+		 * operation.
+		 *
+		 * @access public
+		 * @unsafe
+		 * @param callable $delegate
+		 * @return \Leap\Core\DB\SQL\Insert\Proxy                   a reference to the current instance
+		 */
+		public function before(callable $delegate) {
+			$this->before = $delegate;
+			return $this;
+		}
 
 		/**
 		 * This constructor instantiates this class using the specified data source.
@@ -93,8 +139,14 @@ namespace Leap\Core\DB\SQL\Insert {
 		public function execute() {
 			$auto_increment = ((func_num_args() > 0) AND (func_get_arg(0) === TRUE));
 			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
+			if ($this->before !== NULL) {
+				call_user_func_array($this->before, array($connection));
+			}
 			$connection->execute($this->statement());
 			$primary_key = ($auto_increment) ? $connection->get_last_insert_id() : 0;
+			if ($this->after !== NULL) {
+				call_user_func_array($this->after, array($connection));
+			}
 			return $primary_key;
 		}
 

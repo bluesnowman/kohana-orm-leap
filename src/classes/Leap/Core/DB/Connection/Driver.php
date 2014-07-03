@@ -26,7 +26,7 @@ namespace Leap\Core\DB\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\Connection
-	 * @version 2014-04-30
+	 * @version 2014-06-04
 	 */
 	abstract class Driver extends \Leap\Core\Object {
 
@@ -135,6 +135,7 @@ namespace Leap\Core\DB\Connection {
 		 * @return \Leap\Core\DB\ResultSet                          the result set for the specified
 		 */
 		protected function cache(\Leap\Core\DB\SQL\Command $sql, $type, $results = NULL) {
+			/*
 			if ($this->data_source->cache->enabled) {
 				if ($results !== NULL) {
 					if ($this->data_source->cache->lifetime > 0) {
@@ -150,6 +151,7 @@ namespace Leap\Core\DB\Connection {
 					}
 				}
 			}
+			*/
 			return $results;
 		}
 

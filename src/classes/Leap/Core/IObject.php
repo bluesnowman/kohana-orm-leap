@@ -25,16 +25,9 @@ namespace Leap\Core {
 	 * @access public
 	 * @interface
 	 * @package Leap\Core
-	 * @version 2014-01-26
+	 * @version 2014-06-10
 	 */
 	interface IObject {
-
-		/**
-		 * This method returns a copy this object.
-		 *
-		 * @access public
-		 */
-		public function __clone();
 
 		/**
 		 * This method dumps information about the object.

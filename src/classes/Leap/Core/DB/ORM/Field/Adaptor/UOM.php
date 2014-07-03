@@ -25,7 +25,7 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM\Field\Adaptor
-	 * @version 2014-01-26
+	 * @version 2014-06-04
 	 */
 	class UOM extends \Leap\Core\DB\ORM\Field\Adaptor {
 
@@ -45,18 +45,18 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 
 			$this->metadata['units'] = array();
 
-			$group = strtolower('uom.' . $metadata['measurement'] . '.' . $metadata['units'][0]);
+			$selector = 'UOM.' . strtolower($metadata['measurement'] . '.' . $metadata['units'][0]);
 
-			if (($unit = static::config($group)) === NULL) {
-				throw new \Leap\Core\Throwable\Runtime\Exception('Message: Unable to load configuration. Reason: Configuration group :group is undefined.', array(':group' => $group));
+			if (($unit = \Leap\Core\Config::query($selector)) === NULL) {
+				throw new \Leap\Core\Throwable\Runtime\Exception('Message: Unable to load configuration. Reason: Configuration group :group is undefined.', array(':group' => $selector));
 			}
 
 			$this->metadata['units'][0] = $unit; // field's unit
 
-			$group = strtolower('uom.' . $metadata['measurement'] . '.' . $metadata['units'][1]);
+			$selector = 'UOM.' . strtolower($metadata['measurement'] . '.' . $metadata['units'][1]);
 
-			if (($unit = static::config($group)) === NULL) {
-				throw new \Leap\Core\Throwable\Runtime\Exception('Message: Unable to load configuration. Reason: Configuration group :group is undefined.', array(':group' => $group));
+			if (($unit = \Leap\Core\Config::query($selector)) === NULL) {
+				throw new \Leap\Core\Throwable\Runtime\Exception('Message: Unable to load configuration. Reason: Configuration group :group is undefined.', array(':group' => $selector));
 			}
 
 			$this->metadata['units'][1] = $unit; // adaptor's unit
@@ -113,19 +113,6 @@ namespace Leap\Core\DB\ORM\Field\Adaptor {
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		/**
-		 * This method returns configurations settings for the specified path.
-		 *
-		 * @access public
-		 * @static
-		 * @param string $path                                      the path to be used
-		 * @return mixed                                            the configuration settings for the
-		 *                                                          specified path
-		 */
-		public static function config($path) {
-			return \Kohana::$config->load($path);
-		}
 
 		/**
 		 * This method converts a value's units.

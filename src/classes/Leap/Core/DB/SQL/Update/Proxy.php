@@ -25,9 +25,27 @@ namespace Leap\Core\DB\SQL\Update {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Update
-	 * @version 2014-05-01
+	 * @version 2014-06-10
 	 */
 	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
+
+		/**
+		 * This variable stores the delegate that will be called after a connection
+		 * operation.
+		 *
+		 * @access protected
+		 * @var callable
+		 */
+		protected $after;
+
+		/**
+		 * This variable stores the delegate that will be called before a connection
+		 * operation.
+		 *
+		 * @access protected
+		 * @var callable
+		 */
+		protected $before;
 
 		/**
 		 * This variable stores an instance of the SQL builder class.
@@ -44,6 +62,34 @@ namespace Leap\Core\DB\SQL\Update {
 		 * @var \Leap\Core\DB\DataSource
 		 */
 		protected $data_source;
+
+		/**
+		 * This method sets the delegate that will be called after the connection
+		 * operation.
+		 *
+		 * @access public
+		 * @unsafe
+		 * @param callable $delegate
+		 * @return \Leap\Core\DB\SQL\Update\Proxy                   a reference to the current instance
+		 */
+		public function after(callable $delegate) {
+			$this->after = $delegate;
+			return $this;
+		}
+
+		/**
+		 * This method sets the delegate that will be called before the connection
+		 * operation.
+		 *
+		 * @access public
+		 * @unsafe
+		 * @param callable $delegate
+		 * @return \Leap\Core\DB\SQL\Update\Proxy                   a reference to the current instance
+		 */
+		public function before(callable $delegate) {
+			$this->before = $delegate;
+			return $this;
+		}
 
 		/**
 		 * This constructor instantiates this class using the specified data source.
@@ -75,7 +121,13 @@ namespace Leap\Core\DB\SQL\Update {
 		 */
 		public function execute() {
 			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
+			if ($this->before !== NULL) {
+				call_user_func_array($this->before, array($connection));
+			}
 			$connection->execute($this->statement());
+			if ($this->after !== NULL) {
+				call_user_func_array($this->after, array($connection));
+			}
 		}
 
 		/**
