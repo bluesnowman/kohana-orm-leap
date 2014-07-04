@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL\Lock {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Lock
-	 * @version 2014-01-26
+	 * @version 2014-07-03
 	 */
 	abstract class Builder extends \Leap\Core\Object {
 
@@ -120,8 +120,8 @@ namespace Leap\Core\DB\SQL\Lock {
 		 *                                                          SQL lock builder
 		 */
 		public static function factory(\Leap\Core\DB\Connection\Driver $connection) {
-			$class = '\\Leap\\Plugin\\DB\\' . $connection->data_source->dialect . '\\Lock\\Builder';
-			$builder = new $class($connection);
+			$data_type = '\\Leap\\Plugin\\DB\\' . $connection->data_source->dialect . '\\Lock\\Builder';
+			$builder = new $data_type($connection);
 			return $builder;
 		}
 

@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-01-26
+	 * @version 2014-07-03
 	 *
 	 * @see http://en.wikibooks.org/wiki/SQL_Dialects_Reference
 	 */
@@ -36,7 +36,7 @@ namespace Leap\Core\DB\SQL {
 		 * This variable stores a reference to the data source.
 		 *
 		 * @access protected
-		 * @var mixed
+		 * @var \Leap\Core\DB\DataSource
 		 */
 		protected $data_source;
 
@@ -44,9 +44,9 @@ namespace Leap\Core\DB\SQL {
 		 * This method initializes the class with the specified data source.
 		 *
 		 * @access public
-		 * @param mixed $data_source                                the data source to be used
+		 * @param \Leap\Core\DB\DataSource $data_source             the data source to be used
 		 */
-		public function __construct($data_source) {
+		public function __construct(\Leap\Core\DB\DataSource $data_source) {
 			$this->data_source = $data_source;
 		}
 

@@ -25,7 +25,7 @@ namespace Leap\Core\DB {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-01-28
+	 * @version 2014-07-03
 	 */
 	class SQL extends \Leap\Core\Object {
 
@@ -38,8 +38,9 @@ namespace Leap\Core\DB {
 		 * @return \Leap\Core\DB\SQL\Delete\Proxy                   an instance of the class
 		 */
 		public static function delete($config = 'default') {
-			$proxy = new \Leap\Core\DB\SQL\Delete\Proxy($config);
-			return $proxy;
+			$data_source = \Leap\Core\DB\DataSource::instance($config);
+			$object = new \Leap\Core\DB\SQL\Delete\Proxy($data_source);
+			return $object;
 		}
 
 		/**
@@ -54,8 +55,8 @@ namespace Leap\Core\DB {
 		 * @return \Leap\Core\DB\SQL\Expression                     the wrapped expression
 		 */
 		public static function expr($expr, Array $params = array()) {
-			$expression = new \Leap\Core\DB\SQL\Expression($expr, $params);
-			return $expression;
+			$object = new \Leap\Core\DB\SQL\Expression($expr, $params);
+			return $object;
 		}
 
 		/**
@@ -67,8 +68,9 @@ namespace Leap\Core\DB {
 		 * @return \Leap\Core\DB\SQL\Insert\Proxy                   an instance of the class
 		 */
 		public static function insert($config = 'default') {
-			$proxy = new \Leap\Core\DB\SQL\Insert\Proxy($config);
-			return $proxy;
+			$data_source = \Leap\Core\DB\DataSource::instance($config);
+			$object = new \Leap\Core\DB\SQL\Insert\Proxy($data_source);
+			return $object;
 		}
 
 		/**
@@ -82,8 +84,8 @@ namespace Leap\Core\DB {
 		 */
 		public static function precompiler($config = 'default') {
 			$data_source = \Leap\Core\DB\DataSource::instance($config);
-			$precompiler = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Precompiler';
-			$object = new $precompiler($data_source);
+			$data_type = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Precompiler';
+			$object = new $data_type($data_source);
 			return $object;
 		}
 
@@ -98,8 +100,8 @@ namespace Leap\Core\DB {
 		 */
 		public static function schema($config = 'default') {
 			$data_source = \Leap\Core\DB\DataSource::instance($config);
-			$schema = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Schema';
-			$object = new $schema($data_source);
+			$data_type = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Schema';
+			$object = new $data_type($data_source);
 			return $object;
 		}
 
@@ -113,8 +115,9 @@ namespace Leap\Core\DB {
 		 * @return \Leap\Core\DB\SQL\Select\Proxy                   an instance of the class
 		 */
 		public static function select($config = 'default', Array $columns = array()) {
-			$proxy = new \Leap\Core\DB\SQL\Select\Proxy($config, $columns);
-			return $proxy;
+			$data_source = \Leap\Core\DB\DataSource::instance($config);
+			$object = new \Leap\Core\DB\SQL\Select\Proxy($data_source, $columns);
+			return $object;
 		}
 
 		/**
@@ -126,8 +129,9 @@ namespace Leap\Core\DB {
 		 * @return \Leap\Core\DB\SQL\Update\Proxy                   an instance of the class
 		 */
 		public static function update($config = 'default') {
-			$proxy = new \Leap\Core\DB\SQL\Update\Proxy($config);
-			return $proxy;
+			$data_source = \Leap\Core\DB\DataSource::instance($config);
+			$object = new \Leap\Core\DB\SQL\Update\Proxy($data_source);
+			return $object;
 		}
 
 	}

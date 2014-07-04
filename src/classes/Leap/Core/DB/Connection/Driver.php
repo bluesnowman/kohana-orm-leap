@@ -26,7 +26,7 @@ namespace Leap\Core\DB\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\Connection
-	 * @version 2014-06-04
+	 * @version 2014-07-03
 	 */
 	abstract class Driver extends \Leap\Core\Object {
 
@@ -39,7 +39,7 @@ namespace Leap\Core\DB\Connection {
 		protected $cache_key;
 
 		/**
-		 * This variable stores the connection configurations.
+		 * This variable stores a reference to the data source.
 		 *
 		 * @access protected
 		 * @var \Leap\Core\DB\DataSource
@@ -328,13 +328,12 @@ namespace Leap\Core\DB\Connection {
 		 *
 		 * @access public
 		 * @static
-		 * @param mixed $config                                     the data source configurations
+		 * @param \Leap\Core\DB\DataSource $data_source             the data source to be used
 		 * @return \Leap\Core\DB\Connection\Driver                  the database connection
 		 */
-		public static function factory($config = 'default') {
-			$data_source = \Leap\Core\DB\DataSource::instance($config);
-			$driver = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Connection\\' . $data_source->driver;
-			$connection = new $driver($data_source);
+		public static function factory(\Leap\Core\DB\DataSource $data_source) {
+			$data_type = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Connection\\' . $data_source->driver;
+			$connection = new $data_type($data_source);
 			return $connection;
 		}
 

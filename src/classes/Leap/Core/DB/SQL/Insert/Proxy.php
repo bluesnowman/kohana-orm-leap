@@ -25,7 +25,7 @@ namespace Leap\Core\DB\SQL\Insert {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Insert
-	 * @version 2014-06-10
+	 * @version 2014-07-03
 	 */
 	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
@@ -96,12 +96,12 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * This constructor instantiates this class using the specified data source.
 		 *
 		 * @access public
-		 * @param mixed $config                                     the data source configurations
+		 * @param \Leap\Core\DB\DataSource $data_source             the data source to be used
 		 */
-		public function __construct($config) {
-			$this->data_source = \Leap\Core\DB\DataSource::instance($config);
-			$builder = '\\Leap\\Plugin\\DB\\' . $this->data_source->dialect . '\\Insert\\Builder';
-			$this->builder = new $builder($this->data_source);
+		public function __construct(\Leap\Core\DB\DataSource $data_source) {
+			$data_type = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Insert\\Builder';
+			$this->builder = new $data_type($data_source);
+			$this->data_source = $data_source;
 		}
 
 		/**

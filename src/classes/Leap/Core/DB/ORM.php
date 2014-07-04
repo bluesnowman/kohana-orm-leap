@@ -25,7 +25,7 @@ namespace Leap\Core\DB {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-01-28
+	 * @version 2014-07-03
 	 */
 	class ORM extends \Leap\Core\Object {
 
@@ -38,8 +38,8 @@ namespace Leap\Core\DB {
 		 * @return \Leap\Core\DB\ORM\Delete\Proxy                   an instance of the class
 		 */
 		public static function delete($model) {
-			$proxy = new \Leap\Core\DB\ORM\Delete\Proxy($model);
-			return $proxy;
+			$object = new \Leap\Core\DB\ORM\Delete\Proxy($model);
+			return $object;
 		}
 
 		/**
@@ -54,8 +54,8 @@ namespace Leap\Core\DB {
 		 * @return \Leap\Core\DB\SQL\Expression                     the wrapped expression
 		 */
 		public static function expr($expr, Array $params = array()) {
-			$expression = new \Leap\Core\DB\SQL\Expression($expr, $params);
-			return $expression;
+			$object = new \Leap\Core\DB\SQL\Expression($expr, $params);
+			return $object;
 		}
 
 		/**
@@ -67,8 +67,8 @@ namespace Leap\Core\DB {
 		 * @return \Leap\Core\DB\ORM\Insert\Proxy                   an instance of the class
 		 */
 		public static function insert($model) {
-			$proxy = new \Leap\Core\DB\ORM\Insert\Proxy($model);
-			return $proxy;
+			$object = new \Leap\Core\DB\ORM\Insert\Proxy($model);
+			return $object;
 		}
 
 		/**
@@ -110,8 +110,8 @@ namespace Leap\Core\DB {
 		public static function precompiler($model) {
 			$model = \Leap\Core\DB\ORM\Model::model_name($model);
 			$data_source = $model::data_source(\Leap\Core\DB\DataSource::MASTER_INSTANCE);
-			$precompiler = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Precompiler';
-			$object = new $precompiler($data_source);
+			$data_type = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Precompiler';
+			$object = new $data_type($data_source);
 			return $object;
 		}
 
@@ -125,8 +125,8 @@ namespace Leap\Core\DB {
 		 * @return \Leap\Core\DB\ORM\Select\Proxy                   an instance of the class
 		 */
 		public static function select($model, Array $columns = array()) {
-			$proxy = new \Leap\Core\DB\ORM\Select\Proxy($model, $columns);
-			return $proxy;
+			$object = new \Leap\Core\DB\ORM\Select\Proxy($model, $columns);
+			return $object;
 		}
 
 		/**
@@ -138,8 +138,8 @@ namespace Leap\Core\DB {
 		 * @return \Leap\Core\DB\ORM\Update\Proxy                   an instance of the class
 		 */
 		public static function update($model) {
-			$proxy = new \Leap\Core\DB\ORM\Update\Proxy($model);
-			return $proxy;
+			$object = new \Leap\Core\DB\ORM\Update\Proxy($model);
+			return $object;
 		}
 
 	}

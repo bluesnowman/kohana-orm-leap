@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL\Insert {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Insert
-	 * @version 2014-01-26
+	 * @version 2014-07-03
 	 */
 	abstract class Builder extends \Leap\Core\DB\SQL\Builder {
 
@@ -37,9 +37,9 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * @param \Leap\Core\DB\DataSource $data_source             the data source to be used
 		 */
 		public function __construct(\Leap\Core\DB\DataSource $data_source) {
+			$data_type = '\\Leap\\Plugin\\DB\\' . $this->dialect . '\\Precompiler';
+			$this->precompiler = new $data_type($data_source);
 			$this->dialect = $data_source->dialect;
-			$precompiler = '\\Leap\\Plugin\\DB\\' . $this->dialect . '\\Precompiler';
-			$this->precompiler = new $precompiler($data_source);
 			$this->reset();
 		}
 

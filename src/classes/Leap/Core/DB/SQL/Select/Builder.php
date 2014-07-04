@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Select
-	 * @version 2014-05-01
+	 * @version 2014-07-03
 	 */
 	abstract class Builder extends \Leap\Core\DB\SQL\Builder {
 
@@ -38,9 +38,9 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @param array $columns                                    the columns to be selected
 		 */
 		public function __construct(\Leap\Core\DB\DataSource $data_source, Array $columns = array()) {
+			$data_type = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Precompiler';
+			$this->precompiler = new $data_type($data_source);
 			$this->dialect = $data_source->dialect;
-			$precompiler = '\\Leap\\Plugin\\DB\\' . $this->dialect . '\\Precompiler';
-			$this->precompiler = new $precompiler($data_source);
 			$this->reset();
 			foreach ($columns as $column) {
 				$this->column($column);

@@ -25,7 +25,7 @@ namespace Leap\Core\DB\SQL\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Select
-	 * @version 2014-06-10
+	 * @version 2014-07-03
 	 */
 	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
@@ -95,13 +95,13 @@ namespace Leap\Core\DB\SQL\Select {
 		 * This constructor instantiates this class using the specified data source.
 		 *
 		 * @access public
-		 * @param mixed $config                                     the data source configurations
+		 * @param \Leap\Core\DB\DataSource $data_source             the data source to be used
 		 * @param array $columns                                    the columns to be selected
 		 */
-		public function __construct($config, Array $columns = array()) {
-			$this->data_source = \Leap\Core\DB\DataSource::instance($config);
-			$builder = '\\Leap\\Plugin\\DB\\' . $this->data_source->dialect . '\\Select\\Builder';
-			$this->builder = new $builder($this->data_source, $columns);
+		public function __construct(\Leap\Core\DB\DataSource $data_source, Array $columns = array()) {
+			$data_type = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Select\\Builder';
+			$this->builder = new $data_type($data_source, $columns);
+			$this->data_source = $data_source;
 		}
 
 		/**

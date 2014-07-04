@@ -25,7 +25,7 @@ namespace Leap\Core\DB\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\Connection
-	 * @version 2014-01-28
+	 * @version 2014-07-03
 	 *
 	 * @see http://stackoverflow.com/questions/1353822/how-to-implement-database-connection-pool-in-php
 	 * @see http://www.webdevelopersjournal.com/columns/connection_pool.html
@@ -41,7 +41,7 @@ namespace Leap\Core\DB\Connection {
 		 * @access protected
 		 * @var array
 		 */
-		protected $lookup = array();
+		protected $lookup;
 
 		/**
 		 * This variable stores the pooled connections.
@@ -49,7 +49,7 @@ namespace Leap\Core\DB\Connection {
 		 * @access protected
 		 * @var array
 		 */
-		protected $pool = array();
+		protected $pool;
 
 		/**
 		 * This variable stores the settings for the connection pool.
@@ -57,7 +57,7 @@ namespace Leap\Core\DB\Connection {
 		 * @access protected
 		 * @var array
 		 */
-		protected $settings = array();
+		protected $settings;
 
 		/**
 		 * This constructor creates an instance of this class.
@@ -65,6 +65,9 @@ namespace Leap\Core\DB\Connection {
 		 * @access protected
 		 */
 		protected function __construct() {
+			$this->lookup = array();
+			$this->pool = array();
+			$this->settings = array();
 			$this->settings['max_size'] = PHP_INT_MAX; // the maximum number of connections that may be held in the pool
 		}
 
@@ -152,14 +155,13 @@ namespace Leap\Core\DB\Connection {
 		 * will be returned when $new is set to "FALSE."
 		 *
 		 * @access public
-		 * @param mixed $config                                     the data source configurations
+		 * @param \Leap\Core\DB\DataSource $data_source             the data source to be used
 		 * @param boolean $new                                      whether to create a new connection
 		 * @return \Leap\Core\DB\Connection\Driver                  the appropriate connection
 		 * @throws \Leap\Core\Throwable\Database\Exception          indicates that no new connections
 		 *                                                          can be added
 		 */
-		public function get_connection($config = 'default', $new = FALSE) {
-			$data_source = \Leap\Core\DB\DataSource::instance($config);
+		public function get_connection(\Leap\Core\DB\DataSource $data_source, $new = FALSE) {
 			if (isset($this->pool[$data_source->id]) AND ! empty($this->pool[$data_source->id])) {
 				if ($new) {
 					foreach ($this->pool[$data_source->id] as $connection) {
