@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Drizzle\Connection
-	 * @version 2014-04-30
+	 * @version 2014-07-03
 	 *
 	 * @see http://devzone.zend.com/1504/getting-started-with-drizzle-and-php/
 	 * @see https://github.com/barce/partition_benchmarks/blob/master/db.php
@@ -167,12 +167,12 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 		public function open() {
 			if ( ! $this->is_connected()) {
 				$handle = drizzle_create();
-				$host = $this->data_source->host;
+				$hostname = $this->data_source->hostname;
 				$port = $this->data_source->port;
 				$database = $this->data_source->database;
 				$username = $this->data_source->username;
 				$password = $this->data_source->password;
-				$this->resource = @drizzle_con_add_tcp($handle, $host, $port, $username, $password, $database, 0);
+				$this->resource = @drizzle_con_add_tcp($handle, $hostname, $port, $username, $password, $database, 0);
 				if ($this->resource === FALSE) {
 					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => @drizzle_error($handle)));
 				}

@@ -24,7 +24,7 @@ namespace Leap\Core\DB {
 	 *
 	 * @package Leap
 	 * @category DB
-	 * @version 2014-05-16
+	 * @version 2014-07-03
 	 *
 	 * @group spadefoot.leap
 	 */
@@ -81,7 +81,7 @@ namespace Leap\Core\DB {
 			$this->assertSame($expected['dialect'], $data_source->dialect, 'Failed when testing "dialect" property.');
 			$this->assertSame($expected['driver'], $data_source->driver, 'Failed when testing "driver" property.');
 			$this->assertSame($expected['connection']['persistent'], $data_source->is_persistent(), 'Failed when testing is_persistent().');
-			$this->assertSame($expected['connection']['hostname'], $data_source->host, 'Failed when testing "host" property.');
+			$this->assertSame($expected['connection']['hostname'], $data_source->hostname, 'Failed when testing "hostname" property.');
 			$this->assertSame($expected['connection']['port'], $data_source->port, 'Failed when testing "port" property.');
 			$this->assertSame($expected['connection']['database'], $data_source->database, 'Failed when testing "database" property.');
 			$this->assertSame($expected['connection']['username'], $data_source->username, 'Failed when testing "username" property.');

@@ -25,7 +25,7 @@ namespace Leap\Core\DB {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-06-04
+	 * @version 2014-07-03
 	 */
 	class DataSource extends \Leap\Core\Object {
 
@@ -104,7 +104,7 @@ namespace Leap\Core\DB {
 				case 'database':
 				case 'dialect':
 				case 'driver':
-				case 'host':
+				case 'hostname':
 				case 'id':
 				case 'password':
 				case 'port':
@@ -167,21 +167,15 @@ namespace Leap\Core\DB {
 				? (string) $settings['connection']['database']
 				: '';
 
-			if (isset($settings['dialect'])) {
-				$this->settings['dialect'] = (string) $settings['dialect'];
-			}
-			else if (isset($settings['type'])) { // deprecated
-				$this->settings['dialect'] = (string) $settings['type'];
-			}
-			else {
-				$this->settings['dialect'] = 'MySQL';
-			}
+			$this->settings['dialect'] = (isset($settings['dialect']))
+				? (string) $settings['dialect']
+				: 'MySQL';
 
 			$this->settings['driver'] = (isset($settings['driver']))
 				? (string) $settings['driver']
 				: 'Standard';
 
-			$this->settings['host'] = (isset($settings['connection']['hostname']))
+			$this->settings['hostname'] = (isset($settings['connection']['hostname']))
 				? (string) $settings['connection']['hostname']
 				: '';
 

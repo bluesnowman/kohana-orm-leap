@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\Connection
-	 * @version 2014-04-30
+	 * @version 2014-07-03
 	 *
 	 * @see http://www.php.net/manual/en/ref.mssql.php
 	 * @see http://blogs.msdn.com/b/brian_swan/archive/2010/03/08/mssql-vs-sqlsrv-what-s-the-difference-part-1.aspx
@@ -165,7 +165,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 		public function open() {
 			if ( ! $this->is_connected()) {
 				try {
-					$connection_string = $this->data_source->host;
+					$connection_string = $this->data_source->hostname;
 					$port = $this->data_source->port;
 					if ( ! empty($port)) {
 						$connection_string .= ':' . $port;

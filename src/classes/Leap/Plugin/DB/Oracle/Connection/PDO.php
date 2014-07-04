@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\Connection
-	 * @version 2014-05-01
+	 * @version 2014-07-03
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-oci.php
 	 */
@@ -67,8 +67,8 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 			if ( ! $this->is_connected()) {
 				try {
 					$connection_string = 'oci:';
-					if ( ! empty($this->data_source->host)) {
-						$connection_string .= 'dbname=//' . $this->data_source->host;
+					if ( ! empty($this->data_source->hostname)) {
+						$connection_string .= 'dbname=//' . $this->data_source->hostname;
 						$port = $this->data_source->port; // default port is 1521
 						if ( ! empty($port)) {
 							$connection_string .= ':' . $port;

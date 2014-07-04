@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MySQL\Connection
-	 * @version 2014-04-30
+	 * @version 2014-07-03
 	 *
 	 * @see http://www.php.net/manual/en/book.mysqli.php
 	 */
@@ -177,14 +177,14 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 		 */
 		public function open() {
 			if ( ! $this->is_connected()) {
-				$host = $this->data_source->host;
+				$hostname = $this->data_source->hostname;
 				if ($this->data_source->is_persistent()) {
-					$host = 'p:' . $host;
+					$hostname = 'p:' . $hostname;
 				}
 				$username = $this->data_source->username;
 				$password = $this->data_source->password;
 				$database = $this->data_source->database;
-				$this->resource = @mysqli_connect($host, $username, $password, $database);
+				$this->resource = @mysqli_connect($hostname, $username, $password, $database);
 				if ($this->resource === FALSE) {
 					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => @mysqli_connect_error()));
 				}

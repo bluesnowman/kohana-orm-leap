@@ -35,7 +35,7 @@ namespace Leap\Plugin\DB\Firebird\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Firebird\Connection
-	 * @version 2014-04-30
+	 * @version 2014-07-03
 	 *
 	 * @see http://us3.php.net/manual/en/book.ibase.php
 	 * @see http://us2.php.net/manual/en/ibase.installation.php
@@ -188,7 +188,7 @@ namespace Leap\Plugin\DB\Firebird\Connection {
 		 */
 		public function open() {
 			if ( ! $this->is_connected()) {
-				$connection_string = $this->data_source->host;
+				$connection_string = $this->data_source->hostname;
 				if ( ! preg_match('/^localhost$/i', $connection_string)) {
 					$port = $this->data_source->port;
 					if ( ! empty($port)) {

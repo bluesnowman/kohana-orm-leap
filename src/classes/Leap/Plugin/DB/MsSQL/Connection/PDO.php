@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\Connection
-	 * @version 2014-04-30
+	 * @version 2014-07-03
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-dblib.php
 	 */
@@ -81,7 +81,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 					// Driver: Sql Server
 
 					$connection_string  = 'sqlsrv:';
-					$connection_string .= 'Server=' . $this->data_source->host;
+					$connection_string .= 'Server=' . $this->data_source->hostname;
 
 					$port = $this->data_source->port;
 					if ( ! empty($port)) {
@@ -94,7 +94,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 					// Driver: MsSQL
 					/*
 					$connection_string  = 'mssql:';
-					$connection_string .= 'host=' . $this->data_source->host;
+					$connection_string .= 'host=' . $this->data_source->hostname;
 
 					$port = $this->data_source->port;
 					if ( ! empty($port)) {

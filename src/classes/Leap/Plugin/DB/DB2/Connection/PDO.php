@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\DB2\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\DB2\Connection
-	 * @version 2014-04-17
+	 * @version 2014-07-03
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-ibm.connection.php
 	 */
@@ -49,7 +49,7 @@ namespace Leap\Plugin\DB\DB2\Connection {
 					$connection_string  = 'ibm:';
 					$connection_string .= 'DRIVER={IBM DB2 ODBC DRIVER};';
 					$connection_string .= 'DATABASE=' . $this->data_source->database . ';';
-					$connection_string .= 'HOSTNAME=' . $this->data_source->host . ';';
+					$connection_string .= 'HOSTNAME=' . $this->data_source->hostname . ';';
 					$connection_string .= 'PORT=' . $this->data_source->port . ';';
 					$connection_string .= 'PROTOCOL=TCPIP;';
 					$attributes = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);

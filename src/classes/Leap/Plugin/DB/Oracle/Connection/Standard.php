@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\Connection
-	 * @version 2014-05-01
+	 * @version 2014-07-03
 	 *
 	 * @see http://php.net/manual/en/book.oci8.php
 	 */
@@ -211,10 +211,10 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 		 */
 		public function open() {
 			if ( ! $this->is_connected()) {
-				$host = $this->data_source->host;
+				$hostname = $this->data_source->hostname;
 				$database = $this->data_source->database;
-				if ( ! empty($host) ) {
-					$connection_string = '//'. $host;
+				if ( ! empty($hostname) ) {
+					$connection_string = '//'. $hostname;
 					$port = $this->data_source->port; // default port is 1521
 					if ( ! empty($port)) {
 						$connection_string .= ':' . $port;

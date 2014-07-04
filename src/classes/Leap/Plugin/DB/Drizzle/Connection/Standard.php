@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Drizzle\Connection
-	 * @version 2014-04-30
+	 * @version 2014-07-03
 	 *
 	 * @see http://www.php.net/manual/en/book.mysql.php
 	 */
@@ -153,12 +153,12 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 		 */
 		public function open() {
 			if ( ! $this->is_connected()) {
-				$host = $this->data_source->host;
+				$hostname = $this->data_source->hostname;
 				$username = $this->data_source->username;
 				$password = $this->data_source->password;
 				$this->resource = ($this->data_source->is_persistent())
-					? @mysql_pconnect($host, $username, $password)
-					: @mysql_connect($host, $username, $password, TRUE);
+					? @mysql_pconnect($hostname, $username, $password)
+					: @mysql_connect($hostname, $username, $password, TRUE);
 				if ($this->resource === FALSE) {
 					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => @mysql_error()));
 				}

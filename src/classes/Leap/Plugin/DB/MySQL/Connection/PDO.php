@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MySQL\Connection
-	 * @version 2014-04-30
+	 * @version 2014-07-03
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-mysql.connection.php
 	 */
@@ -45,7 +45,7 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 			if ( ! $this->is_connected()) {
 				try {
 					$connection_string  = 'mysql:';
-					$connection_string .= 'host=' . $this->data_source->host . ';';
+					$connection_string .= 'host=' . $this->data_source->hostname . ';';
 					$port = $this->data_source->port;
 					if ( ! empty($port)) {
 						$connection_string .= 'port=' . $port . ';';

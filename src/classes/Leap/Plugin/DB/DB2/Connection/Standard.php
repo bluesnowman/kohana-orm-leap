@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\DB2\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\DB2\Connection
-	 * @version 2014-04-30
+	 * @version 2014-07-03
 	 *
 	 * @see http://php.net/manual/en/ref.ibm-db2.php
 	 */
@@ -183,7 +183,7 @@ namespace Leap\Plugin\DB\DB2\Connection {
 			if ( ! $this->is_connected()) {
 				$connection_string  = 'DRIVER={IBM DB2 ODBC DRIVER};';
 				$connection_string .= 'DATABASE=' . $this->data_source->database . ';';
-				$connection_string .= 'HOSTNAME=' . $this->data_source->host . ';';
+				$connection_string .= 'HOSTNAME=' . $this->data_source->hostname . ';';
 				$connection_string .= 'PORT=' . $this->data_source->port . ';';
 				$connection_string .= 'PROTOCOL=TCPIP;';
 				$connection_string .= 'UID=' . $this->data_source->username . ';';

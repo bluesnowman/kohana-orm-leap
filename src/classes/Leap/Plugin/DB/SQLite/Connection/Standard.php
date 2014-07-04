@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\SQLite\Connection
-	 * @version 2014-06-04
+	 * @version 2014-07-03
 	 *
 	 * @see http://www.php.net/manual/en/ref.sqlite.php
 	 */

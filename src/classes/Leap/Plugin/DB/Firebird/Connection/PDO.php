@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Firebird\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Firebird\Connection
-	 * @version 2014-04-22
+	 * @version 2014-07-03
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-firebird.php
 	 */
@@ -47,8 +47,8 @@ namespace Leap\Plugin\DB\Firebird\Connection {
 				try {
 					$connection_string  = 'firebird:';
 					$connection_string .= 'dbname=' . $this->data_source->database;
-					$connection_string .= ';host=' . $this->data_source->host;
-					if ( ! preg_match('/^localhost$/i', $this->data_source->host)) {
+					$connection_string .= ';host=' . $this->data_source->hostname;
+					if ( ! preg_match('/^localhost$/i', $this->data_source->hostname)) {
 						$port = $this->data_source->port;
 						if ( ! empty($port)) {
 							$connection_string .= '/' . $port;

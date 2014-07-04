@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\PostgreSQL\Connection
-	 * @version 2014-04-30
+	 * @version 2014-07-03
 	 *
 	 * @see http://php.net/manual/en/ref.pgsql.php
 	 */
@@ -181,7 +181,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 		 */
 		public function open() {
 			if ( ! $this->is_connected()) {
-				$connection_string  = 'host=' . $this->data_source->host;
+				$connection_string  = 'host=' . $this->data_source->hostname;
 				$port = $this->data_source->port;
 				if ( ! empty($port)) {
 					$connection_string .= ' port=' . $port;
