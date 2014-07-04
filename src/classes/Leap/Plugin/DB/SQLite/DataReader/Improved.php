@@ -75,7 +75,7 @@ namespace Leap\Plugin\DB\SQLite\DataReader {
 		 */
 		public function read() {
 			if ($this->command !== NULL) {
-				$this->record = @$this->command->fetchArray();
+				$this->record = @$this->command->fetchArray(SQLITE3_ASSOC);
 			}
 			return ($this->record !== FALSE);
 		}

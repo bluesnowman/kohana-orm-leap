@@ -55,72 +55,43 @@ namespace Leap\Plugin\DB\SQLite {
 		 *                                                          table
 		 */
 		public function fields($table, $like = '') {
-			/*
-			$table = $this->precompiler->prepare_value($table);
-			$regex = $this->like_to_regex($like);
-
-			$sql = "PRAGMA table_info({$table});";
-
 			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
-			$records = $connection->query(new \Leap\Core\DB\SQL\Command($sql));
 
-			$fields = array();
-			foreach ($records as $record) {
-				if ( ! empty($regex) OR preg_match($regex, $record['name'])){
-					list($type, $length) = $this->parse_type($record['Type']);
+			$path_info = pathinfo($this->data_source->database);
+			$schema = $path_info['filename'];
 
-					$field = $this->data_type($type);
+			$table = trim(preg_replace('/[^a-z0-9$_ ]/i', '', $table));
 
-					$field['name'] = $record['name'];
-					$field['type'] = $type;
-					$field['primary_key'] = ($record['pk'] == 1);
-					if ($field['primary_key']) {
-						$field['attributes']['auto_incremented'] = ($record['Extra'] == 'auto_increment');
-					}
-					$field['nullable'] = ($record['notnull'] == 1);
-					$field['default'] = $record['dflt_value'];
+			$sql = "PRAGMA TABLE_INFO('{$table}');";
 
-					switch ($field['type']) {
-						case 'float':
-							if (isset($length)) {
-								list($field['precision'], $field['scale']) = explode(',', $length);
-							}
-						break;
-						case 'int':
-							if (isset($length)) {
-								$field['display'] = $length;
-							}
-						break;
-						case 'string':
-							switch ($field['data_type']) {
-								case 'binary':
-								case 'varbinary':
-									$field['max_length'] = $length;
-								break;
-								case 'char':
-								case 'varchar':
-									$field['max_length'] = $length;
-								case 'text':
-								case 'tinytext':
-								case 'mediumtext':
-								case 'longtext':
-									$field['collation'] = $record['Collation'];
-								break;
-								case 'enum':
-								case 'set':
-									$field['collation'] = $record['Collation'];
-									$field['options'] = explode('\',\'', substr($length, 1, -1));
-								break;
-							}
-						break;
-					}
+			$fields = $connection->query(new \Leap\Core\DB\SQL\Command($sql)); // cid, name, type, notnull, dflt_value, pk
 
-					$fields[$record['name']] = $field;
+			$records = array();
+
+			foreach ($fields as $field) {
+				if (empty($like) OR preg_match(\Leap\Core\DB\ToolKit::regex($like), $field['name'])) {
+					$type = $this->parse_type($field['type']);
+
+					$record = array(
+						'schema' => $schema,
+						'table' => $table,
+						'column' => $field['name'],
+						'type' => $type[0],
+						'max_length' => $type[1], // max_digits, precision
+						'max_decimals' => $type[2], // scale
+						'attributes' => '',
+						'seq_index' => $field['cid'],
+						'nullable' => !$field['notnull'],
+						'default' => $field['dflt_value'],
+					);
+
+					$records[] = $record;
 				}
 			}
 
-			return $records;
-			*/
+			$results = new \Leap\Core\DB\ResultSet($records);
+
+			return $results;
 		}
 
 		/**

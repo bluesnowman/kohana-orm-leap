@@ -88,6 +88,22 @@ namespace Leap\Core\DB {
 		}
 
 		/**
+		 * This method returns an instance of the appropriate schema resource for the specified
+		 * data source/config.
+		 *
+		 * @access public
+		 * @static
+		 * @param mixed $config                                     the data source configurations
+		 * @return \Leap\Core\DB\Schema                             an instance of the schema resource
+		 */
+		public static function schema($config = 'default') {
+			$data_source = \Leap\Core\DB\DataSource::instance($config);
+			$schema = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Schema';
+			$object = new $schema($data_source);
+			return $object;
+		}
+
+		/**
 		 * This method returns an instance of the \Leap\Core\DB\SQL\Select\Proxy.
 		 *
 		 * @access public

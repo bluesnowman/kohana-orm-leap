@@ -51,12 +51,12 @@ namespace Leap\Core\DB {
 		 * This constructor instantiates this class using the specified data source.
 		 *
 		 * @access public
-		 * @param mixed $config                                     the data source configurations
+		 * @param \Leap\Core\DB\DataSource $data_source             the data source configurations
 		 */
-		public function __construct($config) {
-			$this->data_source = \Leap\Core\DB\DataSource::instance($config);
-			$precompiler = '\\Leap\\Plugin\\DB\\' . $this->data_source->dialect . '\\Precompiler';
-			$this->precompiler = new $precompiler();
+		public function __construct(\Leap\Core\DB\DataSource $data_source) {
+			$precompiler = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Precompiler';
+			$this->precompiler = new $precompiler($data_source);
+			$this->data_source = $data_source;
 		}
 
 		/**

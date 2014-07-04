@@ -8,7 +8,7 @@ namespace Leap\Core\Web\cURL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\Web\cURL
-	 * @version 2014-07-01
+	 * @version 2014-07-03
 	 */
 	class Request extends \Leap\Core\Object {
 
@@ -48,7 +48,7 @@ namespace Leap\Core\Web\cURL {
 		 * This variable stores the URL on which the cURL request will be made.
 		 *
 		 * @access protected
-		 * @var string
+		 * @var array
 		 */
 		protected $url;
 
@@ -94,7 +94,7 @@ namespace Leap\Core\Web\cURL {
 		}
 
 		/**
-		 * This method set a parameter's key/value.
+		 * This method set a field's key/value.
 		 *
 		 * @access public
 		 * @param string $key                                       the key to be set
@@ -112,7 +112,7 @@ namespace Leap\Core\Web\cURL {
 		}
 
 		/**
-		 * This function sets the header fields.
+		 * This function sets a header entry.
 		 *
 		 * @access public
 		 * @param string $key                                       the key to be set
@@ -348,7 +348,7 @@ namespace Leap\Core\Web\cURL {
 			);
 
 			$header = array();
-			$buffer = array_merge($this->header, array('Content-Length' => strlen($fields)));
+			$buffer = array_merge(array('Content-Length' => strlen($fields)), $this->header);
 			foreach ($buffer as $key => $value) {
 				$header[] = "{$key}: {$value}";
 			}
