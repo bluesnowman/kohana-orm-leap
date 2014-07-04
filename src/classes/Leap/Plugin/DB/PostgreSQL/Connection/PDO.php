@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\PostgreSQL\Connection
-	 * @version 2014-07-03
+	 * @version 2014-07-04
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-pgsql.connection.php
 	 */
@@ -49,13 +49,13 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 			}
 			try {
 				if (is_string($table)) {
-					$sql = $this->sql;
+					$command = $this->command;
 					$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 					$table = $precompiler->prepare_identifier($table);
 					$column = $precompiler->prepare_identifier($column);
 					$alias = $precompiler->prepare_alias('id');
 					$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS {$alias} FROM {$table};"))->get('id', 0);
-					$this->sql = $sql;
+					$this->command = $command;
 					return $id;
 				}
 				return (int) $this->query(new \Leap\Core\DB\SQL\Command('SELECT LASTVAL() AS "id";'))->get('id', 0);

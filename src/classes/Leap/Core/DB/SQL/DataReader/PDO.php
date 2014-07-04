@@ -27,7 +27,7 @@ namespace Leap\Core\DB\SQL\DataReader {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\DataReader
-	 * @version 2014-05-16
+	 * @version 2014-07-04
 	 */
 	abstract class PDO extends \Leap\Core\DB\SQL\DataReader {
 
@@ -37,17 +37,17 @@ namespace Leap\Core\DB\SQL\DataReader {
 		 * @access public
 		 * @override
 		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be used
-		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement to be queried
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be used
 		 * @param integer $mode                                     the execution mode to be used
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function __construct(\Leap\Core\DB\Connection\Driver $connection, \Leap\Core\DB\SQL\Command $sql, $mode = NULL) {
+		public function __construct(\Leap\Core\DB\Connection\Driver $connection, \Leap\Core\DB\SQL\Command $command, $mode = NULL) {
 			$resource = $connection->get_resource();
-			$command = @$resource->query($sql->text);
-			if ($command === FALSE) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: :reason', array(':reason' => $resource->errorInfo()));
+			$handle = @$resource->query($command->text);
+			if ($handle === FALSE) {
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL command. Reason: :reason', array(':reason' => $resource->errorInfo()));
 			}
-			$this->command = $command;
+			$this->handle = $handle;
 			$this->record = FALSE;
 		}
 
@@ -59,8 +59,8 @@ namespace Leap\Core\DB\SQL\DataReader {
 		 *                                                          in addition to un-managed resources
 		 */
 		public function dispose($disposing = TRUE) {
-			if ($this->command !== NULL) {
-				$this->command = NULL;
+			if ($this->handle !== NULL) {
+				$this->handle = NULL;
 				$this->record = FALSE;
 			}
 		}
@@ -73,8 +73,8 @@ namespace Leap\Core\DB\SQL\DataReader {
 		 * @return boolean                                          whether another record was fetched
 		 */
 		public function read() {
-			if ($this->command !== NULL) {
-				$this->record = @$this->command->fetch(\PDO::FETCH_ASSOC);
+			if ($this->handle !== NULL) {
+				$this->record = @$this->handle->fetch(\PDO::FETCH_ASSOC);
 			}
 			return ($this->record !== FALSE);
 		}

@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Drizzle\Connection
-	 * @version 2014-07-03
+	 * @version 2014-07-04
 	 *
 	 * @see http://devzone.zend.com/1504/getting-started-with-drizzle-and-php/
 	 * @see https://github.com/barce/partition_benchmarks/blob/master/db.php
@@ -100,27 +100,27 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 		}
 
 		/**
-		 * This method processes an SQL statement that will NOT return data.
+		 * This method processes an SQL command that will NOT return data.
 		 *
 		 * @access public
 		 * @override
-		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be queried
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 */
-		public function execute(\Leap\Core\DB\SQL\Command $sql) {
+		public function execute(\Leap\Core\DB\SQL\Command $command) {
 			if ( ! $this->is_connected()) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL command. Reason: Unable to find connection.');
 			}
-			$command = @drizzle_query($this->resource, $sql->text);
-			if ($command === FALSE) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @drizzle_con_error($this->resource)));
+			$handle = @drizzle_query($this->resource, $command->text);
+			if ($handle === FALSE) {
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL command. Reason: :reason', array(':reason' => @drizzle_con_error($this->resource)));
 			}
-			$this->insert_id = (preg_match("/^\\s*(insert|replace)\\s+/i", $sql->text))
-				? @drizzle_result_insert_id($command)
+			$this->insert_id = (preg_match("/^\\s*(insert|replace)\\s+/i", $command->text))
+				? @drizzle_result_insert_id($handle)
 				: FALSE;
-			$this->sql = $sql;
-			@drizzle_result_free($command);
+			$this->command = $command;
+			@drizzle_result_free($handle);
 		}
 
 		/**
@@ -138,12 +138,12 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: Unable to find connection.');
 			}
 			if (is_string($table)) {
-				$sql = $this->sql;
+				$command = $this->command;
 				$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 				$table = $precompiler->prepare_identifier($table);
 				$column = $precompiler->prepare_identifier($column);
 				$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS `id` FROM {$table};"))->get('id', 0);
-				$this->sql = $sql;
+				$this->command = $command;
 				return $id;
 			}
 			else {
@@ -181,34 +181,34 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 		}
 
 		/**
-		 * This method processes an SQL statement that will return data.
+		 * This method processes an SQL command that will return data.
 		 *
 		 * @access public
 		 * @override
-		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be queried
 		 * @param string $type                                      the return type to be used
 		 * @return \Leap\Core\DB\ResultSet                          the result set
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function query(\Leap\Core\DB\SQL\Command $sql, $type = 'array') {
+		public function query(\Leap\Core\DB\SQL\Command $command, $type = 'array') {
 			if ( ! $this->is_connected()) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL command. Reason: Unable to find connection.');
 			}
-			$result_set = $this->cache($sql, $type);
+			$result_set = $this->cache($command, $type);
 			if ($result_set !== NULL) {
 				$this->insert_id = FALSE;
-				$this->sql = $sql;
+				$this->command = $command;
 				return $result_set;
 			}
-			$reader = \Leap\Core\DB\SQL\DataReader::factory($this, $sql);
-			$result_set = $this->cache($sql, $type, new \Leap\Core\DB\ResultSet($reader, $type));
+			$reader = \Leap\Core\DB\SQL\DataReader::factory($this, $command);
+			$result_set = $this->cache($command, $type, new \Leap\Core\DB\ResultSet($reader, $type));
 			$this->insert_id = FALSE;
-			$this->sql = $sql;
+			$this->command = $command;
 			return $result_set;
 		}
 
 		/**
-		 * This method escapes a string to be used in an SQL statement.
+		 * This method escapes a string to be used in an SQL command.
 		 *
 		 * @access public
 		 * @override

@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Oracle\Lock {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\Lock
-	 * @version 2014-04-19
+	 * @version 2014-07-04
 	 *
 	 * @see http://docs.oracle.com/cd/B19306_01/server.102/b14200/statements_9015.htm
 	 * @see http://docs.oracle.com/cd/B12037_01/appdev.101/b10807/13_elems027.htm
@@ -43,8 +43,8 @@ namespace Leap\Plugin\DB\Oracle\Lock {
 		 */
 		public function acquire() {
 			$this->connection->begin_transaction();
-			foreach ($this->data as $sql) {
-				$this->connection->execute($sql);
+			foreach ($this->data as $command) {
+				$this->connection->execute($command);
 			}
 			return $this;
 		}
@@ -60,7 +60,7 @@ namespace Leap\Plugin\DB\Oracle\Lock {
 		 */
 		public function add($table, Array $hints = NULL) {
 			$table = $this->precompiler->prepare_identifier($table);
-			$sql = "LOCK TABLE {$table} IN ";
+			$text = "LOCK TABLE {$table} IN ";
 			$mode = 'EXCLUSIVE';
 			$wait = '';
 			if ($hints !== NULL) {
@@ -73,7 +73,8 @@ namespace Leap\Plugin\DB\Oracle\Lock {
 					}
 				}
 			}
-			$this->data[$table] = $sql . $mode . ' MODE' . $wait . ';';
+			$text .= $mode . ' MODE' . $wait . ';';
+			$this->data[$table] = new \Leap\Core\DB\SQL\Command($text);
 			return $this;
 		}
 

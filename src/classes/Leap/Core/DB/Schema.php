@@ -26,7 +26,7 @@ namespace Leap\Core\DB {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-01-28
+	 * @version 2014-07-04
 	 */
 	abstract class Schema extends \Leap\Core\Object {
 
@@ -54,8 +54,8 @@ namespace Leap\Core\DB {
 		 * @param \Leap\Core\DB\DataSource $data_source             the data source configurations
 		 */
 		public function __construct(\Leap\Core\DB\DataSource $data_source) {
-			$precompiler = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Precompiler';
-			$this->precompiler = new $precompiler($data_source);
+			$data_type = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Precompiler';
+			$this->precompiler = new $data_type($data_source);
 			$this->data_source = $data_source;
 		}
 

@@ -25,53 +25,53 @@ namespace Leap\Plugin\DB\Drizzle\Insert {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Drizzle\Insert
-	 * @version 2014-04-30
+	 * @version 2014-07-04
 	 *
 	 * @see http://dev.mysql.com/doc/refman/5.5/en/insert.html
 	 */
 	class Builder extends \Leap\Core\DB\SQL\Insert\Builder {
 
 		/**
-		 * This method returns the SQL statement.
+		 * This method returns the SQL command.
 		 *
 		 * @access public
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL command
 		 */
-		public function statement($terminated = TRUE) {
-			$sql = "INSERT INTO {$this->data['into']}";
+		public function command($terminated = TRUE) {
+			$text = "INSERT INTO {$this->data['into']}";
 
 			if ( ! empty($this->data['columns'])) {
 				$rows = array_values($this->data['rows']);
 				$rowCt = 1;
 				$columns = array_keys($this->data['columns']);
 				$columnCt = count($columns);
-				$sql .= ' (' . implode(', ', $columns) . ') VALUES';
+				$text .= ' (' . implode(', ', $columns) . ') VALUES';
 				for ($r = 0; $r < $rowCt; $r++) {
 					if ($r > 0) {
-						$sql .= ',';
+						$text .= ',';
 					}
-					$sql .= ' (';
+					$text .= ' (';
 					for ($c = 0; $c < $columnCt; $c++) {
 						if ($c > 0) {
-							$sql .= ', ';
+							$text .= ', ';
 						}
 						$column = $columns[$c];
-						$sql .= (isset($rows[$r][$column]))
+						$text .= (isset($rows[$r][$column]))
 							? $rows[$r][$column]
 							: 'NULL';
 					}
-					$sql .= ')';
+					$text .= ')';
 				}
 			}
 
 			if ($terminated) {
-				$sql .= ';';
+				$text .= ';';
 			}
 
-			$command = new \Leap\Core\DB\SQL\Command($sql);
+			$command = new \Leap\Core\DB\SQL\Command($text);
 			return $command;
 		}
 

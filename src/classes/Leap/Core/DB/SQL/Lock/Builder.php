@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL\Lock {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Lock
-	 * @version 2014-07-03
+	 * @version 2014-07-04
 	 */
 	abstract class Builder extends \Leap\Core\Object {
 
@@ -39,7 +39,7 @@ namespace Leap\Core\DB\SQL\Lock {
 		protected $connection;
 
 		/**
-		 * This variable stores the build data for the SQL statement.
+		 * This variable stores the build data for the SQL command.
 		 *
 		 * @access protected
 		 * @var array

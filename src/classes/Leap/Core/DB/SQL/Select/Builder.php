@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Select
-	 * @version 2014-07-03
+	 * @version 2014-07-04
 	 */
 	abstract class Builder extends \Leap\Core\DB\SQL\Builder {
 
@@ -79,18 +79,18 @@ namespace Leap\Core\DB\SQL\Select {
 		}
 
 		/**
-		 * This method combines another SQL statement using the specified operator.
+		 * This method combines another SQL command using the specified operator.
 		 *
 		 * @access public
 		 * @param string $operator                                  the operator to be used to append
-		 *                                                          the specified SQL statement
-		 * @param string $statement                                 the SQL statement to be appended
+		 *                                                          the specified SQL command
+		 * @param string $statement                                 the SQL command to be appended
 		 * @return \Leap\Core\DB\SQL\Select\Builder                 a reference to the current instance
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates an invalid SQL build instruction
 		 */
 		public function combine($operator, $statement) {
 			if ($statement instanceof \Leap\Core\DB\SQL\Select\Builder) {
-				$statement = $statement->statement(FALSE)->text;
+				$statement = $statement->command(FALSE)->text;
 			}
 			else if ($statement instanceof \Leap\Core\DB\SQL\Command) {
 				$statement = \Leap\Core\DB\SQL\Command::trim($statement->text);
@@ -119,10 +119,10 @@ namespace Leap\Core\DB\SQL\Select {
 		}
 
 		/**
-		 * This method sets whether to constrain the SQL statement to only distinct records.
+		 * This method sets whether to constrain the SQL command to only distinct records.
 		 *
 		 * @access public
-		 * @param boolean $distinct                                 whether to constrain the SQL statement to only
+		 * @param boolean $distinct                                 whether to constrain the SQL command to only
 		 *                                                          distinct records
 		 * @return \Leap\Core\DB\SQL\Select\Builder                 a reference to the current instance
 		 */

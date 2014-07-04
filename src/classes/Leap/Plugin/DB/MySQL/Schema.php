@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MySQL {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MySQL
-	 * @version 2014-05-16
+	 * @version 2014-07-04
 	 */
 	class Schema extends \Leap\Core\DB\Schema {
 
@@ -120,15 +120,15 @@ namespace Leap\Plugin\DB\MySQL {
 			$schema = $this->precompiler->prepare_identifier($this->data_source->database);
 			$table = $this->precompiler->prepare_identifier($table);
 
-			$sql = "SHOW FULL COLUMNS FROM {$table} FROM {$schema}";
+			$text = "SHOW FULL COLUMNS FROM {$table} FROM {$schema}";
 
 			if ( ! empty($like)) {
-				$sql .= ' WHERE `Field` LIKE ' . $this->precompiler->prepare_value($like);
+				$text .= ' WHERE `Field` LIKE ' . $this->precompiler->prepare_value($like);
 			}
 
-			$sql .= ';';
+			$text .= ';';
 
-			$reader = $connection->reader($sql);
+			$reader = $connection->reader(new \Leap\Core\DB\SQL\Command($text));
 
 			$records = array();
 			$position = 0;
@@ -194,15 +194,15 @@ namespace Leap\Plugin\DB\MySQL {
 			$schema = $this->precompiler->prepare_identifier($this->data_source->database);
 			$table = $this->precompiler->prepare_identifier($table);
 
-			$sql = "SHOW INDEXES FROM {$table} FROM {$schema}";
+			$text = "SHOW INDEXES FROM {$table} FROM {$schema}";
 
 			if ( ! empty($like)) {
-				$sql .= ' WHERE `Key_name` LIKE ' . $this->precompiler->prepare_value($like);
+				$text .= ' WHERE `Key_name` LIKE ' . $this->precompiler->prepare_value($like);
 			}
 
-			$sql .= ';';
+			$text .= ';';
 
-			$reader = $connection->reader($sql);
+			$reader = $connection->reader(new \Leap\Core\DB\SQL\Command($text));
 
 			$records = array();
 

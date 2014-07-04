@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\SQLite {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\SQLite
-	 * @version 2014-05-01
+	 * @version 2014-07-04
 	 */
 	class Precompiler extends \Leap\Core\DB\SQL\Precompiler {
 
@@ -77,7 +77,7 @@ namespace Leap\Plugin\DB\SQLite {
 		 */
 		public function prepare_identifier($expr) {
 			if ($expr instanceof \Leap\Plugin\DB\SQLite\Select\Builder) {
-				return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE)->text . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
+				return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->command(FALSE)->text . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 			}
 			else if ($expr instanceof \Leap\Core\DB\SQL\Command) {
 				return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . \Leap\Core\DB\SQL\Command::trim($expr->text) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
@@ -256,7 +256,7 @@ namespace Leap\Plugin\DB\SQLite {
 			}
 			else if (is_object($expr)) {
 				if ($expr instanceof \Leap\Plugin\DB\SQLite\Select\Builder) {
-					return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->statement(FALSE)->text . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
+					return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . $expr->command(FALSE)->text . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;
 				}
 				else if ($expr instanceof \Leap\Core\DB\SQL\Command) {
 					return \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_ . \Leap\Core\DB\SQL\Command::trim($expr->text) . \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_;

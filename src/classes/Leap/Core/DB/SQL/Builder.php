@@ -20,13 +20,13 @@
 namespace Leap\Core\DB\SQL {
 
 	/**
-	 * This class provides the base functionality for an SQL statement.
+	 * This class provides the base functionality for an SQL command.
 	 *
 	 * @abstract
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-05-01
+	 * @version 2014-07-04
 	 */
 	abstract class Builder extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
@@ -47,7 +47,7 @@ namespace Leap\Core\DB\SQL {
 		const _OPENING_PARENTHESIS_ = '(';
 
 		/**
-		 * This variable stores the build data for the SQL statement.
+		 * This variable stores the build data for the SQL command.
 		 *
 		 * @access protected
 		 * @var array
@@ -71,14 +71,14 @@ namespace Leap\Core\DB\SQL {
 		protected $precompiler;
 
 		/**
-		 * This method returns the raw SQL statement.
+		 * This method returns the raw SQL command.
 		 *
 		 * @access public
 		 * @override
-		 * @return string                                           the raw SQL statement
+		 * @return string                                           the raw SQL command
 		 */
 		public function __toString() {
-			return $this->statement()->__toString();
+			return $this->command()->__toString();
 		}
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,8 +92,9 @@ namespace Leap\Core\DB\SQL {
 		 * @return \Leap\Core\DB\SQL\Builder                        a new instance of the calling class
 		 */
 		public static function factory(\Leap\Core\DB\DataSource $data_source) {
-			$class = get_called_class();
-			return new $class($data_source);
+			$data_type = get_called_class();
+			$object = new $data_type($data_source);
+			return $object;
 		}
 
 	}

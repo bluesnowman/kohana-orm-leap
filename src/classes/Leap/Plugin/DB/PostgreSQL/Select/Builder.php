@@ -25,95 +25,95 @@ namespace Leap\Plugin\DB\PostgreSQL\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\PostgreSQL\Select
-	 * @version 2014-04-30
+	 * @version 2014-07-04
 	 *
 	 * @see http://www.postgresql.org/docs/9.0/static/sql-select.html
 	 */
 	class Builder extends \Leap\Core\DB\SQL\Select\Builder {
 
 		/**
-		 * This method returns the SQL statement.
+		 * This method returns the SQL command.
 		 *
 		 * @access public
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL command
 		 */
-		public function statement($terminated = TRUE) {
-			$sql = 'SELECT ';
+		public function command($terminated = TRUE) {
+			$text = 'SELECT ';
 
 			if ($this->data['distinct']) {
-				$sql .= 'DISTINCT ';
+				$text .= 'DISTINCT ';
 			}
 
-			$sql .= ( ! empty($this->data['column']))
+			$text .= ( ! empty($this->data['column']))
 				? implode(', ', $this->data['column'])
 				: $this->data['wildcard'];
 
 			if ($this->data['from'] !== NULL) {
-				$sql .= " FROM {$this->data['from']}";
+				$text .= " FROM {$this->data['from']}";
 			}
 
 			foreach ($this->data['join'] as $join) {
-				$sql .= " {$join[0]}";
+				$text .= " {$join[0]}";
 				if ( ! empty($join[1])) {
-					$sql .= ' ON (' . implode(' AND ', $join[1]) . ')';
+					$text .= ' ON (' . implode(' AND ', $join[1]) . ')';
 				}
 				else if ( ! empty($join[2])) {
-					$sql .= ' USING (' . implode(', ', $join[2]) . ')';
+					$text .= ' USING (' . implode(', ', $join[2]) . ')';
 				}
 			}
 
 			if ( ! empty($this->data['where'])) {
 				$append = FALSE;
-				$sql .= ' WHERE ';
+				$text .= ' WHERE ';
 				foreach ($this->data['where'] as $where) {
 					if ($append AND ($where[1] != \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
-						$sql .= " {$where[0]} ";
+						$text .= " {$where[0]} ";
 					}
-					$sql .= $where[1];
+					$text .= $where[1];
 					$append = ($where[1] != \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_);
 				}
 			}
 
 			if ( ! empty($this->data['group_by'])) {
-				$sql .= ' GROUP BY ' . implode(', ', $this->data['group_by']);
+				$text .= ' GROUP BY ' . implode(', ', $this->data['group_by']);
 			}
 
 			if ( ! empty($this->data['having'])) {
 				$append = FALSE;
-				$sql .= ' HAVING ';
+				$text .= ' HAVING ';
 				foreach ($this->data['having'] as $having) {
 					if ($append AND ($having[1] != \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
-						$sql .= " {$having[0]} ";
+						$text .= " {$having[0]} ";
 					}
-					$sql .= $having[1];
+					$text .= $having[1];
 					$append = ($having[1] != \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_);
 				}
 			}
 
 			if ( ! empty($this->data['order_by'])) {
-				$sql .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
+				$text .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
 			}
 
 			if ($this->data['limit'] > 0) {
-				$sql .= " LIMIT {$this->data['limit']}";
+				$text .= " LIMIT {$this->data['limit']}";
 			}
 
 			if ($this->data['offset'] > 0) {
-				$sql .= " OFFSET {$this->data['offset']}";
+				$text .= " OFFSET {$this->data['offset']}";
 			}
 
 			foreach ($this->data['combine'] as $combine) {
-				$sql .= " {$combine}";
+				$text .= " {$combine}";
 			}
 
 			if ($terminated) {
-				$sql .= ';';
+				$text .= ';';
 			}
 
-			$command = new \Leap\Core\DB\SQL\Command($sql);
+			$command = new \Leap\Core\DB\SQL\Command($text);
 			return $command;
 		}
 

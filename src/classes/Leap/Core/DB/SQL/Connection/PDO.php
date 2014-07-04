@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Connection
-	 * @version 2014-06-02
+	 * @version 2014-07-04
 	 *
 	 * @see http://www.php.net/manual/en/book.pdo.php
 	 * @see http://www.electrictoolbox.com/php-pdo-dsn-connection-string/
@@ -59,7 +59,7 @@ namespace Leap\Core\DB\SQL\Connection {
 		public function begin_transaction() {
 			try {
 				$this->resource->beginTransaction();
-				$this->sql = new \Leap\Core\DB\SQL\Command('BEGIN TRANSACTION;');
+				$this->command = new \Leap\Core\DB\SQL\Command('BEGIN TRANSACTION;');
 			}
 			catch (\Exception $ex) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: :reason', array(':reason' => $ex->getMessage()));
@@ -93,7 +93,7 @@ namespace Leap\Core\DB\SQL\Connection {
 		public function commit() {
 			try {
 				$this->resource->commit();
-				$this->sql = new \Leap\Core\DB\SQL\Command('COMMIT;');
+				$this->command = new \Leap\Core\DB\SQL\Command('COMMIT;');
 			}
 			catch (\Exception $ex) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: :reason', array(':reason' => $ex->getMessage()));
@@ -101,23 +101,23 @@ namespace Leap\Core\DB\SQL\Connection {
 		}
 
 		/**
-		 * This method processes an SQL statement that will NOT return data.
+		 * This method processes an SQL command that will NOT return data.
 		 *
 		 * @access public
 		 * @override
-		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be queried
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 */
-		public function execute(\Leap\Core\DB\SQL\Command $sql) {
+		public function execute(\Leap\Core\DB\SQL\Command $command) {
 			if ( ! $this->is_connected()) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL command. Reason: Unable to find connection.');
 			}
-			$command = @$this->resource->exec($sql->text);
-			if ($command === FALSE) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => $this->resource->errorInfo()));
+			$handle = @$this->resource->exec($command->text);
+			if ($handle === FALSE) {
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL command. Reason: :reason', array(':reason' => $this->resource->errorInfo()));
 			}
-			$this->sql = $sql;
+			$this->command = $command;
 		}
 
 		/**
@@ -138,13 +138,13 @@ namespace Leap\Core\DB\SQL\Connection {
 			}
 			try {
 				if (is_string($table)) {
-					$sql = $this->sql;
+					$command = $this->command;
 					$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 					$table = $precompiler->prepare_identifier($table);
 					$column = $precompiler->prepare_identifier($column);
 					$alias = $precompiler->prepare_alias('id');
 					$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS {$alias} FROM {$table};"))->get('id', 0);
-					$this->sql = $sql;
+					$this->command = $command;
 					return $id;
 				}
 				return $this->resource->lastInsertId();
@@ -166,7 +166,7 @@ namespace Leap\Core\DB\SQL\Connection {
 		}
 
 		/**
-		 * This method escapes a string to be used in an SQL statement.
+		 * This method escapes a string to be used in an SQL command.
 		 *
 		 * @access public
 		 * @override
@@ -207,7 +207,7 @@ namespace Leap\Core\DB\SQL\Connection {
 		public function rollback() {
 			try {
 				$this->resource->rollBack();
-				$this->sql = new \Leap\Core\DB\SQL\Command('ROLLBACK;');
+				$this->command = new \Leap\Core\DB\SQL\Command('ROLLBACK;');
 			}
 			catch (\Exception $ex) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: :reason', array(':reason' => $ex->getMessage()));

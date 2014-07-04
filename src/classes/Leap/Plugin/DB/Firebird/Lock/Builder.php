@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Firebird\Lock {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Firebird\Lock
-	 * @version 2014-04-24
+	 * @version 2014-07-04
 	 *
 	 * @see http://www.firebirdsql.org/refdocs/langrefupd21-notes-withlock.html
 	 * @see http://www.firebirdsql.org/refdocs/langrefupd20-select.html#langrefupd20-with-lock
@@ -42,8 +42,8 @@ namespace Leap\Plugin\DB\Firebird\Lock {
 		 */
 		public function acquire() {
 			$this->connection->begin_transaction();
-			foreach ($this->data as $sql) {
-				$this->connection->execute($sql);
+			foreach ($this->data as $command) {
+				$this->connection->execute($command);
 			}
 			return $this;
 		}
@@ -58,8 +58,8 @@ namespace Leap\Plugin\DB\Firebird\Lock {
 		 * @return \Leap\Core\DB\SQL\Lock\Builder                   a reference to the current instance
 		 */
 		public function add($table, Array $hints = NULL) {
-			$table = $this->precompiler->prepare_identifier($table);
-			$this->data[$table] = "SELECT * FROM {$table} WITH LOCK;";
+			$text = 'SELECT * FROM ' . $this->precompiler->prepare_identifier($table) . ' WITH LOCK;';
+			$this->data[$table] = new \Leap\Core\DB\SQL\Command($text);
 			return $this;
 		}
 

@@ -26,7 +26,7 @@ namespace Leap\Plugin\DB\Oracle\DataReader {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\DataReader
-	 * @version 2014-05-01
+	 * @version 2014-07-04
 	 */
 	class PDO extends \Leap\Core\DB\SQL\DataReader\PDO {
 
@@ -36,17 +36,17 @@ namespace Leap\Plugin\DB\Oracle\DataReader {
 		 * @access public
 		 * @override
 		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be used
-		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement to be queried
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be used
 		 * @param integer $mode                                     the execution mode to be used
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function __construct(\Leap\Core\DB\Connection\Driver $connection, \Leap\Core\DB\SQL\Command $sql, $mode = NULL) {
+		public function __construct(\Leap\Core\DB\Connection\Driver $connection, \Leap\Core\DB\SQL\Command $command, $mode = NULL) {
 			$resource = $connection->get_resource();
-			$command = @$resource->query(\Leap\Core\DB\SQL\Command::trim($sql->text));
-			if ($command === FALSE) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: :reason', array(':reason' => $resource->errorInfo()));
+			$handle = @$resource->query(\Leap\Core\DB\SQL\Command::trim($command->text));
+			if ($handle === FALSE) {
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL command. Reason: :reason', array(':reason' => $resource->errorInfo()));
 			}
-			$this->command = $command;
+			$this->handle = $handle;
 			$this->record = FALSE;
 		}
 

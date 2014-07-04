@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\SQLite\Connection
-	 * @version 2014-07-03
+	 * @version 2014-07-04
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-sqlite.php
 	 */
@@ -63,7 +63,7 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 		}
 
 		/**
-		 * This method escapes a string to be used in an SQL statement.
+		 * This method escapes a string to be used in an SQL command.
 		 *
 		 * @access public
 		 * @override

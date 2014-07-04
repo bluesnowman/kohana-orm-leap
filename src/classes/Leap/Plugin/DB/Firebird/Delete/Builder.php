@@ -25,53 +25,53 @@ namespace Leap\Plugin\DB\Firebird\Delete {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Firebird\Delete
-	 * @version 2014-04-30
+	 * @version 2014-07-04
 	 *
 	 * @see http://www.firebirdsql.org/refdocs/langrefupd21-delete.html
 	 */
 	class Builder extends \Leap\Core\DB\SQL\Delete\Builder {
 
 		/**
-		 * This method returns the SQL statement.
+		 * This method returns the SQL command.
 		 *
 		 * @access public
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL command
 		 */
-		public function statement($terminated = TRUE) {
-			$sql = "DELETE FROM {$this->data['from']}";
+		public function command($terminated = TRUE) {
+			$text = "DELETE FROM {$this->data['from']}";
 
 			if ( ! empty($this->data['where'])) {
 				$append = FALSE;
-				$sql .= ' WHERE ';
+				$text .= ' WHERE ';
 				foreach ($this->data['where'] as $where) {
 					if ($append AND ($where[1] != \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
-						$sql .= " {$where[0]} ";
+						$text .= " {$where[0]} ";
 					}
-					$sql .= $where[1];
+					$text .= $where[1];
 					$append = ($where[1] != \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_);
 				}
 			}
 
 			if ( ! empty($this->data['order_by'])) {
-				$sql .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
+				$text .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
 			}
 
 			if ($this->data['limit'] > 0) {
-				$sql .= " ROWS {$this->data['limit']}";
+				$text .= " ROWS {$this->data['limit']}";
 			}
 
 			//if ($this->data['offset'] > 0) {
-			//    $sql .= " OFFSET {$this->data['offset']}";
+			//    $text .= " OFFSET {$this->data['offset']}";
 			//}
 
 			if ($terminated) {
-				$sql .= ';';
+				$text .= ';';
 			}
 
-			$command = new \Leap\Core\DB\SQL\Command($sql);
+			$command = new \Leap\Core\DB\SQL\Command($text);
 			return $command;
 		}
 

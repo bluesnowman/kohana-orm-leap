@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MsSQL\Lock {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\Lock
-	 * @version 2014-04-19
+	 * @version 2014-07-04
 	 *
 	 * @see http://msdn.microsoft.com/en-us/library/ms187373.aspx
 	 * @see http://stackoverflow.com/questions/5102152/tablock-vs-tablockx
@@ -45,8 +45,8 @@ namespace Leap\Plugin\DB\MsSQL\Lock {
 		 */
 		public function acquire() {
 			$this->connection->begin_transaction();
-			foreach ($this->data as $sql) {
-				$this->connection->execute($sql);
+			foreach ($this->data as $command) {
+				$this->connection->execute($command);
 			}
 			return $this;
 		}
@@ -62,7 +62,7 @@ namespace Leap\Plugin\DB\MsSQL\Lock {
 		 */
 		public function add($table, Array $hints = NULL) {
 			$table = $this->precompiler->prepare_identifier($table);
-			$sql = "SELECT * FROM {$table} WITH (";
+			$text = "SELECT * FROM {$table} WITH (";
 			$modes = array();
 			if ($hints !== NULL) {
 				foreach ($hints as $hint) {
@@ -77,7 +77,8 @@ namespace Leap\Plugin\DB\MsSQL\Lock {
 			if (empty($modes)) {
 				$modes[] = 'TABLOCKX';
 			}
-			$this->data[$table] = $sql . implode(', ', $modes) . ');';
+			$text .= implode(', ', $modes) . ');';
+			$this->data[$table] = new \Leap\Core\DB\SQL\Command($text);
 			return $this;
 		}
 

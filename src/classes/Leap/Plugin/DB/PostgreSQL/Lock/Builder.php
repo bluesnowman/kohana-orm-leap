@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Lock {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\PostgreSQL\Lock
-	 * @version 2014-04-19
+	 * @version 2014-07-04
 	 *
 	 * @see http://www.postgresql.org/docs/9.2/static/sql-lock.html
 	 */
@@ -40,8 +40,8 @@ namespace Leap\Plugin\DB\PostgreSQL\Lock {
 		 */
 		public function acquire() {
 			$this->connection->begin_transaction();
-			foreach ($this->data as $sql) {
-				$this->connection->execute($sql);
+			foreach ($this->data as $command) {
+				$this->connection->execute($command);
 			}
 			return $this;
 		}
@@ -57,7 +57,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Lock {
 		 */
 		public function add($table, Array $hints = NULL) {
 			$table = $this->precompiler->prepare_identifier($table);
-			$sql = "LOCK TABLE {$table} IN ";
+			$text = "LOCK TABLE {$table} IN ";
 			$mode = 'EXCLUSIVE';
 			$wait = '';
 			if ($hints !== NULL) {
@@ -70,7 +70,8 @@ namespace Leap\Plugin\DB\PostgreSQL\Lock {
 					}
 				}
 			}
-			$this->data[$table] = $sql . $mode . ' MODE' . $wait . ';';
+			$text .= $mode . ' MODE' . $wait . ';';
+			$this->data[$table] = new \Leap\Core\DB\SQL\Command($text);
 			return $this;
 		}
 

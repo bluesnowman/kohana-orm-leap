@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\SQLite {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\SQLite
-	 * @version 2014-05-16
+	 * @version 2014-07-04
 	 */
 	class Schema extends \Leap\Core\DB\Schema {
 
@@ -62,9 +62,9 @@ namespace Leap\Plugin\DB\SQLite {
 
 			$table = trim(preg_replace('/[^a-z0-9$_ ]/i', '', $table));
 
-			$sql = "PRAGMA TABLE_INFO('{$table}');";
+			$text = "PRAGMA TABLE_INFO('{$table}');";
 
-			$fields = $connection->query(new \Leap\Core\DB\SQL\Command($sql)); // cid, name, type, notnull, dflt_value, pk
+			$fields = $connection->query(new \Leap\Core\DB\SQL\Command($text)); // cid, name, type, notnull, dflt_value, pk
 
 			$records = array();
 
@@ -130,9 +130,9 @@ namespace Leap\Plugin\DB\SQLite {
 
 			$table = trim(preg_replace('/[^a-z0-9$_ ]/i', '', $table));
 
-			$sql = "PRAGMA INDEX_LIST('{$table}');";
+			$text = "PRAGMA INDEX_LIST('{$table}');";
 
-			$indexes = $connection->query(new \Leap\Core\DB\SQL\Command($sql));
+			$indexes = $connection->query(new \Leap\Core\DB\SQL\Command($text));
 
 			$records = array();
 
@@ -258,31 +258,31 @@ namespace Leap\Plugin\DB\SQLite {
 			while ($reader->read()) {
 				$record = $reader->row('array');
 				if (isset($record['action'])) {
-					$sql = \Leap\Core\DB\SQL\Command::trim($record['action']);
+					$text = \Leap\Core\DB\SQL\Command::trim($record['action']);
 
-					if (preg_match('/\s+INSERT\s+/i', $sql)) {
+					if (preg_match('/\s+INSERT\s+/i', $text)) {
 						$record['event'] = 'INSERT';
 					}
-					else if (preg_match('/\s+UPDATE\s+/i', $sql)) {
+					else if (preg_match('/\s+UPDATE\s+/i', $text)) {
 						$record['event'] = 'UPDATE';
 					}
-					else if (preg_match('/\s+DELETE\s+OF\s+/i', $sql)) {
+					else if (preg_match('/\s+DELETE\s+OF\s+/i', $text)) {
 						$record['event'] = 'DELETE';
 					}
 
-					if (preg_match('/\s+BEFORE\s+/i', $sql)) {
+					if (preg_match('/\s+BEFORE\s+/i', $text)) {
 						$record['timing'] = 'BEFORE';
 					}
-					else if (preg_match('/\s+AFTER\s+/i', $sql)) {
+					else if (preg_match('/\s+AFTER\s+/i', $text)) {
 						$record['timing'] = 'AFTER';
 					}
-					else if (preg_match('/\s+INSTEAD\s+OF\s+/i', $sql)) {
+					else if (preg_match('/\s+INSTEAD\s+OF\s+/i', $text)) {
 						$record['timing'] = 'INSTEAD OF';
 					}
 
-					$offset = stripos($sql, 'BEGIN') + 5;
-					$length = (strlen($sql) - $offset) - 3;
-					$record['action'] = \Leap\Core\DB\SQL\Command::trim(substr($sql, $offset, $length));
+					$offset = stripos($text, 'BEGIN') + 5;
+					$length = (strlen($text) - $offset) - 3;
+					$record['action'] = \Leap\Core\DB\SQL\Command::trim(substr($text, $offset, $length));
 				}
 				$records[] = $record;
 			}

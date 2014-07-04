@@ -20,13 +20,13 @@
 namespace Leap\Core\DB\SQL {
 
 	/**
-	 * This class allows an application to tokenize an SQL statement.
+	 * This class allows an application to tokenize an SQL command.
 	 *
 	 * @abstract
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-05-11
+	 * @version 2014-07-04
 	 *
 	 * @see http://www.sqlite.org/c3ref/complete.html
 	 * @see http://www.opensource.apple.com/source/SQLite/SQLite-74/public_source/src/complete.c
@@ -138,7 +138,7 @@ namespace Leap\Core\DB\SQL {
 		protected $size = 0;
 
 		/**
-		 * This variable stores the SQL statement being tokenized.
+		 * This variable stores the SQL command being tokenized.
 		 *
 		 * @access protected
 		 * @var string
@@ -157,7 +157,7 @@ namespace Leap\Core\DB\SQL {
 		 * This construct initializes the class.
 		 *
 		 * @access public
-		 * @param string $statement                                 the SQL statement to be tokenized
+		 * @param string $statement                                 the SQL command to be tokenized
 		 * @param string $dialect                                   the SQL dialect
 		 */
 		public function __construct($statement, $dialect) {

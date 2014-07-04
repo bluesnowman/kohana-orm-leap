@@ -32,7 +32,7 @@ namespace Leap\Core\DB\ORM {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM
-	 * @version 2014-04-24
+	 * @version 2014-07-04
 	 *
 	 * @see http://imrannazar.com/Modified-Preorder-Tree-Traversal
 	 * @see http://www.sitepoint.com/hierarchical-data-database-2/
@@ -159,7 +159,7 @@ namespace Leap\Core\DB\ORM {
 				->table($table)
 				->where('scope', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
 				->where('rgt', \Leap\Core\DB\SQL\Operator::_GREATER_THAN_, $this->fields['rgt']->value)
-				->statement();
+				->command();
 
 			$connection->execute($update);
 
@@ -168,7 +168,7 @@ namespace Leap\Core\DB\ORM {
 				->table($table)
 				->where('scope', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
 				->where('lft', \Leap\Core\DB\SQL\Operator::_GREATER_THAN_, $this->fields['lft']->value)
-				->statement();
+				->command();
 
 			$connection->execute($update);
 
@@ -189,7 +189,7 @@ namespace Leap\Core\DB\ORM {
 				}
 			}
 
-			$insert = $builder->statement();
+			$insert = $builder->command();
 
 			$connection->execute($insert);
 			$id = $connection->get_last_insert_id();
@@ -208,7 +208,7 @@ namespace Leap\Core\DB\ORM {
 				->table($table, 't0')
 				->where('t0.scope', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
 				->where('t0.lft', \Leap\Core\DB\SQL\Operator::_GREATER_THAN_, $this->fields['lft']->value)
-				->statement();
+				->command();
 
 			$connection->execute($update);
 
@@ -326,7 +326,7 @@ namespace Leap\Core\DB\ORM {
 				->table($table, 't0')
 				->where('t0.scope', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
 				->where('t0.lft', \Leap\Core\DB\SQL\Operator::_GREATER_THAN_, $this->fields['rgt']->value)
-				->statement();
+				->command();
 
 			$connection->execute($update);
 
@@ -334,7 +334,7 @@ namespace Leap\Core\DB\ORM {
 				->from($table)
 				->where('scope', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['scope']->value)
 				->where('id', \Leap\Core\DB\SQL\Operator::_EQUAL_TO_, $this->fields['id']->value)
-				->statement();
+				->command();
 
 			$connection->execute($delete);
 
@@ -705,7 +705,7 @@ namespace Leap\Core\DB\ORM {
 				}
 			}
 
-			$insert = $builder->statement();
+			$insert = $builder->command();
 
 			$connection->execute($insert);
 			$id = $connection->get_last_insert_id();

@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\PostgreSQL\Connection
-	 * @version 2014-07-03
+	 * @version 2014-07-04
 	 *
 	 * @see http://php.net/manual/en/ref.pgsql.php
 	 */
@@ -96,22 +96,22 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 		 *
 		 * @access public
 		 * @override
-		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be queried
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 *
 		 * @see http://www.php.net/manual/en/function.pg-insert.php
 		 */
-		public function execute(\Leap\Core\DB\SQL\Command $sql) {
+		public function execute(\Leap\Core\DB\SQL\Command $command) {
 			if ( ! $this->is_connected()) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL command. Reason: Unable to find connection.');
 			}
-			$command = @pg_query($this->resource, $sql->text);
-			if ($command === FALSE) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => @pg_last_error($this->resource)));
+			$handle = @pg_query($this->resource, $command->text);
+			if ($handle === FALSE) {
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL command. Reason: :reason', array(':reason' => @pg_last_error($this->resource)));
 			}
-			$this->sql = $sql;
-			@pg_free_result($command);
+			$this->command = $command;
+			@pg_free_result($handle);
 		}
 
 		/**
@@ -132,24 +132,24 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: Unable to find connection.');
 			}
 			if (is_string($table)) {
-				$sql = $this->sql;
+				$command = $this->command;
 				$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 				$table = $precompiler->prepare_identifier($table);
 				$column = $precompiler->prepare_identifier($column);
 				$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS \"id\" FROM {$table};"))->get('id', 0);
-				$this->sql = $sql;
+				$this->command = $command;
 				return $id;
 			}
 			else {
 				// Option #1: Using 'SELECT LASTVAL();'
 
-				$command = @pg_query($this->resource, 'SELECT LASTVAL();');
+				$handle = @pg_query($this->resource, 'SELECT LASTVAL();');
 
-				if ($command === FALSE) {
+				if ($handle === FALSE) {
 					throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: :reason', array(':reason' => @pg_last_error($this->resource)));
 				}
 
-				$record = @pg_fetch_row($command);
+				$record = @pg_fetch_row($handle);
 
 				if ($record === FALSE) {
 					throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to fetch the last insert id. Reason: :reason', array(':reason' => @pg_last_error($this->resource)));
@@ -205,7 +205,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 		}
 
 		/**
-		 * This method escapes a string to be used in an SQL statement.
+		 * This method escapes a string to be used in an SQL command.
 		 *
 		 * @access public
 		 * @override

@@ -25,7 +25,7 @@ namespace Leap\Core\DB\ORM\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM\Select
-	 * @version 2014-05-01
+	 * @version 2014-07-04
 	 */
 	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
@@ -120,14 +120,14 @@ namespace Leap\Core\DB\ORM\Select {
 		}
 
 		/**
-		 * This method returns the raw SQL statement.
+		 * This method returns the raw SQL command.
 		 *
 		 * @access public
 		 * @override
-		 * @return string                                           the raw SQL statement
+		 * @return string                                           the raw SQL command
 		 */
 		public function __toString() {
-			return $this->builder->statement()->__toString();
+			return $this->builder->command()->__toString();
 		}
 
 		/**
@@ -156,12 +156,12 @@ namespace Leap\Core\DB\ORM\Select {
 		}
 
 		/**
-		 * This method combines another SQL statement using the specified operator.
+		 * This method combines another SQL command using the specified operator.
 		 *
 		 * @access public
 		 * @param string $operator                                  the operator to be used to append
-		 *                                                          the specified SQL statement
-		 * @param string $statement                                 the SQL statement to be appended
+		 *                                                          the specified SQL command
+		 * @param string $statement                                 the SQL command to be appended
 		 * @return \Leap\Core\DB\ORM\Select\Proxy                   a reference to the current instance
 		 */
 		public function combine($operator, $statement) {
@@ -170,10 +170,10 @@ namespace Leap\Core\DB\ORM\Select {
 		}
 
 		/**
-		 * This method sets whether to constrain the SQL statement to only distinct records.
+		 * This method sets whether to constrain the SQL command to only distinct records.
 		 *
 		 * @access public
-		 * @param boolean $distinct                                 whether to constrain the SQL statement to only
+		 * @param boolean $distinct                                 whether to constrain the SQL command to only
 		 *                                                          distinct records
 		 * @return \Leap\Core\DB\ORM\Select\Proxy                   a reference to the current instance
 		 */
@@ -306,7 +306,7 @@ namespace Leap\Core\DB\ORM\Select {
 		}
 
 		/**
-		 * This method performs a query using the built SQL statement.
+		 * This method performs a query using the built SQL command.
 		 *
 		 * @access public
 		 * @param integer $limit                                    the "limit" constraint
@@ -317,7 +317,7 @@ namespace Leap\Core\DB\ORM\Select {
 				$this->limit($limit);
 			}
 			$connection = \Leap\Core\DB\Connection\Pool::instance()->get_connection($this->data_source);
-			$records = $connection->query($this->statement(), $this->model);
+			$records = $connection->query($this->command(), $this->model);
 			return $records;
 		}
 
@@ -333,16 +333,16 @@ namespace Leap\Core\DB\ORM\Select {
 		}
 
 		/**
-		 * This method returns the SQL statement.
+		 * This method returns the SQL command.
 		 *
 		 * @access public
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL command
 		 */
-		public function statement($terminated = TRUE) {
-			return $this->builder->statement($terminated);
+		public function command($terminated = TRUE) {
+			return $this->builder->command($terminated);
 		}
 
 		/**

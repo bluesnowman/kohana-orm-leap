@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\DB2 {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\DB2
-	 * @version 2014-04-30
+	 * @version 2014-07-04
 	 */
 	class Schema extends \Leap\Core\DB\Schema {
 
@@ -121,17 +121,17 @@ namespace Leap\Plugin\DB\DB2 {
 			/*
 			$table = $this->precompiler->prepare_identifier($table);
 
-			$sql = 'SHOW FULL COLUMNS FROM ' . $table;
+			$text = 'SHOW FULL COLUMNS FROM ' . $table;
 
 			if ( ! empty($like)) {
 				$like = $this->precompiler->prepare_value($like);
-				$sql .= ' LIKE ' . $like;
+				$text .= ' LIKE ' . $like;
 			}
 
-			$sql .= ';';
+			$text .= ';';
 
 			$connection = DB\Connection\Pool::instance()->get_connection($this->data_source);
-			$records = $connection->query(new \Leap\Core\DB\SQL\Command($sql));
+			$records = $connection->query(new \Leap\Core\DB\SQL\Command($text));
 
 			$fields = array();
 

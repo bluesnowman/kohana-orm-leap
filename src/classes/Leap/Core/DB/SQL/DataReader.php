@@ -26,17 +26,17 @@ namespace Leap\Core\DB\SQL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-05-16
+	 * @version 2014-07-04
 	 */
 	abstract class DataReader extends \Leap\Core\Object implements \Leap\Core\GC\IDisposable {
 
 		/**
-		 * This variable stores the command reference being utilized.
+		 * This variable stores the handle reference being used.
 		 *
 		 * @access protected
-		 * @var resource
+		 * @var mixed
 		 */
-		protected $command;
+		protected $handle;
 
 		/**
 		 * This variable stores the last record fetched.
@@ -52,11 +52,11 @@ namespace Leap\Core\DB\SQL {
 		 * @access public
 		 * @abstract
 		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be used
-		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement to be queried
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be used
 		 * @param integer $mode                                     the execution mode to be used
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public abstract function __construct(\Leap\Core\DB\Connection\Driver $connection, \Leap\Core\DB\SQL\Command $sql, $mode = NULL);
+		public abstract function __construct(\Leap\Core\DB\Connection\Driver $connection, \Leap\Core\DB\SQL\Command $command, $mode = NULL);
 
 		/**
 		 * This destructor ensures that the command reference has been freed.
@@ -125,14 +125,14 @@ namespace Leap\Core\DB\SQL {
 		 * @access public
 		 * @static
 		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be used
-		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement to be queried
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be used
 		 * @param integer $mode                                     the execution mode to be used
 		 * @return \Leap\Core\DB\SQL\DataReader                     an instance of the appropriate
 		 *                                                          SQL data reader
 		 */
-		public static function factory(\Leap\Core\DB\Connection\Driver $connection, \Leap\Core\DB\SQL\Command $sql, $mode = NULL) {
-			$class = '\\Leap\\Plugin\\DB\\' . $connection->data_source->dialect . '\\DataReader\\' . $connection->data_source->driver;
-			$reader = new $class($connection, $sql, $mode);
+		public static function factory(\Leap\Core\DB\Connection\Driver $connection, \Leap\Core\DB\SQL\Command $command, $mode = NULL) {
+			$data_type = '\\Leap\\Plugin\\DB\\' . $connection->data_source->dialect . '\\DataReader\\' . $connection->data_source->driver;
+			$reader = new $data_type($connection, $command, $mode);
 			return $reader;
 		}
 

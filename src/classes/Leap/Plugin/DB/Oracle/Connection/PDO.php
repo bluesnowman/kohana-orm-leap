@@ -25,30 +25,30 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\Connection
-	 * @version 2014-07-03
+	 * @version 2014-07-04
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-oci.php
 	 */
 	class PDO extends \Leap\Core\DB\SQL\Connection\PDO {
 
 		/**
-		 * This method processes an SQL statement that will NOT return data.
+		 * This method processes an SQL command that will NOT return data.
 		 *
 		 * @access public
 		 * @override
-		 * @param \Leap\Core\DB\SQL\Command $sql					the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be queried
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 */
-		public function execute(\Leap\Core\DB\SQL\Command $sql) {
+		public function execute(\Leap\Core\DB\SQL\Command $command) {
 			if ( ! $this->is_connected()) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL command. Reason: Unable to find connection.');
 			}
-			$command = @$this->resource->exec(\Leap\Core\DB\SQL\Command::trim($sql->text));
-			if ($command === FALSE) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => $this->resource->errorInfo()));
+			$handle = @$this->resource->exec(\Leap\Core\DB\SQL\Command::trim($command->text));
+			if ($handle === FALSE) {
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL command. Reason: :reason', array(':reason' => $this->resource->errorInfo()));
 			}
-			$this->sql = $sql;
+			$this->command = $command;
 		}
 
 		/**
@@ -95,30 +95,30 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 		}
 
 		/**
-		 * This method processes an SQL statement that will return data.
+		 * This method processes an SQL command that will return data.
 		 *
 		 * @access public
 		 * @override
-		 * @param \Leap\Core\DB\SQL\Command $sql					the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be queried
 		 * @param string $type						                the return type to be used
 		 * @return \Leap\Core\DB\ResultSet                          the result set
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function query(\Leap\Core\DB\SQL\Command $sql, $type = 'array') {
-			return parent::query($sql, $type);
+		public function query(\Leap\Core\DB\SQL\Command $command, $type = 'array') {
+			return parent::query($command, $type);
 		}
 
 		/**
-		 * This method creates a data reader for query the specified SQL statement.
+		 * This method creates a data reader for query the specified SQL command.
 		 *
 		 * @access public
 		 * @override
-		 * @param \Leap\Core\DB\SQL\Command $sql					the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be queried
 		 * @return \Leap\Core\DB\SQL\DataReader                     the SQL data reader
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function reader(\Leap\Core\DB\SQL\Command $sql) {
-			return parent::reader($sql);
+		public function reader(\Leap\Core\DB\SQL\Command $command) {
+			return parent::reader($command);
 		}
 
 	}

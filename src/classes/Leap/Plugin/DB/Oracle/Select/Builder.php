@@ -25,26 +25,26 @@ namespace Leap\Plugin\DB\Oracle\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\Select
-	 * @version 2014-05-01
+	 * @version 2014-07-04
 	 *
 	 * @see http://download.oracle.com/docs/cd/B14117_01/server.101/b10759/statements_10002.htm
 	 */
 	class Builder extends \Leap\Core\DB\SQL\Select\Builder {
 
 		/**
-		 * This method combines another SQL statement using the specified operator.
+		 * This method combines another SQL command using the specified operator.
 		 *
 		 * @access public
 		 * @override
 		 * @param string $operator                                  the operator to be used to append
-		 *                                                          the specified SQL statement
-		 * @param string $statement                                 the SQL statement to be appended
+		 *                                                          the specified SQL command
+		 * @param string $statement                                 the SQL command to be appended
 		 * @return \Leap\Core\DB\SQL\Select\Builder                 a reference to the current instance
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates an invalid SQL build instruction
 		 */
 		public function combine($operator, $statement) {
 			if ($statement instanceof \Leap\Core\DB\SQL\Select\Builder) {
-				$statement = $statement->statement(FALSE)->text;
+				$statement = $statement->command(FALSE)->text;
 			}
 			else if ($statement instanceof \Leap\Core\DB\SQL\Command) {
 				$statement = \Leap\Core\DB\SQL\Command::trim($statement->text);
@@ -58,95 +58,95 @@ namespace Leap\Plugin\DB\Oracle\Select {
 		}
 
 		/**
-		 * This method returns the SQL statement.
+		 * This method returns the SQL command.
 		 *
 		 * @access public
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL command
 		 *
 		 * @see http://www.oracle.com/technetwork/issue-archive/2006/06-sep/o56asktom-086197.html
 		 * @see http://stackoverflow.com/questions/470542/how-do-i-limit-the-number-of-rows-returned-by-an-oracle-query
 		 */
-		public function statement($terminated = TRUE) {
-			$sql = 'SELECT ';
+		public function command($terminated = TRUE) {
+			$text = 'SELECT ';
 
 			if ($this->data['distinct']) {
-				$sql .= 'DISTINCT ';
+				$text .= 'DISTINCT ';
 			}
 
-			$sql .= ( ! empty($this->data['column']))
+			$text .= ( ! empty($this->data['column']))
 				? implode(', ', $this->data['column'])
 				: $this->data['wildcard'];
 
 			if ($this->data['from'] !== NULL) {
-				$sql .= " FROM {$this->data['from']}";
+				$text .= " FROM {$this->data['from']}";
 			}
 
 			foreach ($this->data['join'] as $join) {
-				$sql .= " {$join[0]}";
+				$text .= " {$join[0]}";
 				if ( ! empty($join[1])) {
-					$sql .= ' ON (' . implode(' AND ', $join[1]) . ')';
+					$text .= ' ON (' . implode(' AND ', $join[1]) . ')';
 				}
 				else if ( ! empty($join[2])) {
-					$sql .= ' USING (' . implode(', ', $join[2]) . ')';
+					$text .= ' USING (' . implode(', ', $join[2]) . ')';
 				}
 			}
 
 			if ( ! empty($this->data['where'])) {
 				$append = FALSE;
-				$sql .= ' WHERE ';
+				$text .= ' WHERE ';
 				foreach ($this->data['where'] as $where) {
 					if ($append AND ($where[1] != \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
-						$sql .= " {$where[0]} ";
+						$text .= " {$where[0]} ";
 					}
-					$sql .= $where[1];
+					$text .= $where[1];
 					$append = ($where[1] != \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_);
 				}
 			}
 
 			if ( ! empty($this->data['group_by'])) {
-				$sql .= ' GROUP BY ' . implode(', ', $this->data['group_by']);
+				$text .= ' GROUP BY ' . implode(', ', $this->data['group_by']);
 			}
 
 			if ( ! empty($this->data['having'])) {
 				$append = FALSE;
-				$sql .= ' HAVING ';
+				$text .= ' HAVING ';
 				foreach ($this->data['having'] as $having) {
 					if ($append AND ($having[1] != \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
-						$sql .= " {$having[0]} ";
+						$text .= " {$having[0]} ";
 					}
-					$sql .= $having[1];
+					$text .= $having[1];
 					$append = ($having[1] != \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_);
 				}
 			}
 
 			foreach ($this->data['combine'] as $combine) {
-				$sql .= " {$combine}";
+				$text .= " {$combine}";
 			}
 
 			if ( ! empty($this->data['order_by'])) {
-				$sql .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
+				$text .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
 			}
 
 			if (($this->data['limit'] > 0) AND ($this->data['offset'] > 0)) {
 				$max_row_to_fetch = $this->data['offset'] + ($this->data['limit'] - 1);
 				$min_row_to_fetch = $this->data['offset'];
-				$sql = "SELECT * FROM (SELECT \"t0\".*, ROWNUM AS \"rn\" FROM ({$sql}) \"t0\" WHERE ROWNUM <= {$max_row_to_fetch}) WHERE \"rn\" >= {$min_row_to_fetch}";
+				$text = "SELECT * FROM (SELECT \"t0\".*, ROWNUM AS \"rn\" FROM ({$text}) \"t0\" WHERE ROWNUM <= {$max_row_to_fetch}) WHERE \"rn\" >= {$min_row_to_fetch}";
 			}
 			else if ($this->data['limit'] > 0) {
-				$sql = "SELECT * FROM ({$sql}) WHERE ROWNUM <= {$this->data['limit']}";
+				$text = "SELECT * FROM ({$text}) WHERE ROWNUM <= {$this->data['limit']}";
 			}
 			else if ($this->data['offset'] > 0) {
-				$sql = "SELECT * FROM ({$sql}) WHERE ROWNUM >= {$this->data['offset']}";
+				$text = "SELECT * FROM ({$text}) WHERE ROWNUM >= {$this->data['offset']}";
 			}
 
 			if ($terminated) {
-				$sql .= ';';
+				$text .= ';';
 			}
 
-			$command = new \Leap\Core\DB\SQL\Command($sql);
+			$command = new \Leap\Core\DB\SQL\Command($text);
 			return $command;
 		}
 

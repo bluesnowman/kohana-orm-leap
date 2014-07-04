@@ -25,7 +25,7 @@ namespace Leap\Core\DB\SQL\Insert {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Insert
-	 * @version 2014-07-03
+	 * @version 2014-07-04
 	 */
 	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
@@ -48,7 +48,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		protected $before;
 
 		/**
-		 * This variable stores an instance of the SQL statement builder of the preferred SQL
+		 * This variable stores an instance of the SQL command builder of the preferred SQL
 		 * language dialect.
 		 *
 		 * @access protected
@@ -105,14 +105,14 @@ namespace Leap\Core\DB\SQL\Insert {
 		}
 
 		/**
-		 * This method returns the raw SQL statement.
+		 * This method returns the raw SQL command.
 		 *
 		 * @access public
 		 * @override
-		 * @return string                                           the raw SQL statement
+		 * @return string                                           the raw SQL command
 		 */
 		public function __toString() {
-			return $this->builder->statement()->__toString();
+			return $this->builder->command()->__toString();
 		}
 
 		/**
@@ -130,7 +130,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		}
 
 		/**
-		 * This method executes the SQL statement via the DAO class.
+		 * This method executes the SQL command via the DAO class.
 		 *
 		 * @access public
 		 * @param boolean $auto_increment		  	                whether to query for the last insert id
@@ -142,7 +142,7 @@ namespace Leap\Core\DB\SQL\Insert {
 			if ($this->before !== NULL) {
 				call_user_func_array($this->before, array($connection));
 			}
-			$connection->execute($this->statement());
+			$connection->execute($this->command());
 			$primary_key = ($auto_increment) ? $connection->get_last_insert_id() : 0;
 			if ($this->after !== NULL) {
 				call_user_func_array($this->after, array($connection));
@@ -187,16 +187,16 @@ namespace Leap\Core\DB\SQL\Insert {
 		}
 
 		/**
-		 * This method returns the SQL statement.
+		 * This method returns the SQL command.
 		 *
 		 * @access public
 		 * @override
 		 * @param boolean $terminated           	                whether to add a semi-colon to the end
 		 *                                      	                of the statement
-		 * @return string                       	                the SQL statement
+		 * @return string                       	                the SQL command
 		 */
-		public function statement($terminated = TRUE) {
-			return $this->builder->statement($terminated);
+		public function command($terminated = TRUE) {
+			return $this->builder->command($terminated);
 		}
 
 	}

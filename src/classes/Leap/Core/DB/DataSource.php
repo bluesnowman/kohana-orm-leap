@@ -25,7 +25,7 @@ namespace Leap\Core\DB {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-07-03
+	 * @version 2014-07-04
 	 */
 	class DataSource extends \Leap\Core\Object {
 
@@ -193,7 +193,7 @@ namespace Leap\Core\DB {
 
 			$this->settings['type'] = (isset($settings['type']))
 				? (string) $settings['type']
-				: 'SQL'; // e.g. SQL, NoSQL, LDAP
+				: 'SQL';
 
 			$this->settings['username'] = (isset($settings['connection']['username']))
 				? (string) $settings['connection']['username']

@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\Connection
-	 * @version 2014-07-03
+	 * @version 2014-07-04
 	 *
 	 * @see http://php.net/manual/en/ref.sqlsrv.php
 	 * @see http://blogs.msdn.com/b/brian_swan/archive/2010/03/08/mssql-vs-sqlsrv-what-s-the-difference-part-1.aspx
@@ -60,15 +60,15 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to begin SQL transaction. Reason: Unable to find connection.');
 			}
-			$command = @sqlsrv_begin_transaction($this->resource);
-			if ($command === FALSE) {
+			$handle = @sqlsrv_begin_transaction($this->resource);
+			if ($handle === FALSE) {
 				$errors = @sqlsrv_errors(SQLSRV_ERR_ALL);
 				$reason = (is_array($errors) AND isset($errors[0]['message']))
 					? $errors[0]['message']
 					: 'Unable to perform command.';
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to begin the transaction. Reason: :reason', array(':reason' => $reason));
 			}
-			$this->sql = new \Leap\Core\DB\SQL\Command('BEGIN TRAN;');
+			$this->command = new \Leap\Core\DB\SQL\Command('BEGIN TRAN;');
 		}
 
 		/**
@@ -103,43 +103,43 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: Unable to find connection.');
 			}
-			$command = @sqlsrv_commit($this->resource);
-			if ($command === FALSE) {
+			$handle = @sqlsrv_commit($this->resource);
+			if ($handle === FALSE) {
 				$errors = @sqlsrv_errors(SQLSRV_ERR_ALL);
 				$reason = (is_array($errors) AND isset($errors[0]['message']))
 					? $errors[0]['message']
 					: 'Unable to perform command.';
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to commit SQL transaction. Reason: :reason', array(':reason' => $reason));
 			}
-			$this->sql = new \Leap\Core\DB\SQL\Command('COMMIT;');
+			$this->command = new \Leap\Core\DB\SQL\Command('COMMIT;');
 		}
 
 		/**
-		 * This method processes an SQL statement that will NOT return data.
+		 * This method processes an SQL command that will NOT return data.
 		 *
 		 * @access public
 		 * @override
-		 * @param \Leap\Core\DB\SQL\Command $sql                   the SQL statement
-		 * @throws \Leap\Core\Throwable\SQL\Exception              indicates that the executed
-		 *                                                         statement failed
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be queried
+		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
+		 *                                                          statement failed
 		 *
 		 * @see http://php.net/manual/en/function.sqlsrv-query.php
 		 * @see http://php.net/manual/en/function.sqlsrv-free-stmt.php
 		 */
-		public function execute(\Leap\Core\DB\SQL\Command $sql) {
+		public function execute(\Leap\Core\DB\SQL\Command $command) {
 			if ( ! $this->is_connected()) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL command. Reason: Unable to find connection.');
 			}
-			$command = @sqlsrv_query($this->resource, $sql->text);
-			if ($command === FALSE) {
+			$handle = @sqlsrv_query($this->resource, $command->text);
+			if ($handle === FALSE) {
 				$errors = @sqlsrv_errors(SQLSRV_ERR_ALL);
 				$reason = (is_array($errors) AND isset($errors[0]['message']))
 					? $errors[0]['message']
 					: 'Unable to perform command.';
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL statement. Reason: :reason', array(':reason' => $reason));
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to execute SQL command. Reason: :reason', array(':reason' => $reason));
 			}
-			@sqlsrv_free_stmt($command);
-			$this->sql = $sql;
+			@sqlsrv_free_stmt($handle);
+			$this->command = $command;
 		}
 
 		/**
@@ -158,21 +158,21 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 			}
 			try {
 				if (is_string($table)) {
-					$sql = $this->sql;
+					$command = $this->command;
 					$precompiler = \Leap\Core\DB\SQL::precompiler($this->data_source);
 					$table = $precompiler->prepare_identifier($table);
 					$column = $precompiler->prepare_identifier($column);
 					$id = (int) $this->query(new \Leap\Core\DB\SQL\Command("SELECT MAX({$column}) AS [id] FROM {$table};"))->get('id', 0);
-					$this->sql = $sql;
+					$this->command = $command;
 					return $id;
 				}
 				else {
-					$sql = $this->sql;
-					if (preg_match('/^INSERT\s+(TOP.+\s+)?INTO\s+(.*?)\s+/i', $sql, $matches)) {
+					$command = $this->command;
+					if (preg_match('/^INSERT\s+(TOP.+\s+)?INTO\s+(.*?)\s+/i', $command->text, $matches)) {
 						$table = isset($matches[2]) ? $matches[2] : NULL;
 						$query = ( ! empty($table)) ? "SELECT IDENT_CURRENT('{$table}') AS [id];" : 'SELECT SCOPE_IDENTITY() AS [id];';
 						$id = (int) $this->query(new \Leap\Core\DB\SQL\Command($query))->get('id', 0);
-						$this->sql = $sql;
+						$this->command = $command;
 						return $id;
 					}
 					return 0;
@@ -242,15 +242,15 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: Unable to find connection.');
 			}
-			$command = @sqlsrv_rollback($this->resource);
-			if ($command === FALSE) {
+			$handle = @sqlsrv_rollback($this->resource);
+			if ($handle === FALSE) {
 				$errors = @sqlsrv_errors(SQLSRV_ERR_ALL);
 				$reason = (is_array($errors) AND isset($errors[0]['message']))
 					? $errors[0]['message']
 					: 'Unable to perform command.';
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to rollback SQL transaction. Reason: :reason', array(':reason' => $reason));
 			}
-			$this->sql = new \Leap\Core\DB\SQL\Command('ROLLBACK;');
+			$this->command = new \Leap\Core\DB\SQL\Command('ROLLBACK;');
 		}
 
 	}

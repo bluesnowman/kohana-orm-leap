@@ -20,24 +20,24 @@
 namespace Leap\Core\DB\SQL {
 
 	/**
-	 * This interface provides the contract for a class representing an SQL statement.
+	 * This interface provides the contract for a class representing an SQL command.
 	 *
 	 * @access public
 	 * @interface
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-04-30
+	 * @version 2014-07-04
 	 */
 	interface Statement {
 
 		/**
-		 * This method returns the SQL statement.
+		 * This method returns the SQL command.
 		 *
 		 * @access public
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL command
 		 */
-		public function statement($terminated = TRUE);
+		public function command($terminated = TRUE);
 
 	}
 

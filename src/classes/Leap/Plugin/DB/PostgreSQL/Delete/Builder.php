@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Delete {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\PostgreSQL\Delete
-	 * @version 2014-04-30
+	 * @version 2014-07-04
 	 *
 	 * @see http://www.postgresql.org/docs/9.0/static/sql-delete.html
 	 * @see http://www.pgsql.cz/index.php/PostgreSQL_SQL_Tricks
@@ -35,52 +35,52 @@ namespace Leap\Plugin\DB\PostgreSQL\Delete {
 	class Builder extends \Leap\Core\DB\SQL\Delete\Builder {
 
 		/**
-		 * This method returns the SQL statement.
+		 * This method returns the SQL command.
 		 *
 		 * @access public
 		 * @override
 		 * @param boolean $terminated                               whether to add a semi-colon to the end
 		 *                                                          of the statement
-		 * @return \Leap\Core\DB\SQL\Command                        the SQL statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL command
 		 */
-		public function statement($terminated = TRUE) {
-			$sql = '';
+		public function command($terminated = TRUE) {
+			$text = '';
 
 			if ( ! empty($this->data['where'])) {
 				$append = FALSE;
-				$sql .= ' WHERE ';
+				$text .= ' WHERE ';
 				foreach ($this->data['where'] as $where) {
 					if ($append AND ($where[1] != \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
-						$sql .= " {$where[0]} ";
+						$text .= " {$where[0]} ";
 					}
-					$sql .= $where[1];
+					$text .= $where[1];
 					$append = ($where[1] != \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_);
 				}
 			}
 
 			if ( ! empty($this->data['order_by'])) {
-				$sql .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
+				$text .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
 			}
 
 			if ($this->data['limit'] > 0) {
-				$sql .= " LIMIT {$this->data['limit']}";
+				$text .= " LIMIT {$this->data['limit']}";
 			}
 
 			if ($this->data['offset'] > 0) {
-				$sql .= " OFFSET {$this->data['offset']}";
+				$text .= " OFFSET {$this->data['offset']}";
 			}
 
-			if ( ! empty($sql)) {
-				$sql = " WHERE ctid = any(array(SELECT ctid FROM {$this->data['from']}" . $sql . '))';
+			if ( ! empty($text)) {
+				$text = " WHERE ctid = any(array(SELECT ctid FROM {$this->data['from']}" . $text . '))';
 			}
 
-			$sql = "DELETE FROM {$this->data['from']}" . $sql;
+			$text = "DELETE FROM {$this->data['from']}" . $text;
 
 			if ($terminated) {
-				$sql .= ';';
+				$text .= ';';
 			}
 
-			$command = new \Leap\Core\DB\SQL\Command($sql);
+			$command = new \Leap\Core\DB\SQL\Command($text);
 			return $command;
 		}
 

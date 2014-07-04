@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\DB2\Lock {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\DB2\Lock
-	 * @version 2014-04-19
+	 * @version 2014-07-04
 	 *
 	 * @see http://publib.boulder.ibm.com/infocenter/dzichelp/v2r2/topic/com.ibm.db2.doc.sqlref/rlktb.htm
 	 * @see http://publib.boulder.ibm.com/infocenter/db2luw/v8/topic/com.ibm.db2.udb.doc/admin/r0000972.htm
@@ -41,8 +41,8 @@ namespace Leap\Plugin\DB\DB2\Lock {
 		 */
 		public function acquire() {
 			$this->connection->begin_transaction();
-			foreach ($this->data as $sql) {
-				$this->connection->execute($sql);
+			foreach ($this->data as $command) {
+				$this->connection->execute($command);
 			}
 			return $this;
 		}
@@ -58,7 +58,7 @@ namespace Leap\Plugin\DB\DB2\Lock {
 		 */
 		public function add($table, Array $hints = NULL) {
 			$table = $this->precompiler->prepare_identifier($table);
-			$sql = "LOCK TABLE {$table} IN ";
+			$text = "LOCK TABLE {$table} IN ";
 			$mode = 'EXCLUSIVE';
 			if ($hints !== NULL) {
 				foreach ($hints as $hint) {
@@ -67,7 +67,8 @@ namespace Leap\Plugin\DB\DB2\Lock {
 					}
 				}
 			}
-			$this->data[$table] = $sql . $mode . ' MODE;';
+			$text .= $mode . ' MODE;';
+			$this->data[$table] = new \Leap\Core\DB\SQL\Command($text);
 			return $this;
 		}
 

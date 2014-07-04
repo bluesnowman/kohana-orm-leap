@@ -26,7 +26,7 @@ namespace Leap\Plugin\DB\MySQL\DataReader {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MySQL\DataReader
-	 * @version 2014-05-16
+	 * @version 2014-07-04
 	 *
 	 * @see http://www.php.net/manual/en/book.mysqli.php
 	 */
@@ -38,17 +38,17 @@ namespace Leap\Plugin\DB\MySQL\DataReader {
 		 * @access public
 		 * @override
 		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be used
-		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement to be queried
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be used
 		 * @param integer $mode                                     the execution mode to be used
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function __construct(\Leap\Core\DB\Connection\Driver $connection, \Leap\Core\DB\SQL\Command $sql, $mode = NULL) {
+		public function __construct(\Leap\Core\DB\Connection\Driver $connection, \Leap\Core\DB\SQL\Command $command, $mode = NULL) {
 			$resource = $connection->get_resource();
-			$command = @mysqli_query($resource, $sql->text);
-			if ($command === FALSE) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: :reason', array(':reason' => @mysqli_error($resource)));
+			$handle = @mysqli_query($resource, $command->text);
+			if ($handle === FALSE) {
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL command. Reason: :reason', array(':reason' => @mysqli_error($resource)));
 			}
-			$this->command = $command;
+			$this->handle = $handle;
 			$this->record = FALSE;
 		}
 
@@ -60,9 +60,9 @@ namespace Leap\Plugin\DB\MySQL\DataReader {
 		 *                                                          in addition to un-managed resources
 		 */
 		public function dispose($disposing = TRUE) {
-			if ($this->command !== NULL) {
-				@mysqli_free_result($this->command);
-				$this->command = NULL;
+			if ($this->handle !== NULL) {
+				@mysqli_free_result($this->handle);
+				$this->handle = NULL;
 				$this->record = FALSE;
 			}
 		}
@@ -75,7 +75,7 @@ namespace Leap\Plugin\DB\MySQL\DataReader {
 		 * @return boolean                                          whether another record was fetched
 		 */
 		public function read() {
-			$this->record = @mysqli_fetch_assoc($this->command);
+			$this->record = @mysqli_fetch_assoc($this->handle);
 			return ($this->record !== FALSE);
 		}
 

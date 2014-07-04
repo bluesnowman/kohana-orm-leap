@@ -26,7 +26,7 @@ namespace Leap\Plugin\DB\Firebird\DataReader {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Firebird\DataReader
-	 * @version 2014-05-16
+	 * @version 2014-07-04
 	 */
 	class Standard extends \Leap\Core\DB\SQL\DataReader\Standard {
 
@@ -52,22 +52,22 @@ namespace Leap\Plugin\DB\Firebird\DataReader {
 		 * @access public
 		 * @override
 		 * @param \Leap\Core\DB\Connection\Driver $connection       the connection to be used
-		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement to be queried
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be used
 		 * @param integer $mode                                     the execution mode to be used
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function __construct(\Leap\Core\DB\Connection\Driver $connection, \Leap\Core\DB\SQL\Command $sql, $mode = NULL) {
+		public function __construct(\Leap\Core\DB\Connection\Driver $connection, \Leap\Core\DB\SQL\Command $command, $mode = NULL) {
 			$this->resource = $connection->get_resource();
-			$command = @ibase_query($this->resource, $sql->text);
-			if ($command === FALSE) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: :reason', array(':reason' => @ibase_errmsg()));
+			$handle = @ibase_query($this->resource, $command->text);
+			if ($handle === FALSE) {
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL command. Reason: :reason', array(':reason' => @ibase_errmsg()));
 			}
-			$this->command = $command;
+			$this->handle = $handle;
 			$this->record = FALSE;
 			$this->blobs = array();
-			$count = (int) @ibase_num_fields($command);
+			$count = (int) @ibase_num_fields($handle);
 			for ($i = 0; $i < $count; $i++) {
-				$field = ibase_field_info($command, $i);
+				$field = ibase_field_info($handle, $i);
 				if ($field['type'] == 'BLOB') {
 					$this->blobs[] = $field['name'];
 				}
@@ -82,9 +82,9 @@ namespace Leap\Plugin\DB\Firebird\DataReader {
 		 *                                                          in addition to un-managed resources
 		 */
 		public function dispose($disposing = TRUE) {
-			if ($this->command !== NULL) {
-				@ibase_free_result($this->command);
-				$this->command = NULL;
+			if ($this->handle !== NULL) {
+				@ibase_free_result($this->handle);
+				$this->handle = NULL;
 				$this->record = FALSE;
 				$this->blobs = array();
 				$this->resource = NULL;
@@ -101,7 +101,7 @@ namespace Leap\Plugin\DB\Firebird\DataReader {
 		 * @see http://php.net/manual/en/function.ibase-blob-get.php
 		 */
 		public function read() {
-			$this->record = @ibase_fetch_assoc($this->command);
+			$this->record = @ibase_fetch_assoc($this->handle);
 			if ($this->record !== FALSE) {
 				foreach ($this->blobs as $field) {
 					$info = @ibase_blob_info($this->resource, $this->record[$field]);

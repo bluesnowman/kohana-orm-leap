@@ -26,7 +26,7 @@ namespace Leap\Core\DB\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\Connection
-	 * @version 2014-07-03
+	 * @version 2014-07-04
 	 */
 	abstract class Driver extends \Leap\Core\Object {
 
@@ -37,6 +37,14 @@ namespace Leap\Core\DB\Connection {
 		 * @var string
 		 */
 		protected $cache_key;
+
+		/**
+		 * This variable stores the last SQL command executed.
+		 *
+		 * @access protected
+		 * @var \Leap\Core\DB\SQL\Command
+		 */
+		protected $command;
 
 		/**
 		 * This variable stores a reference to the data source.
@@ -63,14 +71,6 @@ namespace Leap\Core\DB\Connection {
 		protected $resource;
 
 		/**
-		 * This variable stores the last SQL statement executed.
-		 *
-		 * @access protected
-		 * @var \Leap\Core\DB\SQL\Command
-		 */
-		protected $sql;
-
-		/**
 		 * This method initializes the class with the specified data source.
 		 *
 		 * @access public
@@ -78,10 +78,10 @@ namespace Leap\Core\DB\Connection {
 		 */
 		public function __construct(\Leap\Core\DB\DataSource $data_source) {
 			$this->cache_key = NULL;
+			$this->command = new \Leap\Core\DB\SQL\Command();
 			$this->data_source = $data_source;
 			$this->lock = \Leap\Core\DB\SQL\Lock\Builder::factory($this);
 			$this->resource = NULL;
-			$this->sql = new \Leap\Core\DB\SQL\Command();
 		}
 
 		/**
@@ -104,12 +104,12 @@ namespace Leap\Core\DB\Connection {
 		 */
 		public function __get($key) {
 			switch ($key) {
+				case 'command':
+					return $this->command;
 				case 'data_source':
 					return $this->data_source;
 				case 'lock':
 					return $this->lock;
-				case 'sql':
-					return $this->sql;
 				default:
 					throw new \Leap\Core\Throwable\InvalidProperty\Exception('Message: Unable to get the specified property. Reason: Property :key is either inaccessible or undefined.', array(':key' => $key));
 			}
@@ -129,12 +129,12 @@ namespace Leap\Core\DB\Connection {
 		 * This method manages query caching.
 		 *
 		 * @access protected
-		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement being queried
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command being queried
 		 * @param string $type                                      the return type that is being used
 		 * @param \Leap\Core\DB\ResultSet $results                  the result set
 		 * @return \Leap\Core\DB\ResultSet                          the result set for the specified
 		 */
-		protected function cache(\Leap\Core\DB\SQL\Command $sql, $type, $results = NULL) {
+		protected function cache(\Leap\Core\DB\SQL\Command $command, $type, $results = NULL) {
 			/*
 			if ($this->data_source->cache->enabled) {
 				if ($results !== NULL) {
@@ -144,7 +144,7 @@ namespace Leap\Core\DB\Connection {
 					return $results;
 				}
 				else if ($this->data_source->cache->lifetime !== NULL) {
-					$this->cache_key = '\\Leap\\Core\\DB\\Connection\\Driver::query("' . $this->data_source->id . '", "' . $type . '", "' . $sql->text . '")';
+					$this->cache_key = '\\Leap\\Core\\DB\\Connection\\Driver::query("' . $this->data_source->id . '", "' . $type . '", "' . $command->text . '")';
 					$results = \Kohana::cache($this->cache_key, NULL, $this->data_source->cache->lifetime);
 					if (($results !== NULL) AND ! $this->data_source->cache->force) {
 						return $results;
@@ -175,15 +175,15 @@ namespace Leap\Core\DB\Connection {
 		public abstract function commit();
 
 		/**
-		 * This method processes an SQL statement that will NOT return data.
+		 * This method processes an SQL command that will NOT return data.
 		 *
 		 * @access public
 		 * @abstract
-		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be queried
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the executed
 		 *                                                          statement failed
 		 */
-		public abstract function execute(\Leap\Core\DB\SQL\Command $sql);
+		public abstract function execute(\Leap\Core\DB\SQL\Command $command);
 
 		/**
 		 * This method returns the last insert id.
@@ -231,31 +231,31 @@ namespace Leap\Core\DB\Connection {
 		public abstract function open();
 
 		/**
-		 * This method processes an SQL statement that will return data.
+		 * This method processes an SQL command that will return data.
 		 *
 		 * @access public
-		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be queried
 		 * @param string $type                                      the return type to be used
 		 * @return \Leap\Core\DB\ResultSet                          the result set
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function query(\Leap\Core\DB\SQL\Command $sql, $type = 'array') {
+		public function query(\Leap\Core\DB\SQL\Command $command, $type = 'array') {
 			if ( ! $this->is_connected()) {
-				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL statement. Reason: Unable to find connection.');
+				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to query SQL command. Reason: Unable to find connection.');
 			}
-			$result_set = $this->cache($sql, $type);
+			$result_set = $this->cache($command, $type);
 			if ($result_set !== NULL) {
-				$this->sql = $sql;
+				$this->command = $command;
 				return $result_set;
 			}
-			$reader = \Leap\Core\DB\SQL\DataReader::factory($this, $sql);
-			$result_set = $this->cache($sql, $type, new \Leap\Core\DB\ResultSet($reader, $type));
-			$this->sql = $sql;
+			$reader = \Leap\Core\DB\SQL\DataReader::factory($this, $command);
+			$result_set = $this->cache($command, $type, new \Leap\Core\DB\ResultSet($reader, $type));
+			$this->command = $command;
 			return $result_set;
 		}
 
 		/**
-		 * This method escapes a string to be used in an SQL statement.
+		 * This method escapes a string to be used in an SQL command.
 		 *
 		 * @access public
 		 * @param string $string                                    the string to be escaped
@@ -294,19 +294,19 @@ namespace Leap\Core\DB\Connection {
 		}
 
 		/**
-		 * This method creates a data reader for query the specified SQL statement.
+		 * This method creates a data reader for query the specified SQL command.
 		 *
 		 * @access public
-		 * @param \Leap\Core\DB\SQL\Command $sql                    the SQL statement
+		 * @param \Leap\Core\DB\SQL\Command $command                the SQL command to be queried
 		 * @return \Leap\Core\DB\SQL\DataReader                     the SQL data reader
 		 * @throws \Leap\Core\Throwable\SQL\Exception               indicates that the query failed
 		 */
-		public function reader(\Leap\Core\DB\SQL\Command $sql) {
+		public function reader(\Leap\Core\DB\SQL\Command $command) {
 			if ( ! $this->is_connected()) {
 				throw new \Leap\Core\Throwable\SQL\Exception('Message: Failed to create SQL data reader. Reason: Unable to find connection.');
 			}
-			$reader = \Leap\Core\DB\SQL\DataReader::factory($this, $sql);
-			$this->sql = $sql;
+			$reader = \Leap\Core\DB\SQL\DataReader::factory($this, $command);
+			$this->command = $command;
 			return $reader;
 		}
 
