@@ -37,7 +37,7 @@ namespace Leap\Core\DB\SQL\Insert {
 		 * @param \Leap\Core\DB\DataSource $data_source             the data source to be used
 		 */
 		public function __construct(\Leap\Core\DB\DataSource $data_source) {
-			$data_type = '\\Leap\\Plugin\\DB\\' . $this->dialect . '\\Precompiler';
+			$data_type = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Precompiler';
 			$this->precompiler = new $data_type($data_source);
 			$this->dialect = $data_source->dialect;
 			$this->reset();

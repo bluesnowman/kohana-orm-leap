@@ -110,6 +110,7 @@ namespace Leap\Core\DB {
 				case 'port':
 				case 'type':
 				case 'username':
+				case 'results':
 				case 'role':
 					return $this->settings[$name];
 				default:
@@ -160,7 +161,7 @@ namespace Leap\Core\DB {
 			$this->settings['cache'] = (object) $cache;
 
 			$this->settings['charset'] = (isset($settings['charset']))
-				? (string) $settings['charset'] // e.g. utf8
+				? (string) str_replace('-', '', strtolower($settings['charset'])) // e.g. utf8
 				: '';
 
 			$this->settings['database'] = (isset($settings['connection']['database']))
@@ -198,6 +199,10 @@ namespace Leap\Core\DB {
 			$this->settings['username'] = (isset($settings['connection']['username']))
 				? (string) $settings['connection']['username']
 				: '';
+
+			$this->settings['results'] = (isset($settings['results']))
+				? (array) $settings['results']
+				: array();
 
 			$this->settings['role'] = (isset($settings['connection']['role']))
 				? (string) $settings['connection']['role']

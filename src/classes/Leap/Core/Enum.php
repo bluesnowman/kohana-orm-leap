@@ -26,27 +26,9 @@ namespace Leap\Core {
 	 * @access public
 	 * @class
 	 * @package Leap\Core
-	 * @version 2014-05-11
+	 * @version 2015-03-07
 	 */
 	abstract class Enum extends \Leap\Core\Object {
-
-		/**
-		 * This variable stores the enumerations.
-		 *
-		 * @access protected
-		 * @static
-		 * @var array                                               an indexed array of the enumerations
-		 */
-		protected static $__enums = array();
-
-		/**
-		 * This variable stores the next ordinal value to be assigned.
-		 *
-		 * @access protected
-		 * @static
-		 * @var integer                                             the next ordinal value to be assigned
-		 */
-		protected static $__ordinals = 0;
 
 		/**
 		 * This variable stores the name assigned to the enumeration.
@@ -85,26 +67,33 @@ namespace Leap\Core {
 		}
 
 		/**
-		 * This method creates an enumeration.  It should only be called in the "__static" constructor
-		 * to initialize the enumeration.
+		 * This constructor intiializes the enumeration with the specified properties.
 		 *
+		 * @abstract
 		 * @access protected
 		 * @param string $name                                      the name of the enumeration
 		 * @param mixed $value                                      the value to be assigned to the enumeration
 		 */
-		protected function __construct($name, $value) {
-			$this->__name = '' . $name;
-			$this->__value = $value;
-			$this->__ordinal = static::$__ordinals++;
+		protected abstract function __construct($name, $value);
+
+		/**
+		 * This destructor ensures that any resources are properly disposed.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->__name);
+			unset($this->__ordinal);
+			unset($this->__value);
 		}
 
 		/**
-		 * This method evaluates whether the specified objects is equivalent to the current
-		 * object.
+		 * This method evaluates whether the specified objects is equal to the current object.
 		 *
 		 * @access public
 		 * @param mixed $object                                     the object to be evaluated
-		 * @return boolean                                          whether the specified object is equivalent
+		 * @return boolean                                          whether the specified object is equal
 		 *                                                          to the current object
 		 */
 		public function __equals($object) {
@@ -149,22 +138,6 @@ namespace Leap\Core {
 		 */
 		public function __value() {
 			return $this->__value;
-		}
-
-		/**
-		 * This method returns an indexed array containing the values assigned to the enumerations.
-		 *
-		 * @access public
-		 * @static
-		 * @return array                                            an indexed array containing the values assigned
-		 *                                                          to the enumerations
-		 */
-		public static function __values() {
-			$values = array();
-			foreach (static::$__enums as $enum) {
-				$values[] = $enum->__value();
-			}
-			return $values;
 		}
 
 	}

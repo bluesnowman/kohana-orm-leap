@@ -16,7 +16,7 @@ $config['default'] = array(
 		'role'          => '',          // string
 	),
 	'caching'       => FALSE,       // boolean
-	'charset'       => 'utf8',      // string
+	'charset'       => 'UTF-8',     // string
 );
 
 return $config;

@@ -26,32 +26,58 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 	 * @class
 	 * @final
 	 * @package Leap\Core\DB\SQL\Tokenizer
-	 * @version 2014-05-11
+	 * @version 2015-03-07
 	 */
 	final class TokenType extends \Leap\Core\Enum {
 
 		/**
-		 * This method sets up the enumerations.
+		 * This variable stores the enumerations.
 		 *
-		 * @access public
+		 * @access protected
 		 * @static
+		 * @var array                                               an indexed array of the enumerations
 		 */
-		public static function __static() {
-			static::$__enums = array(
-				new static('dot', 'DOT'),
-				new static('error', 'ERROR'),
-				new static('hexadecimal', 'HEXADECIMAL'),
-				new static('identifier', 'IDENTIFIER'),
-				new static('integer', 'NUMBER:INTEGER'),
-				new static('keyword', 'KEYWORD'),
-				new static('literal', 'LITERAL'),
-				new static('operator', 'OPERATOR'),
-				new static('parameter', 'PARAMETER'),
-				new static('real', 'NUMBER:REAL'),
-				new static('terminal', 'TERMINAL'),
-				new static('unknown', 'UNKNOWN'),
-				new static('whitespace', 'WHITESPACE'),
-			);
+		protected static $__enums;
+
+		/**
+		 * This method returns the token at the specified ordinal index.
+		 *
+		 * @access protected
+		 * @static
+		 * @param integer $ordinal                                  the ordinal index of the token
+		 * @return \Leap\Core\Enum                                  the token
+		 */
+		protected static function __enum($ordinal) {
+			if (!is_array(static::$__enums)) {
+				static::$__enums = array();
+				static::$__enums[] = new static('dot', 'DOT');
+				static::$__enums[] = new static('error', 'ERROR');
+				static::$__enums[] = new static('hexadecimal', 'HEXADECIMAL');
+				static::$__enums[] = new static('identifier', 'IDENTIFIER');
+				static::$__enums[] = new static('integer', 'NUMBER:INTEGER');
+				static::$__enums[] = new static('keyword', 'KEYWORD');
+				static::$__enums[] = new static('literal', 'LITERAL');
+				static::$__enums[] = new static('operator', 'OPERATOR');
+				static::$__enums[] = new static('parameter', 'PARAMETER');
+				static::$__enums[] = new static('real', 'NUMBER:REAL');
+				static::$__enums[] = new static('terminal', 'TERMINAL');
+				static::$__enums[] = new static('unknown', 'UNKNOWN');
+				static::$__enums[] = new static('whitespace', 'WHITESPACE');
+			}
+			return static::$__enums[$ordinal];
+		}
+
+		/**
+		 * This constructor initializes the enumeration with the specified properties.
+		 *
+		 * @access protected
+		 * @param string $name                                      the name of the enumeration
+		 * @param mixed $value                                      the value to be assigned to the enumeration
+		 */
+		protected function __construct($name, $value) {
+			$this->__name = $name;
+			$this->__value = $value;
+			$this->__ordinal = count(static::$__enums);
 		}
 
 		/**
@@ -62,7 +88,7 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 		 * @return \Leap\Core\DB\SQL\Tokenizer\TokenType            the token type
 		 */
 		public static function dot() {
-			return static::$__enums[0];
+			return static::__enum(0);
 		}
 
 		/**
@@ -73,7 +99,7 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 		 * @return \Leap\Core\DB\SQL\Tokenizer\TokenType            the token type
 		 */
 		public static function error() {
-			return static::$__enums[1];
+			return static::__enum(1);
 		}
 
 		/**
@@ -84,7 +110,7 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 		 * @return \Leap\Core\DB\SQL\Tokenizer\TokenType            the token type
 		 */
 		public static function hexadecimal() {
-			return static::$__enums[2];
+			return static::__enum(2);
 		}
 
 		/**
@@ -95,7 +121,7 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 		 * @return \Leap\Core\DB\SQL\Tokenizer\TokenType            the token type
 		 */
 		public static function identifier() {
-			return static::$__enums[3];
+			return static::__enum(3);
 		}
 
 		/**
@@ -106,7 +132,7 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 		 * @return \Leap\Core\DB\SQL\Tokenizer\TokenType            the token type
 		 */
 		public static function integer() {
-			return static::$__enums[4];
+			return static::__enum(4);
 		}
 
 		/**
@@ -117,7 +143,7 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 		 * @return \Leap\Core\DB\SQL\Tokenizer\TokenType            the token type
 		 */
 		public static function keyword() {
-			return static::$__enums[5];
+			return static::__enum(5);
 		}
 
 		/**
@@ -128,7 +154,7 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 		 * @return \Leap\Core\DB\SQL\Tokenizer\TokenType            the token type
 		 */
 		public static function literal() {
-			return static::$__enums[6];
+			return static::__enum(6);
 		}
 
 		/**
@@ -139,7 +165,7 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 		 * @return \Leap\Core\DB\SQL\Tokenizer\TokenType            the token type
 		 */
 		public static function operator() {
-			return static::$__enums[7];
+			return static::__enum(7);
 		}
 
 		/**
@@ -150,7 +176,7 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 		 * @return \Leap\Core\DB\SQL\Tokenizer\TokenType            the token type
 		 */
 		public static function parameter() {
-			return static::$__enums[8];
+			return static::__enum(8);
 		}
 
 		/**
@@ -161,7 +187,7 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 		 * @return \Leap\Core\DB\SQL\Tokenizer\TokenType            the token type
 		 */
 		public static function real() {
-			return static::$__enums[9];
+			return static::__enum(9);
 		}
 
 		/**
@@ -172,7 +198,7 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 		 * @return \Leap\Core\DB\SQL\Tokenizer\TokenType            the token type
 		 */
 		public static function terminal() {
-			return static::$__enums[10];
+			return static::__enum(10);
 		}
 
 		/**
@@ -183,7 +209,7 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 		 * @return \Leap\Core\DB\SQL\Tokenizer\TokenType            the token type
 		 */
 		public static function unknown() {
-			return static::$__enums[11];
+			return static::__enum(11);
 		}
 
 		/**
@@ -194,7 +220,7 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 		 * @return \Leap\Core\DB\SQL\Tokenizer\TokenType            the token type
 		 */
 		public static function whitespace() {
-			return static::$__enums[12];
+			return static::__enum(12);
 		}
 
 	}

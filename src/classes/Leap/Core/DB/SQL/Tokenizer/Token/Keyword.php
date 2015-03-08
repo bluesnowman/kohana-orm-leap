@@ -43,7 +43,7 @@ namespace Leap\Core\DB\SQL\Tokenizer\Token {
 		 * @access public
 		 * @param array $keywords                                   a list of reserved keywords
 		 */
-		public function __construct($keywords) {
+		public function __construct(array $keywords = array()) {
 			$this->keywords = $keywords;
 		}
 

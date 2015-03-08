@@ -78,46 +78,47 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 		public function open() {
 			if ( ! $this->is_connected()) {
 				try {
-					// Driver: Sql Server
-
-					$connection_string  = 'sqlsrv:';
-					$connection_string .= 'Server=' . $this->data_source->hostname;
-
+					$config = array();
+					if (extension_loaded('sqlsrv')) {
+						$config['extension'] = 'sqlsrv';
+						$config['host'] = 'Server';
+						$config['port'] = ':';
+						$config['dbname'] = 'Database';
+					}
+					else {
+						if (extension_loaded('mssql')) {
+							$config['extension'] = 'mssql';
+							$config['host'] = 'host';
+							$config['port'] = ',';
+							$config['dbname'] = 'dbname';
+							//if ( ! empty($this->data_source->charset)) {
+							//	ini_set('mssql.charset', $this->data_source->charset);
+							//}
+						}
+						else {
+							$config['extension'] = 'dblib';
+							$config['host'] = 'host';
+							$config['port'] = ':';
+							$config['dbname'] = 'dbname';
+						}
+					}
+					$connection_string = $config['extension'] . ':' . $config['host'] . '=' . $this->data_source->host;
 					$port = $this->data_source->port;
-					if ( ! empty($port)) {
-						$connection_string .= ':' . $port;
-						// $connection_string .= ',' . $port;
+					if (!empty($port)) {
+						$connection_string .= $config['port'] . $port;
 					}
 					$connection_string .= ';';
-					$connection_string .= 'Database=' . $this->data_source->database;
-
-					// Driver: MsSQL
-					/*
-					$connection_string  = 'mssql:';
-					$connection_string .= 'host=' . $this->data_source->hostname;
-
-					$port = $this->data_source->port;
-					if ( ! empty($port)) {
-						$connection_string .= ':' . $port;
-						// $connection_string .= ',' . $port;
-					}
-					$connection_string .= ';';
-					$connection_string .= 'dbname=' . $this->data_source->database;
-					*/
-
+					$connection_string .= $config['dbname'] . '=' . $this->data_source->database;
 					$attributes = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);
 					if ($this->data_source->is_persistent()) {
-						$attributes[\PDO::ATTR_PERSISTENT] = TRUE;
+						$attributes[\PDO::ATTR_PERSISTENT] = true;
 					}
 					$this->resource = new \PDO($connection_string, $this->data_source->username, $this->data_source->password, $attributes);
 				}
 				catch (\PDOException $ex) {
-					$this->resource = NULL;
+					$this->resource = null;
 					throw new \Leap\Core\Throwable\Database\Exception('Message: Failed to establish connection. Reason: :reason', array(':reason' => $ex->getMessage()));
 				}
-				//if ( ! empty($this->data_source->charset)) {
-				//    ini_set('mssql.charset', $this->data_source->charset);
-				//}
 			}
 		}
 
