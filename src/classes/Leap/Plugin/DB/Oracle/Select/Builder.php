@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2011–2014 Spadefoot Team.
+ * Copyright © 2011–2015 Spadefoot Team.
  *
  * Unless otherwise noted, Leap is licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in
@@ -80,7 +80,7 @@ namespace Leap\Plugin\DB\Oracle\Select {
 				? implode(', ', $this->data['column'])
 				: $this->data['wildcard'];
 
-			if (!empty($this->data['from'])) {
+			if ( ! empty($this->data['from'])) {
 				$text .= ' FROM ' . implode(' CROSS JOIN ', $this->data['from']);
 			}
 

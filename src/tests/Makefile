@@ -1,5 +1,5 @@
 ###
- # Copyright © 2011–2014 Spadefoot Team.
+ # Copyright © 2011–2015 Spadefoot Team.
  #
  # Unless otherwise noted, Leap is licensed under the Apache License,
  # Version 2.0 (the "License"); you may not use this file except in

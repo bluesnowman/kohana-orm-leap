@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2011–2014 Spadefoot Team.
+ * Copyright © 2011–2015 Spadefoot Team.
  *
  * Unless otherwise noted, Leap is licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in
@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 	 * @class
 	 * @final
 	 * @package Leap\Core\DB\SQL\Tokenizer
-	 * @version 2015-03-07
+	 * @version 2015-04-25
 	 */
 	final class TokenType extends \Leap\Core\Enum {
 
@@ -48,7 +48,7 @@ namespace Leap\Core\DB\SQL\Tokenizer {
 		 * @return \Leap\Core\Enum                                  the token
 		 */
 		protected static function __enum($ordinal) {
-			if (!is_array(static::$__enums)) {
+			if ( ! is_array(static::$__enums)) {
 				static::$__enums = array();
 				static::$__enums[] = new static('dot', 'DOT');
 				static::$__enums[] = new static('error', 'ERROR');

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2011–2014 Spadefoot Team.
+ * Copyright © 2011–2015 Spadefoot Team.
  *
  * Unless otherwise noted, Leap is licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in
@@ -26,7 +26,7 @@ namespace Leap\Core\Web\HTTP {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\Web\HTTP
-	 * @version 2014-04-30
+	 * @version 2015-04-25
 	 *
 	 * @see http://msdn.microsoft.com/en-us/library/system.net.mime.contentdisposition%28v=vs.110%29.aspx
 	 * @see http://tools.ietf.org/html/rfc2183
@@ -155,7 +155,7 @@ namespace Leap\Core\Web\HTTP {
 						}
 						$buffer .= '; filename="' . $value . '"';
 					}
-					else if (!empty($this->parameters[$name])) {
+					else if ( ! empty($this->parameters[$name])) {
 						if ($name == 'size') {
 							$buffer .= '; ' . $name . '=' . $value;
 						}

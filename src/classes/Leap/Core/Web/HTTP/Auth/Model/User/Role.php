@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2011–2014 Spadefoot Team.
+ * Copyright © 2011–2015 Spadefoot Team.
  * Copyright © 2012 CubedEye.
  *
  * Unless otherwise noted, Leap is licensed under the Apache License,

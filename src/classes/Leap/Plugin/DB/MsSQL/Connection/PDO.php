@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2011–2014 Spadefoot Team.
+ * Copyright © 2011–2015 Spadefoot Team.
  *
  * Unless otherwise noted, Leap is licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in
@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\Connection
-	 * @version 2014-07-04
+	 * @version 2015-04-25
 	 *
 	 * @see http://www.php.net/manual/en/ref.pdo-dblib.php
 	 */
@@ -104,7 +104,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 					}
 					$connection_string = $config['extension'] . ':' . $config['host'] . '=' . $this->data_source->host;
 					$port = $this->data_source->port;
-					if (!empty($port)) {
+					if ( ! empty($port)) {
 						$connection_string .= $config['port'] . $port;
 					}
 					$connection_string .= ';';

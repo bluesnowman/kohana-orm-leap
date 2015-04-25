@@ -8,7 +8,7 @@ namespace Leap\Core\Web\cURL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\Web\cURL
-	 * @version 2014-07-03
+	 * @version 2015-04-25
 	 */
 	class Request extends \Leap\Core\Object {
 
@@ -83,7 +83,7 @@ namespace Leap\Core\Web\cURL {
 		 * @see http://stackoverflow.com/questions/4753648/problems-with-username-or-pass-with-colon-when-setting-curlopt-userpwd
 		 */
 		public function setCredentials($username, $password) {
-			if (!empty($username) && !empty($password)) {
+			if ( ! empty($username) && ! empty($password)) {
 				$this->credentials[CURLOPT_HTTPAUTH] = CURLAUTH_ANY;
 				$this->credentials[CURLOPT_USERPWD] = sprintf('%s:%s', $username, $password);
 			}
@@ -186,7 +186,7 @@ namespace Leap\Core\Web\cURL {
 			}
 
 			$options = $this->url + $this->credentials + $action + $this->options;
-			if (!empty($header)) {
+			if ( ! empty($header)) {
 				$options[CURLOPT_HTTPHEADER] = $header;
 			}
 
@@ -228,7 +228,7 @@ namespace Leap\Core\Web\cURL {
 			if (strlen($fields) > 0) {
 				$options[CURLOPT_URL] .= ((strpos($options[CURLOPT_URL], '?') !== FALSE) ? '&' : '?') . $fields;
 			}
-			if (!empty($header)) {
+			if ( ! empty($header)) {
 				$options[CURLOPT_HTTPHEADER] = $header;
 			}
 
@@ -269,7 +269,7 @@ namespace Leap\Core\Web\cURL {
 			}
 
 			$options = $this->url + $this->credentials + $action + $this->options;
-			if (!empty($header)) {
+			if ( ! empty($header)) {
 				$options[CURLOPT_HTTPHEADER] = $header;
 			}
 
@@ -310,7 +310,7 @@ namespace Leap\Core\Web\cURL {
 			}
 
 			$options = $this->url + $this->credentials + $action + $this->options;
-			if (!empty($header)) {
+			if ( ! empty($header)) {
 				$options[CURLOPT_HTTPHEADER] = $header;
 			}
 

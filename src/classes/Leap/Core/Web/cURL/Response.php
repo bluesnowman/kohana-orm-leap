@@ -8,7 +8,7 @@ namespace Leap\Core\Web\cURL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\Web\cURL
-	 * @version 2014-07-01
+	 * @version 2015-04-25
 	 */
 	class Response extends \Leap\Core\Object {
 
@@ -37,7 +37,7 @@ namespace Leap\Core\Web\cURL {
 		 *                                                          failed to execute
 		 */
 		public function __construct($resource) {
-			if (!is_resource($resource)) {
+			if ( ! is_resource($resource)) {
 				throw new \Leap\Core\Throwable\Runtime\Exception('Message: Failed to execute cURL request. Reason: Invalid resource.');
 			}
 			$body = curl_exec($resource);

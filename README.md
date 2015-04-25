@@ -106,7 +106,7 @@ us your additions/modifications using a [pull request](http://help.github.com/se
 
 ### Apache v2.0
 
-Copyright © 2011–2014 Spadefoot Team.
+Copyright © 2011–2015 Spadefoot Team.
 
 Unless otherwise noted, Leap is licensed under the Apache License, Version 2.0 (the "License"); you may not use these files except in
 compliance with the License. You may obtain a copy of the License at:

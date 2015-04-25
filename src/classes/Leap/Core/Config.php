@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright © 2011–2014 Spadefoot Team.
+ * Copyright © 2011–2015 Spadefoot Team.
  *
  * Unless otherwise noted, Leap is licensed under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except in
@@ -25,7 +25,7 @@ namespace Leap\Core {
 	 * @access public
 	 * @class
 	 * @package Leap\Core
-	 * @version 2014-07-03
+	 * @version 2015-04-25
 	 */
 	class Config extends \Leap\Core\Object {
 
@@ -58,7 +58,7 @@ namespace Leap\Core {
 
 			$segments = explode('.', $uri);
 			$extension = end($segments);
-			if (!in_array($extension,  array('inc', 'php'))) {
+			if ( ! in_array($extension,  array('inc', 'php'))) {
 				throw new \Leap\Core\Throwable\InvalidArgument\Exception('Unable to process file. Expected file with either "inc" or "php" extension, but got ":extension" as an extension.', array(':extension' => $extension));
 			}
 
