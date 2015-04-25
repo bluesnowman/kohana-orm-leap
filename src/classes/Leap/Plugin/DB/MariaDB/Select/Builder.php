@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MariaDB\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MariaDB\Select
-	 * @version 2014-07-04
+	 * @version 2015-04-25
 	 *
 	 * @see http://dev.mysql.com/doc/refman/5.0/en/select.html
 	 */
@@ -51,8 +51,8 @@ namespace Leap\Plugin\DB\MariaDB\Select {
 				? implode(', ', $this->data['column'])
 				: $this->data['wildcard'];
 
-			if ($this->data['from'] !== NULL) {
-				$text .= " FROM {$this->data['from']}";
+			if (!empty($this->data['from'])) {
+				$text .= ' FROM ' . implode(' CROSS JOIN ', $this->data['from']);
 			}
 
 			foreach ($this->data['join'] as $join) {

@@ -25,8 +25,9 @@ namespace Leap\Plugin\DB\MsSQL\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\Select
-	 * @version 2014-07-04
+	 * @version 2015-04-25
 	 *
+	 * @see https://msdn.microsoft.com/en-us/library/aa259187%28v=sql.80%29.aspx
 	 * @see http://msdn.microsoft.com/en-us/library/aa260662%28v=sql.80%29.aspx
 	 */
 	class Builder extends \Leap\Core\DB\SQL\Select\Builder {
@@ -57,8 +58,8 @@ namespace Leap\Plugin\DB\MsSQL\Select {
 				? implode(', ', $this->data['column'])
 				: $this->data['wildcard'];
 
-			if ($this->data['from'] !== NULL) {
-				$text .= " FROM {$this->data['from']}";
+			if (!empty($this->data['from'])) {
+				$text .= ' FROM ' . implode(' CROSS JOIN ', $this->data['from']);
 			}
 
 			foreach ($this->data['join'] as $join) {

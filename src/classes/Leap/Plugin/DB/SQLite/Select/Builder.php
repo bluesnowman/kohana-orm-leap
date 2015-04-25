@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\SQLite\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\SQLite\Select
-	 * @version 2014-07-04
+	 * @version 2015-04-25
 	 *
 	 * @see http://www.sqlite.org/lang_select.html
 	 */
@@ -51,8 +51,8 @@ namespace Leap\Plugin\DB\SQLite\Select {
 				? implode(', ', $this->data['column'])
 				: $this->data['wildcard'];
 
-			if ($this->data['from'] !== NULL) {
-				$text .= " FROM {$this->data['from']}";
+			if (!empty($this->data['from'])) {
+				$text .= ' FROM ' . implode(' CROSS JOIN ', $this->data['from']);
 			}
 
 			foreach ($this->data['join'] as $join) {

@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\PostgreSQL\Select
-	 * @version 2014-07-04
+	 * @version 2015-04-25
 	 *
 	 * @see http://www.postgresql.org/docs/9.0/static/sql-select.html
 	 */
@@ -51,8 +51,8 @@ namespace Leap\Plugin\DB\PostgreSQL\Select {
 				? implode(', ', $this->data['column'])
 				: $this->data['wildcard'];
 
-			if ($this->data['from'] !== NULL) {
-				$text .= " FROM {$this->data['from']}";
+			if (!empty($this->data['from'])) {
+				$text .= ' FROM ' . implode(' CROSS JOIN ', $this->data['from']);
 			}
 
 			foreach ($this->data['join'] as $join) {

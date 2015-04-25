@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\DB2\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\DB2\Select
-	 * @version 2014-07-04
+	 * @version 2015-04-25
 	 *
 	 * @see http://publib.boulder.ibm.com/infocenter/db2luw/v8/index.jsp?topic=/com.ibm.db2.udb.doc/admin/r0000879.htm
 	 * @see http://publib.boulder.ibm.com/infocenter/iseries/v5r4/topic/sqlp/rbafytexas.htm
@@ -52,8 +52,8 @@ namespace Leap\Plugin\DB\DB2\Select {
 				? implode(', ', $this->data['column'])
 				: $this->data['wildcard'];
 
-			if ($this->data['from'] !== NULL) {
-				$text .= " FROM {$this->data['from']}";
+			if (!empty($this->data['from'])) {
+				$text .= ' FROM ' . implode(', ', $this->data['from']);
 			}
 
 			foreach ($this->data['join'] as $join) {

@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Select
-	 * @version 2014-07-04
+	 * @version 2015-04-25
 	 */
 	abstract class Builder extends \Leap\Core\DB\SQL\Builder {
 
@@ -145,7 +145,7 @@ namespace Leap\Core\DB\SQL\Select {
 				$alias = $this->precompiler->prepare_alias($alias);
 				$table = "{$table} AS {$alias}";
 			}
-			$this->data['from'] = $table;
+			$this->data['from'][] = $table;
 			return $this;
 		}
 
@@ -245,16 +245,16 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @return \Leap\Core\DB\SQL\Select\Builder                 a reference to the current instance
 		 */
 		public function join($type, $table, $alias = NULL) {
-			$table = 'JOIN ' . $this->precompiler->prepare_identifier($table);
+			$join = 'JOIN ' . $this->precompiler->prepare_identifier($table);
 			if ($type !== NULL) {
 				$type = $this->precompiler->prepare_join($type);
-				$table = "{$type} {$table}";
+				$join = "{$type} {$join}";
 			}
 			if ($alias !== NULL) {
 				$alias = $this->precompiler->prepare_alias($alias);
-				$table = "{$table} {$alias}";
+				$join = "{$join} {$alias}";
 			}
-			$this->data['join'][] = array($table, array(), array());
+			$this->data['join'][] = array($join, array(), array());
 			return $this;
 		}
 
@@ -352,7 +352,7 @@ namespace Leap\Core\DB\SQL\Select {
 				'column' => array(),
 				'combine' => array(),
 				'distinct' => FALSE,
-				'from' => NULL,
+				'from' => array(),
 				'group_by' => array(),
 				'having' => array(),
 				'join' => array(),
