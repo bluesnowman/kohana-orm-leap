@@ -25,7 +25,7 @@ namespace Leap\Core\DB\SQL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-01-28
+	 * @version 2015-08-23
 	 */
 	class Expression extends \Leap\Core\Object {
 
@@ -57,6 +57,17 @@ namespace Leap\Core\DB\SQL {
 		public function __construct($expr, Array $params = array()) {
 			$this->expr = (string) $expr;
 			$this->params = $params;
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->expr);
+			unset($this->params);
 		}
 
 		/**

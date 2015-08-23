@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL\Lock {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Lock
-	 * @version 2014-07-04
+	 * @version 2015-08-23
 	 */
 	abstract class Builder extends \Leap\Core\Object {
 
@@ -64,6 +64,18 @@ namespace Leap\Core\DB\SQL\Lock {
 			$this->connection = $connection;
 			$this->precompiler = \Leap\Core\DB\SQL::precompiler($connection->data_source);
 			$this->reset();
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->connection);
+			unset($this->data);
+			unset($this->precompiler);
 		}
 
 		/**

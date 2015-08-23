@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-07-04
+	 * @version 2015-08-23
 	 */
 	abstract class Builder extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
@@ -69,6 +69,18 @@ namespace Leap\Core\DB\SQL {
 		 * @var \Leap\Core\DB\SQL\Precompiler
 		 */
 		protected $precompiler;
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->data);
+			unset($this->dialect);
+			unset($this->precompiler);
+		}
 
 		/**
 		 * This method returns the raw SQL command.

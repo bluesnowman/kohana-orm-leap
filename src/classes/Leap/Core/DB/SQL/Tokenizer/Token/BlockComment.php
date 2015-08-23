@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL\Tokenizer\Token {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Tokenizer\Token
-	 * @version 2014-05-10
+	 * @version 2015-08-23
 	 */
 	class BlockComment extends \Leap\Core\DB\SQL\Tokenizer\Token {
 
@@ -56,6 +56,17 @@ namespace Leap\Core\DB\SQL\Tokenizer\Token {
 		public function __construct($opening, $closing) {
 			$this->opening = $opening;
 			$this->closing = $closing;
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->opening);
+			unset($this->closing);
 		}
 
 		/**

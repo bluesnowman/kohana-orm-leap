@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-07-03
+	 * @version 2015-08-23
 	 *
 	 * @see http://en.wikibooks.org/wiki/SQL_Dialects_Reference
 	 */
@@ -48,6 +48,16 @@ namespace Leap\Core\DB\SQL {
 		 */
 		public function __construct(\Leap\Core\DB\DataSource $data_source) {
 			$this->data_source = $data_source;
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->data_source);
 		}
 
 		/**

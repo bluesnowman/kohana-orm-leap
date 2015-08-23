@@ -50,6 +50,16 @@ namespace Leap\Core\DB\SQL\Tokenizer\Token {
 		}
 
 		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->quotation);
+		}
+
+		/**
 		 * This method return a tuple representing the token discovered.
 		 *
 		 * @access public

@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL\Tokenizer\Token {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Tokenizer\Token
-	 * @version 2014-05-11
+	 * @version 2015-08-23
 	 */
 	class Whitespace extends \Leap\Core\DB\SQL\Tokenizer\Token {
 
@@ -45,6 +45,16 @@ namespace Leap\Core\DB\SQL\Tokenizer\Token {
 		 */
 		public function __construct() {
 			$this->whitespace = array(' ', "\t", "\n", "\r", "\0", "\x0B", "\x0C"); // http://php.net/manual/en/regexp.reference.escape.php
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->whitespace);
 		}
 
 		/**

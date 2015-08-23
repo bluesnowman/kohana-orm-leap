@@ -90,7 +90,14 @@ namespace Leap\Core\DB\Connection {
 		 * @access public
 		 * @abstract
 		 */
-		public abstract function __destruct();
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->cache_key);
+			unset($this->command);
+			unset($this->data_source);
+			unset($this->lock);
+			unset($this->resource);
+		}
 
 		/**
 		 * This method returns the value associated with the specified property.

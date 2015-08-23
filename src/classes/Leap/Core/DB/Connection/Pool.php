@@ -72,6 +72,18 @@ namespace Leap\Core\DB\Connection {
 		}
 
 		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->lookup);
+			unset($this->pool);
+			unset($this->settings);
+		}
+
+		/**
 		 * This method returns the value associated with the specified property.
 		 *
 		 * @access public

@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-07-04
+	 * @version 2015-08-23
 	 *
 	 * @see http://www.sqlite.org/c3ref/complete.html
 	 * @see http://www.opensource.apple.com/source/SQLite/SQLite-74/public_source/src/complete.c
@@ -127,7 +127,7 @@ namespace Leap\Core\DB\SQL {
 		 * @access protected
 		 * @var integer
 		 */
-		protected $position = 0;
+		protected $position;
 
 		/**
 		 * This variable stores the number of tuples.
@@ -135,7 +135,7 @@ namespace Leap\Core\DB\SQL {
 		 * @access protected
 		 * @var integer
 		 */
-		protected $size = 0;
+		protected $size;
 
 		/**
 		 * This variable stores the SQL command being tokenized.
@@ -143,7 +143,7 @@ namespace Leap\Core\DB\SQL {
 		 * @access protected
 		 * @var string
 		 */
-		protected $statement = '';
+		protected $statement;
 
 		/**
 		 * This variable stores the tuples discovered by the lexical analyzer.
@@ -151,7 +151,7 @@ namespace Leap\Core\DB\SQL {
 		 * @access protected
 		 * @var array
 		 */
-		protected $tuples = array();
+		protected $tuples;
 
 		/**
 		 * This construct initializes the class.
@@ -161,6 +161,11 @@ namespace Leap\Core\DB\SQL {
 		 * @param string $dialect                                   the SQL dialect
 		 */
 		public function __construct($statement, $dialect) {
+			$this->position = 0;
+			$this->size = 0;
+			$this->statement = '';
+			$this->tuples = array();
+
 			$position = 0;
 			$strlen = strlen($statement);
 			$length = $strlen - 1;
@@ -477,6 +482,19 @@ namespace Leap\Core\DB\SQL {
 					$position++;
 				}
 			}
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->position);
+			unset($this->size);
+			unset($this->statement);
+			unset($this->tuples);
 		}
 
 		/**

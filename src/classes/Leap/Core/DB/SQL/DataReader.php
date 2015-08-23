@@ -26,7 +26,7 @@ namespace Leap\Core\DB\SQL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-07-04
+	 * @version 2015-08-23
 	 */
 	abstract class DataReader extends \Leap\Core\Object implements \Leap\Core\GC\IDisposable {
 
@@ -59,12 +59,15 @@ namespace Leap\Core\DB\SQL {
 		public abstract function __construct(\Leap\Core\DB\Connection\Driver $connection, \Leap\Core\DB\SQL\Command $command, $mode = NULL);
 
 		/**
-		 * This destructor ensures that the command reference has been freed.
+		 * This method releases any internal references to an object.
 		 *
 		 * @access public
 		 */
 		public function __destruct() {
 			$this->dispose();
+			parent::__destruct();
+			unset($this->handle);
+			unset($this->record);
 		}
 
 		/**

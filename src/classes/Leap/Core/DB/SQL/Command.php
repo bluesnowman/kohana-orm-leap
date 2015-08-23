@@ -25,7 +25,7 @@ namespace Leap\Core\DB\SQL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL
-	 * @version 2014-07-04
+	 * @version 2015-08-23
 	 */
 	class Command extends \Leap\Core\Object {
 
@@ -46,6 +46,16 @@ namespace Leap\Core\DB\SQL {
 		public function __construct($text = '') {
 			$this->data = array();
 			$this->data['text'] = $text;
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->data);
 		}
 
 		/**

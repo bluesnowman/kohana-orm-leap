@@ -25,7 +25,7 @@ namespace Leap\Core\DB\SQL\Delete {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Delete
-	 * @version 2014-07-04
+	 * @version 2015-08-23
 	 */
 	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
@@ -101,6 +101,19 @@ namespace Leap\Core\DB\SQL\Delete {
 			$data_type = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Delete\\Builder';
 			$this->builder = new $data_type($data_source);
 			$this->data_source = $data_source;
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->after);
+			unset($this->before);
+			unset($this->builder);
+			unset($this->data_source);
 		}
 
 		/**

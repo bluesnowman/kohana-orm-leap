@@ -26,25 +26,12 @@ namespace Leap\Core\DB\SQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\SQL\Connection
-	 * @version 2014-07-04
+	 * @version 2015-08-23
 	 *
 	 * @see http://www.php.net/manual/en/book.pdo.php
 	 * @see http://www.electrictoolbox.com/php-pdo-dsn-connection-string/
 	 */
 	abstract class PDO extends \Leap\Core\DB\Connection\Driver {
-
-		/**
-		 * This destructor will ensure that the connection is closed.
-		 *
-		 * @access public
-		 * @override
-		 */
-		public function __destruct() {
-			if ($this->resource !== NULL) {
-				unset($this->resource);
-				$this->resource = NULL;
-			}
-		}
 
 		/**
 		 * This method begins a transaction.
