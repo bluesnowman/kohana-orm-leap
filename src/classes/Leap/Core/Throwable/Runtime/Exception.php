@@ -25,7 +25,7 @@ namespace Leap\Core\Throwable\Runtime {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\Throwable
-	 * @version 2014-06-10
+	 * @version 2014-08-23
 	 */
 	class Exception extends \Exception implements \Leap\Core\IObject {
 
@@ -62,6 +62,15 @@ namespace Leap\Core\Throwable\Runtime {
 		 */
 		public function __debug() {
 			var_dump($this);
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			unset($this->code);
 		}
 
 		/**

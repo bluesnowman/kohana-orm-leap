@@ -26,7 +26,7 @@ namespace Leap\Core\Data\Serialization {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\Data\Serialization
-	 * @version 2014-01-25
+	 * @version 2015-08-23
 	 */
 	class XML extends \SimpleXMLElement implements \Leap\Core\IObject {
 
@@ -109,6 +109,15 @@ namespace Leap\Core\Data\Serialization {
 		 */
 		public function __debug() {
 			var_dump($this);
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			// do nothing
 		}
 
 		/**

@@ -25,7 +25,7 @@ namespace Leap\Core\Data {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\Data
-	 * @version 2014-01-25
+	 * @version 2015-08-23
 	 */
 	class BitField extends \Leap\Core\Object implements \Countable {
 
@@ -77,6 +77,18 @@ namespace Leap\Core\Data {
 			$this->boundary = (PHP_INT_SIZE == 8) ? 64 : 32;
 			$this->pattern = $pattern;
 			$this->map($value);
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->boundary);
+			unset($this->pattern);
+			unset($this->values);
 		}
 
 		/**

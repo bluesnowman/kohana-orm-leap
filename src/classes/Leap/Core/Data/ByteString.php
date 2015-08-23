@@ -25,7 +25,7 @@ namespace Leap\Core\Data {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\Data
-	 * @version 2014-01-25
+	 * @version 2015-08-23
 	 *
 	 * @see https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSData_Class/Reference/Reference.html
 	 */
@@ -81,6 +81,17 @@ namespace Leap\Core\Data {
 		public function __construct($data, $type = 1) {
 			$this->hexcode = static::unpack($data, $type);
 			$this->length = -1;
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->hexcode);
+			unset($this->length);
 		}
 
 		/**

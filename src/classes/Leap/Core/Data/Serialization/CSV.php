@@ -25,7 +25,7 @@ namespace Leap\Core\Data\Serialization {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\Data\Serialization
-	 * @version 2014-01-25
+	 * @version 2015-08-23
 	 */
 	class CSV extends \Leap\Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator {
 
@@ -125,6 +125,24 @@ namespace Leap\Core\Data\Serialization {
 					$this->add_row($row);
 				}
 			}
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->data);
+			unset($this->default_headers);
+			unset($this->delimiter);
+			unset($this->enclosure);
+			unset($this->eol);
+			unset($this->file_name);
+			unset($this->header);
+			unset($this->mime);
+			unset($this->position);
 		}
 
 		/**
