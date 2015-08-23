@@ -70,11 +70,15 @@ namespace Leap\Plugin\DB\MsSQL\Delete {
 			if ( ! empty($this->data['order_by'])) {
 				$text .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
 			}
-
-			//if ($this->data['offset'] > 0) {
-			//    $text .= " OFFSET {$this->data['offset']}";
-			//}
-
+			/*
+			if (($this->data['offset'] >= 0) AND ($this->data['limit'] > 0) AND ! empty($this->data['order_by'])) {
+				$text = 'SELECT [outer].* FROM (';
+				$text .= 'SELECT ROW_NUMBER() OVER(ORDER BY ' . implode(', ', $this->data['order_by']) . ') as ROW_NUMBER, ' . $columns_sql . ' FROM ' . $this->data['from'] . ' ' . $where_sql;
+				$text .= ') AS [outer] ';
+				$text .= 'WHERE [outer].[ROW_NUMBER] BETWEEN ' . ($this->data['offset'] + 1) . ' AND ' . ($this->data['offset'] + $this->data['limit']);
+				$text .= ' ORDER BY [outer].[ROW_NUMBER]';
+			}
+			*/
 			$text .= ") DELETE FROM {$alias}";
 
 			if ($terminated) {

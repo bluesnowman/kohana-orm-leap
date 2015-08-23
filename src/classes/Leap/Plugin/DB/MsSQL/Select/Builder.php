@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MsSQL\Select {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\Select
-	 * @version 2015-04-25
+	 * @version 2015-08-23
 	 *
 	 * @see https://msdn.microsoft.com/en-us/library/aa259187%28v=sql.80%29.aspx
 	 * @see http://msdn.microsoft.com/en-us/library/aa260662%28v=sql.80%29.aspx
@@ -54,12 +54,14 @@ namespace Leap\Plugin\DB\MsSQL\Select {
 				$text .= "TOP {$this->data['limit']} ";
 			}
 
-			$text .= ( ! empty($this->data['column']))
+			$columns_sql = ( ! empty($this->data['column']))
 				? implode(', ', $this->data['column'])
 				: $this->data['wildcard'];
 
-			if ( ! empty($this->data['from'])) {
-				$text .= ' FROM ' . implode(' CROSS JOIN ', $this->data['from']);
+			$text .= $columns_sql;
+
+			if ($this->data['from'] !== NULL) {
+				$text .= " FROM {$this->data['from']}";
 			}
 
 			foreach ($this->data['join'] as $join) {
@@ -72,16 +74,20 @@ namespace Leap\Plugin\DB\MsSQL\Select {
 				}
 			}
 
+			$where_sql = '';
+
 			if ( ! empty($this->data['where'])) {
 				$append = FALSE;
-				$text .= ' WHERE ';
+				$where_sql = ' WHERE ';
 				foreach ($this->data['where'] as $where) {
 					if ($append AND ($where[1] != \Leap\Core\DB\SQL\Builder::_CLOSING_PARENTHESIS_)) {
-						$text .= " {$where[0]} ";
+						$where_sql .= " {$where[0]} ";
 					}
-					$text .= $where[1];
+					$where_sql .= $where[1];
 					$append = ($where[1] != \Leap\Core\DB\SQL\Builder::_OPENING_PARENTHESIS_);
 				}
+
+				$text .= $where_sql;
 			}
 
 			if ( ! empty($this->data['group_by'])) {
@@ -104,9 +110,13 @@ namespace Leap\Plugin\DB\MsSQL\Select {
 				$text .= ' ORDER BY ' . implode(', ', $this->data['order_by']);
 			}
 
-			//if ($this->data['offset'] > 0) {
-			//	$text .= " OFFSET {$this->data['offset']}";
-			//}
+			if (($this->data['offset'] >= 0) AND ($this->data['limit'] > 0) AND ! empty($this->data['order_by'])) {
+				$text = 'SELECT [outer].* FROM (';
+				$text .= 'SELECT ROW_NUMBER() OVER(ORDER BY ' . implode(', ', $this->data['order_by']) . ') as ROW_NUMBER, ' . $columns_sql . ' FROM ' . $this->data['from'] . ' ' . $where_sql;
+				$text .= ') AS [outer] ';
+				$text .= 'WHERE [outer].[ROW_NUMBER] BETWEEN ' . ($this->data['offset'] + 1) . ' AND ' . ($this->data['offset'] + $this->data['limit']);
+				$text .= ' ORDER BY [outer].[ROW_NUMBER]';
+			}
 
 			foreach ($this->data['combine'] as $combine) {
 				$text .= " {$combine}";
