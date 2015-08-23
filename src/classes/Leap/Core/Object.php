@@ -26,7 +26,7 @@ namespace Leap\Core {
 	 * @access public
 	 * @class
 	 * @package Leap\Core
-	 * @version 2014-01-25
+	 * @version 2015-08-23
 	 */
 	abstract class Object implements \Leap\Core\IObject {
 
@@ -48,6 +48,15 @@ namespace Leap\Core {
 		 */
 		public function __debug() {
 			var_dump($this);
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			// do nothing
 		}
 
 		/**

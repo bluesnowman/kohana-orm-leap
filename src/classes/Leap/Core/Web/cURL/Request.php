@@ -8,7 +8,7 @@ namespace Leap\Core\Web\cURL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\Web\cURL
-	 * @version 2015-04-25
+	 * @version 2015-08-23
 	 */
 	class Request extends \Leap\Core\Object {
 
@@ -70,6 +70,20 @@ namespace Leap\Core\Web\cURL {
 			$this->url = array(
 				CURLOPT_URL => $url,
 			);
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->credentials);
+			unset($this->fields);
+			unset($this->header);
+			unset($this->options);
+			unset($this->url);
 		}
 
 		/**

@@ -25,7 +25,7 @@ namespace Leap\Core\DB {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-05-16
+	 * @version 2015-08-23
 	 */
 	class ResultSet extends \Leap\Core\Object implements \ArrayAccess, \Countable, \Iterator, \SeekableIterator, \Leap\Core\GC\IDisposable {
 
@@ -87,6 +87,19 @@ namespace Leap\Core\DB {
 			}
 			$this->position = 0;
 			$this->type = $type;
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->position);
+			unset($this->records);
+			unset($this->size);
+			unset($this->type);
 		}
 
 		/**

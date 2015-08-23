@@ -26,7 +26,7 @@ namespace Leap\Core\DB {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-07-04
+	 * @version 2015-08-23
 	 */
 	abstract class Schema extends \Leap\Core\Object {
 
@@ -57,6 +57,17 @@ namespace Leap\Core\DB {
 			$data_type = '\\Leap\\Plugin\\DB\\' . $data_source->dialect . '\\Precompiler';
 			$this->precompiler = new $data_type($data_source);
 			$this->data_source = $data_source;
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->data_source);
+			unset($this->precompiler);
 		}
 
 		/**

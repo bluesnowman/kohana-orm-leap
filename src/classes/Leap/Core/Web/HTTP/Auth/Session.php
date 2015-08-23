@@ -26,7 +26,7 @@ namespace Leap\Core\Web\HTTP\Auth {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\Web\HTTP
-	 * @version 2014-01-25
+	 * @version 2015-08-23
 	 */
 	class Session extends \Session {
 
@@ -37,11 +37,7 @@ namespace Leap\Core\Web\HTTP\Auth {
 		 * @access protected
 		 * @var array
 		 */
-		protected $columns = array(
-			'session_id'  => 'id',
-			'last_active' => 'last_active',
-			'contents'    => 'contents',
-		);
+		protected $columns;
 
 		/**
 		 * This variable stores how often a garbage collection request is made.
@@ -49,7 +45,7 @@ namespace Leap\Core\Web\HTTP\Auth {
 		 * @access protected
 		 * @var integer
 		 */
-		protected $gc = 500;
+		protected $gc;
 
 		/**
 		 * This variable stores the current session id.
@@ -65,7 +61,7 @@ namespace Leap\Core\Web\HTTP\Auth {
 		 * @access protected
 		 * @var string
 		 */
-		protected $table = '\\Leap\\Core\\Web\\HTTP\\Auth\\Model\\Session';
+		protected $table;
 
 		/**
 		 * This variable stores the old session id.
@@ -85,19 +81,31 @@ namespace Leap\Core\Web\HTTP\Auth {
 		 * @param string $id                                        the session id
 		 */
 		public function __construct(Array $config = NULL, $id = NULL) {
-			// Set the table name
 			if (isset($config['table'])) {
 				$this->table = (string) $config['table'];
+			}
+			else {
+				$this->table = '\\Leap\\Core\\Web\\HTTP\\Auth\\Model\\Session';
 			}
 
 			// Set the gc chance
 			if (isset($config['gc'])) {
 				$this->gc = (int) $config['gc'];
 			}
+			else {
+				$this->gc = 500;
+			}
 
 			// Overload column names
 			if (isset($config['columns'])) {
 				$this->columns = $config['columns'];
+			}
+			else {
+				$this->columns = array(
+					'session_id'  => 'id',
+					'last_active' => 'last_active',
+					'contents'    => 'contents',
+				);
 			}
 
 			parent::__construct($config, $id);
@@ -107,6 +115,20 @@ namespace Leap\Core\Web\HTTP\Auth {
 			if (mt_rand(0, $this->gc) === $this->gc) {
 				$this->gc();
 			}
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->columns);
+			unset($this->gc);
+			unset($this->session_id);
+			unset($this->table);
+			unset($this->update_id);
 		}
 
 		/**

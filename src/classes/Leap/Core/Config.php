@@ -66,6 +66,16 @@ namespace Leap\Core {
 		}
 
 		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->uri);
+		}
+
+		/**
 		 * This method returns the processed resource as a collection.
 		 *
 		 * @access public

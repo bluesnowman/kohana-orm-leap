@@ -25,7 +25,7 @@ namespace Leap\Core\DB {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-07-04
+	 * @version 2015-08-23
 	 */
 	class DataSource extends \Leap\Core\Object {
 
@@ -85,6 +85,16 @@ namespace Leap\Core\DB {
 			else {
 				throw new \Leap\Core\Throwable\InvalidArgument\Exception('Message: Unable to load data source. Reason: Data type :type is mismatched.', array(':type' => gettype($config)));
 			}
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->settings);
 		}
 
 		/**

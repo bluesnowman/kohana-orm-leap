@@ -25,7 +25,7 @@ namespace Leap\Core {
 	 * @access public
 	 * @interface
 	 * @package Leap\Core
-	 * @version 2014-06-10
+	 * @version 2015-08-23
 	 */
 	interface IObject {
 
@@ -35,6 +35,13 @@ namespace Leap\Core {
 		 * @access public
 		 */
 		public function __debug();
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct();
 
 		/**
 		 * This method returns whether the specified object is equal to the called object.

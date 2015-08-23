@@ -26,20 +26,12 @@ namespace Leap\Core\Web\HTTP {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\Web\HTTP
-	 * @version 2015-04-25
+	 * @version 2015-08-23
 	 *
 	 * @see http://msdn.microsoft.com/en-us/library/system.net.mime.contentdisposition%28v=vs.110%29.aspx
 	 * @see http://tools.ietf.org/html/rfc2183
 	 */
 	class ContentDisposition extends \Leap\Core\Object {
-
-		/**
-		 * This variable stores whether the disposition is inline.
-		 *
-		 * @access protected
-		 * @var boolean
-		 */
-		protected $type;
 
 		/**
 		 * This varaible stores the parameters related to the disposition.
@@ -50,15 +42,34 @@ namespace Leap\Core\Web\HTTP {
 		protected $parameters;
 
 		/**
+		 * This variable stores whether the disposition is inline.
+		 *
+		 * @access protected
+		 * @var boolean
+		 */
+		protected $type;
+
+		/**
 		 * This constructor initializes the class.
 		 *
 		 * @access public
 		 */
 		public function __construct() {
-			$this->type = true;
 			$this->parameters = array(
 				'file_name' => null
 			);
+			$this->type = true;
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->parameters);
+			unset($this->type);
 		}
 
 		/**

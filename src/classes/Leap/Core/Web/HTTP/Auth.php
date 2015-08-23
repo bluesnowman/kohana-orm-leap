@@ -26,7 +26,7 @@ namespace Leap\Core\Web\HTTP {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB
-	 * @version 2014-01-26
+	 * @version 2015-08-23
 	 */
 	class Auth extends \Auth {
 
@@ -37,14 +37,7 @@ namespace Leap\Core\Web\HTTP {
 		 * @access protected
 		 * @var array
 		 */
-		protected $columns = array(
-			'role_id' => 'id',
-			'role_name' => 'name',
-			'token' => 'token',
-			'user_id' => 'id',
-			'user_username' => 'username',
-			'user_email' => 'email',
-		);
+		protected $columns;
 
 		/**
 		 * This variable stores a list of errors that of which have been encountered
@@ -53,7 +46,7 @@ namespace Leap\Core\Web\HTTP {
 		 * @access protected
 		 * @var array
 		 */
-		protected $errors = array();
+		protected $errors;
 
 		/**
 		 * This variable stores a list of the models and their respective database
@@ -62,11 +55,7 @@ namespace Leap\Core\Web\HTTP {
 		 * @access protected
 		 * @var array
 		 */
-		protected $models = array(
-			'role' => 'Role',
-			'user' => 'User',
-			'token' => 'User_Token',
-		);
+		protected $models;
 
 		/**
 		 * This constructor initializes the class using the specified config information.
@@ -79,6 +68,12 @@ namespace Leap\Core\Web\HTTP {
 		public function __construct($config = NULL) {
 			parent::__construct($config);
 
+			$this->models = array(
+				'role' => 'Role',
+				'user' => 'User',
+				'token' => 'User_Token',
+			);
+
 			if (isset($config['models'])) {
 				if (isset($config['models']['role'])) {
 					$this->models['role'] = $config['models']['role'];
@@ -90,6 +85,15 @@ namespace Leap\Core\Web\HTTP {
 					$this->models['token'] = $config['models']['token'];
 				}
 			}
+
+			$this->columns = array(
+				'role_id' => 'id',
+				'role_name' => 'name',
+				'token' => 'token',
+				'user_id' => 'id',
+				'user_username' => 'username',
+				'user_email' => 'email',
+			);
 
 			if (isset($config['columns'])) {
 				if (isset($config['columns']['role_id'])) {
@@ -112,9 +116,23 @@ namespace Leap\Core\Web\HTTP {
 				}
 			}
 
+			$this->errors = array();
+
 			if (empty($config['login_with_email']) AND empty($config['login_with_username'])) {
 				throw new \Leap\Core\Throwable\Runtime\Exception('Message: Unable to load configuration. Reason: A valid "login_with" setting must be set in you auth config file.');
 			}
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->columns);
+			unset($this->errors);
+			unset($this->models);
 		}
 
 		/**

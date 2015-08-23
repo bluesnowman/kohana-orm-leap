@@ -8,7 +8,7 @@ namespace Leap\Core\Web\cURL {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\Web\cURL
-	 * @version 2015-04-25
+	 * @version 2015-08-23
 	 */
 	class Response extends \Leap\Core\Object {
 
@@ -48,6 +48,17 @@ namespace Leap\Core\Web\cURL {
 			}
 			$this->header = curl_getinfo($resource);
 			$this->body = $body;
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->header);
+			unset($this->body);
 		}
 
 		/**
