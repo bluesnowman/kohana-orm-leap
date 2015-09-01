@@ -1,5 +1,7 @@
 # Leap for PHP
 
+[![Code Coverage](https://codeclimate.com/github/bluesnowman/leap/badges/gpa.svg)](https://codeclimate.com/github/bluesnowman/leap)
+
 Leap is a database management library for PHP.  It was originally developed to be used in conjunction with the
 [Kohana PHP Framework](http://kohanaframework.org), but has since evolved and been adapted to work with any PHP
 framework.  It is designed to work with DB2, Drizzle, Firebird, MariaDB, MS SQL, MySQL, Oracle, PostgreSQL, and
