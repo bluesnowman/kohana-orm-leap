@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MsSQL\Connection
-	 * @version 2014-07-04
+	 * @version 2015-08-31
 	 *
 	 * @see http://www.php.net/manual/en/ref.mssql.php
 	 * @see http://blogs.msdn.com/b/brian_swan/archive/2010/03/08/mssql-vs-sqlsrv-what-s-the-difference-part-1.aspx
@@ -43,6 +43,7 @@ namespace Leap\Plugin\DB\MsSQL\Connection {
 			if (is_resource($this->resource)) {
 				@mssql_close($this->resource);
 			}
+			parent::__destruct();
 		}
 
 		/**

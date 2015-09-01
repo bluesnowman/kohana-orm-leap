@@ -25,7 +25,7 @@ namespace Leap\Core\DB\ORM\Insert {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM\Insert
-	 * @version 2014-07-04
+	 * @version 2015-08-31
 	 */
 	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
@@ -80,6 +80,19 @@ namespace Leap\Core\DB\ORM\Insert {
 			$table = $model::table();
 			$this->builder->into($table);
 			$this->model = $model;
+		}
+
+		/**
+		 * This destructor ensures that all references have been destroyed.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->builder);
+			unset($this->data_source);
+			unset($this->extension);
+			unset($this->model);
 		}
 
 		/**

@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Test\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Test\Connection
-	 * @version 2015-03-03
+	 * @version 2015-08-31
 	 */
 	class Standard extends \Leap\Core\DB\SQL\Connection\Standard {
 
@@ -36,6 +36,7 @@ namespace Leap\Plugin\DB\Test\Connection {
 		 * @override
 		 */
 		public function __destruct() {
+			parent::__destruct();
 			unset($this->cache_key);
 			unset($this->command);
 			unset($this->data_source);

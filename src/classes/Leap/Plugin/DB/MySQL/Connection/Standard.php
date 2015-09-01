@@ -41,6 +41,7 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 			if (is_resource($this->resource)) {
 				@mysql_close($this->resource);
 			}
+			parent::__destruct();
 		}
 
 		/**

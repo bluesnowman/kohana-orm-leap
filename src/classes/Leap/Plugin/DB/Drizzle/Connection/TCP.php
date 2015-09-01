@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Drizzle\Connection
-	 * @version 2014-07-04
+	 * @version 2015-08-31
 	 *
 	 * @see http://devzone.zend.com/1504/getting-started-with-drizzle-and-php/
 	 * @see https://github.com/barce/partition_benchmarks/blob/master/db.php
@@ -40,7 +40,18 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 		 * @access protected
 		 * @var integer
 		 */
-		protected $id = FALSE;
+		protected $id;
+
+		/**
+		 * This method initializes the class with the specified data source.
+		 *
+		 * @access public
+		 * @param \Leap\Core\DB\DataSource $data_source             the data source to be used
+		 */
+		public function __construct(\Leap\Core\DB\DataSource $data_source) {
+			parent::__construct($data_source);
+			$this->id = FALSE;
+		}
 
 		/**
 		 * This destructor ensures that the connection is closed.
@@ -52,6 +63,8 @@ namespace Leap\Plugin\DB\Drizzle\Connection {
 			if (is_resource($this->resource)) {
 				@drizzle_con_close($this->resource);
 			}
+			parent::__destruct();
+			unset($this->id);
 		}
 
 		/**

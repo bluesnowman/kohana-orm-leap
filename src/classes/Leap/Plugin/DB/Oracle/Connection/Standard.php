@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Oracle\Connection
-	 * @version 2014-07-04
+	 * @version 2015-08-31
 	 *
 	 * @see http://php.net/manual/en/book.oci8.php
 	 */
@@ -51,6 +51,8 @@ namespace Leap\Plugin\DB\Oracle\Connection {
 			if (is_resource($this->resource)) {
 				@oci_close($this->resource);
 			}
+			parent::__destruct();
+			unset($this->execution_mode);
 		}
 
 		/**

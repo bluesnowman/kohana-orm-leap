@@ -26,7 +26,7 @@ namespace Leap\Core\DB\ORM {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM
-	 * @version 2014-04-24
+	 * @version 2015-08-31
 	 */
 	abstract class Builder extends \Leap\Core\Object {
 
@@ -46,6 +46,16 @@ namespace Leap\Core\DB\ORM {
 		 */
 		public function __construct(\Leap\Core\DB\SQL\Builder $builder) {
 			$this->builder = $builder;
+		}
+
+		/**
+		 * This destructor ensures that all references have been destroyed.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->builder);
 		}
 
 	}

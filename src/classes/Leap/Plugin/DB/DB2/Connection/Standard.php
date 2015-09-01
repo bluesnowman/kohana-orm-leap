@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\DB2\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\DB2\Connection
-	 * @version 2014-07-04
+	 * @version 2015-08-31
 	 *
 	 * @see http://php.net/manual/en/ref.ibm-db2.php
 	 */
@@ -43,6 +43,7 @@ namespace Leap\Plugin\DB\DB2\Connection {
 			if (is_resource($this->resource)) {
 				@db2_close($this->resource);
 			}
+			parent::__destruct();
 		}
 
 		/**

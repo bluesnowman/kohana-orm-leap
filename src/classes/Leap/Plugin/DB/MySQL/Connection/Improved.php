@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MySQL\Connection
-	 * @version 2014-07-04
+	 * @version 2015-08-31
 	 *
 	 * @see http://www.php.net/manual/en/book.mysqli.php
 	 */
@@ -41,6 +41,7 @@ namespace Leap\Plugin\DB\MySQL\Connection {
 			if ($this->resource !== NULL) {
 				@mysqli_close($this->resource);
 			}
+			parent::__destruct();
 		}
 
 		/**

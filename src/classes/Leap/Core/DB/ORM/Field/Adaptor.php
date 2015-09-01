@@ -26,7 +26,7 @@ namespace Leap\Core\DB\ORM\Field {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM\Field
-	 * @version 2014-01-26
+	 * @version 2015-08-31
 	 */
 	abstract class Adaptor extends \Leap\Core\Object {
 
@@ -69,6 +69,7 @@ namespace Leap\Core\DB\ORM\Field {
 		 * @access public
 		 */
 		public function __destruct() {
+			parent::__destruct();
 			unset($this->metadata);
 			unset($this->model);
 		}

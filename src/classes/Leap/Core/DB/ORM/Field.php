@@ -26,7 +26,7 @@ namespace Leap\Core\DB\ORM {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM
-	 * @version 2014-04-24
+	 * @version 2015-08-31
 	 *
 	 * @see http://www.firebirdsql.org/manual/migration-mssql-data-types.html
 	 * @see http://msdn.microsoft.com/en-us/library/aa258271%28v=sql.80%29.aspx
@@ -85,6 +85,7 @@ namespace Leap\Core\DB\ORM {
 		 * @access public
 		 */
 		public function __destruct() {
+			parent::__destruct();
 			unset($this->metadata);
 			unset($this->model);
 			unset($this->value);

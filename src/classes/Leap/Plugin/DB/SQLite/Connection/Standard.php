@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\SQLite\Connection
-	 * @version 2014-07-04
+	 * @version 2015-08-31
 	 *
 	 * @see http://www.php.net/manual/en/ref.sqlite.php
 	 */
@@ -41,6 +41,7 @@ namespace Leap\Plugin\DB\SQLite\Connection {
 			if (is_resource($this->resource)) {
 				@sqlite_close($this->resource);
 			}
+			parent::__destruct();
 		}
 
 		/**

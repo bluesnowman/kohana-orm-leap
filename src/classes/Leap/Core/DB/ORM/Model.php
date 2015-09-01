@@ -26,7 +26,7 @@ namespace Leap\Core\DB\ORM {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM
-	 * @version 2014-04-24
+	 * @version 2015-08-31
 	 */
 	abstract class Model extends \Leap\Core\Object implements \Leap\Core\GC\IDisposable {
 
@@ -36,7 +36,7 @@ namespace Leap\Core\DB\ORM {
 		 * @access protected
 		 * @var array
 		 */
-		protected $adaptors = array();
+		protected $adaptors;
 
 		/**
 		 * This variable stores the aliases for certain fields.
@@ -44,7 +44,7 @@ namespace Leap\Core\DB\ORM {
 		 * @access protected
 		 * @var array
 		 */
-		protected $aliases = array();
+		protected $aliases;
 
 		/**
 		 * This variable stores whether dispose has been called.
@@ -52,7 +52,7 @@ namespace Leap\Core\DB\ORM {
 		 * @access protected
 		 * @var boolean
 		 */
-		protected $disposed = FALSE;
+		protected $disposed;
 
 		/**
 		 * This variable stores the record's fields.
@@ -60,7 +60,7 @@ namespace Leap\Core\DB\ORM {
 		 * @access protected
 		 * @var array
 		 */
-		protected $fields = array();
+		protected $fields;
 
 		/**
 		 * This variable stores the record's metadata.
@@ -68,7 +68,7 @@ namespace Leap\Core\DB\ORM {
 		 * @access protected
 		 * @var array
 		 */
-		protected $metadata = array();
+		protected $metadata;
 
 		/**
 		 * This variable stores the record's relations.
@@ -76,7 +76,7 @@ namespace Leap\Core\DB\ORM {
 		 * @access protected
 		 * @var array
 		 */
-		protected $relations = array();
+		protected $relations;
 
 		/**
 		 * This constructor instantiates this class.
@@ -84,8 +84,15 @@ namespace Leap\Core\DB\ORM {
 		 * @access public
 		 */
 		public function __construct() {
-			$this->metadata['loaded'] = FALSE;
-			$this->metadata['saved'] = NULL;
+			$this->adaptors = array();
+			$this->aliases = array();
+			$this->disposed = FALSE;
+			$this->fields = array();
+			$this->metadata = array(
+				'loaded' => FALSE,
+				'saved' => NULL,
+			);
+			$this->relations = array();
 		}
 
 		/**
@@ -95,6 +102,13 @@ namespace Leap\Core\DB\ORM {
 		 */
 		public function __destruct() {
 			$this->dispose(FALSE);
+			parent::__destruct();
+			unset($this->adaptors);
+			unset($this->aliases);
+			unset($this->disposed);
+			unset($this->fields);
+			unset($this->metadata);
+			unset($this->relations);
 		}
 
 		/**

@@ -25,7 +25,7 @@ namespace Leap\Core\DB\ORM\Update {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM\Update
-	 * @version 2014-07-04
+	 * @version 2015-08-31
 	 */
 	class Proxy extends \Leap\Core\Object implements \Leap\Core\DB\SQL\Statement {
 
@@ -79,6 +79,19 @@ namespace Leap\Core\DB\ORM\Update {
 		}
 
 		/**
+		 * This method returns the SQL command.
+		 *
+		 * @access public
+		 * @override
+		 * @param boolean $terminated                               whether to add a semi-colon to the end
+		 *                                                          of the statement
+		 * @return \Leap\Core\DB\SQL\Command                        the SQL command
+		 */
+		public function command($terminated = TRUE) {
+			return $this->builder->command($terminated);
+		}
+
+		/**
 		 * This constructor instantiates this class using the specified model's name.
 		 *
 		 * @access public
@@ -99,14 +112,15 @@ namespace Leap\Core\DB\ORM\Update {
 		}
 
 		/**
-		 * This method returns the raw SQL command.
+		 * This destructor ensures that all references have been destroyed.
 		 *
 		 * @access public
-		 * @override
-		 * @return string                                           the raw SQL command
 		 */
-		public function __toString() {
-			return $this->builder->command()->__toString();
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->builder);
+			unset($this->data_source);
+			unset($this->extension);
 		}
 
 		/**
@@ -183,17 +197,16 @@ namespace Leap\Core\DB\ORM\Update {
 			return $this;
 		}
 
+
 		/**
-		 * This method returns the SQL command.
+		 * This method returns the raw SQL command.
 		 *
 		 * @access public
 		 * @override
-		 * @param boolean $terminated                               whether to add a semi-colon to the end
-		 *                                                          of the statement
-		 * @return \Leap\Core\DB\SQL\Command                        the SQL command
+		 * @return string                                           the raw SQL command
 		 */
-		public function command($terminated = TRUE) {
-			return $this->builder->command($terminated);
+		public function __toString() {
+			return $this->builder->command()->__toString();
 		}
 
 		/**

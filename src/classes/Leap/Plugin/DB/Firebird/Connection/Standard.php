@@ -35,7 +35,7 @@ namespace Leap\Plugin\DB\Firebird\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Firebird\Connection
-	 * @version 2014-07-04
+	 * @version 2015-08-31
 	 *
 	 * @see http://us3.php.net/manual/en/book.ibase.php
 	 * @see http://us2.php.net/manual/en/ibase.installation.php
@@ -54,6 +54,7 @@ namespace Leap\Plugin\DB\Firebird\Connection {
 			if (is_resource($this->resource)) {
 				@ibase_close($this->resource);
 			}
+			parent::__destruct();
 		}
 
 		/**

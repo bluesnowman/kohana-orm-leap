@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\MariaDB\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\MariaDB\Connection
-	 * @version 2014-07-04
+	 * @version 2015-08-31
 	 *
 	 * @see http://www.php.net/manual/en/book.mysql.php
 	 * @see http://programmers.stackexchange.com/questions/120178/whats-the-difference-between-mariadb-and-mysql
@@ -42,6 +42,7 @@ namespace Leap\Plugin\DB\MariaDB\Connection {
 			if (is_resource($this->resource)) {
 				@mysql_close($this->resource);
 			}
+			parent::__destruct();
 		}
 
 		/**

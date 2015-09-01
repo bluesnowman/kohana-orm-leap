@@ -25,7 +25,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\PostgreSQL\Connection
-	 * @version 2014-07-04
+	 * @version 2015-08-31
 	 *
 	 * @see http://php.net/manual/en/ref.pgsql.php
 	 */
@@ -43,6 +43,7 @@ namespace Leap\Plugin\DB\PostgreSQL\Connection {
 			if (is_resource($this->resource)) {
 				@pg_close($this->resource);
 			}
+			parent::__destruct();
 		}
 
 		/**

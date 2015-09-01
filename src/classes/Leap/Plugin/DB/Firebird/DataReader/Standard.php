@@ -26,17 +26,9 @@ namespace Leap\Plugin\DB\Firebird\DataReader {
 	 * @access public
 	 * @class
 	 * @package Leap\Plugin\DB\Firebird\DataReader
-	 * @version 2014-07-04
+	 * @version 2015-08-31
 	 */
 	class Standard extends \Leap\Core\DB\SQL\DataReader\Standard {
-
-		/**
-		 * This variable is used to store the connection's resource.
-		 *
-		 * @access protected
-		 * @var resource
-		 */
-		protected $resource;
 
 		/**
 		 * This variable stores the names of all blob fields.
@@ -45,6 +37,14 @@ namespace Leap\Plugin\DB\Firebird\DataReader {
 		 * @var string
 		 */
 		protected $blobs;
+
+		/**
+		 * This variable is used to store the connection's resource.
+		 *
+		 * @access protected
+		 * @var resource
+		 */
+		protected $resource;
 
 		/**
 		 * This method initializes the class.
@@ -72,6 +72,17 @@ namespace Leap\Plugin\DB\Firebird\DataReader {
 					$this->blobs[] = $field['name'];
 				}
 			}
+		}
+
+		/**
+		 * This method releases any internal references to an object.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->blobs);
+			unset($this->resource);
 		}
 
 		/**

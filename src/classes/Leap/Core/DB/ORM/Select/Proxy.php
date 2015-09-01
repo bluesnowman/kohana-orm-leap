@@ -120,6 +120,20 @@ namespace Leap\Core\DB\ORM\Select {
 		}
 
 		/**
+		 * This destructor ensures that all references have been destroyed.
+		 *
+		 * @access public
+		 */
+		public function __destruct() {
+			parent::__destruct();
+			unset($this->builder);
+			unset($this->data_source);
+			unset($this->extension);
+			unset($this->model);
+			unset($this->table);
+		}
+
+		/**
 		 * This method returns the raw SQL command.
 		 *
 		 * @access public

@@ -26,7 +26,7 @@ namespace Leap\Core\DB\ORM {
 	 * @access public
 	 * @class
 	 * @package Leap\Core\DB\ORM
-	 * @version 2014-01-28
+	 * @version 2015-08-31
 	 */
 	abstract class Relation extends \Leap\Core\Object {
 
@@ -74,6 +74,7 @@ namespace Leap\Core\DB\ORM {
 		 * @access public
 		 */
 		public function __destruct() {
+			parent::__destruct();
 			unset($this->cache);
 			unset($this->metadata);
 			unset($this->model);
