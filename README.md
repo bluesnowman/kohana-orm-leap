@@ -75,7 +75,7 @@ or [Stack Overflow](http://stackoverlow.com).
 If you find a bug in the code or if you would like to make a recommendation, we would be happy to hear from you.  Here are three methods
 you can use to notify us:
 
-* Log an issue in this project's [issue tracker](https://github.com/spadefoot/kohana-orm-leap/issues).
+* Log an issue in this project's [issue tracker](https://github.com/bluesnowman/leap/issues).
 * Create a fork of this project and submit a [pull request](http://help.github.com/send-pull-requests/).
 * Send an email to spadefoot.oss@gmail.com.
 

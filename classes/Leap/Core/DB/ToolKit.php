@@ -75,6 +75,10 @@ namespace Leap\Core\DB {
 				}
 			}
 
+			$regex = preg_replace('/(\.\*)+/', '.*', $regex);
+			$regex = preg_replace('/(\.{2,}\*)+/', '.+', $regex);
+			$regex = preg_replace('/(\.+\+)+/', '.+', $regex);
+
 			$regex = '/^' . $regex . '$/D';
 
 			return $regex;
