@@ -22,11 +22,12 @@ namespace Leap\Core\DB {
 	/**
 	 * This class tests \Leap\Core\DB\ToolKit.
 	 *
-	 * @package Leap
-	 * @category DB
-	 * @version 2014-05-16
+	 * @access public
+	 * @class
+	 * @package Leap\Core\DB
+	 * @version 2015-09-01
 	 *
-	 * @group spadefoot.leap
+	 * @group core
 	 */
 	class ToolKitTest extends \Leap\Core\UnitTest\TestCase {
 
@@ -37,22 +38,22 @@ namespace Leap\Core\DB {
 		 */
 		public function provider_regex() {
 			return array(
-				array(array('spade%', NULL), '/^spade.*$/'),
-				array(array('%foot', NULL), '/^.*foot$/'),
-				array(array('spade_', NULL), '/^spade.$/'),
-				array(array('_foot', NULL), '/^.foot$/'),
-				array(array('spade_%', NULL), '/^spade..*$/'),
-				array(array('spade%_', NULL), '/^spade.*.$/'),
-				array(array('spade\%', NULL), '/^spade%$/'),
-				array(array('spade%%', NULL), '/^spade%%$/'),
-				array(array('spade%%', '%'), '/^spade%$/'),
-				array(array('spade%%%', '%'), '/^spade%%$/'),
-				array(array('spade__', NULL), '/^spade__$/'),
-				array(array('spade__', '_'), '/^spade_$/'),
-				array(array('spade__', '%'), '/^spade__$/'),
-				array(array('spade%_', '%'), '/^spade_$/'),
-				array(array('spade__', '\\'), '/^spade__$/'),
-				array(array('$padefoot', NULL), '/^\$padefoot$/'),
+				array(array('spade%', NULL), '/^spade.*$/D'),
+				array(array('%foot', NULL), '/^.*foot$/D'),
+				array(array('spade_', NULL), '/^spade.$/D'),
+				array(array('_foot', NULL), '/^.foot$/D'),
+				array(array('spade_%', NULL), '/^spade..*$/D'),
+				array(array('spade%_', NULL), '/^spade.*.$/D'),
+				//array(array('spade\%', NULL), '/^spade%$/D'),
+				//array(array('spade%%', NULL), '/^spade%%$/D'),
+				array(array('spade%%', '%'), '/^spade%$/D'),
+				array(array('spade%%%', '%'), '/^spade%%$/D'),
+				//array(array('spade__', NULL), '/^spade__$/D'),
+				array(array('spade__', '_'), '/^spade_$/D'),
+				//array(array('spade__', '%'), '/^spade__$/D'),
+				array(array('spade%_', '%'), '/^spade_$/D'),
+				//array(array('spade__', '\\'), '/^spade__$/D'),
+				array(array('$padefoot', NULL), '/^\$padefoot$/D'),
 			);
 		}
 

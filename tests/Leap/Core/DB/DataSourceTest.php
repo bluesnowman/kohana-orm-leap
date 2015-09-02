@@ -20,13 +20,14 @@
 namespace Leap\Core\DB {
 
 	/**
-	 * This class tests DB\DataSource.
+	 * This class tests \Leap\Core\DB\DataSource.
 	 *
-	 * @package Leap
-	 * @category DB
-	 * @version 2014-07-03
+	 * @access public
+	 * @class
+	 * @package Leap\Core\DB
+	 * @version 2015-09-01
 	 *
-	 * @group spadefoot.leap
+	 * @group core
 	 */
 	class DataSourceTest extends \Leap\Core\UnitTest\TestCase {
 
@@ -76,7 +77,7 @@ namespace Leap\Core\DB {
 			// Initialization
 			$data_source = new \Leap\Core\DB\DataSource($test_data);
 			// Assertions
-			$this->assertRegExp('/^(database|unique_id)\.[a-zA-Z0-9_]+$/', $data_source->id, 'Failed when testing "id" property.');
+			$this->assertRegExp('/^(Database|unique_id)\.[a-zA-Z0-9_]+$/', $data_source->id, 'Failed when testing "id" property.');
 			$this->assertSame($expected['type'], $data_source->type, 'Failed when testing "type" property.');
 			$this->assertSame($expected['dialect'], $data_source->dialect, 'Failed when testing "dialect" property.');
 			$this->assertSame($expected['driver'], $data_source->driver, 'Failed when testing "driver" property.');

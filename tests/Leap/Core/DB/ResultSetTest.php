@@ -22,11 +22,12 @@ namespace Leap\Core\DB {
 	/**
 	 * This class tests \Leap\Core\DB\ResultSet.
 	 *
-	 * @package Leap
-	 * @category DB
-	 * @version 2014-05-16
+	 * @access public
+	 * @class
+	 * @package Leap\Core\DB
+	 * @version 2015-09-01
 	 *
-	 * @group spadefoot.leap
+	 * @group core
 	 */
 	class ResultSetTest extends \Leap\Core\UnitTest\TestCase {
 

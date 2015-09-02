@@ -1,6 +1,8 @@
 # Leap for PHP
 
+[![Build Status](https://secure.travis-ci.org/bluesnowman/leap.svg)](http://travis-ci.org/bluesnowman/leap)
 [![Code Coverage](https://codeclimate.com/github/bluesnowman/leap/badges/gpa.svg)](https://codeclimate.com/github/bluesnowman/leap)
+[More...](https://www.openhub.net/p/leap-orm-for-kohana)
 
 Leap is a database management library for PHP.  It was originally developed to be used in conjunction with the
 [Kohana PHP Framework](http://kohanaframework.org), but has since evolved and been adapted to work with any PHP
@@ -39,18 +41,17 @@ Leap provides a number of features, such as:
 * A toolkit of useful functions.
 * Lots of [tutorials](http://spadefoot.github.io/kohana-orm-leap/tutorials/).
 
-## Getting Started (using Kohana)
+## Getting Started
 
 To start using Leap, follow these steps:
 
-1. Just download the module (see below regarding as to which branch) from github.
-2. Unzip the download to the modules folder in Kohana.
-3. Rename the uncompressed folder to "leap".
-4. Modify leap/config/database.php.
-5. Add "leap" as a module to application/bootstrap.php.
-6. Begin creating your models in the application/classes/model/leap/ folder.
+1. Just clone this [repository](https://github.com/bluesnowman/leap.git) from github.
+3. Copy the folder entitled `Leap`, which is in the `classes` folder, to your project.
+4. Add your database connection information to Leap\Config\Database.php.
+5. Add the classpath to the `Leap` module to your application's bootstrap class loader.
+6. Begin creating your models.
 
-For more information, see the tutorial on [installing Leap](http://spadefoot.github.io/kohana-orm-leap/install/).
+For information on how to install `Leap` as a Kohana module, see the tutorial on [installing Leap](http://spadefoot.github.io/kohana-orm-leap/install/).
 
 ## Required Files
 

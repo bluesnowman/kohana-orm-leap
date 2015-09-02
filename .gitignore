@@ -1,8 +1,9 @@
-## Hidden Files
-
+## Files
 .DS_Store
 .idea
 .svn
 
 ## Directories
+/composer.phar
+/phpunit
 /_site/
