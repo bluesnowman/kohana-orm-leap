@@ -1,5 +1,8 @@
 Change Log for Leap ORM
 
+2015-09-01
+* Added TravisCI files.
+
 2013-01-28
 * Changed Base\DB\ORM\Model::data_source() to Base\DB\ORM\Model::data_source($instance = 0).
 * Changed all instance variables $source to $data_source.
