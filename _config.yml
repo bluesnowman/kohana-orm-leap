@@ -1,8 +1,5 @@
-name: "Leap ORM for Kohana by spadefoot"
-description: "Object Relational Mapping module for Kohana 3"
-
-
-baseurl: "/kohana-orm-leap"
-
+name: "Leap"
+description: "A data access layer and ORM for any PHP framework that is designed to work with all major SQL database dialects and drivers."
+baseurl: "/leap"
 pygments: true
 

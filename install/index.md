@@ -10,7 +10,7 @@ Since the LEAP ORM was written for the Kohana PHP Framework, it is ease to insta
 
 #### Step #1: Download Source Code
 
-All of the source code to the [LEAP ORM module for Kohana](https://github.com/spadefoot/kohana-orm-leap) is available on github.
+All of the source code to the [LEAP ORM module for Kohana](https://github.com/bluesnowman/leap) is available on github.
 
 #### Step #2: Unarchive/Unzip Files
 
@@ -30,8 +30,8 @@ Kohana::modules(array(
 
 #### Step #4: Setup Database Connections
 
-The next step will be to [setup your database connections]({{ site.baseurl}}/tutorials/setting-up-a-database-connection) in your [config/database.php](https://github.com/spadefoot/kohana-orm-leap/tree/3.2/master/config).  Once your database connections are setup, you should be able to use any [database connection classes]({{ site.baseurl}}/tutorials/establishing-a-database-connection).
+The next step will be to [setup your database connections]({{ site.baseurl }}/tutorials/setting-up-a-database-connection) in your [config/database.php](https://github.com/bluesnowman/leap/tree/3.2/master/config).  Once your database connections are setup, you should be able to use any [database connection classes]({{ site.baseurl }}/tutorials/establishing-a-database-connection).
 
 #### Step #5: Start Writing ORM Models
 
-However, before you can start using LEAP's ORM you will need to [create models]({{site.baseurl}}/tutorials/defining-a-model) for each one of your database tables.  These models will then allow you to take full advantage of all of LEAP's functionality.
+However, before you can start using LEAP's ORM you will need to [create models]({{ site.baseurl }}/tutorials/defining-a-model) for each one of your database tables.  These models will then allow you to take full advantage of all of LEAP's functionality.

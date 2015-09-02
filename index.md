@@ -1,12 +1,14 @@
 ---
-title: Hello, World!
+
+title: Leap
 layout: default
 menu_item: home
+
 ---
 
 ### Leap ORM for the Kohana PHP Framework
 
-The <a href="https://github.com/spadefoot/kohana-orm-leap">Leap ORM</a> is a powerful new module for <a href="http://kohanaframework.org/">Kohana</a> <a href="https://github.com/kohana/kohana/tree/3.3/master">3.3.X</a>, <a href="https://github.com/kohana/kohana/tree/3.2/master">3.2.X</a>, and <a href="https://github.com/kohana/kohana/tree/3.1/master">3.1.X</a>.  Designed around both the builder and active record design patterns, this ORM makes working with SQL databases easy.  The Spadefoot Team has worked extensively on making sure that certain components within the module itself are decoupled from each other as much as possible and that new SQL database plugins can be easily added, while maintaining a consistent interface between the core code and the user's implementation.
+The <a href="https://github.com/bluesnowman/leap">Leap ORM</a> is a powerful new module for <a href="http://kohanaframework.org/">Kohana</a> <a href="https://github.com/kohana/kohana/tree/3.3/master">3.3.X</a>, <a href="https://github.com/kohana/kohana/tree/3.2/master">3.2.X</a>, and <a href="https://github.com/kohana/kohana/tree/3.1/master">3.1.X</a>.  Designed around both the builder and active record design patterns, this ORM makes working with SQL databases easy.  The Spadefoot Team has worked extensively on making sure that certain components within the module itself are decoupled from each other as much as possible and that new SQL database plugins can be easily added, while maintaining a consistent interface between the core code and the user's implementation.
 
 Leap is NOT just another database ORM.  It is provides a number of features that other ORMs do not.  Leap also provides a way to cleanly add new SQL database drivers and offers a database connection pool to manage its resources. Moreover, Leap addresses a number of dependency issues persisting in other ORMs by following a loosely coupled and tightly integrated programming methodology.  Leap is a full-fledge data access layer with loads of database tools.
 
@@ -31,7 +33,7 @@ Leap is NOT just another database ORM.  It is provides a number of features that
 		    </li>
 		    <li>
 		        <span class="feature">Well documented.</span><br>
-		        <span>Plenty of <a href="{{site.baseurl}}/tutorials/">examples and tutorials</a>, and has an easy-to-read <a href="http://orm.spadefootcode.com/api/annotated.html">API</a>.</span>
+		        <span>Plenty of <a href="{{ site.baseurl }}/tutorials/">examples and tutorials</a>, and has an easy-to-read <a href="http://orm.spadefootcode.com/api/annotated.html">API</a>.</span>
 		    </li>
 		</ul>
 
@@ -170,4 +172,4 @@ Leap is NOT just another database ORM.  It is provides a number of features that
 		    </tbody>
 		</table>
 
-<p style="margin-top: 20px; font-size: 12px;">* Please report any discrepancies with this comparison in LEAP's <a href="https://github.com/spadefoot/kohana-orm-leap/issues?sort=comments&amp;direction=desc&amp;state=open">issue tracker</a> on github and, someone will address the correction as soon as possible.</p>
+<p style="margin-top: 20px; font-size: 12px;">* Please report any discrepancies with this comparison in LEAP's <a href="https://github.com/bluesnowman/leap/issues?sort=comments&amp;direction=desc&amp;state=open">issue tracker</a> on github and, someone will address the correction as soon as possible.</p>
