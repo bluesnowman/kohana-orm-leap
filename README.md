@@ -15,10 +15,11 @@ Make sure to "Star" this project if you like it.
 
 ## Motivation
 
-Leap is meant to be a simple, clean project.  The primary goal of Leap was to create an ORM for the Kohana PHP
-Framework that works with all major databases.  Implementing Leap is ease and generally more intuitive than other
-ORMs like [Doctrine](http://www.doctrine-project.org/projects/orm).  A goal for the development of Leap was to
-create an ORM that can harness the power of  composite keys, which many other ORMs (e.g. [Kohana's official ORM](https://github.com/kohana/orm), [Jelly](https://github.com/creatoro/jelly),
+Leap is meant to be a simple, clean project.  The primary goal of Leap is to create a set of query builders
+and an ORM for any PHP Framework that works with all major database dialects.  Implementing Leap is easy and
+generally more intuitive than other ORMs like [Doctrine](http://www.doctrine-project.org/projects/orm).  A
+goal for the development of Leap was to create an ORM that can harness the power of composite keys, which
+many other ORMs (e.g. [Kohana's official ORM](https://github.com/kohana/orm), [Jelly](https://github.com/creatoro/jelly),
 and [Sprig](https://github.com/sittercity/sprig/)) cannot handle.
 
 ## Features
