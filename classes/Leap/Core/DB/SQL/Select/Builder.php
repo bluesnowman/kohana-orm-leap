@@ -245,10 +245,15 @@ namespace Leap\Core\DB\SQL\Select {
 		 * @return \Leap\Core\DB\SQL\Select\Builder                 a reference to the current instance
 		 */
 		public function join($type, $table, $alias = NULL) {
-			$join = 'JOIN ' . $this->precompiler->prepare_identifier($table);
 			if ($type !== NULL) {
 				$type = $this->precompiler->prepare_join($type);
-				$join = "{$type} {$join}";
+				if ($type == \Leap\Core\DB\SQL\JoinType::_CROSS_) {
+					return $this->from($table, $alias);
+				}
+				$join = "{$type} JOIN " . $this->precompiler->prepare_identifier($table);
+			}
+			else {
+				$join = 'JOIN ' . $this->precompiler->prepare_identifier($table);
 			}
 			if ($alias !== NULL) {
 				$alias = $this->precompiler->prepare_alias($alias);
